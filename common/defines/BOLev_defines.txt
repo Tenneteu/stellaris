@@ -1,0 +1,3 @@
+NAI = {
+	BOSS_MILITARY_POWER = 7500000			# The military power at which AI feels safe to engage a 'boss' creature
+}
