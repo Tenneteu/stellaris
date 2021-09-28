@@ -1,0 +1,22 @@
+###_	碧蓝航线+pr trgr	###########################################################
+
+#_[碧蓝航线同化]
+
+
+
+
+###_[碧蓝航线同化]	同化存在时只转化为[舰B娘]
+azl_pr_trgr_spcs_no_azur_when_assimilation = {
+	OR = {#_|碧蓝航线安装|
+		has_global_flag = azurlane_KuRUMiiii
+		has_global_flag = azur_awakened_activated
+	}
+	NOT = { is_archetype = KANSEN }	#_|舰B娘|
+	prevperv = {#_|星球|
+		OR = {
+			has_modifier = azur_assimilation_materialist
+			has_modifier = azur_assimilation_spiritualist
+		}
+	}
+}
+

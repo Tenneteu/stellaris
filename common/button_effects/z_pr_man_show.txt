@@ -1,0 +1,1166 @@
+###_	产业革命man显示
+
+#_[UI当前人力]	底座	/个/十/百/千/万
+#_[UI当前效率]	底座	/个/十/百
+#_[UI当前增长率]	底座	分/厘/个/十/百
+
+
+
+
+###_[test]
+PR_btn_var_show_test = {
+	potential = { always = yes }
+	allow = { always = yes }
+}
+
+
+###_[UI当前人力]	##################################################################################################
+# 底座
+PR_btn_var_show_man_bg = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = z_pr_var_plnt_man
+	#	is_variable_set = PR_var_show_man_1
+	}
+	allow = { hidden_trigger = { NOT = { has_planet_flag = z_fw_plnt_ui_setting_open } } }
+	effect = {
+		custom_tooltip = z_pr_man_show
+		custom_tooltip = z_pr_tips_var_plnt_pop_man
+		custom_tooltip = z_pr_tips_var_cntr_man
+		hidden_effect = {
+			set_planet_flag = z_fw_plnt_ui_setting_open
+			planet_event = { id = z_fw_plnt_ui_setting.2 }
+		}
+	}
+}
+
+# 个	##################################################
+PR_btn_var_show_man_1_0 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1
+		check_variable= { which = PR_var_show_man_1 value = 0 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1_1 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1
+		check_variable= { which = PR_var_show_man_1 value = 1 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1_2 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1
+		check_variable= { which = PR_var_show_man_1 value = 2 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1_3 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1
+		check_variable= { which = PR_var_show_man_1 value = 3 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1_4 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1
+		check_variable= { which = PR_var_show_man_1 value = 4 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1_5 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1
+		check_variable= { which = PR_var_show_man_1 value = 5 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1_6 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1
+		check_variable= { which = PR_var_show_man_1 value = 6 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1_7 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1
+		check_variable= { which = PR_var_show_man_1 value = 7 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1_8 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1
+		check_variable= { which = PR_var_show_man_1 value = 8 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1_9 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1
+		check_variable= { which = PR_var_show_man_1 value = 9 }
+	}
+	allow = { always = yes }
+}
+# 十	##################################################
+PR_btn_var_show_man_10_0 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10
+		check_variable= { which = PR_var_show_man_10 value = 0 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10_1 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10
+		check_variable= { which = PR_var_show_man_10 value = 1 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10_2 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10
+		check_variable= { which = PR_var_show_man_10 value = 2 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10_3 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10
+		check_variable= { which = PR_var_show_man_10 value = 3 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10_4 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10
+		check_variable= { which = PR_var_show_man_10 value = 4 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10_5 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10
+		check_variable= { which = PR_var_show_man_10 value = 5 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10_6 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10
+		check_variable= { which = PR_var_show_man_10 value = 6 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10_7 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10
+		check_variable= { which = PR_var_show_man_10 value = 7 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10_8 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10
+		check_variable= { which = PR_var_show_man_10 value = 8 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10_9 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10
+		check_variable= { which = PR_var_show_man_10 value = 9 }
+	}
+	allow = { always = yes }
+}
+# 百	##################################################
+PR_btn_var_show_man_100_0 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_100
+		check_variable= { which = PR_var_show_man_100 value = 0 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_100_1 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_100
+		check_variable= { which = PR_var_show_man_100 value = 1 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_100_2 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_100
+		check_variable= { which = PR_var_show_man_100 value = 2 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_100_3 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_100
+		check_variable= { which = PR_var_show_man_100 value = 3 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_100_4 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_100
+		check_variable= { which = PR_var_show_man_100 value = 4 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_100_5 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_100
+		check_variable= { which = PR_var_show_man_100 value = 5 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_100_6 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_100
+		check_variable= { which = PR_var_show_man_100 value = 6 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_100_7 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_100
+		check_variable= { which = PR_var_show_man_100 value = 7 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_100_8 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_100
+		check_variable= { which = PR_var_show_man_100 value = 8 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_100_9 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_100
+		check_variable= { which = PR_var_show_man_100 value = 9 }
+	}
+	allow = { always = yes }
+}
+# 千	##################################################
+PR_btn_var_show_man_1000_0 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1000
+		check_variable= { which = PR_var_show_man_1000 value = 0 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1000_1 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1000
+		check_variable= { which = PR_var_show_man_1000 value = 1 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1000_2 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1000
+		check_variable= { which = PR_var_show_man_1000 value = 2 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1000_3 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1000
+		check_variable= { which = PR_var_show_man_1000 value = 3 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1000_4 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1000
+		check_variable= { which = PR_var_show_man_1000 value = 4 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1000_5 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1000
+		check_variable= { which = PR_var_show_man_1000 value = 5 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1000_6 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1000
+		check_variable= { which = PR_var_show_man_1000 value = 6 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1000_7 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1000
+		check_variable= { which = PR_var_show_man_1000 value = 7 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1000_8 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1000
+		check_variable= { which = PR_var_show_man_1000 value = 8 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_1000_9 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_1000
+		check_variable= { which = PR_var_show_man_1000 value = 9 }
+	}
+	allow = { always = yes }
+}
+# 万	##################################################
+PR_btn_var_show_man_10000_0 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10000
+		check_variable= { which = PR_var_show_man_10000 value = 0 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10000_1 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10000
+		check_variable= { which = PR_var_show_man_10000 value = 1 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10000_2 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10000
+		check_variable= { which = PR_var_show_man_10000 value = 2 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10000_3 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10000
+		check_variable= { which = PR_var_show_man_10000 value = 3 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10000_4 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10000
+		check_variable= { which = PR_var_show_man_10000 value = 4 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10000_5 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10000
+		check_variable= { which = PR_var_show_man_10000 value = 5 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10000_6 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10000
+		check_variable= { which = PR_var_show_man_10000 value = 6 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10000_7 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10000
+		check_variable= { which = PR_var_show_man_10000 value = 7 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10000_8 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10000
+		check_variable= { which = PR_var_show_man_10000 value = 8 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_man_10000_9 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_man_10000
+		check_variable= { which = PR_var_show_man_10000 value = 9 }
+	}
+	allow = { always = yes }
+}
+
+
+
+
+###_[UI当前效率]	##################################################################################################
+# 底座
+PR_btn_var_show_bonus_bg = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_ultilization
+	#	is_variable_set = PR_var_show_bonus_1
+	}
+	allow = { hidden_trigger = { NOT = { has_planet_flag = z_fw_plnt_ui_setting_open } } }
+	effect = {
+		custom_tooltip = z_pr_bonus_show
+		custom_tooltip = z_pr_tips_var_plnt_man
+		custom_tooltip = z_pr_tips_var_plnt_man_desc
+		hidden_effect = {
+			set_planet_flag = z_fw_plnt_ui_setting_open
+			planet_event = { id = z_fw_plnt_ui_setting.2 }
+		}
+	}
+}
+PR_btn_var_show_bonus_low = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_ultilization
+		check_variable = { which = PR_var_show_ultilization value < 100 }
+	}
+	allow = { hidden_trigger = { NOT = { has_planet_flag = z_fw_plnt_ui_setting_open } } }
+	effect = {
+		custom_tooltip = z_pr_bonus_show
+		custom_tooltip = z_pr_tips_var_plnt_man
+		custom_tooltip = z_pr_tips_var_plnt_man_desc
+		hidden_effect = {
+			set_planet_flag = z_fw_plnt_ui_setting_open
+			planet_event = { id = z_fw_plnt_ui_setting.2 }
+		}
+	}
+}
+PR_btn_var_show_bonus_sufficient = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_ultilization
+		check_variable = { which = PR_var_show_ultilization value >= 100 }
+	}
+	allow = { hidden_trigger = { NOT = { has_planet_flag = z_fw_plnt_ui_setting_open } } }
+	effect = {
+		custom_tooltip = z_pr_bonus_show
+		custom_tooltip = z_pr_tips_var_plnt_man
+		custom_tooltip = z_pr_tips_var_plnt_man_desc
+		hidden_effect = {
+			set_planet_flag = z_fw_plnt_ui_setting_open
+			planet_event = { id = z_fw_plnt_ui_setting.2 }
+		}
+	}
+}
+
+# 个	##################################################
+PR_btn_var_show_bonus_1_0 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_1
+		check_variable= { which = PR_var_show_bonus_1 value = 0 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_1_1 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_1
+		check_variable= { which = PR_var_show_bonus_1 value = 1 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_1_2 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_1
+		check_variable= { which = PR_var_show_bonus_1 value = 2 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_1_3 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_1
+		check_variable= { which = PR_var_show_bonus_1 value = 3 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_1_4 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_1
+		check_variable= { which = PR_var_show_bonus_1 value = 4 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_1_5 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_1
+		check_variable= { which = PR_var_show_bonus_1 value = 5 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_1_6 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_1
+		check_variable= { which = PR_var_show_bonus_1 value = 6 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_1_7 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_1
+		check_variable= { which = PR_var_show_bonus_1 value = 7 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_1_8 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_1
+		check_variable= { which = PR_var_show_bonus_1 value = 8 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_1_9 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_1
+		check_variable= { which = PR_var_show_bonus_1 value = 9 }
+	}
+	allow = { always = yes }
+}
+# 十	##################################################
+PR_btn_var_show_bonus_10_0 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_10
+		check_variable= { which = PR_var_show_bonus_10 value = 0 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_10_1 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_10
+		check_variable= { which = PR_var_show_bonus_10 value = 1 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_10_2 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_10
+		check_variable= { which = PR_var_show_bonus_10 value = 2 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_10_3 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_10
+		check_variable= { which = PR_var_show_bonus_10 value = 3 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_10_4 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_10
+		check_variable= { which = PR_var_show_bonus_10 value = 4 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_10_5 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_10
+		check_variable= { which = PR_var_show_bonus_10 value = 5 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_10_6 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_10
+		check_variable= { which = PR_var_show_bonus_10 value = 6 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_10_7 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_10
+		check_variable= { which = PR_var_show_bonus_10 value = 7 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_10_8 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_10
+		check_variable= { which = PR_var_show_bonus_10 value = 8 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_10_9 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_10
+		check_variable= { which = PR_var_show_bonus_10 value = 9 }
+	}
+	allow = { always = yes }
+}
+# 百	##################################################
+PR_btn_var_show_bonus_100_0 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_100
+		check_variable= { which = PR_var_show_bonus_100 value = 0 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_100_1 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_100
+		check_variable= { which = PR_var_show_bonus_100 value = 1 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_100_2 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_100
+		check_variable= { which = PR_var_show_bonus_100 value = 2 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_100_3 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_100
+		check_variable= { which = PR_var_show_bonus_100 value = 3 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_100_4 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_100
+		check_variable= { which = PR_var_show_bonus_100 value = 4 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_100_5 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_100
+		check_variable= { which = PR_var_show_bonus_100 value = 5 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_100_6 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_100
+		check_variable= { which = PR_var_show_bonus_100 value = 6 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_100_7 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_100
+		check_variable= { which = PR_var_show_bonus_100 value = 7 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_100_8 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_100
+		check_variable= { which = PR_var_show_bonus_100 value = 8 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_bonus_100_9 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_bonus_100
+		check_variable= { which = PR_var_show_bonus_100 value = 9 }
+	}
+	allow = { always = yes }
+}
+
+
+
+
+###_[UI当前增长率]	##################################################################################################
+# 底座
+PR_btn_var_show_growth_bg = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth
+	#	is_variable_set = PR_var_show_growth_001
+	}
+	allow = { hidden_trigger = { NOT = { has_planet_flag = z_fw_plnt_ui_setting_open } } }
+	effect = {
+		custom_tooltip = z_pr_growth_show
+		custom_tooltip = z_pr_tips_var_plnt_man_growth
+		custom_tooltip = z_pr_tips_var_plnt_man_growth_desc
+		custom_tooltip = z_pr_tips_var_plnt_man_cap
+		custom_tooltip = z_pr_tips_var_plnt_man_cap_desc
+		hidden_effect = {
+			set_planet_flag = z_fw_plnt_ui_setting_open
+			planet_event = { id = z_fw_plnt_ui_setting.2 }
+		}
+	}
+}
+PR_btn_var_show_growth_bg_add = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth
+		check_variable = { which = PR_var_show_growth value >= 0 }
+	}
+	allow = { hidden_trigger = { NOT = { has_planet_flag = z_fw_plnt_ui_setting_open } } }
+	effect = {
+		custom_tooltip = z_pr_growth_show
+		custom_tooltip = z_pr_tips_var_plnt_man_growth
+		custom_tooltip = z_pr_tips_var_plnt_man_growth_desc
+		custom_tooltip = z_pr_tips_var_plnt_man_cap
+		custom_tooltip = z_pr_tips_var_plnt_man_cap_desc
+		hidden_effect = {
+			set_planet_flag = z_fw_plnt_ui_setting_open
+			planet_event = { id = z_fw_plnt_ui_setting.2 }
+		}
+	}
+}
+PR_btn_var_show_growth_bg_minus = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth
+		check_variable = { which = PR_var_show_growth value < 0 }
+	}
+	allow = { hidden_trigger = { NOT = { has_planet_flag = z_fw_plnt_ui_setting_open } } }
+	effect = {
+		custom_tooltip = z_pr_growth_show
+		custom_tooltip = z_pr_tips_var_plnt_man_growth
+		custom_tooltip = z_pr_tips_var_plnt_man_growth_desc
+		custom_tooltip = z_pr_tips_var_plnt_man_cap
+		custom_tooltip = z_pr_tips_var_plnt_man_cap_desc
+		hidden_effect = {
+			set_planet_flag = z_fw_plnt_ui_setting_open
+			planet_event = { id = z_fw_plnt_ui_setting.2 }
+		}
+	}
+}
+
+# 分	##################################################
+PR_btn_var_show_growth_001_0 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_001
+		check_variable= { which = PR_var_show_growth_001 value = 0 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_001_1 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_001
+		check_variable= { which = PR_var_show_growth_001 value = 1 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_001_2 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_001
+		check_variable= { which = PR_var_show_growth_001 value = 2 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_001_3 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_001
+		check_variable= { which = PR_var_show_growth_001 value = 3 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_001_4 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_001
+		check_variable= { which = PR_var_show_growth_001 value = 4 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_001_5 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_001
+		check_variable= { which = PR_var_show_growth_001 value = 5 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_001_6 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_001
+		check_variable= { which = PR_var_show_growth_001 value = 6 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_001_7 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_001
+		check_variable= { which = PR_var_show_growth_001 value = 7 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_001_8 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_001
+		check_variable= { which = PR_var_show_growth_001 value = 8 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_001_9 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_001
+		check_variable= { which = PR_var_show_growth_001 value = 9 }
+	}
+	allow = { always = yes }
+}
+# 厘	##################################################
+PR_btn_var_show_growth_01_0 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_01
+		check_variable= { which = PR_var_show_growth_01 value = 0 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_01_1 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_01
+		check_variable= { which = PR_var_show_growth_01 value = 1 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_01_2 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_01
+		check_variable= { which = PR_var_show_growth_01 value = 2 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_01_3 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_01
+		check_variable= { which = PR_var_show_growth_01 value = 3 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_01_4 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_01
+		check_variable= { which = PR_var_show_growth_01 value = 4 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_01_5 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_01
+		check_variable= { which = PR_var_show_growth_01 value = 5 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_01_6 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_01
+		check_variable= { which = PR_var_show_growth_01 value = 6 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_01_7 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_01
+		check_variable= { which = PR_var_show_growth_01 value = 7 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_01_8 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_01
+		check_variable= { which = PR_var_show_growth_01 value = 8 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_01_9 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_01
+		check_variable= { which = PR_var_show_growth_01 value = 9 }
+	}
+	allow = { always = yes }
+}
+
+# 个	##################################################
+PR_btn_var_show_growth_1_0 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_1
+		check_variable= { which = PR_var_show_growth_1 value = 0 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_1_1 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_1
+		check_variable= { which = PR_var_show_growth_1 value = 1 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_1_2 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_1
+		check_variable= { which = PR_var_show_growth_1 value = 2 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_1_3 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_1
+		check_variable= { which = PR_var_show_growth_1 value = 3 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_1_4 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_1
+		check_variable= { which = PR_var_show_growth_1 value = 4 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_1_5 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_1
+		check_variable= { which = PR_var_show_growth_1 value = 5 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_1_6 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_1
+		check_variable= { which = PR_var_show_growth_1 value = 6 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_1_7 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_1
+		check_variable= { which = PR_var_show_growth_1 value = 7 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_1_8 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_1
+		check_variable= { which = PR_var_show_growth_1 value = 8 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_1_9 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_1
+		check_variable= { which = PR_var_show_growth_1 value = 9 }
+	}
+	allow = { always = yes }
+}
+# 十	##################################################
+PR_btn_var_show_growth_10_add = {
+	potential = {
+		is_scope_type = planet
+		NOT = { is_variable_set = PR_var_show_growth_10 }
+		has_planet_flag = PR_flg_show_growth_add
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_10_minus = {
+	potential = {
+		is_scope_type = planet
+		NOT = { is_variable_set = PR_var_show_growth_10 }
+		has_planet_flag = PR_flg_show_growth_minus
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_10_0 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_10
+		check_variable= { which = PR_var_show_growth_10 value = 0 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_10_1 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_10
+		check_variable= { which = PR_var_show_growth_10 value = 1 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_10_2 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_10
+		check_variable= { which = PR_var_show_growth_10 value = 2 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_10_3 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_10
+		check_variable= { which = PR_var_show_growth_10 value = 3 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_10_4 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_10
+		check_variable= { which = PR_var_show_growth_10 value = 4 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_10_5 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_10
+		check_variable= { which = PR_var_show_growth_10 value = 5 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_10_6 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_10
+		check_variable= { which = PR_var_show_growth_10 value = 6 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_10_7 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_10
+		check_variable= { which = PR_var_show_growth_10 value = 7 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_10_8 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_10
+		check_variable= { which = PR_var_show_growth_10 value = 8 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_10_9 = {
+	potential = {
+		is_scope_type = planet
+		is_variable_set = PR_var_show_growth_10
+		check_variable= { which = PR_var_show_growth_10 value = 9 }
+	}
+	allow = { always = yes }
+}
+# 百	##################################################
+PR_btn_var_show_growth_100_add = {
+	potential = {
+		is_scope_type = planet
+		has_planet_flag = PR_flg_show_growth_add
+		is_variable_set = PR_var_show_growth_10
+		check_variable= { which = PR_var_show_growth_100 value = 0 }
+	}
+	allow = { always = yes }
+}
+PR_btn_var_show_growth_100_minus = {
+	potential = {
+		is_scope_type = planet
+		has_planet_flag = PR_flg_show_growth_minus
+		is_variable_set = PR_var_show_growth_10
+		check_variable= { which = PR_var_show_growth_100 value = 1 }
+	}
+	allow = { always = yes }
+}

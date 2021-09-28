@@ -1,0 +1,197 @@
+###_	production revolution [check岗位]
+
+#_[vanilla]
+#_[碧蓝航线DLC/舰R/CG]
+#_[星舰少女/灰烬]
+#_[古代帝国/涅槃/终极科技/涅托/约战/苍蓝]
+#_[ACOT/巨构]
+
+
+
+
+###_[vanilla]
+PR_check_vanilla = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+	}
+	possible = { always = no }
+	weight = { weight = 0 }
+}
+###_[碧蓝航线DLC]
+PR_check_azl = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+	}
+	possible = { always = no }
+	weight = { weight = 0 }
+}
+###_[舰R]
+PR_check_wsg = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+	}
+	possible = { always = no }
+	weight = { weight = 0 }
+}
+###_[CG]
+PR_check_CG = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+	}
+	possible = { always = no }
+	weight = { weight = 0 }
+}
+
+###_[星舰少女]
+PR_check_SWGS = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+	}
+	possible = { always = no }
+	weight = { weight = 0 }
+}
+###_[灰烬]
+PR_check_ADF = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+	}
+	possible = { always = no }
+	weight = { weight = 0 }
+}
+
+###_[古代帝国]
+PR_check_AG = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+	}
+	possible = { always = no }
+	weight = { weight = 0 }
+}
+###_[涅槃]
+PR_check_Nirvana = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+	}
+	possible = { always = no }
+	weight = { weight = 0 }
+}
+###_[终极科技]
+PR_check_ULT = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+	}
+	possible = { always = no }
+	weight = { weight = 0 }
+}
+###_[涅托]
+PR_check_NYTO = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+	}
+	possible = { always = no }
+	weight = { weight = 0 }
+}
+###_[约战]
+PR_check_DAL = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+	}
+	possible = { always = no }
+	weight = { weight = 0 }
+}
+###_[苍蓝]
+PR_check_ARP = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+	}
+	possible = { always = no }
+	weight = { weight = 0 }
+}
+
+###_[ACOT]
+PR_check_ACOT = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+	}
+	possible = { always = no }
+	weight = { weight = 0 }
+}
+###_[巨构]
+PR_check_Giga = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+	}
+	possible = { always = no }
+	weight = { weight = 0 }
+}
+

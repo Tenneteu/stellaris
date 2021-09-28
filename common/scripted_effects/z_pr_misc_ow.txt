@@ -1,0 +1,21 @@
+###_	production_revolution misc_effects	###########################################################
+
+#_[vanilla_献祭人力]
+
+
+
+
+###_[vanilla_献祭人力]	###########################################################
+z_pr_eft_cntr_v_necroids_sacrifice = {
+	every_owned_planet = { limit = { is_colony = yes }
+		#_[确定献祭数量]
+		set_variable = { which = z_pr_var_plnt_man_sacrifice_temp value = z_pr_var_plnt_man }	#_|暂时献祭人力|
+		multiply_variable = { which = z_pr_var_plnt_man_sacrifice_temp value = -0.05 }			#_|5%|
+		#_[执行献祭]
+		round_variable_to_closest = { which = z_pr_var_plnt_man_sacrifice_temp value = 1 }
+		z_pr_prmt_eft_plnt_var_man_debug = { VALUE = z_pr_var_plnt_man_sacrifice_temp }	#_[人力变动参数debug]
+		#_[clear]
+		clear_variable = z_pr_var_plnt_man_sacrifice_temp
+	}
+}
+

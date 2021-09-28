@@ -1,0 +1,1288 @@
+###_	production_revolution core	###########################################################
+#_[加成均值debug]
+
+
+
+
+###_[加成均值debug]	<_produces_>	init/管理员_mod统计/参数结算/clear
+
+#_[p_cat]		slave
+#_[p_spcs]		slave/robotic/lithoid/common
+z_pr_eft_plnt_res_bonus_avg = {
+
+	###_[init]	管理员统计/ratio人力经济	/岗位阶层_v/行业普通_v/行业蜂群_v	/物种比例/特性比例/其他比例		/物种加成/资源加成_v
+	
+	##_|管理员统计|
+	set_variable = { which = TEMP_var_plnt_administer_count value = 0 }
+	
+	##_[ratio人力经济]	修正/资源
+	if = { limit = { always = yes }
+		#_|修正|	var格式|z_pr_var_man_$MOD$_ratio|
+		z_pr_eft_plnt_man_mod_ratio_init = { MOD = trade_value_add }
+
+		#_[资源]	var格式|z_pr_var_man_$RES$_$OPT$_ratio|
+		z_pr_eft_plnt_man_res_ratio_init = { OPT = upkeep RES = energy }
+		z_pr_eft_plnt_man_res_ratio_init = { OPT = upkeep RES = minerals }
+		z_pr_eft_plnt_man_res_ratio_init = { OPT = upkeep RES = food }
+		z_pr_eft_plnt_man_res_ratio_init = { OPT = upkeep RES = consumer_goods }
+		z_pr_eft_plnt_man_res_ratio_init = { OPT = upkeep RES = alloys }
+		z_pr_eft_plnt_man_res_ratio_init = { OPT = upkeep RES = GF_nyto_collapse_liquid }	#|NYTO|
+		
+		z_pr_eft_plnt_man_res_ratio_init = { OPT = produces RES = rare_crystals }
+		z_pr_eft_plnt_man_res_ratio_init = { OPT = produces RES = exotic_gases }
+		z_pr_eft_plnt_man_res_ratio_init = { OPT = produces RES = volatile_motes }
+		z_pr_eft_plnt_man_res_ratio_init = { OPT = produces RES = physics_research }
+		z_pr_eft_plnt_man_res_ratio_init = { OPT = produces RES = society_research }
+		z_pr_eft_plnt_man_res_ratio_init = { OPT = produces RES = engineering_research }
+		z_pr_eft_plnt_man_res_ratio_init = { OPT = produces RES = unity }
+		z_pr_eft_plnt_man_res_ratio_init = { OPT = produces RES = GF_nyto_dark_star_core }	#|NYTO|
+	}
+
+	##_[岗位阶层_v]		ruler/specialist/worker/complex_drone/simple_drone
+	if = { limit = { always = yes }
+		#_[ruler]
+		set_variable = { which = z_pr_var_cat_ruler_produces_mult value = 0 }
+		#_[specialist]
+		set_variable = { which = z_pr_var_cat_specialist_produces_mult value = 0 }
+		#_[worker]
+		set_variable = { which = z_pr_var_cat_worker_produces_mult value = 0 }
+		
+		#_[complex_drone]
+		set_variable = { which = z_pr_var_cat_complex_drone_produces_mult value = 0 }	#_|v_ru|
+		#_[simple_drone]
+		set_variable = { which = z_pr_var_cat_simple_drone_produces_mult value = 0 }	#_|v_ru|
+		
+	}
+	##_[行业普通_v]		technician/miners/farmers/metallurgists/artisans		/researchers/priests/culture_workers/managers	/pop_assemblers/bureaucrats
+	if = { limit = { always = yes }
+		#_[technician]
+		set_variable = { which = z_pr_var_ids_planet_technician_produces_mult value = 0 }
+		set_variable = { which = z_pr_var_ids_planet_technician_energy_produces_mult value = 0 }
+		#_[miners]
+		set_variable = { which = z_pr_var_ids_planet_miners_produces_mult value = 0 }
+		set_variable = { which = z_pr_var_ids_planet_miners_minerals_produces_mult value = 0 }
+		#_[farmers]
+		set_variable = { which = z_pr_var_ids_planet_farmers_produces_mult value = 0 }
+		set_variable = { which = z_pr_var_ids_planet_farmers_food_produces_mult value = 0 }
+		#_[metallurgists]
+		set_variable = { which = z_pr_var_ids_planet_metallurgists_produces_mult value = 0 }
+		set_variable = { which = z_pr_var_ids_planet_metallurgists_upkeep_mult value = 0 }
+		#_[artisans]
+		set_variable = { which = z_pr_var_ids_planet_artisans_produces_mult value = 0 }
+		set_variable = { which = z_pr_var_ids_planet_artisans_upkeep_mult value = 0 }
+		
+		#_[researchers]
+		set_variable = { which = z_pr_var_ids_planet_researchers_produces_mult value = 0 }
+		set_variable = { which = z_pr_var_ids_planet_researchers_upkeep_mult value = 0 }
+		set_variable = { which = z_pr_var_ids_planet_researchers_physics_research_produces_mult value = 0 }
+		set_variable = { which = z_pr_var_ids_planet_researchers_engineering_research_produces_mult value = 0 }
+		set_variable = { which = z_pr_var_ids_planet_researchers_society_research_produces_mult value = 0 }
+		#_[priests]
+		set_variable = { which = z_pr_var_ids_planet_priests_produces_mult value = 0 }
+		#_[culture_workers]
+		set_variable = { which = z_pr_var_ids_planet_culture_workers_produces_mult value = 0 }
+		#_[managers]
+		set_variable = { which = z_pr_var_planet_managers_produces_mult value = 0 }
+		
+		#_[pop_assemblers]
+		set_variable = { which = z_pr_var_ids_planet_pop_assemblers_upkeep_mult value = 0 }
+		#_[bureaucrats]
+		set_variable = { which = z_pr_var_ids_planet_bureaucrats_upkeep_mult value = 0 }
+		
+	}
+	##_[行业蜂群_v]		refiners/translucers/chemists	/synapse_drones/evaluators
+	if = { limit = { always = yes }
+		#_[refiners]
+		set_variable = { which = z_pr_var_ids_planet_refiners_produces_mult value = 0 }
+		set_variable = { which = z_pr_var_ids_planet_refiners_upkeep_mult value = 0 }
+		#_[translucers]
+		set_variable = { which = z_pr_var_ids_planet_translucers_produces_mult value = 0 }
+		set_variable = { which = z_pr_var_ids_planet_translucers_upkeep_mult value = 0 }
+		#_[chemists]
+		set_variable = { which = z_pr_var_ids_planet_chemists_produces_mult value = 0 }
+		set_variable = { which = z_pr_var_ids_planet_chemists_upkeep_mult value = 0 }
+		
+		#_[synapse_drones]
+		set_variable = { which = z_pr_var_ids_planet_synapse_drones_unity_produces_mult value = 0 }	#_|v_ru|
+		#_[evaluators]
+		set_variable = { which = z_pr_var_ids_planet_evaluators_unity_produces_mult value = 0 }	#_|v_ru|
+		
+	}
+
+
+	##_[物种比例]		v=|organic/lithoid/robotic/slave|
+	if = { limit = { always = yes }
+		#_[organic]
+		set_variable = { which = z_pr_var_plnt_spcs_v_organic_ratio value = 0 }
+		#_[lithoid]
+		set_variable = { which = z_pr_var_plnt_spcs_v_lithoid_ratio value = 0 }
+		#_[robotic]
+		set_variable = { which = z_pr_var_plnt_spcs_v_robotic_ratio value = 0 }
+		#_[slave]
+		set_variable = { which = z_pr_var_plnt_spcs_v_slave_ratio value = 0 }
+		
+	}
+	##_[特性比例]
+	#_v					|amenities/repugnant/thrifty/nuumismatic|
+	#_[碧蓝航线dlc]		|trait_mind_club_weakup|
+	#_[舰R]				|wsg_trait_senergy_producer/wsg_trait_knowledgeable2|
+	if = { limit = { always = yes }
+		#_[amenities]
+		set_variable = { which = z_pr_var_plnt_trait_v_amenities_ratio value = 0 }
+		#_[repugnant]
+		set_variable = { which = z_pr_var_plnt_trait_v_repugnant_ratio value = 0 }
+		#_[thrifty]
+		set_variable = { which = z_pr_var_plnt_trait_v_thrifty_ratio value = 0 }
+		#_[nuumismatic]
+		set_variable = { which = z_pr_var_plnt_trait_v_nuumismatic_ratio value = 0 }
+		
+		#_|trait_mind_club_weakup|
+		set_variable = { which = z_pr_var_plnt_trait_mod_azl_weakup_ratio value = 0 }
+		
+		#_|wsg_trait_senergy_producer|
+		set_variable = { which = z_pr_var_plnt_trait_mod_wsg_senergy_ratio value = 0 }
+		#_|wsg_trait_knowledgeable2|
+		set_variable = { which = z_pr_var_plnt_trait_mod_wsg_knowledgeable2_ratio value = 0 }
+	}
+	##_[其他比例]
+	#_生活标准			|living_standard_utopian|
+	if = { limit = { always = yes }
+		#_[living_standard_utopian]
+		set_variable = { which = z_pr_var_plnt_ls_v_utopian_ratio value = 0 }
+	}
+	
+
+	##_[物种加成]		v=|robotic/slave|
+	if = { limit = { always = yes }
+		#_[robotic]
+		set_variable = { which = z_pr_var_plnt_spcs_v_robotic_res_p_all_mult value = 0 }
+		#_[slave]
+		set_variable = { which = z_pr_var_plnt_spcs_v_slave_res_p_all_mult value = 0 }
+		
+	}
+	##_[资源加成_v]		all产出/all维护		---没有单项维护消耗
+	#vanilla			energy/minerals/food/alloys/consumer_goods		/rare_crystals/exotic_gases/volatile_motes		/physics_research/engineering_research/society_research/unity
+	if = { limit = { always = yes }
+		#_|all产出|
+		set_variable = { which = z_pr_var_plnt_job_produces_mult value = 0 }
+		#_|all维护|
+		set_variable = { which = z_pr_var_plnt_job_upkeep_mult value = 0 }
+		#_[energy]
+		set_variable = { which = z_pr_var_energy_produces_mult value = 0 }
+		#_[minerals]
+		set_variable = { which = z_pr_var_minerals_produces_mult value = 0 }
+		#_[food]
+		set_variable = { which = z_pr_var_food_produces_mult value = 0 }
+		#_[alloys]
+		set_variable = { which = z_pr_var_alloys_produces_mult value = 0 }
+		#_[consumer_goods]
+		set_variable = { which = z_pr_var_consumer_goods_produces_mult value = 0 }
+		#_[rare_crystals]
+		set_variable = { which = z_pr_var_rare_crystals_produces_mult value = 0 }
+		#_[exotic_gases]
+		set_variable = { which = z_pr_var_exotic_gases_produces_mult value = 0 }
+		#_[volatile_motes]
+		set_variable = { which = z_pr_var_volatile_motes_produces_mult value = 0 }
+		#_[physics_research]
+		set_variable = { which = z_pr_var_physics_research_produces_mult value = 0 }
+		#_[engineering_research]
+		set_variable = { which = z_pr_var_engineering_research_produces_mult value = 0 }
+		#_[society_research]
+		set_variable = { which = z_pr_var_society_research_produces_mult value = 0 }
+		#_[unity]
+		set_variable = { which = z_pr_var_unity_produces_mult value = 0 }
+	}	
+	
+	
+	
+	
+	###_[管理员_mod统计]	管理员统计/ratio人力经济	/岗位阶层_v/行业普通_v/行业蜂群_v	/物种比例/特性比例/其他比例		/物种加成/资源加成_v
+	every_owned_pop = {
+		limit = {#_|管理员岗位|
+			OR = {
+				has_job = z_pr_freeman_core
+				has_job = z_pr_freeman_specialist
+				has_job = z_pr_freeman_worker
+				has_job = z_pr_drone_core
+				has_job = z_pr_drone_adv
+				has_job = z_pr_drone_normal
+			}
+		}
+
+		##_|管理员统计|	mod加成计算分母	##########################################################################################
+		prev = { change_variable = { which = TEMP_var_plnt_administer_count value = 1 } }
+
+
+		##_[ratio人力经济]	资源mult	/格式塔/普通/NYTO	/mult_clear	##########################################################################################
+		
+		#_[资源mult]	ALL_pop维护/SPCS_pop维护/RES_pop维护/ALL_cat维护
+		if = { limit = { always = yes }
+			# ALL_pop维护
+			z_pr_eft_mod_to_var = { MOD = planet_pops_upkeep_mult						VAR = ALL_P_planet_pops_upkeep_mult }
+			# SPCS_pop维护
+			z_pr_eft_mod_to_var = { MOD = planet_pops_robotics_upkeep_mult				VAR = SPCS_P_planet_pops_robotics_upkeep_mult }
+			# RES_pop维护
+			z_pr_eft_mod_to_var = { MOD = planet_pops_organics_food_upkeep_mult			VAR = RES_P_planet_pops_organics_food_upkeep_mult }
+			z_pr_eft_mod_to_var = { MOD = planet_pops_organics_minerals_upkeep_mult		VAR = RES_P_planet_pops_organics_minerals_upkeep_mult }
+			z_pr_eft_mod_to_var = { MOD = planet_pops_consumer_goods_upkeep_mult		VAR = RES_P_planet_pops_consumer_goods_upkeep_mult }
+			# ALL_cat维护
+			z_pr_eft_mod_to_var = { MOD = pop_category_slave_upkeep_mult				VAR = ALL_C_pop_category_slave_upkeep_mult }
+		}
+		
+		#_[格式塔]	有机/石质/智械
+		if = { limit = { prev.owner = { is_gestalt = yes } }
+			if = {#_|有机|
+				limit = { is_organic_species = yes	is_lithoid = no }
+				#_|food|维护		<OPT/RES/	WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+				z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = food
+					ALL_P = ALL_P_planet_pops_upkeep_mult
+					RES_P = RES_P_planet_pops_organics_food_upkeep_mult
+					WEIGHT_C = 1
+				}
+			}
+			else_if = {#_|石质|
+				limit = { is_lithoid = yes }
+				#_|minerals|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+				z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = minerals
+					ALL_P = ALL_P_planet_pops_upkeep_mult
+					RES_P = RES_P_planet_pops_organics_minerals_upkeep_mult
+					WEIGHT_C = 1
+				}
+				#_|特性产出|
+				if = { limit = { has_trait = trait_lithoid_scintillating }
+					#_|rare_crystals|产出		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = produces RES = rare_crystals		WEIGHT_C = 0.02 }	#_|200%|
+				}
+				if = { limit = { has_trait = trait_lithoid_gaseous_byproducts }
+					#_|exotic_gases|产出		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = produces RES = exotic_gases		WEIGHT_C = 0.02 }	#_|200%|
+				}
+				if = { limit = { has_trait = trait_lithoid_volatile_excretions }
+					#_|volatile_motes|产出		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = produces RES = volatile_motes		WEIGHT_C = 0.02 }	#_|200%|
+				}
+			}
+			else = {#_|智械|
+				#_|minerals|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+				z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = energy
+					ALL_P = ALL_P_planet_pops_upkeep_mult
+					SPCS_P = SPCS_P_planet_pops_robotics_upkeep_mult
+					WEIGHT_C = 1
+				}
+			}
+		}
+		#_[普通]	有机/石质/智械
+		else_if = { limit = { always = yes }
+			if = {#_|有机|
+				limit = { is_organic_species = yes	is_lithoid = no }
+				
+				if = { limit = { has_academic_living_standard_type = yes }
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.5 }
+
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.75
+					}
+					#_|food|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = food
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_organics_food_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+				else_if = { limit = { has_very_high_living_standard_type = yes }
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.4 }
+
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.4
+					}
+					#_|food|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = food
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_organics_food_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+				else_if = { limit = { OR = { has_stratified_living_standard_type = yes	has_high_living_standard_type = yes } }
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.3 }
+
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.25
+					}
+					#_|food|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = food
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_organics_food_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+				else_if = { limit = { has_normal_living_standard_type = yes }
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.15 }
+
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.1
+					}
+					#_|food|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = food
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_organics_food_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+				else_if = { limit = { has_low_living_standard_type = yes }
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.05 }
+
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.05
+					}
+					#_|food|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = food
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_organics_food_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+				else = {
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.25 }
+					
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.3
+					}
+					#_|food|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = food
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_organics_food_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+			}
+			else_if = {#_|石质|
+				limit = { is_lithoid = yes }
+				#_|特性产出|
+				if = { limit = { has_trait = trait_lithoid_scintillating }
+					#_|rare_crystals|产出		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = produces RES = rare_crystals		WEIGHT_C = 0.02 }	#_|200%|
+				}
+				if = { limit = { has_trait = trait_lithoid_gaseous_byproducts }
+					#_|exotic_gases|产出		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = produces RES = exotic_gases		WEIGHT_C = 0.02 }	#_|200%|
+				}
+				if = { limit = { has_trait = trait_lithoid_volatile_excretions }
+					#_|volatile_motes|产出		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = produces RES = volatile_motes		WEIGHT_C = 0.02 }	#_|200%|
+				}
+				
+				if = { limit = { has_academic_living_standard_type = yes }
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.5 }
+					
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.75
+					}
+					#_|minerals|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = minerals
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_organics_minerals_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+				else_if = { limit = { has_very_high_living_standard_type = yes }
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.4 }
+					
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.4
+					}
+					#_|minerals|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = minerals
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_organics_minerals_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+				else_if = { limit = { OR = { has_stratified_living_standard_type = yes	has_high_living_standard_type = yes } }
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.3 }
+					
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.25
+					}
+					#_|minerals|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = minerals
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_organics_minerals_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+				else_if = { limit = { has_normal_living_standard_type = yes }
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.15 }
+					
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.1
+					}
+					#_|minerals|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = minerals
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_organics_minerals_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+				else_if = { limit = { has_low_living_standard_type = yes }
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.05 }
+					
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.05
+					}
+					#_|minerals|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = minerals
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_organics_minerals_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+				else = {
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.25 }
+					
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.3
+					}
+					#_|minerals|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = minerals
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						RES_P = RES_P_planet_pops_organics_minerals_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+			}
+			else = {#_|智械|
+				if = { limit = { has_academic_living_standard_type = yes }
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.5 }
+					
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						SPCS_P = SPCS_P_planet_pops_robotics_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.75
+					}
+					#_|energy|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = energy
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						SPCS_P = SPCS_P_planet_pops_robotics_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+				else_if = { limit = { has_very_high_living_standard_type = yes }
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.4 }
+					
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						SPCS_P = SPCS_P_planet_pops_robotics_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.4
+					}
+					#_|energy|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = energy
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						SPCS_P = SPCS_P_planet_pops_robotics_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+				else_if = { limit = { OR = { has_stratified_living_standard_type = yes	has_high_living_standard_type = yes } }
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.3 }
+					
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						SPCS_P = SPCS_P_planet_pops_robotics_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.25
+					}
+					#_|energy|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = energy
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						SPCS_P = SPCS_P_planet_pops_robotics_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+				else_if = { limit = { has_normal_living_standard_type = yes }
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.15 }
+					
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						SPCS_P = SPCS_P_planet_pops_robotics_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.1
+					}
+					#_|energy|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = energy
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						SPCS_P = SPCS_P_planet_pops_robotics_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+				else_if = { limit = { has_low_living_standard_type = yes }
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.05 }
+					
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						SPCS_P = SPCS_P_planet_pops_robotics_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.05
+					}
+					#_|energy|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = energy
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						SPCS_P = SPCS_P_planet_pops_robotics_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+				else = {
+					#_|贸易|
+					z_pr_eft_pop_man_mod_ratio = { MOD = trade_value_add WEIGHT = 0.25 }
+					
+					#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						SPCS_P = SPCS_P_planet_pops_robotics_upkeep_mult
+						RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 0.3
+					}
+					#_|energy|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+					z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = energy
+						ALL_P = ALL_P_planet_pops_upkeep_mult
+						SPCS_P = SPCS_P_planet_pops_robotics_upkeep_mult
+						ALL_C = ALL_C_pop_category_slave_upkeep_mult
+						WEIGHT_C = 1
+					}
+				}
+			}
+		}
+		#_|NYTO|
+		if = { limit = { species = { is_archetype = NYTO } }
+			#_|energy|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+			z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = energy
+				ALL_P = ALL_P_planet_pops_upkeep_mult
+				WEIGHT_P = 0.5
+			}
+			#_|food|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+			z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = food
+				ALL_P = ALL_P_planet_pops_upkeep_mult
+				WEIGHT_P = 0.5
+			}
+			#_|consumer_goods|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+			z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = consumer_goods
+				ALL_P = ALL_P_planet_pops_upkeep_mult
+				RES_P = RES_P_planet_pops_consumer_goods_upkeep_mult
+				WEIGHT_P = 0.5
+			}
+			#_|alloys|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+			z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = alloys
+				ALL_P = ALL_P_planet_pops_upkeep_mult
+				WEIGHT_P = 0.2
+			}
+			#_|GF_nyto_collapse_liquid|维护		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+			z_pr_eft_pop_man_res_ratio = { OPT = upkeep RES = GF_nyto_collapse_liquid
+				ALL_P = ALL_P_planet_pops_upkeep_mult
+				WEIGHT_P = 0.1
+			}
+			
+			#_|physics_research|产出		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+			z_pr_eft_pop_man_res_ratio = { OPT = produces RES = physics_research
+				WEIGHT_P = 1
+			}
+			#_|society_research|产出		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+			z_pr_eft_pop_man_res_ratio = { OPT = produces RES = society_research
+				WEIGHT_P = 1
+			}
+			#_|engineering_research|产出		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+			z_pr_eft_pop_man_res_ratio = { OPT = produces RES = engineering_research
+				WEIGHT_P = 1
+			}
+			#_|unity|产出		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+			z_pr_eft_pop_man_res_ratio = { OPT = produces RES = unity
+				WEIGHT_P = 1
+			}
+			#_|GF_nyto_dark_star_core|产出		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+			z_pr_eft_pop_man_res_ratio = { OPT = produces RES = GF_nyto_dark_star_core
+				WEIGHT_P = 0.01
+			}
+		}
+	
+		#_[mult_clear]
+		if = { limit = { always = yes }
+			# ALL_pop维护
+			clear_variable = ALL_P_planet_pops_upkeep_mult
+			# SPCS_pop维护
+			clear_variable = SPCS_P_planet_pops_robotics_upkeep_mult
+			# RES_pop维护
+			clear_variable = RES_P_planet_pops_organics_food_upkeep_mult
+			clear_variable = RES_P_planet_pops_organics_minerals_upkeep_mult
+			clear_variable = RES_P_planet_pops_consumer_goods_upkeep_mult
+			# ALL_cat维护
+			clear_variable = ALL_C_pop_category_slave_upkeep_mult
+		}
+		
+
+		##_[岗位阶层_v]		ruler/specialist/worker/complex_drone/simple_drone	##########################################################################################
+		if = { limit = { always = yes }
+			#_[ruler]
+			export_modifier_to_variable = { modifier = planet_jobs_ruler_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_cat_ruler_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			#_[specialist]
+			export_modifier_to_variable = { modifier = planet_jobs_specialist_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_cat_specialist_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			#_[worker]
+			export_modifier_to_variable = { modifier = planet_jobs_worker_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_cat_worker_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			
+			#_[complex_drone]
+			export_modifier_to_variable = { modifier = planet_jobs_complex_drone_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_cat_complex_drone_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			#_[simple_drone]
+			export_modifier_to_variable = { modifier = planet_jobs_simple_drone_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_cat_simple_drone_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+		}	
+		##_[行业普通_v]		technician/miners/farmers/metallurgists/artisans		/researchers/priests/culture_workers/managers	/pop_assemblers/bureaucrats		/pop_assemblers/bureaucrats
+		if = { limit = { always = yes }
+			#_[planet_technician]
+			export_modifier_to_variable = { modifier = planet_technician_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_ids_planet_technician_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			export_modifier_to_variable = { modifier = planet_technician_energy_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=1e
+			prev = { change_variable = { which = z_pr_var_ids_planet_technician_energy_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			
+			#_[planet_miners]
+			export_modifier_to_variable = { modifier = planet_miners_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_ids_planet_miners_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			export_modifier_to_variable = { modifier = planet_miners_minerals_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=1m
+			prev = { change_variable = { which = z_pr_var_ids_planet_miners_minerals_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			
+			#_[planet_farmers]
+			export_modifier_to_variable = { modifier = planet_farmers_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_ids_planet_farmers_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			export_modifier_to_variable = { modifier = planet_farmers_food_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=1f
+			prev = { change_variable = { which = z_pr_var_ids_planet_farmers_food_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			
+			#_[planet_metallurgists]
+			export_modifier_to_variable = { modifier = planet_metallurgists_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_ids_planet_metallurgists_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			export_modifier_to_variable = { modifier = planet_metallurgists_upkeep_mult variable = TEMP_var_bonus_arith }	#_[mod值]=维护
+			prev = { change_variable = { which = z_pr_var_ids_planet_metallurgists_upkeep_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			
+			#_[planet_artisans]
+			export_modifier_to_variable = { modifier = planet_artisans_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_ids_planet_artisans_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			export_modifier_to_variable = { modifier = planet_artisans_upkeep_mult variable = TEMP_var_bonus_arith }	#_[mod值]=维护
+			prev = { change_variable = { which = z_pr_var_ids_planet_artisans_upkeep_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			
+			
+			#_[planet_researchers]
+			export_modifier_to_variable = { modifier = planet_researchers_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_ids_planet_researchers_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			export_modifier_to_variable = { modifier = planet_researchers_physics_research_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=rp
+			prev = { change_variable = { which = z_pr_var_ids_planet_researchers_physics_research_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			export_modifier_to_variable = { modifier = planet_researchers_engineering_research_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=re
+			prev = { change_variable = { which = z_pr_var_ids_planet_researchers_engineering_research_produces_mult value = prev.TEMP_var_bonus_arith } }
+			clear_variable = TEMP_var_bonus_arith
+			export_modifier_to_variable = { modifier = planet_researchers_society_research_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=rs
+			prev = { change_variable = { which = z_pr_var_ids_planet_researchers_society_research_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			export_modifier_to_variable = { modifier = planet_researchers_upkeep_mult variable = TEMP_var_bonus_arith }	#_[mod值]=维护
+			prev = { change_variable = { which = z_pr_var_ids_planet_researchers_upkeep_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			
+			#_[planet_priests]
+			export_modifier_to_variable = { modifier = planet_priests_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_ids_planet_priests_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			
+			#_[planet_culture_workers]
+			export_modifier_to_variable = { modifier = planet_culture_workers_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_ids_planet_culture_workers_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			
+			#_[planet_managers]
+			export_modifier_to_variable = { modifier = planet_managers_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_planet_managers_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			
+
+			#_[planet_pop_assemblers]
+			export_modifier_to_variable = { modifier = planet_pop_assemblers_upkeep_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_ids_planet_pop_assemblers_upkeep_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			
+			#_[planet_bureaucrats]
+			export_modifier_to_variable = { modifier = planet_bureaucrats_upkeep_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_ids_planet_bureaucrats_upkeep_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			
+		}
+		##_[行业蜂群_v]		refiners/translucers/chemists	/synapse_drones/evaluators
+		if = { limit = { always = yes }
+			#_[planet_refiners]
+			export_modifier_to_variable = { modifier = planet_refiners_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_ids_planet_refiners_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			export_modifier_to_variable = { modifier = planet_refiners_upkeep_mult variable = TEMP_var_bonus_arith }	#_[mod值]=维护
+			prev = { change_variable = { which = z_pr_var_ids_planet_refiners_upkeep_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+
+			#_[planet_translucers]
+			export_modifier_to_variable = { modifier = planet_translucers_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_ids_planet_translucers_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			export_modifier_to_variable = { modifier = planet_translucers_upkeep_mult variable = TEMP_var_bonus_arith }	#_[mod值]=维护
+			prev = { change_variable = { which = z_pr_var_ids_planet_translucers_upkeep_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+
+			#_[planet_chemists]
+			export_modifier_to_variable = { modifier = planet_chemists_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_ids_planet_chemists_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			export_modifier_to_variable = { modifier = planet_chemists_upkeep_mult variable = TEMP_var_bonus_arith }	#_[mod值]=维护
+			prev = { change_variable = { which = z_pr_var_ids_planet_chemists_upkeep_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+
+			
+			#_[planet_synapse_drones]
+			export_modifier_to_variable = { modifier = planet_synapse_drones_unity_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=v_ru
+			prev = { change_variable = { which = z_pr_var_ids_planet_synapse_drones_unity_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+	
+			#_[planet_evaluators]
+			export_modifier_to_variable = { modifier = planet_evaluators_unity_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=v_ru
+			prev = { change_variable = { which = z_pr_var_ids_planet_evaluators_unity_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+		}
+	
+	
+		##_[物种比例]		v=|organic/lithoid/robotic/slave|
+		if = { limit = { always = yes }
+			#_[organic]
+			if = { limit = { is_organic_species = yes	is_lithoid = no }
+				prev = { change_variable = { which = z_pr_var_plnt_spcs_v_organic_ratio value = 1 } }	#_[var累计]
+			}
+			#_[lithoid]
+			else_if = { limit = { is_lithoid = yes }
+				prev = { change_variable = { which = z_pr_var_plnt_spcs_v_lithoid_ratio value = 1 } }	#_[var累计]
+			}
+			#_[lithoid]
+			else_if = { limit = { is_robotic_species = yes }
+				prev = { change_variable = { which = z_pr_var_plnt_spcs_v_robotic_ratio value = 1 } }	#_[var累计]
+			}
+			#_[slave]
+			else_if = { limit = { is_pop_category = slave }
+				prev = { change_variable = { which = z_pr_var_plnt_spcs_v_slave_ratio value = 1 } }	#_[var累计]
+			}
+
+		}
+		##_[特性比例]
+		#_v					|amenities/repugnant/thrifty/nuumismatic|
+		#_[碧蓝航线dlc]		|trait_mind_club_weakup|
+		#_[舰R]				|wsg_trait_senergy_producer/wsg_trait_knowledgeable2|
+		if = { limit = { always = yes }
+			#_[amenities]
+			if = {
+				limit = {
+					OR = {
+						has_trait = trait_robot_emotion_emulators
+						has_trait = trait_robot_domestic_protocols
+						has_trait = trait_charismatic
+					}
+				}
+				prev = { change_variable = { which = z_pr_var_plnt_trait_v_amenities_ratio value = 1 } }	#_[var累计]
+			}
+			#_[repugnant]
+			if = {
+				limit = {
+					OR = {
+						has_trait = trait_robot_uncanny
+						has_trait = trait_repugnant
+					}
+				}
+				prev = { change_variable = { which = z_pr_var_plnt_trait_v_repugnant_ratio value = 1 } }	#_[var累计]
+			}
+			#_[thrifty]
+			if = { limit = { has_trait = trait_thrifty }
+				prev = { change_variable = { which = z_pr_var_plnt_trait_v_thrifty_ratio value = 1 } }	#_[var累计]
+			}
+			#_[nuumismatic]
+			if = { limit = { has_trait = trait_nuumismatic_administration }
+				prev = { change_variable = { which = z_pr_var_plnt_trait_v_nuumismatic_ratio value = 1 } }	#_[var累计]
+			}
+			
+			#_[trait_mind_club_weakup]
+			if = { limit = { has_trait = trait_mind_club_weakup }
+				prev = { change_variable = { which = z_pr_var_plnt_trait_mod_azl_weakup_ratio value = 1 } }	#_[var累计]
+			}
+			
+			#_[wsg_trait_senergy_producer]
+			if = { limit = { has_trait = wsg_trait_senergy_producer }
+				prev = { change_variable = { which = z_pr_var_plnt_trait_mod_wsg_senergy_ratio value = 1 } }	#_[var累计]
+			}
+			#_[wsg_trait_knowledgeable2]
+			if = { limit = { has_trait = wsg_trait_knowledgeable2 }
+				prev = { change_variable = { which = z_pr_var_plnt_trait_mod_wsg_knowledgeable2_ratio value = 1 } }	#_[var累计]
+			}
+
+		}
+		##_[其他比例]
+		#_生活标准			|living_standard_utopian|
+		if = { limit = { always = yes }
+			#_[living_standard_utopian]
+			if = { limit = { has_living_standard = { type = living_standard_utopian } }
+				prev = { change_variable = { which = z_pr_var_plnt_ls_v_utopian_ratio value = 1 } }	#_[var累计]
+			}
+		}
+		
+	
+		##_[物种加成]		v=|robotic/slave|
+		if = { limit = { always = yes }
+			#_[robotic]
+			export_modifier_to_variable = { modifier = planet_jobs_robotic_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_plnt_spcs_v_robotic_res_p_all_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			#_[slave]
+			export_modifier_to_variable = { modifier = planet_jobs_slave_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_plnt_spcs_v_slave_res_p_all_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+
+		}	
+		##_[资源加成_v]		all产出/all维护
+		#vanilla			energy/minerals/food/alloys/consumer_goods		/rare_crystals/exotic_gases/volatile_motes		/physics_research/engineering_research/society_research/unity
+		if = { limit = { always = yes }
+			#_[all产出]
+			export_modifier_to_variable = { modifier = country_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = {#_[var累计]
+				change_variable = { which = z_pr_var_plnt_job_produces_mult value = 1 }	#_|默认100%|
+				change_variable = { which = z_pr_var_plnt_job_produces_mult value = prev.TEMP_var_bonus_arith }
+			}
+			export_modifier_to_variable = { modifier = planet_jobs_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=产出
+			prev = { change_variable = { which = z_pr_var_plnt_job_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			#_[all维护]
+			export_modifier_to_variable = { modifier = planet_jobs_upkeep_mult variable = TEMP_var_bonus_arith }	#_[mod值]=维护
+			prev = {#_[var累计]
+				change_variable = { which = z_pr_var_plnt_job_upkeep_mult value = 1 }	#_|默认100%|
+				change_variable = { which = z_pr_var_plnt_job_upkeep_mult value = prev.TEMP_var_bonus_arith }
+			}
+			clear_variable = TEMP_var_bonus_arith
+			
+			#_[energy]
+			export_modifier_to_variable = { modifier = country_energy_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_energy_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			export_modifier_to_variable = { modifier = planet_jobs_energy_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_energy_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			#_[minerals]
+			export_modifier_to_variable = { modifier = country_minerals_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_minerals_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			export_modifier_to_variable = { modifier = planet_jobs_minerals_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=生产
+			prev = { change_variable = { which = z_pr_var_minerals_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			#_[food]
+			export_modifier_to_variable = { modifier = country_food_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_food_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			export_modifier_to_variable = { modifier = planet_jobs_food_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=生产
+			prev = { change_variable = { which = z_pr_var_food_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			#_[alloys]
+			export_modifier_to_variable = { modifier = country_alloys_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_alloys_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			export_modifier_to_variable = { modifier = planet_jobs_alloys_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_alloys_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			#_[consumer_goods]
+			export_modifier_to_variable = { modifier = country_consumer_goods_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_consumer_goods_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			export_modifier_to_variable = { modifier = planet_jobs_consumer_goods_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]=生产
+			prev = { change_variable = { which = z_pr_var_consumer_goods_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			#_[exotic_gases]
+			export_modifier_to_variable = { modifier = planet_jobs_exotic_gases_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_exotic_gases_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			#_[physics_research]
+			export_modifier_to_variable = { modifier = country_physics_research_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_physics_research_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			export_modifier_to_variable = { modifier = planet_jobs_physics_research_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_physics_research_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			#_[engineering_research]
+			export_modifier_to_variable = { modifier = country_engineering_research_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_engineering_research_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			export_modifier_to_variable = { modifier = planet_jobs_engineering_research_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_engineering_research_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			#_[society_research]
+			export_modifier_to_variable = { modifier = country_society_research_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_society_research_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			export_modifier_to_variable = { modifier = planet_jobs_society_research_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_society_research_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			#_[unity]
+			export_modifier_to_variable = { modifier = country_unity_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_unity_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			export_modifier_to_variable = { modifier = planet_jobs_unity_produces_mult variable = TEMP_var_bonus_arith }	#_[mod值]
+			prev = { change_variable = { which = z_pr_var_unity_produces_mult value = prev.TEMP_var_bonus_arith } }	#_[var累计]
+			clear_variable = TEMP_var_bonus_arith
+			
+		}
+	}
+	
+	
+	
+	
+	###_[参数结算]	管理员统计/ratio人力经济	/行业普通_v/行业蜂群_v/岗位阶层_v	/物种比例/特性比例/其他比例		/物种加成/资源加成_v
+	##_|管理员统计|
+	if = { limit = { check_variable = { which = TEMP_var_plnt_administer_count value < 1 } }		set_variable = { which = TEMP_var_plnt_administer_count value = 1 } }	#_|最值限定|
+	
+	##_[ratio人力经济]		修正/资源
+	if = { limit = { always = yes }
+		#_[修正]	var格式|z_pr_var_man_$MOD$_ratio|
+		z_pr_eft_plnt_man_mod_ratio_tally = { MOD = trade_value_add }
+		
+		#_[资源]	var格式|z_pr_var_man_$RES$_$OPT$_ratio|
+		z_pr_eft_plnt_man_res_ratio_tally = { OPT = upkeep RES = energy }
+		z_pr_eft_plnt_man_res_ratio_tally = { OPT = upkeep RES = minerals }
+		z_pr_eft_plnt_man_res_ratio_tally = { OPT = upkeep RES = food }
+		z_pr_eft_plnt_man_res_ratio_tally = { OPT = upkeep RES = alloys }
+		z_pr_eft_plnt_man_res_ratio_tally = { OPT = upkeep RES = consumer_goods }
+		z_pr_eft_plnt_man_res_ratio_tally = { OPT = upkeep RES = GF_nyto_collapse_liquid }	#|NYTO|
+		
+		z_pr_eft_plnt_man_res_ratio_tally = { OPT = produces RES = rare_crystals }
+		z_pr_eft_plnt_man_res_ratio_tally = { OPT = produces RES = exotic_gases }
+		z_pr_eft_plnt_man_res_ratio_tally = { OPT = produces RES = volatile_motes }
+		z_pr_eft_plnt_man_res_ratio_tally = { OPT = produces RES = physics_research }
+		z_pr_eft_plnt_man_res_ratio_tally = { OPT = produces RES = society_research }
+		z_pr_eft_plnt_man_res_ratio_tally = { OPT = produces RES = engineering_research }
+		z_pr_eft_plnt_man_res_ratio_tally = { OPT = produces RES = unity }
+		z_pr_eft_plnt_man_res_ratio_tally = { OPT = produces RES = GF_nyto_dark_star_core }	#|NYTO|
+	}
+	
+	##_[岗位阶层_v]			ruler/specialist/worker/complex_drone/simple_drone
+	if = { limit = { always = yes }
+		#_[ruler]
+		divide_variable = { which = z_pr_var_cat_ruler_produces_mult value = TEMP_var_plnt_administer_count }
+		#_[specialist]
+		divide_variable = { which = z_pr_var_cat_specialist_produces_mult value = TEMP_var_plnt_administer_count }
+		#_[worker]
+		divide_variable = { which = z_pr_var_cat_worker_produces_mult value = TEMP_var_plnt_administer_count }
+		if = {#_|岗位worker产出|db_job回调	无视效率
+			limit = { is_variable_set = z_pr_var_job_planet_jobs_worker_produces_mult }			#_|var存在|		is_variable_set = z_pr_var_plnt_ultilization
+			set_variable = { which = TEMP_var_bonus_tally value = z_pr_var_job_planet_jobs_worker_produces_mult }		#_|岗位cd产出|
+		#	multiply_variable = { which = TEMP_var_bonus_tally value = z_pr_var_plnt_ultilization }		#_|效率加成|	
+			change_variable = { which = z_pr_var_cat_worker_produces_mult value = TEMP_var_bonus_tally }
+			clear_variable = TEMP_var_bonus_tally
+		}
+		
+		#_[complex_drone]
+		divide_variable = { which = z_pr_var_cat_complex_drone_produces_mult value = TEMP_var_plnt_administer_count }
+		if = {#_|岗位cd产出|db_job回调		无视效率
+			limit = { is_variable_set = z_pr_var_job_planet_jobs_complex_drone_produces_mult }	#_|var存在|		is_variable_set = z_pr_var_plnt_ultilization
+			set_variable = { which = TEMP_var_bonus_tally value = z_pr_var_job_planet_jobs_complex_drone_produces_mult }		#_|岗位cd产出|
+		#	multiply_variable = { which = TEMP_var_bonus_tally value = z_pr_var_plnt_ultilization }		#_|效率加成|
+			change_variable = { which = z_pr_var_cat_complex_drone_produces_mult value = TEMP_var_bonus_tally }
+			clear_variable = TEMP_var_bonus_tally
+		}
+		#_[simple_drone]
+		divide_variable = { which = z_pr_var_cat_simple_drone_produces_mult value = TEMP_var_plnt_administer_count }
+		if = {#_|岗位sd产出|db_job回调		无视效率
+			limit = { is_variable_set = z_pr_var_job_planet_jobs_simple_drone_produces_mult }	#_|var存在|		is_variable_set = z_pr_var_plnt_ultilization
+			set_variable = { which = TEMP_var_bonus_tally value = z_pr_var_job_planet_jobs_simple_drone_produces_mult }		#_|岗位sd产出|
+		#	multiply_variable = { which = TEMP_var_bonus_tally value = z_pr_var_plnt_ultilization }		#_|效率加成|
+			change_variable = { which = z_pr_var_cat_simple_drone_produces_mult value = TEMP_var_bonus_tally }
+			clear_variable = TEMP_var_bonus_tally
+		}
+		
+	}
+	##_[行业普通_v]		technician/miners/farmers/metallurgists/artisans		/researchers/priests/culture_workers/managers	/pop_assemblers/bureaucrats
+	if = { limit = { always = yes }
+		#_[technician]
+		divide_variable = { which = z_pr_var_ids_planet_technician_produces_mult value = TEMP_var_plnt_administer_count }
+		divide_variable = { which = z_pr_var_ids_planet_technician_energy_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_ids_planet_technician_energy_produces_mult value = z_pr_var_ids_planet_technician_produces_mult }	#_[var累积总类]
+		#_[miners]
+		divide_variable = { which = z_pr_var_ids_planet_miners_produces_mult value = TEMP_var_plnt_administer_count }
+		divide_variable = { which = z_pr_var_ids_planet_miners_minerals_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_ids_planet_miners_minerals_produces_mult value = z_pr_var_ids_planet_miners_produces_mult }	#_[var累积总类]
+		#_[farmers]
+		divide_variable = { which = z_pr_var_ids_planet_farmers_produces_mult value = TEMP_var_plnt_administer_count }
+		divide_variable = { which = z_pr_var_ids_planet_farmers_food_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_ids_planet_farmers_food_produces_mult value = z_pr_var_ids_planet_farmers_produces_mult }	#_[var累积总类]
+		#_[metallurgists]
+		divide_variable = { which = z_pr_var_ids_planet_metallurgists_produces_mult value = TEMP_var_plnt_administer_count }
+		divide_variable = { which = z_pr_var_ids_planet_metallurgists_upkeep_mult value = TEMP_var_plnt_administer_count }
+		#_[artisans]
+		divide_variable = { which = z_pr_var_ids_planet_artisans_produces_mult value = TEMP_var_plnt_administer_count }
+		divide_variable = { which = z_pr_var_ids_planet_artisans_upkeep_mult value = TEMP_var_plnt_administer_count }
+		
+		#_[researchers]
+		divide_variable = { which = z_pr_var_ids_planet_researchers_produces_mult value = TEMP_var_plnt_administer_count }
+		divide_variable = { which = z_pr_var_ids_planet_researchers_upkeep_mult value = TEMP_var_plnt_administer_count }
+		divide_variable = { which = z_pr_var_ids_planet_researchers_physics_research_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_ids_planet_researchers_physics_research_produces_mult value = z_pr_var_ids_planet_researchers_produces_mult }	#_[var累积总类]
+		divide_variable = { which = z_pr_var_ids_planet_researchers_engineering_research_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_ids_planet_researchers_engineering_research_produces_mult value = z_pr_var_ids_planet_researchers_produces_mult }	#_[var累积总类]
+		divide_variable = { which = z_pr_var_ids_planet_researchers_society_research_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_ids_planet_researchers_society_research_produces_mult value = z_pr_var_ids_planet_researchers_produces_mult }	#_[var累积总类]
+		#_[priests]
+		divide_variable = { which = z_pr_var_ids_planet_priests_produces_mult value = TEMP_var_plnt_administer_count }
+		#_[culture_workers]
+		divide_variable = { which = z_pr_var_ids_planet_culture_workers_produces_mult value = TEMP_var_plnt_administer_count }
+		#_[managers]
+		divide_variable = { which = z_pr_var_planet_managers_produces_mult value = TEMP_var_plnt_administer_count }
+		
+		#_[pop_assemblers]
+		divide_variable = { which = z_pr_var_ids_planet_pop_assemblers_upkeep_mult value = TEMP_var_plnt_administer_count }
+		#_[bureaucrats]
+		divide_variable = { which = z_pr_var_ids_planet_bureaucrats_upkeep_mult value = TEMP_var_plnt_administer_count }
+		
+	}		
+	##_[行业蜂群_v]		/refiners/translucers/chemists	/synapse_drones/evaluators
+	if = { limit = { always = yes }
+		#_[refiners]
+		divide_variable = { which = z_pr_var_ids_planet_refiners_produces_mult value = TEMP_var_plnt_administer_count }
+		divide_variable = { which = z_pr_var_ids_planet_refiners_upkeep_mult value = TEMP_var_plnt_administer_count }
+		#_[translucers]
+		divide_variable = { which = z_pr_var_ids_planet_translucers_produces_mult value = TEMP_var_plnt_administer_count }
+		divide_variable = { which = z_pr_var_ids_planet_translucers_upkeep_mult value = TEMP_var_plnt_administer_count }
+		#_[chemists]
+		divide_variable = { which = z_pr_var_ids_planet_chemists_produces_mult value = TEMP_var_plnt_administer_count }
+		divide_variable = { which = z_pr_var_ids_planet_chemists_upkeep_mult value = TEMP_var_plnt_administer_count }
+		
+		#_[synapse_drones]
+		divide_variable = { which = z_pr_var_ids_planet_synapse_drones_unity_produces_mult value = TEMP_var_plnt_administer_count }	#_|v_ru|
+		#_[evaluators]
+		divide_variable = { which = z_pr_var_ids_planet_evaluators_unity_produces_mult value = TEMP_var_plnt_administer_count }	#_|v_ru|
+	}
+	
+	
+	##_[物种比例]	<db_job>使用
+	if = { limit = { always = yes }
+		#_[organic]
+		divide_variable = { which = z_pr_var_plnt_spcs_v_organic_ratio value = TEMP_var_plnt_administer_count }
+		#_[lithoid]
+		divide_variable = { which = z_pr_var_plnt_spcs_v_lithoid_ratio value = TEMP_var_plnt_administer_count }
+		#_[robotic]
+		divide_variable = { which = z_pr_var_plnt_spcs_v_robotic_ratio value = TEMP_var_plnt_administer_count }
+		#_[slave]
+		divide_variable = { which = z_pr_var_plnt_spcs_v_slave_ratio value = TEMP_var_plnt_administer_count }
+	}
+	##_[特性比例]	<db_job>使用
+	#_v					|amenities/repugnant/thrifty/nuumismatic|
+	#_[碧蓝航线dlc]		|trait_mind_club_weakup|
+	#_[舰R]				|wsg_trait_senergy_producer/wsg_trait_knowledgeable2|
+	if = { limit = { always = yes }
+		#_[amenities]
+		divide_variable = { which = z_pr_var_plnt_trait_v_amenities_ratio value = TEMP_var_plnt_administer_count }
+		#_[repugnant]
+		divide_variable = { which = z_pr_var_plnt_trait_v_repugnant_ratio value = TEMP_var_plnt_administer_count }
+		#_[thrifty]
+		divide_variable = { which = z_pr_var_plnt_trait_v_thrifty_ratio value = TEMP_var_plnt_administer_count }
+		#_[nuumismatic]
+		divide_variable = { which = z_pr_var_plnt_trait_v_nuumismatic_ratio value = TEMP_var_plnt_administer_count }
+		
+		#_|trait_mind_club_weakup|
+		divide_variable = { which = z_pr_var_plnt_trait_mod_azl_weakup_ratio value = TEMP_var_plnt_administer_count }
+		
+		#_|wsg_trait_senergy_producer|
+		divide_variable = { which = z_pr_var_plnt_trait_mod_wsg_senergy_ratio value = TEMP_var_plnt_administer_count }
+		#_|wsg_trait_knowledgeable2|
+		divide_variable = { which = z_pr_var_plnt_trait_mod_wsg_knowledgeable2_ratio value = TEMP_var_plnt_administer_count }
+	}
+	##_[其他比例]
+	#_生活标准			|living_standard_utopian|
+	if = { limit = { always = yes }
+		#_[living_standard_utopian]
+		divide_variable = { which = z_pr_var_plnt_ls_v_utopian_ratio value = TEMP_var_plnt_administer_count }
+	}
+	
+	
+	##_[物种加成]		v=|robotic/slave|
+	if = { limit = { always = yes }
+		#_[robotic]
+		divide_variable = { which = z_pr_var_plnt_spcs_v_robotic_res_p_all_mult value = TEMP_var_plnt_administer_count }
+		multiply_variable = { which = z_pr_var_plnt_spcs_v_robotic_res_p_all_mult value = z_pr_var_plnt_spcs_v_robotic_ratio }	#_[spcs比率]
+		#_[slave]
+		divide_variable = { which = z_pr_var_plnt_spcs_v_slave_res_p_all_mult value = TEMP_var_plnt_administer_count }
+		multiply_variable = { which = z_pr_var_plnt_spcs_v_slave_res_p_all_mult value = z_pr_var_plnt_spcs_v_slave_ratio }	#_[spcs比率]
+		
+	}
+	##_[资源加成_v]	all维护/all产出
+	#vanilla		energy/minerals/food/alloys/consumer_goods		/rare_crystals/exotic_gases/volatile_motes		/physics_research/engineering_research/society_research/unity
+	if = { limit = { always = yes }
+		
+		#_|all维护|
+		divide_variable = { which = z_pr_var_plnt_job_upkeep_mult value = TEMP_var_plnt_administer_count }
+		if = {#_|岗位全维护|
+			limit = { is_variable_set = z_pr_var_job_planet_jobs_upkeep_mult }
+			change_variable = { which = z_pr_var_plnt_job_upkeep_mult value = z_pr_var_job_planet_jobs_upkeep_mult }	
+		}
+		
+		#_[all产出]
+		divide_variable = { which = z_pr_var_plnt_job_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_plnt_job_produces_mult value = z_pr_var_plnt_spcs_v_robotic_res_p_all_mult }	#_[物种var累积]=产出
+		change_variable = { which = z_pr_var_plnt_job_produces_mult value = z_pr_var_plnt_spcs_v_slave_res_p_all_mult }	#_[物种var累积]=产出
+		if = {#_[全产var累积]=产出
+			limit = { is_variable_set = z_pr_var_job_planet_jobs_produces_mult }
+			change_variable = { which = z_pr_var_plnt_job_produces_mult value = z_pr_var_job_planet_jobs_produces_mult }	
+		}
+		
+		#_[energy]
+		divide_variable = { which = z_pr_var_energy_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_energy_produces_mult value = z_pr_var_plnt_job_produces_mult }	#_[资源var累积]=产出
+		#_[minerals]
+		divide_variable = { which = z_pr_var_minerals_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_minerals_produces_mult value = z_pr_var_plnt_job_produces_mult }	#_[资源var累积]=产出
+		#_[food]
+		divide_variable = { which = z_pr_var_food_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_food_produces_mult value = z_pr_var_plnt_job_produces_mult }	#_[资源var累积]=产出
+		#_[alloys]
+		divide_variable = { which = z_pr_var_alloys_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_alloys_produces_mult value = z_pr_var_plnt_job_produces_mult }	#_[资源var累积]=产出
+		if = {#_[岗位产出2a]
+			limit = { is_variable_set = z_pr_var_job_planet_jobs_alloys_produces_mult }
+			change_variable = { which = z_pr_var_alloys_produces_mult value = z_pr_var_job_planet_jobs_alloys_produces_mult }	
+		}
+		#_[consumer_goods]
+		divide_variable = { which = z_pr_var_consumer_goods_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_consumer_goods_produces_mult value = z_pr_var_plnt_job_produces_mult }	#_[资源var累积]=产出
+		
+		#_[rare_crystals]
+		divide_variable = { which = z_pr_var_rare_crystals_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_rare_crystals_produces_mult value = z_pr_var_plnt_job_produces_mult }	#_[资源var累积]=产出
+		#_[exotic_gases]
+		divide_variable = { which = z_pr_var_exotic_gases_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_exotic_gases_produces_mult value = z_pr_var_plnt_job_produces_mult }	#_[资源var累积]=产出
+		#_[volatile_motes]
+		divide_variable = { which = z_pr_var_volatile_motes_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_volatile_motes_produces_mult value = z_pr_var_plnt_job_produces_mult }	#_[资源var累积]=产出
+		#_[physics_research]
+		divide_variable = { which = z_pr_var_physics_research_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_physics_research_produces_mult value = z_pr_var_plnt_job_produces_mult }	#_[资源var累积]=产出
+		#_[engineering_research]
+		divide_variable = { which = z_pr_var_engineering_research_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_engineering_research_produces_mult value = z_pr_var_plnt_job_produces_mult }	#_[资源var累积]=产出
+		#_[society_research]
+		divide_variable = { which = z_pr_var_society_research_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_society_research_produces_mult value = z_pr_var_plnt_job_produces_mult }	#_[资源var累积]=产出
+		#_[unity]
+		divide_variable = { which = z_pr_var_unity_produces_mult value = TEMP_var_plnt_administer_count }
+		change_variable = { which = z_pr_var_unity_produces_mult value = z_pr_var_plnt_job_produces_mult }	#_[资源var累积]=产出
+	}
+	
+	
+	
+	
+	###_[clear]	#############################################
+	clear_variable = TEMP_var_plnt_administer_count		#_[基础]
+}
+
+
+

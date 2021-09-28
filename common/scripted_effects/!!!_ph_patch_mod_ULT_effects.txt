@@ -1,0 +1,163 @@
+###_[终极科技岗位debug]
+z_pr_eft_plnt_job_debug_mod_ULT = {
+	#_ULT终极科技
+	if = { limit = { check_modifier_value = { modifier = job_PR_check_ULT_add value = -1 } }	#_|修正激活|	has_global_flag = z_pr_patch_installed_mod_ULT
+
+		##_[ult_dark_energy_field_operator]			|specialist/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = ult_dark_energy_field_operator VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = ult_dark_energy_field_operator VALUE = 2000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = ult_dark_energy_field_operator }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[energy]
+			pr_job_resources_basic = { OPT = produces RES = energy VALUE = 15}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=energy
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = energy }
+			
+		}
+
+		##_[ult_mining_drone_operator]			|specialist/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = ult_mining_drone_operator VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = ult_mining_drone_operator VALUE = 2000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = ult_mining_drone_operator }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[minerals]
+			pr_job_resources_basic = { OPT = produces RES = minerals VALUE = 12}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=minerals
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = minerals }
+			
+		}
+
+		##_[ult_nutritionist]			|specialist/planet_jobs|		特殊条件=has_trait
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = ult_nutritionist VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = ult_nutritionist VALUE = 2000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = ult_nutritionist }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = planet_amenities_add VALUE = 0 }
+			if = {#_|国策|
+				limit = { exists = owner owner = { has_valid_civic = civic_agrarian_idyll } }
+				pr_job_modifier_triggered = { MOD = planet_amenities_add VALUE = 2 }
+			}
+			pr_job_modifier_ratio = { MOD=planet_amenities_add RATIO=trait_v_amenities WEIGHT=0.4 }	#_|比例bonus修正|
+			pr_job_modifier_ratio = { MOD=planet_amenities_add RATIO=trait_v_repugnant WEIGHT=-0.4 }	#_|比例bonus修正|
+			pr_job_modifier_tally = { MOD = planet_amenities_add }
+			
+			##_[produce]	资源类型
+			#_[food]
+			pr_job_resources_basic = { OPT = produces RES = food VALUE = 12}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=food
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = food }
+			#_[consumer_goods]
+			pr_job_resources_basic = { OPT = produces RES = consumer_goods VALUE = 2}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = consumer_goods }
+		}
+
+		##_[ult_atomic_assembler]			|specialist/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = ult_atomic_assembler VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = ult_atomic_assembler VALUE = 2000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = ult_atomic_assembler }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[alloys]
+			pr_job_resources_basic = { OPT = produces RES = alloys VALUE = 7 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=alloys
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = alloys }
+			#_[engineering_research]
+			pr_job_resources_basic = { OPT = produces RES = engineering_research VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+
+			#_[upkeep]
+			#_[minerals]
+			pr_job_resources_basic = { OPT = upkeep RES = minerals VALUE = 21 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=minerals
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = minerals }
+		}
+
+		##_[ult_ecologist]			|specialist/planet_researchers|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = ult_ecologist VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = ult_ecologist VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = ult_ecologist }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = planet_amenities_add VALUE = 5 }
+			pr_job_modifier_tally = { MOD = planet_amenities_add }
+			pr_job_modifier_basic = { MOD = pop_environment_tolerance VALUE = 0.04 }
+			pr_job_modifier_tally = { MOD = pop_environment_tolerance }
+			
+			##_[produce]	资源类型
+			#_[society_research]
+			pr_job_resources_basic = { OPT = produces RES = society_research VALUE = 15}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+			
+		}
+
+		##_[ult_product_designer]			|specialist/planet_merchants|		特殊条件=has_trait
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = ult_product_designer VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = ult_product_designer VALUE = 2000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = ult_product_designer }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = trade_value_add VALUE = 10 }
+			pr_job_modifier_ratio = { MOD=trade_value_add RATIO=trait_v_thrifty WEIGHT=2 }	#_|比例bonus修正|
+			pr_job_modifier_ratio = { MOD=trade_value_add RATIO=trait_v_nuumismatic WEIGHT=2 }	#_|比例bonus修正|
+			pr_job_modifier_tally = { MOD = trade_value_add }
+			
+			##_[produce]	资源类型
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 2}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=specialist
+				IDS=planet_merchants	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+			
+		}
+	}
+}

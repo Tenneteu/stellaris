@@ -1,0 +1,643 @@
+###_	production_revolution misc_effects	###########################################################
+
+#_[测试数据]
+#_[pr设置面板/setting_统计_检测/setting_统计_归零]
+#_[建筑换为区划]
+#_[区划换为区划]
+#_[区划换为建筑]
+#_[建筑换为建筑]
+
+#_[迁移完成debug]
+#_[人力迁出5/人力迁出25/人力迁入5/人力迁入25/人力迁入_满]
+#_[pr国家人力迁入]
+#_[后补岗位]
+
+
+
+
+###_[测试数据]	###########################################################
+z_pr_eft_plnt_test_check = { planet_event = { id = z_pr_test.700 } }
+
+
+
+
+###_[pr设置面板]	###########################################################
+z_pr_eft_cntr_setting = {
+	z_pr_eft_cntr_setting_sts = yes
+	country_event = { id = z_pr_setting.1 }
+}
+
+###_[setting_统计_检测]
+z_pr_eft_cntr_setting_sts = {
+	set_variable = { which = z_playable_country_var value = 0 }					#_country
+	every_country = {
+		limit = {
+			OR = {
+				is_country_type = default
+				is_country_type = fallen_empire
+				is_country_type = awakened_fallen_empire
+				is_country_type = prikki
+				is_country_type = ascended_empire		#_ZOFE
+				is_country_type = lost_empire			#_ZOFE
+				is_country_type = default_ev			#_EV
+			}
+		}
+		root = { change_variable = { which = z_playable_country_var value = 1 } }
+	}
+	set_variable = { which = z_colony_var value = 0 }							#_colony
+	every_galaxy_planet = {
+		limit = { is_colony = yes }
+		root = { change_variable = { which = z_colony_var value = 1 } }
+	}
+	set_variable = { which = z_total_pop_var value = 0 }						#_pop
+	set_variable = { which = z_total_pop_unemployed_var value = 0 }				#_unemployed
+	every_galaxy_pop = {
+		if = {
+			limit = { z_pr_trgr_pop_uep = yes }
+			root = {
+				change_variable = { which = z_total_pop_var value = 1 }
+				change_variable = { which = z_total_pop_unemployed_var value = 1 }
+			}
+		}
+		else = {
+			root = { change_variable = { which = z_total_pop_var value = 1 } }
+		}
+	}
+}
+###_[setting_统计_归零]
+z_pr_eft_cntr_setting_sts_clear = {
+	set_variable = { which = z_playable_country_var value = 0 }					#_country
+	set_variable = { which = z_colony_var value = 0 }							#_colony
+	set_variable = { which = z_total_pop_var value = 0 }						#_pop
+	set_variable = { which = z_total_pop_unemployed_var value = 0 }				#_unemployed
+}
+
+
+
+
+
+
+
+
+###_[建筑换为区划]	###########################################################
+#_prmt		[BUILDING][DISTRICT]
+z_pr_eft_plnt_building_to_district = {
+	if = {
+		limit = { has_building = $BUILDING$ }
+		remove_building = $BUILDING$
+		if = {
+			limit = { free_district_slots > 0 }
+			add_district = {
+				district_type = $DISTRICT$
+				ignore_cap = yes
+			}
+		}
+		else_if = {
+			limit = {
+				free_district_slots = 0
+				planet_size < 25
+			}
+			change_planet_size = 1
+			add_district = {
+				district_type = $DISTRICT$
+				ignore_cap = yes
+			}
+		}
+	}
+}
+
+###_[区划换为区划]	###########################################################
+#_prmt		[DISTRICT_1][DISTRICT_2]
+z_pr_eft_plnt_district_to_district = {
+	if = {
+		limit = { has_district = $DISTRICT_1$ }
+		remove_district = $DISTRICT_1$
+		add_district = {
+			district_type = $DISTRICT_2$
+			ignore_cap = yes
+		}
+	}
+}
+
+
+###_[区划换为建筑]	###########################################################
+#_prmt		[DISTRICT][BUILDING]
+z_pr_eft_plnt_district_to_building = {
+	if = {
+		limit = { has_district = $DISTRICT$ }
+		remove_district = $DISTRICT$
+		add_building = $BUILDING$
+	}
+}
+
+###_[建筑换为建筑]	###########################################################
+#_prmt		[BUILDING_1][BUILDING_2]
+z_pr_eft_plnt_building_to_building = {
+	if = {
+		limit = { has_building = $BUILDING_1$ }
+		remove_building = $BUILDING_1$
+		add_building = $BUILDING_2$
+	}
+}
+
+
+
+
+
+
+
+
+###_[迁移完成debug]		分子/比值	###########################################################
+#_引用var	|z_pr_var_plnt_man_QTNT_dnm|	---直接引用,因为岗位是不会变的
+z_pr_eft_plnt_man_mig_done_debug = {
+	#_[分子]	默认+10
+	set_variable = { which = z_pr_var_plnt_man_QTNT_nmr value = 10 }
+	change_variable = { which = z_pr_var_plnt_man_QTNT_nmr value = z_pr_var_plnt_man }
+	#_[比值]
+	set_variable = { which = z_pr_var_plnt_man_QTNT value = z_pr_var_plnt_man_QTNT_nmr }
+	divide_variable = { which = z_pr_var_plnt_man_QTNT value = z_pr_var_plnt_man_QTNT_dnm }
+}
+
+
+###_[人力迁出5]
+z_pr_eft_plnt_man_mig_5 = {
+	if = {
+		limit = {
+			always = yes
+		#	is_colony = yes
+		#	is_under_colonization = no
+		#	is_variable_set = z_pr_var_plnt_man
+		#	check_variable = { which = z_pr_var_plnt_man value > 10 }
+		#	is_variable_set = z_pr_var_plnt_man_QTNT
+		#	check_variable = { which = z_pr_var_plnt_man_QTNT value > 1.19 }
+		}
+		owner = {
+			random_owned_planet = {#_<迁入plnt>
+				limit = {
+					is_colony = yes
+					is_under_colonization = no
+					is_variable_set = z_pr_var_plnt_man
+					is_variable_set = z_pr_var_plnt_man_QTNT
+					check_variable = { which = z_pr_var_plnt_man_QTNT value < 1 }
+				}
+				weights = {
+					base = 1
+					modifier = {#_|0.2x|
+						factor = 2
+						check_variable = { which = z_pr_var_plnt_man_QTNT value < 0.2 }
+					}
+					modifier = {#_|0.5x|
+						factor = 2
+						check_variable = { which = z_pr_var_plnt_man_QTNT value < 0.5 }
+					}
+				}
+				
+				#_[人力+5]
+				change_variable = { which = z_pr_var_plnt_man value = 5 }
+				change_variable = { which = z_pr_var_plnt_pop_man value = 5 }
+				z_pr_eft_plnt_man_mig_done_debug = yes		#_[迁移完成debug]
+				#_[人力-5]
+				prevprev = {
+					subtract_variable = { which = z_pr_var_plnt_man value = 5 }
+					subtract_variable = { which = z_pr_var_plnt_pop_man value = 5 }
+					z_pr_eft_plnt_man_mig_done_debug = yes		#_[迁移完成debug]
+				}
+		
+				##_[当前人力]
+				planet = { z_pr_eft_plnt_mod_plnt_man_debug = yes }
+			}
+		}
+		
+		##_[当前人力]
+		planet = { z_pr_eft_plnt_mod_plnt_man_debug = yes }
+	}
+}
+###_[人力迁出25]
+z_pr_eft_plnt_man_mig_25 = {
+	if = {
+		limit = {
+			always = yes
+		#	is_colony = yes
+		#	is_under_colonization = no
+		#	is_variable_set = z_pr_var_plnt_man
+		#	check_variable = { which = z_pr_var_plnt_man value > 30 }
+		#	is_variable_set = z_pr_var_plnt_man_QTNT
+		#	check_variable = { which = z_pr_var_plnt_man_QTNT value > 1.19 }
+		}
+		owner = {
+			random_owned_planet = {#_<迁入plnt>
+				limit = {
+					is_colony = yes
+					is_under_colonization = no
+					is_variable_set = z_pr_var_plnt_man
+					is_variable_set = z_pr_var_plnt_man_QTNT
+					check_variable = { which = z_pr_var_plnt_man_QTNT value < 1 }
+				}
+				weights = {
+					base = 1
+					modifier = {#_|0.2x|
+						factor = 2
+						check_variable = { which = z_pr_var_plnt_man_QTNT value < 0.2 }
+					}
+					modifier = {#_|0.5x|
+						factor = 2
+						check_variable = { which = z_pr_var_plnt_man_QTNT value < 0.5 }
+					}
+				}
+				
+				#_[人力+25]
+				change_variable = { which = z_pr_var_plnt_man value = 25 }
+				change_variable = { which = z_pr_var_plnt_pop_man value = 25 }
+				z_pr_eft_plnt_man_mig_done_debug = yes		#_[迁移完成debug]
+				#_[人力-25]
+				prevprev = {
+					subtract_variable = { which = z_pr_var_plnt_man value = 25 }
+					subtract_variable = { which = z_pr_var_plnt_pop_man value = 25 }
+					z_pr_eft_plnt_man_mig_done_debug = yes		#_[迁移完成debug]
+				}
+		
+				##_[当前人力]
+				planet = { z_pr_eft_plnt_mod_plnt_man_debug = yes }
+			}
+		}
+		
+		##_[当前人力]
+		planet = { z_pr_eft_plnt_mod_plnt_man_debug = yes }
+	}
+}
+###_[人力迁入5]
+z_pr_eft_plnt_man_immig_5 = {
+	if = {
+		limit = {
+			always = yes
+		#	is_colony = yes
+		#	is_under_colonization = no
+		#	is_variable_set = z_pr_var_plnt_man
+		}
+		owner = {
+			random_owned_planet = {#_<迁出plnt>
+				limit = {
+					is_colony = yes
+					is_under_colonization = no
+					is_variable_set = z_pr_var_plnt_man
+					check_variable = { which = z_pr_var_plnt_man value > 10 }
+					is_variable_set = z_pr_var_plnt_man_QTNT
+					check_variable = { which = z_pr_var_plnt_man_QTNT value > 1.19 }
+				}
+				weights = {
+					base = 1
+					modifier = {#_|4x|
+						factor = 2
+						check_variable = { which = z_pr_var_plnt_man_QTNT value > 4 }
+					}
+					modifier = {#_|3x|
+						factor = 2
+						check_variable = { which = z_pr_var_plnt_man_QTNT value > 3 }
+					}
+					modifier = {#_|2x|
+						factor = 2
+						check_variable = { which = z_pr_var_plnt_man_QTNT value > 2 }
+					}
+				}
+				
+				#_[人力-5]
+				subtract_variable = { which = z_pr_var_plnt_man value = 5 }
+				subtract_variable = { which = z_pr_var_plnt_pop_man value = 5 }
+				z_pr_eft_plnt_man_mig_done_debug = yes		#_[迁移完成debug]
+				#_[人力+5]
+				prevprev = {
+					change_variable = { which = z_pr_var_plnt_man value = 5 }
+					change_variable = { which = z_pr_var_plnt_pop_man value = 5 }
+					z_pr_eft_plnt_man_mig_done_debug = yes		#_[迁移完成debug]
+				}
+		
+				##_[当前人力]
+				planet = { z_pr_eft_plnt_mod_plnt_man_debug = yes }
+			}
+		}
+		
+		##_[当前人力]
+		planet = { z_pr_eft_plnt_mod_plnt_man_debug = yes }
+	}
+}
+###_[人力迁入25]
+z_pr_eft_plnt_man_immig_25 = {
+	if = {
+		limit = {
+			always = yes
+		#	is_colony = yes
+		#	is_under_colonization = no
+		#	is_variable_set = z_pr_var_plnt_man
+		}
+		owner = {
+			random_owned_planet = {#_<迁出plnt>
+				limit = {
+					is_colony = yes
+					is_under_colonization = no
+					is_variable_set = z_pr_var_plnt_man
+					check_variable = { which = z_pr_var_plnt_man value > 30 }
+					is_variable_set = z_pr_var_plnt_man_QTNT
+					check_variable = { which = z_pr_var_plnt_man_QTNT value > 1.19 }
+				}
+				weights = {
+					base = 1
+					modifier = {#_|4x|
+						factor = 2
+						check_variable = { which = z_pr_var_plnt_man_QTNT value > 4 }
+					}
+					modifier = {#_|3x|
+						factor = 2
+						check_variable = { which = z_pr_var_plnt_man_QTNT value > 3 }
+					}
+					modifier = {#_|2x|
+						factor = 2
+						check_variable = { which = z_pr_var_plnt_man_QTNT value > 2 }
+					}
+				}
+				
+				#_[人力-25]
+				subtract_variable = { which = z_pr_var_plnt_man value = 25 }
+				subtract_variable = { which = z_pr_var_plnt_pop_man value = 25 }
+				z_pr_eft_plnt_man_mig_done_debug = yes		#_[迁移完成debug]
+				#_[人力+25]
+				prevprev = {
+					change_variable = { which = z_pr_var_plnt_man value = 25 }
+					change_variable = { which = z_pr_var_plnt_pop_man value = 25 }
+					z_pr_eft_plnt_man_mig_done_debug = yes		#_[迁移完成debug]
+				}
+		
+				##_[当前人力]
+				planet = { z_pr_eft_plnt_mod_plnt_man_debug = yes }
+			}
+		}
+		
+		##_[当前人力]
+		planet = { z_pr_eft_plnt_mod_plnt_man_debug = yes }
+	}
+}
+###_[人力迁入_满]
+z_pr_eft_plnt_man_immig_full = {
+	if = {
+		limit = {
+			always = yes
+		#	is_colony = yes
+		#	is_under_colonization = no
+		#	is_variable_set = z_pr_var_plnt_man
+		#	is_variable_set = z_pr_var_plnt_man_QTNT
+		#	check_variable = { which = z_pr_var_plnt_man_QTNT value < 1 }
+		}
+		owner = {
+			set_country_flag = z_pr_flg_cntr_man_mig_cycle	#_|迁满循环|init
+			while = {
+				limit = {
+					has_country_flag = z_pr_flg_cntr_man_mig_cycle	#_|迁满循环|
+					prev = { check_variable = { which = z_pr_var_plnt_man_QTNT value < 1 } }	#_|人力未满|
+				}
+				
+				remove_country_flag = z_pr_flg_cntr_man_mig_cycle	#_|迁满循环|clear
+				random_owned_planet = {#_<迁出plnt>
+					limit = {
+						is_colony = yes
+						is_under_colonization = no
+						is_variable_set = z_pr_var_plnt_man
+						check_variable = { which = z_pr_var_plnt_man value > 10 }
+						is_variable_set = z_pr_var_plnt_man_QTNT
+						check_variable = { which = z_pr_var_plnt_man_QTNT value > 1.19 }
+					}
+					weights = {
+						base = 1
+						modifier = {#_|4x|
+							factor = 2
+							check_variable = { which = z_pr_var_plnt_man_QTNT value > 4 }
+						}
+						modifier = {#_|3x|
+							factor = 2
+							check_variable = { which = z_pr_var_plnt_man_QTNT value > 3 }
+						}
+						modifier = {#_|2x|
+							factor = 2
+							check_variable = { which = z_pr_var_plnt_man_QTNT value > 2 }
+						}
+					}
+					
+					#_|10|
+					if = { limit = { check_variable = { which = z_pr_var_plnt_man value > 15 } }
+						subtract_variable = { which = z_pr_var_plnt_man value = 10 }
+						subtract_variable = { which = z_pr_var_plnt_pop_man value = 10 }
+						prevprev = {
+							change_variable = { which = z_pr_var_plnt_man value = 10 }
+							change_variable = { which = z_pr_var_plnt_pop_man value = 10 }
+							
+							z_pr_eft_plnt_man_mig_done_debug = yes		#_[迁移完成debug]
+						}
+					}
+					#_|5|
+					else_if = { limit = { check_variable = { which = z_pr_var_plnt_man value > 10 } }
+						subtract_variable = { which = z_pr_var_plnt_man value = 5 }
+						subtract_variable = { which = z_pr_var_plnt_pop_man value = 5 }
+						prevprev = {
+							change_variable = { which = z_pr_var_plnt_man value = 5 }
+							change_variable = { which = z_pr_var_plnt_pop_man value = 5 }
+							
+							z_pr_eft_plnt_man_mig_done_debug = yes		#_[迁移完成debug]
+						}
+					}
+					
+					#_[迁移完成debug]
+					z_pr_eft_plnt_man_mig_done_debug = yes
+					prev = { set_country_flag = z_pr_flg_cntr_man_mig_cycle }	#_|迁满循环|继续
+		
+					##_[当前人力]
+					planet = { z_pr_eft_plnt_mod_plnt_man_debug = yes }
+				}
+			}
+		}
+		
+		##_[当前人力]
+		planet = { z_pr_eft_plnt_mod_plnt_man_debug = yes }
+	}
+}
+
+
+###_[pr国家人力迁入]
+z_pr_eft_cntr_man_mig = {
+	every_owned_planet = {
+		limit = {
+			is_colony = yes
+			is_under_colonization = no
+			is_variable_set = z_pr_var_plnt_man
+			is_variable_set = z_pr_var_plnt_man_QTNT
+			check_variable = { which = z_pr_var_plnt_man_QTNT value < 1 }
+		}
+		prev = {
+			random_owned_planet = {
+				limit = {
+					NOT = { has_planet_flag = z_pr_flg_plnt_man_mig_counted }	#_|检测隔离|
+					is_colony = yes
+					is_under_colonization = no
+					is_variable_set = z_pr_var_plnt_man
+					check_variable = { which = z_pr_var_plnt_man value > 10 }
+					is_variable_set = z_pr_var_plnt_man_QTNT
+					check_variable = { which = z_pr_var_plnt_man_QTNT value > 1.19 }
+				}
+				weights = {
+					base = 1
+					modifier = {#_|4x|
+						factor = 2
+						check_variable = { which = z_pr_var_plnt_man_QTNT value > 4 }
+					}
+					modifier = {#_|3x|
+						factor = 2
+						check_variable = { which = z_pr_var_plnt_man_QTNT value > 3 }
+					}
+					modifier = {#_|2x|
+						factor = 2
+						check_variable = { which = z_pr_var_plnt_man_QTNT value > 2 }
+					}
+				}
+				#_|10|
+				if = { limit = { check_variable = { which = z_pr_var_plnt_man value > 15 } }
+					subtract_variable = { which = z_pr_var_plnt_man value = 10 }
+					subtract_variable = { which = z_pr_var_plnt_pop_man value = 10 }
+					prevprev = {
+						change_variable = { which = z_pr_var_plnt_man value = 10 }
+						change_variable = { which = z_pr_var_plnt_pop_man value = 10 }
+						
+						z_pr_eft_plnt_man_mig_done_debug = yes		#_[迁移完成debug]
+						set_planet_flag = z_pr_flg_plnt_man_mig_counted		#_|检测隔离|
+					}
+				}
+				#_|5|
+				else = {
+					subtract_variable = { which = z_pr_var_plnt_man value = 5 }
+					subtract_variable = { which = z_pr_var_plnt_pop_man value = 5 }
+					prevprev = {
+						change_variable = { which = z_pr_var_plnt_man value = 5 }
+						change_variable = { which = z_pr_var_plnt_pop_man value = 5 }
+						
+						z_pr_eft_plnt_man_mig_done_debug = yes		#_[迁移完成debug]
+						set_planet_flag = z_pr_flg_plnt_man_mig_counted		#_|检测隔离|
+					}
+				}
+				
+				#_[迁移完成debug]
+				z_pr_eft_plnt_man_mig_done_debug = yes
+			}
+		}
+		
+		##_[当前人力]
+		planet = { z_pr_eft_plnt_mod_plnt_man_debug = yes }
+	}
+	#_|检测隔离|clear
+	every_owned_planet = {
+		limit = { has_planet_flag = z_pr_flg_plnt_man_mig_counted }
+		remove_planet_flag = z_pr_flg_plnt_man_mig_counted
+		
+		##_[当前人力]
+		planet = { z_pr_eft_plnt_mod_plnt_man_debug = yes }
+	}
+}
+
+
+
+
+###_[后补岗位]	###########################################################
+z_pr_eft_plnt_reserved_job_switch = {
+	#_[普通]
+	if = { limit = { exists = owner owner = { is_gestalt = no } }
+		if = {#_对立
+			limit = {
+				OR = {
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_10
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_25
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_50
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_100
+				}
+			}
+			remove_modifier = z_pr_mod_plnt_reserved_job_gestalt_10
+			remove_modifier = z_pr_mod_plnt_reserved_job_gestalt_25
+			remove_modifier = z_pr_mod_plnt_reserved_job_gestalt_50
+			remove_modifier = z_pr_mod_plnt_reserved_job_gestalt_100
+		}
+		#_无
+		else_if = {
+			limit = {
+				NOR = {
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_10
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_25
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_50
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_100
+				}
+			}
+			add_modifier = { modifier = z_pr_mod_plnt_reserved_job_regular_10 days = -1 }
+		}
+		#_10
+		else_if = { limit = { has_modifier = z_pr_mod_plnt_reserved_job_regular_10 }
+			remove_modifier = z_pr_mod_plnt_reserved_job_regular_10
+			add_modifier = { modifier = z_pr_mod_plnt_reserved_job_regular_25 days = -1 }
+		}
+		#_25
+		else_if = { limit = { has_modifier = z_pr_mod_plnt_reserved_job_regular_25 }
+			remove_modifier = z_pr_mod_plnt_reserved_job_regular_25
+			add_modifier = { modifier = z_pr_mod_plnt_reserved_job_regular_50 days = -1 }
+		}
+		#_50
+		else_if = { limit = { has_modifier = z_pr_mod_plnt_reserved_job_regular_50 }
+			remove_modifier = z_pr_mod_plnt_reserved_job_regular_50
+			add_modifier = { modifier = z_pr_mod_plnt_reserved_job_regular_100 days = -1 }
+		}
+		#_100
+		else_if = { limit = { has_modifier = z_pr_mod_plnt_reserved_job_regular_100 }
+			remove_modifier = z_pr_mod_plnt_reserved_job_regular_100
+		}
+	}
+	
+	#_[格式塔]
+	else_if = { limit = { exists = owner owner = { is_gestalt = yes } }
+		if = {#_对立
+			limit = {
+				OR = {
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_10
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_25
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_50
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_100
+				}
+			}
+			remove_modifier = z_pr_mod_plnt_reserved_job_regular_10
+			remove_modifier = z_pr_mod_plnt_reserved_job_regular_25
+			remove_modifier = z_pr_mod_plnt_reserved_job_regular_50
+			remove_modifier = z_pr_mod_plnt_reserved_job_regular_100
+		}
+		else_if = {#_无
+			limit = {
+				NOR = {
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_10
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_25
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_50
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_100
+				}
+			}
+			add_modifier = { modifier = z_pr_mod_plnt_reserved_job_gestalt_10 days = -1 }
+		}
+		#_10
+		else_if = { limit = { has_modifier = z_pr_mod_plnt_reserved_job_gestalt_10 }
+			remove_modifier = z_pr_mod_plnt_reserved_job_gestalt_10
+			add_modifier = { modifier = z_pr_mod_plnt_reserved_job_gestalt_25 days = -1 }
+		}
+		#_25
+		else_if = { limit = { has_modifier = z_pr_mod_plnt_reserved_job_gestalt_25 }
+			remove_modifier = z_pr_mod_plnt_reserved_job_gestalt_25
+			add_modifier = { modifier = z_pr_mod_plnt_reserved_job_gestalt_50 days = -1 }
+		}
+		#_50
+		else_if = { limit = { has_modifier = z_pr_mod_plnt_reserved_job_gestalt_50 }
+			remove_modifier = z_pr_mod_plnt_reserved_job_gestalt_50
+			add_modifier = { modifier = z_pr_mod_plnt_reserved_job_gestalt_100 days = -1 }
+		}
+		#_100
+		else_if = { limit = { has_modifier = z_pr_mod_plnt_reserved_job_gestalt_100 }
+			remove_modifier = z_pr_mod_plnt_reserved_job_gestalt_100
+		}
+	}
+}
+

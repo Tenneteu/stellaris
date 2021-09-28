@@ -1,0 +1,87 @@
+###_	production_revolution 核心-建筑槽max检测	[id=101]	####################################################################
+namespace = z_pr_core
+#_[建筑槽max检测]
+#_[添加全槽mod]
+#_[建筑槽var]
+
+
+
+
+###_[建筑槽max检测]		检测plnt创建/添加全槽mod/建筑槽var
+country_event = {
+	id = z_pr_core.101
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		#_[npc0正常]
+		if = {
+			limit = { exists = event_target:z_fw_tgt_global_event }
+			capital_scope = {
+				solar_system = {
+					spawn_planet = {#_[检测plnt创建]
+						class = pc_continental
+						location = prev
+						orbit_distance_offset = 190
+						orbit_angle_offset = 127
+						size = 25
+						init_effect = {
+							#_[建筑槽max_var]
+							planet_event = { id = z_pr_core.1012 days = 0 }	#_[添加全槽mod]
+							planet_event = { id = z_pr_core.1013 days = 1 }	#_[建筑槽var]
+						}
+					}
+				}
+			}
+		}
+		#_[npc0失踪]
+		else = { country_event = { id = z_pr_core.101 days = 3 } }
+	}
+}
+
+
+#_[添加全槽mod]
+planet_event = {
+	id = z_pr_core.1012
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		create_colony = { owner = solar_system.space_owner }
+		add_modifier = { modifier = z_pr_mod_bldn_max_checker days = 3 }
+	}
+}
+
+#_[建筑槽var]
+#_var		z_pr_var_npc0_bldn_max
+planet_event = {
+	id = z_pr_core.1013
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = { exists = event_target:z_fw_tgt_global_event }
+			# MIN
+			if = { limit = { free_building_slots < 12 }
+				event_target:z_fw_tgt_global_event = { set_variable = { which = z_pr_var_npc0_bldn_max value = 12 } }
+			}
+			# 12~108
+			else_if = { limit = { free_building_slots <= 108 }
+				event_target:z_fw_tgt_global_event = { set_variable = { which = z_pr_var_npc0_bldn_max value = prev.trigger:free_building_slots } }
+			}
+			# MAX
+			else = {
+				event_target:z_fw_tgt_global_event = { set_variable = { which = z_pr_var_npc0_bldn_max value = 108 } }
+			}
+		}
+		
+		### 触发测试 ###
+	#	random_country = { limit = { is_ai = no }		country_event = { id = pr_test_popup.16 } }
+
+		remove_modifier = z_pr_mod_bldn_max_checker
+		every_owned_pop = { kill_pop = yes }
+		destroy_colony = yes
+		remove_planet = yes
+	}
+}

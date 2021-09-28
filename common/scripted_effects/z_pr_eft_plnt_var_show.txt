@@ -1,0 +1,246 @@
+#_[UI当前效率]
+#_[UI当前增长率]
+
+#_[旧_当前人力]
+#_[旧_当前效率]
+#_[旧_当前增长率]
+
+
+
+
+###_[UI当前效率]	init	/MIN/参数计算	/clear
+z_pr_eft_plnt_var_show_debug_bonus = {
+	if = { limit = { is_variable_set = z_pr_var_plnt_ultilization }
+		set_variable = { which = PR_var_show_ultilization value = z_pr_var_plnt_ultilization }
+		multiply_variable = { which = PR_var_show_ultilization value = 100 }
+		round_variable_to_closest = { which = PR_var_show_ultilization value = 1 }
+	}
+}	
+
+###_[UI当前增长率]	init/正负号		/零/参数计算	/clear
+z_pr_eft_plnt_var_show_debug_growth = {
+	if = { limit = { is_variable_set = z_pr_var_plnt_man_growth }
+		set_variable = { which = PR_var_show_growth value = z_pr_var_plnt_man_growth }
+		round_variable_to_closest = { which = PR_var_show_growth value = 0.01 }
+	}
+}
+
+
+
+
+###_[旧_当前人力]	init	/MIN/MAX/参数计算	/clear
+OTDT_eft_plnt_var_show_debug_man = {
+	if = { limit = { is_variable_set = z_pr_var_plnt_man }
+		## init
+		set_variable = { which = TEMP_var_plnt_man value = z_pr_var_plnt_man }	#_|余量|
+		
+		## MIN
+		if = { limit = { check_variable = { which = TEMP_var_plnt_man value <= 0 } }
+			if = { limit = { is_variable_set = PR_var_show_man_10000 }		clear_variable = PR_var_show_man_10000 }
+			if = { limit = { is_variable_set = PR_var_show_man_1000 }		clear_variable = PR_var_show_man_1000 }
+			if = { limit = { is_variable_set = PR_var_show_man_100 }		clear_variable = PR_var_show_man_100 }
+			if = { limit = { is_variable_set = PR_var_show_man_10 }			clear_variable = PR_var_show_man_10 }
+			set_variable = { which = PR_var_show_man_1 value = 0 }
+		}
+		## MAX
+		else_if = { limit = { check_variable = { which = TEMP_var_plnt_man value >= 99999 } }
+			set_variable = { which = PR_var_show_man_10000 value = 9 }
+			set_variable = { which = PR_var_show_man_1000 value = 9 }
+			set_variable = { which = PR_var_show_man_100 value = 9 }
+			set_variable = { which = PR_var_show_man_10 value = 9 }
+			set_variable = { which = PR_var_show_man_1 value = 9 }
+		}
+		## 参数计算
+		else_if = { limit = { always = yes }
+			# 万
+			set_variable = { which = PR_var_show_man_10000 value = TEMP_var_plnt_man }
+			divide_variable = { which = PR_var_show_man_10000 value = 10000 }
+			floor_variable = PR_var_show_man_10000	#_向下取整
+			if = {#_[定位最高数位]
+				limit = { check_variable = { which = PR_var_show_man_10000 value >= 1 } }
+				set_planet_flag = FLAG_var_show_counted	#_|已定位|
+				set_variable = { which = TEMP_var_cal value = PR_var_show_man_10000 }
+				multiply_variable = { which = TEMP_var_cal value = 10000 }
+				subtract_variable = { which = TEMP_var_plnt_man value = TEMP_var_cal }#_[余量debug]
+			}
+			else_if = { limit = { NOT = { has_planet_flag = FLAG_var_show_counted } }
+				clear_variable = PR_var_show_man_10000
+			}
+			# 千
+			set_variable = { which = PR_var_show_man_1000 value = TEMP_var_plnt_man }
+			divide_variable = { which = PR_var_show_man_1000 value = 1000 }
+			floor_variable = PR_var_show_man_1000	#_向下取整
+			if = {#_[定位最高数位]
+				limit = { check_variable = { which = PR_var_show_man_1000 value >= 1 } }
+				set_planet_flag = FLAG_var_show_counted	#_|已定位|
+				set_variable = { which = TEMP_var_cal value = PR_var_show_man_1000 }
+				multiply_variable = { which = TEMP_var_cal value = 1000 }
+				subtract_variable = { which = TEMP_var_plnt_man value = TEMP_var_cal }#_[余量debug]
+			}
+			else_if = { limit = { NOT = { has_planet_flag = FLAG_var_show_counted } }
+				clear_variable = PR_var_show_man_1000
+			}
+			# 百
+			set_variable = { which = PR_var_show_man_100 value = TEMP_var_plnt_man }
+			divide_variable = { which = PR_var_show_man_100 value = 100 }
+			floor_variable = PR_var_show_man_100	#_向下取整
+			if = {#_[定位最高数位]
+				limit = { check_variable = { which = PR_var_show_man_100 value >= 1 } }
+				set_planet_flag = FLAG_var_show_counted	#_|已定位|
+				set_variable = { which = TEMP_var_cal value = PR_var_show_man_100 }
+				multiply_variable = { which = TEMP_var_cal value = 100 }
+				subtract_variable = { which = TEMP_var_plnt_man value = TEMP_var_cal }#_[余量debug]
+			}
+			else_if = { limit = { NOT = { has_planet_flag = FLAG_var_show_counted } }
+				clear_variable = PR_var_show_man_100
+			}
+			# 十
+			set_variable = { which = PR_var_show_man_10 value = TEMP_var_plnt_man }
+			divide_variable = { which = PR_var_show_man_10 value = 10 }
+			floor_variable = PR_var_show_man_10	#_向下取整
+			if = {#_[定位最高数位]
+				limit = { check_variable = { which = PR_var_show_man_10 value >= 1 } }
+				set_planet_flag = FLAG_var_show_counted	#_|已定位|
+				set_variable = { which = TEMP_var_cal value = PR_var_show_man_10 }
+				multiply_variable = { which = TEMP_var_cal value = 10 }
+				subtract_variable = { which = TEMP_var_plnt_man value = TEMP_var_cal }#_[余量debug]
+			}
+			else_if = { limit = { NOT = { has_planet_flag = FLAG_var_show_counted } }
+				clear_variable = PR_var_show_man_10
+			}
+			# 个
+			set_variable = { which = PR_var_show_man_1 value = TEMP_var_plnt_man }
+		}
+		
+		## clear
+		remove_planet_flag = FLAG_var_show_counted
+		clear_variable = TEMP_var_plnt_man
+		if = { limit = { is_variable_set = TEMP_var_cal }			clear_variable = TEMP_var_cal }
+	}
+}
+
+###_[旧_当前效率]	init	/MIN/参数计算	/clear
+OTDT_eft_plnt_var_show_debug_bonus = {
+	if = { limit = { is_variable_set = z_pr_var_plnt_ultilization }
+		## init
+		set_variable = { which = TEMP_var_plnt_bonus value = z_pr_var_plnt_ultilization }	#_|余量|
+		multiply_variable = { which = TEMP_var_plnt_bonus value = 100 }	#_|余量|
+		
+		## MIN
+		if = { limit = { check_variable = { which = TEMP_var_plnt_bonus value <= 0 } }
+			if = { limit = { is_variable_set = PR_var_show_bonus_100 }		clear_variable = PR_var_show_bonus_100 }
+			if = { limit = { is_variable_set = PR_var_show_bonus_10 }		clear_variable = PR_var_show_bonus_10 }
+			set_variable = { which = PR_var_show_bonus_1 value = 0 }
+		}
+		## 参数计算		个/十/百
+		else_if = { limit = { always = yes }
+			# 百
+			set_variable = { which = PR_var_show_bonus_100 value = TEMP_var_plnt_bonus }
+			divide_variable = { which = PR_var_show_bonus_100 value = 100 }
+			floor_variable = PR_var_show_bonus_100	#_向下取整
+			if = {#_[定位最高数位]
+				limit = { check_variable = { which = PR_var_show_bonus_100 value >= 1 } }
+				set_planet_flag = FLAG_var_show_counted	#_|已定位|
+				set_variable = { which = TEMP_var_cal value = PR_var_show_bonus_100 }
+				multiply_variable = { which = TEMP_var_cal value = 100 }
+				subtract_variable = { which = TEMP_var_plnt_bonus value = TEMP_var_cal }#_[余量debug]
+			}
+			else_if = { limit = { NOT = { has_planet_flag = FLAG_var_show_counted } }
+				clear_variable = PR_var_show_bonus_100
+			}
+			# 十
+			set_variable = { which = PR_var_show_bonus_10 value = TEMP_var_plnt_bonus }
+			divide_variable = { which = PR_var_show_bonus_10 value = 10 }
+			floor_variable = PR_var_show_bonus_10	#_向下取整
+			if = {#_[定位最高数位]
+				limit = { check_variable = { which = PR_var_show_bonus_10 value >= 1 } }
+				set_planet_flag = FLAG_var_show_counted	#_|已定位|
+				set_variable = { which = TEMP_var_cal value = PR_var_show_bonus_10 }
+				multiply_variable = { which = TEMP_var_cal value = 10 }
+				subtract_variable = { which = TEMP_var_plnt_bonus value = TEMP_var_cal }#_[余量debug]
+			}
+			else_if = { limit = { NOT = { has_planet_flag = FLAG_var_show_counted } }
+				clear_variable = PR_var_show_bonus_10
+			}
+			# 个
+			set_variable = { which = PR_var_show_bonus_1 value = TEMP_var_plnt_bonus }
+			floor_variable = PR_var_show_bonus_1	#_向下取整
+		}
+		
+		## clear
+		remove_planet_flag = FLAG_var_show_counted
+		clear_variable = TEMP_var_plnt_bonus
+		if = { limit = { is_variable_set = TEMP_var_cal }			clear_variable = TEMP_var_cal }
+	}
+}	
+
+#_[旧_当前增长率]	init/正负号		/零/参数计算	/clear
+OTDT_eft_plnt_var_show_debug_growth = {
+	if = { limit = { is_variable_set = z_pr_var_plnt_man_growth }
+		## init
+		remove_planet_flag = PR_flg_show_growth_add
+		remove_planet_flag = PR_flg_show_growth_minus
+		set_variable = { which = TEMP_var_plnt_growth value = z_pr_var_plnt_man_growth }	#_|余量|
+		multiply_variable = { which = TEMP_var_plnt_growth value = 100 }	#_百分比化
+		
+		## 正负号
+		if = { limit = { check_variable = { which = TEMP_var_plnt_growth value > 0 } }
+			set_planet_flag = PR_flg_show_growth_add
+		}
+		else_if = { limit = { check_variable = { which = TEMP_var_plnt_growth value < 0 } }
+			set_planet_flag = PR_flg_show_growth_minus
+			multiply_variable = { which = TEMP_var_plnt_growth value = -1 }	#_正负转化
+		}
+		
+		## 零
+		if = { limit = { check_variable = { which = TEMP_var_plnt_growth value = 0 } }
+			if = { limit = { is_variable_set = PR_var_show_growth_10 }		clear_variable = PR_var_show_growth_10 }
+			if = { limit = { is_variable_set = PR_var_show_growth_1 }		clear_variable = PR_var_show_growth_1 }
+			if = { limit = { is_variable_set = PR_var_show_growth_01 }		clear_variable = PR_var_show_growth_01 }
+			if = { limit = { is_variable_set = PR_var_show_growth_001 }		clear_variable = PR_var_show_growth_001 }
+		}
+		## 参数计算		十/个/厘/分
+		else_if = { limit = { always = yes }
+			# 十
+			set_variable = { which = PR_var_show_growth_10 value = TEMP_var_plnt_growth }
+			divide_variable = { which = PR_var_show_growth_10 value = 1000 }
+			floor_variable = PR_var_show_growth_10	#_向下取整
+			if = {#_[定位最高数位]
+				limit = { check_variable = { which = PR_var_show_growth_10 value >= 1 } }
+				set_variable = { which = TEMP_var_cal value = PR_var_show_growth_10 }
+				multiply_variable = { which = TEMP_var_cal value = 1000 }
+				subtract_variable = { which = TEMP_var_plnt_growth value = TEMP_var_cal }#_[余量debug]
+			}
+			else_if = { limit = { check_variable = { which = PR_var_show_growth_10 value < 1 } }
+				clear_variable = PR_var_show_growth_10
+			}
+			# 个
+			set_variable = { which = PR_var_show_growth_1 value = TEMP_var_plnt_growth }
+			divide_variable = { which = PR_var_show_growth_1 value = 100 }
+			floor_variable = PR_var_show_growth_1	#_向下取整
+			if = {#_[定位最高数位]
+				limit = { check_variable = { which = PR_var_show_growth_1 value >= 1 } }
+				set_variable = { which = TEMP_var_cal value = PR_var_show_growth_1 }
+				multiply_variable = { which = TEMP_var_cal value = 100 }
+				subtract_variable = { which = TEMP_var_plnt_growth value = TEMP_var_cal }#_[余量debug]
+			}
+			# 厘
+			set_variable = { which = PR_var_show_growth_01 value = TEMP_var_plnt_growth }
+			divide_variable = { which = PR_var_show_growth_01 value = 10 }
+			floor_variable = PR_var_show_growth_01	#_向下取整
+			if = {#_[定位最高数位]
+				limit = { check_variable = { which = PR_var_show_growth_01 value >= 1 } }
+				set_variable = { which = TEMP_var_cal value = PR_var_show_growth_01 }
+				multiply_variable = { which = TEMP_var_cal value = 10 }
+				subtract_variable = { which = TEMP_var_plnt_growth value = TEMP_var_cal }#_[余量debug]
+			}
+			# 分
+			set_variable = { which = PR_var_show_growth_001 value = TEMP_var_plnt_growth }
+			floor_variable = PR_var_show_growth_001	#_向下取整
+		}
+		
+		## clear
+		clear_variable = TEMP_var_plnt_growth
+		if = { limit = { is_variable_set = TEMP_var_cal }			clear_variable = TEMP_var_cal }
+	}
+}

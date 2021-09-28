@@ -1,0 +1,54 @@
+###_	production revolution post	###########################################################
+
+
+
+
+res_plnt_man  = {
+	tradable = no
+	max = 100
+	fixed_max_amount = yes
+	visibility_prerequisite = { always = yes }
+	ai_weight = { weight = 0 }
+}
+res_plnt_bonus  = {
+	tradable = no
+	max = 100
+	fixed_max_amount = yes
+	visibility_prerequisite = { always = yes }
+	ai_weight = { weight = 0 }
+}
+
+z_pr_res_post  = {
+	tradable = no
+#	max = 200000
+#	fixed_max_amount = yes
+	visibility_prerequisite = { always = yes }
+	ai_weight = { weight = 0 }
+}
+
+z_pr_res_navy  = {
+	tradable = no
+	visibility_prerequisite = { always = yes }
+	ai_weight = { weight = 0 }
+}
+
+z_pr_res_admin  = {
+	tradable = no
+	visibility_prerequisite = { always = yes }
+	ai_weight = { weight = 0 }
+}
+
+z_pr_res_guard  = {
+	tradable = no
+	visibility_prerequisite = { always = yes }
+	ai_weight = { weight = 0 }
+}
+
+
+
+#_[企业支持]
+z_pr_res_co  = {
+	tradable = no
+	visibility_prerequisite = { always = yes }
+	ai_weight = { weight = 0 }
+}

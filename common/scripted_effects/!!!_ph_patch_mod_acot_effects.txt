@@ -1,0 +1,2164 @@
+#_|z无视|
+
+
+
+
+###_[ACOT岗位debug]
+#_/acot_00_standard_jobs.txt		
+#_/acot_01_arcane_jobs.txt			acot_dimesiona_traveler/acot_dimesiona_traveler_drone	未采用
+z_pr_eft_plnt_job_debug_mod_Acot = {
+
+	##_<acot_00_standard_jobs>
+	if = { limit = { check_modifier_value = { modifier = job_PR_check_ACOT_add value = -1 } }	#_|修正激活|	has_global_flag = z_pr_patch_installed_mod_ACOT
+
+		##_[acot_overlord]			|ruler/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = acot_overlord VALUE = 500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = acot_overlord VALUE = 500 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = acot_overlord }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[planet_modifier]
+			#_[planet_crime_add]
+			pr_job_modifier_basic = { MOD = planet_crime_add VALUE = -10}
+			pr_job_modifier_tally = { MOD = planet_crime_add }
+			#_[planet_stability_add]
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 50}
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+			#_[planet_amenities_add]
+			pr_job_modifier_basic = { MOD = planet_amenities_add VALUE = 50}
+			pr_job_modifier_tally = { MOD = planet_amenities_add }
+			#_[trade_value_add]
+			pr_job_modifier_basic = { MOD = trade_value_add VALUE = 50}
+			pr_job_modifier_tally = { MOD = trade_value_add }
+			##_[country_modifier]
+			#_[country_admin_cap_add]
+			pr_job_modifier_basic = { MOD = country_admin_cap_add VALUE = 50}
+			pr_job_modifier_tally = { MOD = country_admin_cap_add }
+			
+			##_[produces]	physics_research/engineering_research/society_research/unity/influence
+			#_[physics_research]
+			pr_job_resources_basic = { OPT = produces RES = physics_research VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=physics_research
+				CAT=ruler
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = physics_research }
+			#_[engineering_research]
+			pr_job_resources_basic = { OPT = produces RES = engineering_research VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=ruler
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+			#_[society_research]
+			pr_job_resources_basic = { OPT = produces RES = society_research VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=ruler
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=ruler
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+			#_[influence]
+			pr_job_resources_basic = { OPT = produces RES = influence VALUE = 0.2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=influence
+				CAT=ruler
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = influence }
+		}
+
+		##_[acot_overseer]			|ruler/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = acot_overseer VALUE = 1500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = acot_overseer VALUE = 1500 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = acot_overseer }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[planet_modifier]
+			#_[planet_stability_add]
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 10}
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+			#_[planet_amenities_add]
+			pr_job_modifier_basic = { MOD = planet_amenities_add VALUE = 10}
+			pr_job_modifier_tally = { MOD = planet_amenities_add }
+			#_[trade_value_add]
+			pr_job_modifier_basic = { MOD = trade_value_add VALUE = 10}
+			pr_job_modifier_tally = { MOD = trade_value_add }
+			##_[country_modifier]
+			#_[country_admin_cap_add]
+			pr_job_modifier_basic = { MOD = country_admin_cap_add VALUE = 10}
+			pr_job_modifier_tally = { MOD = country_admin_cap_add }
+			
+			##_[produces]	unity
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 10 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=ruler
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+		}
+
+		##_[acot_overlord_droid]			|complex_drone/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = acot_overlord_droid VALUE = 500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = acot_overlord_droid VALUE = 500 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = acot_overlord_droid }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[planet_modifier]
+			#_[planet_crime_add]
+			pr_job_modifier_basic = { MOD = planet_crime_no_happiness_add VALUE = -10}
+			pr_job_modifier_tally = { MOD = planet_crime_no_happiness_add }
+			#_[planet_stability_add]
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 50}
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+			#_[planet_amenities_add]
+			pr_job_modifier_basic = { MOD = planet_amenities_no_happiness_add VALUE = 50}
+			pr_job_modifier_tally = { MOD = planet_amenities_no_happiness_add }
+			##_[country_modifier]
+			#_[country_admin_cap_add]
+			pr_job_modifier_basic = { MOD = country_admin_cap_add VALUE = 50}
+			pr_job_modifier_tally = { MOD = country_admin_cap_add }
+			
+			##_[produces]	physics_research/engineering_research/society_research/unity/influence
+			#_[physics_research]
+			pr_job_resources_basic = { OPT = produces RES = physics_research VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=physics_research
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = physics_research }
+			#_[engineering_research]
+			pr_job_resources_basic = { OPT = produces RES = engineering_research VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+			#_[society_research]
+			pr_job_resources_basic = { OPT = produces RES = society_research VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+			#_[influence]
+			pr_job_resources_basic = { OPT = produces RES = influence VALUE = 0.2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=influence
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = influence }
+		}
+
+		##_[acot_overseer_droid]			|complex_drone/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = acot_overseer_droid VALUE = 1500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = acot_overseer_droid VALUE = 1500 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = acot_overseer_droid }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[planet_modifier]
+			#_[planet_stability_add]
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 10}
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+			#_[planet_amenities_add]
+			pr_job_modifier_basic = { MOD = planet_amenities_no_happiness_add VALUE = 10}
+			pr_job_modifier_tally = { MOD = planet_amenities_no_happiness_add }
+			##_[country_modifier]
+			#_[country_admin_cap_add]
+			pr_job_modifier_basic = { MOD = country_admin_cap_add VALUE = 10}
+			pr_job_modifier_tally = { MOD = country_admin_cap_add }
+			
+			##_[produces]	unity
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 10 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+		}
+
+		##_[acot_overlord_drone]			|complex_drone/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = acot_overlord_drone VALUE = 500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = acot_overlord_drone VALUE = 500 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = acot_overlord_drone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[planet_modifier]
+			#_[planet_crime_add]
+			pr_job_modifier_basic = { MOD = planet_crime_no_happiness_add VALUE = -10}
+			pr_job_modifier_tally = { MOD = planet_crime_no_happiness_add }
+			#_[planet_stability_add]
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 50}
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+			#_[planet_amenities_add]
+			pr_job_modifier_basic = { MOD = planet_amenities_no_happiness_add VALUE = 50}
+			pr_job_modifier_tally = { MOD = planet_amenities_no_happiness_add }
+			##_[country_modifier]
+			#_[country_admin_cap_add]
+			pr_job_modifier_basic = { MOD = country_admin_cap_add VALUE = 50}
+			pr_job_modifier_tally = { MOD = country_admin_cap_add }
+			
+			##_[produces]	physics_research/engineering_research/society_research/unity/influence
+			#_[physics_research]
+			pr_job_resources_basic = { OPT = produces RES = physics_research VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=physics_research
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = physics_research }
+			#_[engineering_research]
+			pr_job_resources_basic = { OPT = produces RES = engineering_research VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+			#_[society_research]
+			pr_job_resources_basic = { OPT = produces RES = society_research VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+			#_[influence]
+			pr_job_resources_basic = { OPT = produces RES = influence VALUE = 0.2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=influence
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = influence }
+		}
+
+		##_[acot_overseer_drone]			|complex_drone/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = acot_overseer_drone VALUE = 1500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = acot_overseer_drone VALUE = 1500 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = acot_overseer_drone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[planet_modifier]
+			#_[planet_stability_add]
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 10}
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+			#_[planet_amenities_add]
+			pr_job_modifier_basic = { MOD = planet_amenities_no_happiness_add VALUE = 10}
+			pr_job_modifier_tally = { MOD = planet_amenities_no_happiness_add }
+			##_[country_modifier]
+			#_[country_admin_cap_add]
+			pr_job_modifier_basic = { MOD = country_admin_cap_add VALUE = 10}
+			pr_job_modifier_tally = { MOD = country_admin_cap_add }
+			
+			##_[produces]	unity
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 10 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+		}
+
+
+		##_[acot_apothecary]			|specialist/planet_doctors*|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_apothecary VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_apothecary VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_apothecary }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[planet_modifier]
+			#_[planet_amenities_add]
+			pr_job_modifier_basic = { MOD = planet_amenities_add VALUE = 10}
+			pr_job_modifier_tally = { MOD = planet_amenities_add }
+			#_[pop_growth_speed]
+			pr_job_modifier_basic = { MOD = pop_growth_speed VALUE = 0.5}
+			pr_job_modifier_tally = { MOD = pop_growth_speed }
+			
+			##_[produces]	
+			#_[society_research]
+			pr_job_resources_basic = { OPT = produces RES = society_research VALUE = 10 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=specialist
+				IDS=planet_doctors	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+			##_[upkeep]
+			#_[consumer_goods]
+			pr_job_resources_basic = { OPT = upkeep RES = consumer_goods VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_doctors	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = consumer_goods }
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=specialist
+				IDS=planet_doctors	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+		}
+
+		##_[acot_broodmother]			|complex_drone/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_broodmother VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_broodmother VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_broodmother }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[planet_modifier]
+			#_[planet_amenities_no_happiness_add]
+			pr_job_modifier_basic = { MOD = planet_amenities_no_happiness_add VALUE = 5}
+			pr_job_modifier_tally = { MOD = planet_amenities_no_happiness_add }
+			#_[pop_growth_speed]
+			pr_job_modifier_basic = { MOD = pop_growth_speed VALUE = 1}
+			pr_job_modifier_tally = { MOD = pop_growth_speed }
+			
+			##_[produces]	
+			#_[food]
+			pr_job_resources_basic = { OPT = produces RES = food VALUE = 10 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=food
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = food }
+			
+			##_[upkeep]
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 0 }
+			pr_job_resources_ratio = { OPT=upkeep RES=sr_dark_matter RATIO=spcs_v_organic WEIGHT=2 }	#_|资源比例bonus|	非lithoid
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 0 }
+			pr_job_resources_ratio = { OPT=upkeep RES=acot_sr_dark_energy RATIO=spcs_v_lithoid WEIGHT=1 }	#_|资源比例bonus|
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			
+			#_[food]
+			pr_job_resources_basic = { OPT = upkeep RES = food VALUE = 0 }
+			pr_job_resources_ratio = { OPT=upkeep RES=food RATIO=spcs_v_lithoid WEIGHT=2 }	#_|资源比例bonus|
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=food
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = food }
+		}
+
+		##_[acot_roboman]			|specialist/planet_pop_assemblers|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_roboman VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_roboman VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_roboman }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[planet_modifier]
+			#_[planet_pop_assembly_add]
+			pr_job_modifier_basic = { MOD = planet_pop_assembly_add VALUE = 10}
+			pr_job_modifier_tally = { MOD = planet_pop_assembly_add }
+			
+			##_[upkeep]
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 5 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_pop_assemblers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 5 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=specialist
+				IDS=planet_pop_assemblers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+		}
+
+		##_[acot_robodrone]			|complex_drone/planet_pop_assemblers|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_robodrone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_robodrone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_robodrone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[planet_modifier]
+			#_[planet_amenities_no_happiness_add]
+			pr_job_modifier_basic = { MOD = planet_amenities_no_happiness_add VALUE = 10}
+			pr_job_modifier_tally = { MOD = planet_amenities_no_happiness_add }
+			#_[planet_pop_assembly_add]
+			pr_job_modifier_basic = { MOD = planet_pop_assembly_add VALUE = 10}
+			pr_job_modifier_tally = { MOD = planet_pop_assembly_add }
+			
+			##_[upkeep]
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 5 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=complex_drone
+				IDS=planet_pop_assemblers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 5 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=complex_drone
+				IDS=planet_pop_assemblers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+		}
+
+
+		##_[acot_dark_energy_man]			|specialist/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_dark_energy_man VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_dark_energy_man VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_dark_energy_man }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = produces RES = acot_sr_dark_energy VALUE = 2 }
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_acot_enigmopolis }
+				pr_job_resources_trigger = { OPT = produces RES = acot_sr_dark_energy VALUE = 10 }
+			}
+			if = {#_|星球类型|
+				limit = {
+					OR = {
+						is_planet_class = pc_dark_fractured
+						is_planet_class = pc_dark_fractured_ae
+					}
+				}
+				pr_job_resources_trigger = { OPT = produces RES = acot_sr_dark_energy VALUE = 2 }
+			}
+			if = {#_|星球特性|
+				limit = { has_modifier = acot_modifier_supercharged_pylon }
+				pr_job_resources_trigger = { OPT = produces RES = acot_sr_dark_energy VALUE = 2 }
+			}
+			if = {#_|星球类型+星球特性|
+				limit = {
+					OR = {
+						is_planet_class = pc_dark_fractured
+						is_planet_class = pc_dark_fractured_ae
+					}
+					has_modifier = acot_modifier_supercharged_pylon
+				}
+				pr_job_resources_trigger = { OPT = produces RES = acot_sr_dark_energy VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=acot_sr_dark_energy
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = acot_sr_dark_energy }
+			
+			##_[upkeep]
+			#_[energy]
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 0 }
+			if = {#_|星球特性|
+				limit = { has_modifier = acot_modifier_supercharged_pylon }
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 8 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+		}
+
+		##_[acot_dark_energy_drone]			|complex_drone/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_dark_energy_drone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_dark_energy_drone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_dark_energy_drone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	acot_sr_dark_energy
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = produces RES = acot_sr_dark_energy VALUE = 2 }
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_acot_enigmopolis }
+				pr_job_resources_trigger = { OPT = produces RES = acot_sr_dark_energy VALUE = 10 }
+			}
+			if = {#_|星球类型|
+				limit = {
+					OR = {
+						is_planet_class = pc_dark_fractured
+						is_planet_class = pc_dark_fractured_ae
+					}
+				}
+				pr_job_resources_trigger = { OPT = produces RES = acot_sr_dark_energy VALUE = 2 }
+			}
+			if = {#_|星球特性|
+				limit = { has_modifier = acot_modifier_supercharged_pylon }
+				pr_job_resources_trigger = { OPT = produces RES = acot_sr_dark_energy VALUE = 2 }
+			}
+			if = {#_|星球类型|
+				limit = {
+					OR = {
+						is_planet_class = pc_dark_fractured
+						is_planet_class = pc_dark_fractured_ae
+					}
+					has_modifier = acot_modifier_supercharged_pylon
+				}
+				pr_job_resources_trigger = { OPT = produces RES = acot_sr_dark_energy VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=acot_sr_dark_energy
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = acot_sr_dark_energy }
+			
+			##_[upkeep]
+			#_[energy]
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 0 }
+			if = {#_|星球特性|
+				limit = { has_modifier = acot_modifier_supercharged_pylon }
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 8 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+		}
+
+		##_[acot_dark_matter_man]			|specialist/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_dark_matter_man VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_dark_matter_man VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_dark_matter_man }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = produces RES = sr_dark_matter VALUE = 2 }
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_acot_enigmopolis }
+				pr_job_resources_trigger = { OPT = produces RES = sr_dark_matter VALUE = 10 }
+			}
+			if = {#_|星球类型|
+				limit = {
+					OR = {
+						is_planet_class = pc_dark_fractured
+						is_planet_class = pc_dark_fractured_ae
+					}
+				}
+				pr_job_resources_trigger = { OPT = produces RES = sr_dark_matter VALUE = 2 }
+			}
+			if = {
+				limit = { has_modifier = acot_modifier_supercharged_pylon }
+				pr_job_resources_trigger = { OPT = produces RES = sr_dark_matter VALUE = 2 }
+			}
+			if = {#_|星球类型|
+				limit = {
+					OR = {
+						is_planet_class = pc_dark_fractured
+						is_planet_class = pc_dark_fractured_ae
+					}
+					has_modifier = acot_modifier_supercharged_pylon
+				}
+				pr_job_resources_trigger = { OPT = produces RES = sr_dark_matter VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_dark_matter }
+			
+			##_[upkeep]
+			#_[minerals]
+			pr_job_resources_basic = { OPT = upkeep RES = minerals VALUE = 0 }
+			if = {#_|星球特性|
+				limit = { has_modifier = acot_modifier_supercharged_pylon }
+				pr_job_resources_trigger = { OPT = upkeep RES = minerals VALUE = 8 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=minerals
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = minerals }
+		}
+
+		##_[acot_dark_matter_drone]			|complex_drone/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_dark_matter_drone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_dark_matter_drone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_dark_matter_drone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = produces RES = sr_dark_matter VALUE = 2 }
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_acot_enigmopolis }
+				pr_job_resources_trigger = { OPT = produces RES = sr_dark_matter VALUE = 10 }
+			}
+			if = {#_|星球类型|
+				limit = {
+					OR = {
+						is_planet_class = pc_dark_fractured
+						is_planet_class = pc_dark_fractured_ae
+					}
+				}
+				pr_job_resources_trigger = { OPT = produces RES = sr_dark_matter VALUE = 2 }
+			}
+			if = {#_|星球特性|
+				limit = { has_modifier = acot_modifier_supercharged_pylon }
+				pr_job_resources_trigger = { OPT = produces RES = sr_dark_matter VALUE = 2 }
+			}
+			if = {#_|星球类型|
+				limit = {
+					OR = {
+						is_planet_class = pc_dark_fractured
+						is_planet_class = pc_dark_fractured_ae
+					}
+					has_modifier = acot_modifier_supercharged_pylon
+				}
+				pr_job_resources_trigger = { OPT = produces RES = sr_dark_matter VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_dark_matter
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_dark_matter }
+			
+			##_[upkeep]
+			#_[minerals]
+			pr_job_resources_basic = { OPT = upkeep RES = minerals VALUE = 0 }
+			if = {#_|星球特性|
+				limit = { has_modifier = acot_modifier_supercharged_pylon }
+				pr_job_resources_trigger = { OPT = upkeep RES = minerals VALUE = 8 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=minerals
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = minerals }
+		}
+
+		##_[acot_voidsphere_forgeman]			|specialist/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_voidsphere_forgeman VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_voidsphere_forgeman VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_voidsphere_forgeman }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = produces RES = sr_dark_matter VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_dark_matter }
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = produces RES = acot_sr_dark_energy VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=acot_sr_dark_energy
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = acot_sr_dark_energy }
+			
+		}
+
+		##_[acot_voidsphere_forgedrone]			|complex_drone/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_voidsphere_forgedrone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_voidsphere_forgedrone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_voidsphere_forgedrone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = produces RES = sr_dark_matter VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_dark_matter
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_dark_matter }
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = produces RES = acot_sr_dark_energy VALUE = 50 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=acot_sr_dark_energy
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = acot_sr_dark_energy }
+			
+		}
+
+
+		##_[acot_mineralman]			|specialist/planet_miners|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_mineralman VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_mineralman VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_mineralman }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[minerals]
+			pr_job_resources_basic = { OPT = produces RES = minerals VALUE = 20 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=minerals
+				CAT=specialist
+				IDS=planet_miners_minerals	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = minerals }
+			
+			##_[upkeep]
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_miners	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_mineraldrone]			|complex_drone/planet_miners|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_mineraldrone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_mineraldrone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_mineraldrone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[minerals]
+			pr_job_resources_basic = { OPT = produces RES = minerals VALUE = 20 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=minerals
+				CAT=complex_drone
+				IDS=planet_miners_minerals	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = minerals }
+			
+			##_[upkeep]
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=complex_drone
+				IDS=planet_miners	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_alloyman]			|specialist/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_alloyman VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_alloyman VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_alloyman }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[alloys]
+			pr_job_resources_basic = { OPT = produces RES = alloys VALUE = 20 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=alloys
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = alloys }
+			##_[upkeep]
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_alloydrone]			|complex_drone/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_alloydrone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_alloydrone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_alloydrone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[alloys]
+			pr_job_resources_basic = { OPT = produces RES = alloys VALUE = 20 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=alloys
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = alloys }
+			##_[upkeep]
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_energyman]			|specialist/planet_technician|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_energyman VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_energyman VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_energyman }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[energy]
+			pr_job_resources_basic = { OPT = produces RES = energy VALUE = 20 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=energy
+				CAT=specialist
+				IDS=planet_technician_energy	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = energy }
+			
+			##_[upkeep]
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=specialist
+				IDS=planet_technician	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			
+		}
+
+		##_[acot_energydrone]			|complex_drone/planet_technician|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_energydrone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_energydrone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_energydrone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[energy]
+			pr_job_resources_basic = { OPT = produces RES = energy VALUE = 20 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=energy
+				CAT=complex_drone
+				IDS=planet_technician_energy	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = energy }
+			
+			##_[upkeep]
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=complex_drone
+				IDS=planet_technician	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			
+		}
+
+		##_[acot_foodman]			|specialist/planet_farmers|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_foodman VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_foodman VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_foodman }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[food]
+			pr_job_resources_basic = { OPT = produces RES = food VALUE = 20 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=food
+				CAT=specialist
+				IDS=planet_farmers_food	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = food }
+			
+			##_[upkeep]
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 0.5 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=specialist
+				IDS=planet_farmers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 0.5 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_farmers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_fooddrone]			|complex_drone/planet_farmers|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_fooddrone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_fooddrone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_fooddrone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[food]
+			pr_job_resources_basic = { OPT = produces RES = food VALUE = 20 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=food
+				CAT=complex_drone
+				IDS=planet_farmers_food	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = food }
+			
+			##_[upkeep]
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 0.5 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=complex_drone
+				IDS=planet_farmers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 0.5 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=complex_drone
+				IDS=planet_farmers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_transmute_man]			|specialist/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_transmute_man VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_transmute_man VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_transmute_man }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[rare_crystals]
+			pr_job_resources_basic = { OPT = produces RES = rare_crystals VALUE = 4 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=rare_crystals
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = rare_crystals }
+			#_[volatile_motes]
+			pr_job_resources_basic = { OPT = produces RES = volatile_motes VALUE = 4 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=volatile_motes
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = volatile_motes }
+			#_[exotic_gases]
+			pr_job_resources_basic = { OPT = produces RES = exotic_gases VALUE = 4 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=exotic_gases
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = exotic_gases }
+			#_[sr_living_metal]
+			pr_job_resources_basic = { OPT = produces RES = sr_living_metal VALUE = 0 }
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_mine_living_metal } }
+				pr_job_resources_trigger = { OPT = produces RES = sr_living_metal VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_living_metal
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_living_metal }
+			#_[nanites]
+			pr_job_resources_basic = { OPT = produces RES = nanites VALUE = 0 }
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_nanite_transmutation } }
+				pr_job_resources_trigger = { OPT = produces RES = nanites VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=nanites
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = nanites }
+			#_[sr_zro]
+			pr_job_resources_basic = { OPT = produces RES = sr_zro VALUE = 0 }
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_mine_zro } }
+				pr_job_resources_trigger = { OPT = produces RES = sr_zro VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_zro
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_zro }
+			##_[upkeep]
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 3 }
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_mine_living_metal } }
+				pr_job_resources_trigger = { OPT = upkeep RES = sr_dark_matter VALUE = 1 }
+			}
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_nanite_transmutation } }
+				pr_job_resources_trigger = { OPT = upkeep RES = sr_dark_matter VALUE = 1 }
+			}
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_mine_zro } }
+				pr_job_resources_trigger = { OPT = upkeep RES = sr_dark_matter VALUE = 1 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 3 }
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_mine_living_metal } }
+				pr_job_resources_trigger = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 1 }
+			}
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_nanite_transmutation } }
+				pr_job_resources_trigger = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 1 }
+			}
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_mine_zro } }
+				pr_job_resources_trigger = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 1 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			
+		}
+
+		##_[acot_transmute_drone]			|complex_drone/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_transmute_drone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_transmute_drone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_transmute_drone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[rare_crystals]
+			pr_job_resources_basic = { OPT = produces RES = rare_crystals VALUE = 4 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=rare_crystals
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = rare_crystals }
+			#_[volatile_motes]
+			pr_job_resources_basic = { OPT = produces RES = volatile_motes VALUE = 4 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=volatile_motes
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = volatile_motes }
+			#_[exotic_gases]
+			pr_job_resources_basic = { OPT = produces RES = exotic_gases VALUE = 4 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=exotic_gases
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = exotic_gases }
+			#_[sr_living_metal]
+			pr_job_resources_basic = { OPT = produces RES = sr_living_metal VALUE = 0 }
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_mine_living_metal } }
+				pr_job_resources_trigger = { OPT = produces RES = sr_living_metal VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_living_metal
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_living_metal }
+			#_[nanites]
+			pr_job_resources_basic = { OPT = produces RES = nanites VALUE = 0 }
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_nanite_transmutation } }
+				pr_job_resources_trigger = { OPT = produces RES = nanites VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=nanites
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = nanites }
+			#_[sr_zro]
+			pr_job_resources_basic = { OPT = produces RES = sr_zro VALUE = 0 }
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_mine_zro } }
+				pr_job_resources_trigger = { OPT = produces RES = sr_zro VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_zro
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_zro }
+			##_[upkeep]
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 3 }
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_mine_living_metal } }
+				pr_job_resources_trigger = { OPT = upkeep RES = sr_dark_matter VALUE = 1 }
+			}
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_nanite_transmutation } }
+				pr_job_resources_trigger = { OPT = upkeep RES = sr_dark_matter VALUE = 1 }
+			}
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_mine_zro } }
+				pr_job_resources_trigger = { OPT = upkeep RES = sr_dark_matter VALUE = 1 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 3 }
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_mine_living_metal } }
+				pr_job_resources_trigger = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 1 }
+			}
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_nanite_transmutation } }
+				pr_job_resources_trigger = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 1 }
+			}
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_technology = tech_mine_zro } }
+				pr_job_resources_trigger = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 1 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			
+		}
+		
+		##_[acot_artisan]			|specialist/planet_artisans|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_artisan VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_artisan VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_artisan }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[consumer_goods]
+			pr_job_resources_basic = { OPT = produces RES = consumer_goods VALUE = 20 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = consumer_goods }
+			##_[upkeep]
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_entertainer]			|specialist/planet_artisans|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_entertainer VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_entertainer VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_entertainer }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 20 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=specialist
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+			##_[upkeep]
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=specialist
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_entertainer_drone]			|complex_drone/planet_artisans|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_entertainer_drone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_entertainer_drone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_entertainer_drone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 20 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=complex_drone
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+			##_[upkeep]
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=complex_drone
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=complex_drone
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_voidsphere_siloman]			|specialist/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_voidsphere_siloman VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_voidsphere_siloman VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_voidsphere_siloman }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[minerals]
+			pr_job_resources_basic = { OPT = produces RES = minerals VALUE = 500 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=minerals
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = minerals }
+			#_[energy]
+			pr_job_resources_basic = { OPT = produces RES = energy VALUE = 500 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=energy
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = energy }
+			#_[alloys]
+			pr_job_resources_basic = { OPT = produces RES = alloys VALUE = 500 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=alloys
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = alloys }
+			#_[food]
+			pr_job_resources_basic = { OPT = produces RES = food VALUE = 500 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=food
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = food }
+			#_[consumer_goods]
+			pr_job_resources_basic = { OPT = produces RES = consumer_goods VALUE = 500 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = consumer_goods }
+			##_[upkeep]
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_voidsphere_silodrone]			|complex_drone/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_voidsphere_silodrone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_voidsphere_silodrone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_voidsphere_silodrone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[minerals]
+			pr_job_resources_basic = { OPT = produces RES = minerals VALUE = 500 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=minerals
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = minerals }
+			#_[energy]
+			pr_job_resources_basic = { OPT = produces RES = energy VALUE = 500 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=energy
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = energy }
+			#_[alloys]
+			pr_job_resources_basic = { OPT = produces RES = alloys VALUE = 500 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=alloys
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = alloys }
+			#_[food]
+			pr_job_resources_basic = { OPT = produces RES = food VALUE = 500 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=food
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = food }
+			#_[consumer_goods]
+			pr_job_resources_basic = { OPT = produces RES = consumer_goods VALUE = 500 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=consumer_goods
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = consumer_goods }
+			##_[upkeep]
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+
+		##_[acot_researcher]			|specialist/planet_researchers|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_researcher VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_researcher VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_researcher }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[physics_research]
+			pr_job_resources_basic = { OPT = produces RES = physics_research VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=physics_research
+				CAT=specialist
+				IDS=planet_researchers_physics_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = physics_research }
+			#_[engineering_research]
+			pr_job_resources_basic = { OPT = produces RES = engineering_research VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=specialist
+				IDS=planet_researchers_engineering_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+			#_[society_research]
+			pr_job_resources_basic = { OPT = produces RES = society_research VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=specialist
+				IDS=planet_researchers_society_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+			
+			##_[upkeep]
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_researcher_drone]			|complex_drone/planet_researchers|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_researcher_drone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_researcher_drone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_researcher_drone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[physics_research]
+			pr_job_resources_basic = { OPT = produces RES = physics_research VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=physics_research
+				CAT=complex_drone
+				IDS=planet_researchers_physics_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = physics_research }
+			#_[engineering_research]
+			pr_job_resources_basic = { OPT = produces RES = engineering_research VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=complex_drone
+				IDS=planet_researchers_engineering_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+			#_[society_research]
+			pr_job_resources_basic = { OPT = produces RES = society_research VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=complex_drone
+				IDS=planet_researchers_society_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+			
+			##_[upkeep]
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=complex_drone
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=complex_drone
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_priest]			|specialist/planet_priests|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_priest VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_priest VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_priest }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+
+			##_[修正统计]
+			#_|planet_amenities_add|
+			pr_job_modifier_basic = { MOD = planet_amenities_add VALUE = 30 }
+			pr_job_modifier_ratio = { MOD=planet_amenities_add RATIO=trait_v_amenities WEIGHT=5 }	#_|修正比例bonus|
+			pr_job_modifier_tally = { MOD = planet_amenities_add }
+			
+			##_[produces]	
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=specialist
+				IDS=planet_priests	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+			#_[society_research]
+			pr_job_resources_basic = { OPT = produces RES = society_research VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=specialist
+				IDS=planet_priests	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+			
+			##_[upkeep]
+			#_[consumer_goods]
+			pr_job_resources_basic = { OPT = upkeep RES = consumer_goods VALUE = 0 }
+			if = {#_|国家类型|
+				limit = { exists = owner owner = { is_regular_empire = yes } }
+				pr_job_resources_trigger = { OPT = upkeep RES = consumer_goods VALUE = 15 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_priests	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = consumer_goods }
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 2.5 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=specialist
+				IDS=planet_priests	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 2.5 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_priests	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_voidsphere_labman]			|specialist/planet_researchers|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_voidsphere_labman VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_voidsphere_labman VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_voidsphere_labman }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[physics_research]
+			pr_job_resources_basic = { OPT = produces RES = physics_research VALUE = 100 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=physics_research
+				CAT=specialist
+				IDS=planet_researchers_physics_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = physics_research }
+			#_[engineering_research]
+			pr_job_resources_basic = { OPT = produces RES = engineering_research VALUE = 100 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=specialist
+				IDS=planet_researchers_engineering_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+			#_[society_research]
+			pr_job_resources_basic = { OPT = produces RES = society_research VALUE = 100 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=specialist
+				IDS=planet_researchers_society_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+			
+			##_[upkeep]
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_voidsphere_labdrone]			|complex_drone/planet_researchers|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_voidsphere_labdrone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_voidsphere_labdrone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_voidsphere_labdrone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[physics_research]
+			pr_job_resources_basic = { OPT = produces RES = physics_research VALUE = 100 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=physics_research
+				CAT=complex_drone
+				IDS=planet_researchers_physics_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = physics_research }
+			#_[engineering_research]
+			pr_job_resources_basic = { OPT = produces RES = engineering_research VALUE = 100 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=complex_drone
+				IDS=planet_researchers_engineering_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+			#_[society_research]
+			pr_job_resources_basic = { OPT = produces RES = society_research VALUE = 100 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=complex_drone
+				IDS=planet_researchers_society_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+			
+			##_[upkeep]
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=complex_drone
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 25 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=complex_drone
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+
+		##_[acot_enforcer]			|specialist/planet_soldiers*|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_enforcer VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_enforcer VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_enforcer }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = country_naval_cap_add VALUE = 20 }
+			pr_job_modifier_tally = { MOD = country_naval_cap_add }
+			pr_job_modifier_basic = { MOD = pop_defense_armies_add VALUE = 0 }
+			if = {#_|星球类型|
+				limit = { 
+					NOR = {
+						is_planet_class = pc_dark_fractured	
+						is_planet_class = pc_dark_fractured_ae
+					}
+				}
+				pr_job_modifier_triggered = { MOD = pop_defense_armies_add VALUE = 20 }
+			}
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured }
+				pr_job_modifier_triggered = { MOD = pop_defense_armies_add VALUE = 10 }
+			}
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured_ae }
+				pr_job_modifier_triggered = { MOD = pop_defense_armies_add VALUE = 20 }
+			}
+			pr_job_modifier_tally = { MOD = pop_defense_armies_add }
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 0 }
+			if = {#_|星球类型|
+				limit = { 
+					NOR = {
+						is_planet_class = pc_dark_fractured	
+						is_planet_class = pc_dark_fractured_ae
+					}
+				}
+				pr_job_modifier_triggered = { MOD = planet_stability_add VALUE = 20 }
+			}
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured }
+				pr_job_modifier_triggered = { MOD = planet_stability_add VALUE = 10 }
+			}
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured_ae }
+				pr_job_modifier_triggered = { MOD = planet_stability_add VALUE = 20 }
+			}
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+			pr_job_modifier_basic = { MOD = planet_crime_add VALUE = 0 }
+			if = {#_|星球类型|
+				limit = { 
+					NOR = {
+						is_planet_class = pc_dark_fractured	
+						is_planet_class = pc_dark_fractured_ae
+					}
+				}
+				pr_job_modifier_triggered = { MOD = planet_crime_add VALUE = -20 }
+			}
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured }
+				pr_job_modifier_triggered = { MOD = planet_crime_add VALUE = -10 }
+			}
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured_ae }
+				pr_job_modifier_triggered = { MOD = planet_crime_add VALUE = -20 }
+			}
+			pr_job_modifier_tally = { MOD = planet_crime_add }
+			
+
+			##_[produces]	
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 20 }
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured	 }
+				pr_job_resources_trigger = { OPT = produces RES = unity VALUE = 10 }
+			}
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured_ae	 }
+				pr_job_resources_trigger = { OPT = produces RES = unity VALUE = 20 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=specialist
+				IDS=planet_soldiers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+			
+			##_[upkeep]
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 0 }
+			if = {#_|星球类型|
+				limit = { NOT = { is_planet_class = pc_dark_fractured_ae } }
+				pr_job_resources_trigger = { OPT = produces RES = unity VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=specialist
+				IDS=planet_soldiers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 0 }
+			if = {#_|星球类型|
+				limit = { NOT = { is_planet_class = pc_dark_fractured_ae } }
+				pr_job_resources_trigger = { OPT = produces RES = unity VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_soldiers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_enforcer_drone]			|complex_drone/planet_soldiers*|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_enforcer_drone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_enforcer_drone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_enforcer_drone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = country_naval_cap_add VALUE = 20 }
+			pr_job_modifier_tally = { MOD = country_naval_cap_add }
+			pr_job_modifier_basic = { MOD = pop_defense_armies_add VALUE = 0 }
+			if = {#_|星球类型|
+				limit = { 
+					NOR = {
+						is_planet_class = pc_dark_fractured	
+						is_planet_class = pc_dark_fractured_ae
+					}
+				}
+				pr_job_modifier_triggered = { MOD = pop_defense_armies_add VALUE = 20 }
+			}
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured }
+				pr_job_modifier_triggered = { MOD = pop_defense_armies_add VALUE = 10 }
+			}
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured_ae }
+				pr_job_modifier_triggered = { MOD = pop_defense_armies_add VALUE = 20 }
+			}
+			pr_job_modifier_tally = { MOD = pop_defense_armies_add }
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 0 }
+			if = {#_|星球类型|
+				limit = { 
+					NOR = {
+						is_planet_class = pc_dark_fractured	
+						is_planet_class = pc_dark_fractured_ae
+					}
+				}
+				pr_job_modifier_triggered = { MOD = planet_stability_add VALUE = 20 }
+			}
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured }
+				pr_job_modifier_triggered = { MOD = planet_stability_add VALUE = 10 }
+			}
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured_ae }
+				pr_job_modifier_triggered = { MOD = planet_stability_add VALUE = 20 }
+			}
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+			pr_job_modifier_basic = { MOD = planet_crime_no_happiness_add VALUE = 0 }
+			if = {#_|星球类型|
+				limit = { 
+					NOR = {
+						is_planet_class = pc_dark_fractured	
+						is_planet_class = pc_dark_fractured_ae
+					}
+				}
+				pr_job_modifier_triggered = { MOD = planet_crime_no_happiness_add VALUE = -20 }
+			}
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured }
+				pr_job_modifier_triggered = { MOD = planet_crime_no_happiness_add VALUE = -10 }
+			}
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured_ae }
+				pr_job_modifier_triggered = { MOD = planet_crime_no_happiness_add VALUE = -20 }
+			}
+			pr_job_modifier_tally = { MOD = planet_crime_no_happiness_add }
+			
+
+			##_[produces]	
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 20 }
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured }
+				pr_job_resources_trigger = { OPT = produces RES = unity VALUE = 10 }
+			}
+			if = {#_|星球类型|
+				limit = { is_planet_class = pc_dark_fractured_ae }
+				pr_job_resources_trigger = { OPT = produces RES = unity VALUE = 20 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=complex_drone
+				IDS=planet_soldiers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+			
+			##_[upkeep]
+			#_[acot_sr_dark_energy]
+			pr_job_resources_basic = { OPT = upkeep RES = acot_sr_dark_energy VALUE = 0 }
+			if = {#_|星球类型|
+				limit = { NOT = { is_planet_class = pc_dark_fractured_ae } }
+				pr_job_resources_trigger = { OPT = produces RES = unity VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=acot_sr_dark_energy
+				CAT=complex_drone
+				IDS=planet_soldiers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = acot_sr_dark_energy }
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = upkeep RES = sr_dark_matter VALUE = 0 }
+			if = {#_|星球类型|
+				limit = { NOT = { is_planet_class = pc_dark_fractured_ae } }
+				pr_job_resources_trigger = { OPT = produces RES = unity VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=sr_dark_matter
+				CAT=complex_drone
+				IDS=planet_soldiers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = sr_dark_matter }
+			
+		}
+
+		##_[acot_giga_fortress_operator]			|specialist/|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_giga_fortress_operator VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_giga_fortress_operator VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_giga_fortress_operator }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = country_naval_cap_add VALUE = 1000 }
+			pr_job_modifier_tally = { MOD = country_naval_cap_add }
+			pr_job_modifier_basic = { MOD = pop_defense_armies_add VALUE = 10 }
+			pr_job_modifier_tally = { MOD = pop_defense_armies_add }
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 400 }
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+			pr_job_modifier_basic = { MOD = planet_crime_add VALUE = -400 }
+			pr_job_modifier_tally = { MOD = planet_crime_add }
+			
+		}
+
+		##_[acot_giga_fortress_operator_ancient]			|precursor/|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_giga_fortress_operator_ancient VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_giga_fortress_operator_ancient VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_giga_fortress_operator_ancient }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = country_naval_cap_add VALUE = 1000 }
+			pr_job_modifier_tally = { MOD = country_naval_cap_add }
+			pr_job_modifier_basic = { MOD = pop_defense_armies_add VALUE = 10 }
+			pr_job_modifier_tally = { MOD = pop_defense_armies_add }
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 400 }
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+			pr_job_modifier_basic = { MOD = planet_crime_add VALUE = -400 }
+			pr_job_modifier_tally = { MOD = planet_crime_add }
+			
+		}
+
+		##_[acot_giga_fortress_operator_mentat]			|specialist/|		z无视=此岗位禁用
+	#	if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_giga_fortress_operator_mentat VALUE = 1000 } }	#_|岗位统计条件|
+	#		z_pr_eft_plnt_prmt_job_add = { JOB =  acot_giga_fortress_operator_mentat VALUE = 1000 }	#_[add岗位统计]
+	#		z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_giga_fortress_operator_mentat }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+	#		
+	#		##_[修正统计]
+	#		pr_job_modifier_basic = { MOD = country_naval_cap_add VALUE = 1000 }
+	#		pr_job_modifier_tally = { MOD = country_naval_cap_add }
+	#		pr_job_modifier_basic = { MOD = country_command_limit_add VALUE = 200 }
+	#		pr_job_modifier_tally = { MOD = country_command_limit_add }
+	#	}
+
+		##_[acot_giga_fortress_operator_drone]			|complex_drone/|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_giga_fortress_operator_drone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_giga_fortress_operator_drone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_giga_fortress_operator_drone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = country_naval_cap_add VALUE = 400 }
+			pr_job_modifier_tally = { MOD = country_naval_cap_add }
+			pr_job_modifier_basic = { MOD = pop_defense_armies_add VALUE = 40 }
+			pr_job_modifier_tally = { MOD = pop_defense_armies_add }
+			pr_job_modifier_basic = { MOD = planet_crime_add VALUE = -400 }
+			pr_job_modifier_tally = { MOD = planet_crime_add }
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 400 }
+			#_|z无视|无视一个[planet_stability_add+20]
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+		}
+
+
+		##_[acot_stellariteman]			|specialist/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_stellariteman VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_stellariteman VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_stellariteman }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[acot_sr_stellarite]
+			pr_job_resources_basic = { OPT = produces RES = acot_sr_stellarite VALUE = 4 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=acot_sr_stellarite
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = acot_sr_stellarite }
+			
+			##_[upkeep]
+			#_[energy]
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 0 }
+			if = {#_|玩家|
+				limit = { owner = { is_ai = no } }
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 40 }
+			}
+			if = {#_|玩家|
+				limit = { owner = { is_ai = yes } }
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 4 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+		}
+
+		##_[acot_stellaritedrone]			|complex_drone/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB =  acot_stellaritedrone VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB =  acot_stellaritedrone VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB =  acot_stellaritedrone }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produces]	
+			#_[acot_sr_stellarite]
+			pr_job_resources_basic = { OPT = produces RES = acot_sr_stellarite VALUE = 4 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=acot_sr_stellarite
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = acot_sr_stellarite }
+			
+			##_[upkeep]
+			#_[energy]
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 0 }
+			if = {#_|玩家|
+				limit = { owner = { is_ai = no } }
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 40 }
+			}
+			if = {#_|玩家|
+				limit = { owner = { is_ai = yes } }
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 4 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=complex_drone
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+		}
+	}
+}

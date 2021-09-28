@@ -1,0 +1,25 @@
+#_	兼容岗位debug_effect占位符
+#_	注意:你写的effect所在的[文件名]必须是不带!的,这样它就能按照ascii排序覆盖这里的占位符.
+#_	①effect名称必须是"z_pr_eft_plnt_job_debug_mod_$mod名称$"	保持格式统一!
+#_	②写法参照"z_pr_eft_plnt_job_debug_vanilla" 每一个被兼容的[岗位]在地块"z_pr_d_core"必须有相应的[岗位抵消修正],否则无法正确检测参数
+
+
+
+
+###_国产MOD		碧蓝航线dlc/舰R		/星舰少女/灰烬战线		古代帝国/涅槃/终极科技/约战/苍蓝
+###_洋MOD		/ACOT/Giga
+
+z_pr_eft_plnt_job_debug_mod_azl_dlc = {}					#_[碧蓝航线dlc岗位debug]
+z_pr_eft_plnt_job_debug_mod_wsg = {}						#_[舰R岗位debug]
+z_pr_eft_plnt_job_debug_mod_CG = {}							#_[CG岗位debug]
+z_pr_eft_plnt_job_debug_mod_SWGS = {}						#_[星舰少女岗位debug]
+z_pr_eft_plnt_job_debug_mod_adf = {}						#_[灰烬战线岗位debug]
+z_pr_eft_plnt_job_debug_mod_AG = {}							#_[古代帝国岗位debug]
+z_pr_eft_plnt_job_debug_mod_NE = {}							#_[涅槃岗位debug]
+z_pr_eft_plnt_job_debug_mod_ULT = {}						#_[终极科技岗位debug]
+z_pr_eft_plnt_job_debug_mod_NYTO = {}						#_[涅托岗位debug]
+z_pr_eft_plnt_job_debug_mod_DAL = {}						#_[约战岗位debug]
+z_pr_eft_plnt_job_debug_mod_ARP = {}						#_[苍蓝岗位debug]
+
+z_pr_eft_plnt_job_debug_mod_Acot = {}						#_[ACOT岗位debug]
+z_pr_eft_plnt_job_debug_mod_Giga = {}						#_[Giga岗位debug]

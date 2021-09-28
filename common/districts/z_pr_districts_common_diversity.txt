@@ -1,0 +1,1588 @@
+###_z pr 区划	###################################################################################
+@cost_div = 500
+
+#_[草原生态区/荒野能源区/绿洲工业区]
+#_[浅滩生态区/水下能源区/大陆工业区]
+#_[冻原生态区/高地能源区/极寒工业区]
+#_[深渊工业区]
+#_[乐土生态区]
+#_[密集工业区]
+#_[观光区]
+
+
+
+
+###_[草原生态区]	1f(1e/1m)/贸易维护/社会/增长率
+z_pr_dstr_div_savannah = {
+	base_buildtime = 480
+
+	min_for_deposits_on_planet = 1
+	max_for_deposits_on_planet = 15
+
+	show_on_uncolonized = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_savannah = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		from = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	potential = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_savannah = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		exists = owner
+		owner = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	allow = { always = yes }
+
+	conversion_ratio = 1
+	convert_to = {
+	#	z_pr_dstr_div_savannah
+		z_pr_dstr_div_arid
+		z_pr_dstr_div_desert
+		z_pr_dstr_div_tropical
+		z_pr_dstr_div_ocean
+		z_pr_dstr_div_continent
+		z_pr_dstr_div_tundra
+		z_pr_dstr_div_alpine
+		z_pr_dstr_div_arctic
+		z_pr_dstr_div_nuked
+		z_pr_dstr_div_gaia
+		z_pr_dstr_div_sp
+		z_pr_dstr_div_resort
+	}
+
+
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @cost_div
+		}
+		upkeep = {
+			energy = 1
+		}
+	}
+
+	#_[基础]	食物2/生态2
+	planet_modifier = {
+		planet_housing_add = 4
+	}
+	triggered_planet_modifier = {#_有机
+		potential = { exists = owner	owner = { has_technology = tech_tomb_world_adaption		is_machine_empire = no } }
+		planet_pop_assembly_organic_add = 0.5
+		pop_environment_tolerance = 0.01
+	}
+	triggered_planet_modifier = {#_组装
+		potential = { exists = owner	owner = { has_technology = tech_tomb_world_adaption		is_machine_empire = yes } }
+		planet_pop_assembly_add = 0.5
+		pop_environment_tolerance = 0.01
+	}
+	
+	#_[食物]
+	triggered_planet_modifier = {#_石质蜂群
+		potential = {
+			exists = owner
+			owner = { is_hive_empire = yes	is_lithoid_empire = yes }
+		}
+		modifier = {
+			job_agri_drone_add = 1
+			job_mining_drone_add = 2
+			planet_housing_add = 1
+		}
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_hive_empire = yes	is_lithoid_empire = yes }
+		}
+		text = job_agri_drone_effect_desc
+		text = job_mining_drone_effect_desc
+	}
+	triggered_planet_modifier = {#_有机蜂群
+		potential = {
+			exists = owner
+			owner = { is_hive_empire = yes	is_lithoid_empire = no }
+		}
+		modifier = {
+			job_agri_drone_add = 3
+			planet_housing_add = 1
+		}
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_hive_empire = yes	is_lithoid_empire = no }
+		}
+		text = job_agri_drone_effect_desc
+	}
+	triggered_planet_modifier = {#_智械
+		potential = {
+			exists = owner
+			owner = { is_machine_empire = yes }
+		}
+		modifier = {
+			job_agri_drone_add = 1
+			job_technician_drone_add = 1
+		}
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_machine_empire = yes }
+		}
+		text = job_agri_drone_effect_desc
+		text = job_technician_drone_effect_desc
+	}
+	triggered_planet_modifier = {#_石质普通
+		potential = {
+			exists = owner
+			owner = { is_gestalt = no	is_lithoid_empire = yes }
+		}
+		modifier = {
+			job_farmer_add = 1
+			job_miner_add = 1
+		}
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_gestalt = no	is_lithoid_empire = yes }
+		}
+		text = job_farmer_effect_desc
+		text = job_miner_effect_desc
+	}
+	triggered_planet_modifier = {#_有机普通
+		potential = {
+			exists = owner
+			owner = { is_gestalt = no	is_lithoid_empire = no }
+		}
+		modifier = {
+			job_farmer_add = 2
+		}
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_gestalt = no	is_lithoid_empire = no }
+		}
+		text = job_farmer_effect_desc
+	}
+	
+	#_[生态]
+	triggered_planet_modifier = {#_regular
+		potential = {
+			exists = owner
+			owner = { is_regular_empire = yes }
+		}
+		modifier = {
+			job_pr_div_ecologist_add = 2
+		}
+	}
+	triggered_planet_modifier = {#_格式塔
+		potential = {
+			exists = owner
+			owner = { is_gestalt = yes }
+		}
+		modifier = {
+			job_pr_div_eco_drone_add = 2
+		}
+	}
+
+
+	ai_resource_production = {
+		energy = 1
+		minerals = 1
+		food = 1
+		trigger = {
+			always = yes
+		}
+	}
+}
+
+###_[荒野能源区]	1m	/社会/3vm(科技)/管理
+z_pr_dstr_div_arid = {
+	base_buildtime = 480
+
+	min_for_deposits_on_planet = 1
+	max_for_deposits_on_planet = 15
+
+	show_on_uncolonized = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_arid = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		from = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	potential = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_arid = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		exists = owner
+		owner = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	allow = { always = yes }
+
+	conversion_ratio = 1
+	convert_to = {
+		z_pr_dstr_div_savannah
+	#	z_pr_dstr_div_arid
+		z_pr_dstr_div_desert
+		z_pr_dstr_div_tropical
+		z_pr_dstr_div_ocean
+		z_pr_dstr_div_continent
+		z_pr_dstr_div_tundra
+		z_pr_dstr_div_alpine
+		z_pr_dstr_div_arctic
+		z_pr_dstr_div_nuked
+		z_pr_dstr_div_gaia
+		z_pr_dstr_div_sp
+		z_pr_dstr_div_resort
+	}
+	
+	
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @cost_div
+		}
+	}
+	
+	#_[基础]	矿=3/能源管理=1
+	planet_modifier = {
+		planet_housing_add = 4
+	}
+	#_[jobs]
+	triggered_planet_modifier = {
+		potential = { exists = owner	owner = { is_gestalt = no } }
+		job_miner_add = 3
+		job_pr_div_res_admin_add = 1
+		
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner	owner = { is_gestalt = yes } }
+		job_mining_drone_add = 3
+		job_pr_div_res_drone_add = 1
+	}
+
+
+	ai_resource_production = {
+		minerals = 2
+		volatile_motes = 0.2
+		trigger = {
+			always = yes
+		}
+	}
+}
+
+###_[绿洲工业区]	1m	/工业/建筑槽/影响力	/海军/PDF/稳定
+z_pr_dstr_div_desert = {
+	base_buildtime = 480
+
+	min_for_deposits_on_planet = 1
+	max_for_deposits_on_planet = 15
+
+	show_on_uncolonized = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_desert = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		from = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	potential = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_desert = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		exists = owner
+		owner = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	allow = { always = yes }
+
+	conversion_ratio = 1
+	convert_to = {
+		z_pr_dstr_div_savannah
+		z_pr_dstr_div_arid
+	#	z_pr_dstr_div_desert
+		z_pr_dstr_div_tropical
+		z_pr_dstr_div_ocean
+		z_pr_dstr_div_continent
+		z_pr_dstr_div_tundra
+		z_pr_dstr_div_alpine
+		z_pr_dstr_div_arctic
+		z_pr_dstr_div_nuked
+		z_pr_dstr_div_gaia
+		z_pr_dstr_div_sp
+		z_pr_dstr_div_resort
+	}
+
+
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @cost_div
+		}
+		produces = {
+			trigger = { exists = owner	owner = { has_technology = tech_colonization_3 } }
+			influence = 0.1
+		}
+	}
+
+	#_[基础]	1矿/2工业	1军工
+	planet_modifier = {
+		planet_max_buildings_add = 1
+		planet_housing_add = 4
+	}
+	
+	#_[jobs]
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_gestalt = no } }
+		job_miner_add = 1
+		job_pr_div_militia_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_gestalt = yes } }
+		job_mining_drone_add = 1
+		job_pr_div_milit_drone_add = 1
+	}
+	#_[工业]
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_regular_empire = yes } }
+		job_artisan_add = 1
+		job_foundry_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_hive_empire = yes } }
+		job_alloy_drone_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_machine_empire = yes } }
+		job_fabricator_add = 2
+	}
+
+	ai_resource_production = {
+		minerals = 2
+		alloys = 1
+		trigger = {
+			always = yes
+		}
+	}
+}
+
+
+
+
+###_[浅滩生态区]	1f(1e/1m)/贸易维护/工程/增长率
+z_pr_dstr_div_tropical = {
+	base_buildtime = 480
+
+	min_for_deposits_on_planet = 1
+	max_for_deposits_on_planet = 15
+
+	show_on_uncolonized = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_tropical = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		from = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	potential = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_tropical = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		exists = owner
+		owner = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	allow = { always = yes }
+
+	conversion_ratio = 1
+	convert_to = {
+		z_pr_dstr_div_savannah
+		z_pr_dstr_div_arid
+		z_pr_dstr_div_desert
+	#	z_pr_dstr_div_tropical
+		z_pr_dstr_div_ocean
+		z_pr_dstr_div_continent
+		z_pr_dstr_div_tundra
+		z_pr_dstr_div_alpine
+		z_pr_dstr_div_arctic
+		z_pr_dstr_div_nuked
+		z_pr_dstr_div_gaia
+		z_pr_dstr_div_sp
+		z_pr_dstr_div_resort
+	}
+
+
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @cost_div
+		}
+		upkeep = {
+			energy = 1
+		}
+	}
+
+	#_[基础]	食物2/生态2
+	planet_modifier = {
+		planet_housing_add = 4
+	}
+	triggered_planet_modifier = {#_有机
+		potential = { exists = owner	owner = { has_technology = tech_tomb_world_adaption		is_machine_empire = no } }
+		planet_pop_assembly_organic_add = 0.5
+		pop_environment_tolerance = 0.01
+	}
+	triggered_planet_modifier = {#_组装
+		potential = { exists = owner	owner = { has_technology = tech_tomb_world_adaption		is_machine_empire = yes } }
+		planet_pop_assembly_add = 0.5
+		pop_environment_tolerance = 0.01
+	}
+	
+	#_[食物]
+	triggered_planet_modifier = {#_石质蜂群
+		potential = {
+			exists = owner
+			owner = { is_hive_empire = yes	is_lithoid_empire = yes }
+		}
+		modifier = {
+			job_agri_drone_add = 1
+			job_mining_drone_add = 2
+			planet_housing_add = 1
+		}
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_hive_empire = yes	is_lithoid_empire = yes }
+		}
+		text = job_agri_drone_effect_desc
+		text = job_mining_drone_effect_desc
+	}
+	triggered_planet_modifier = {#_有机蜂群
+		potential = {
+			exists = owner
+			owner = { is_hive_empire = yes	is_lithoid_empire = no }
+		}
+		modifier = {
+			job_agri_drone_add = 3
+			planet_housing_add = 1
+		}
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_hive_empire = yes	is_lithoid_empire = no }
+		}
+		text = job_agri_drone_effect_desc
+	}
+	triggered_planet_modifier = {#_智械
+		potential = {
+			exists = owner
+			owner = { is_machine_empire = yes }
+		}
+		modifier = {
+			job_agri_drone_add = 1
+			job_technician_drone_add = 1
+		}
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_machine_empire = yes }
+		}
+		text = job_agri_drone_effect_desc
+		text = job_technician_drone_effect_desc
+	}
+	triggered_planet_modifier = {#_石质普通
+		potential = {
+			exists = owner
+			owner = { is_gestalt = no	is_lithoid_empire = yes }
+		}
+		modifier = {
+			job_farmer_add = 1
+			job_miner_add = 1
+		}
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_gestalt = no	is_lithoid_empire = yes }
+		}
+		text = job_farmer_effect_desc
+		text = job_miner_effect_desc
+	}
+	triggered_planet_modifier = {#_有机普通
+		potential = {
+			exists = owner
+			owner = { is_gestalt = no	is_lithoid_empire = no }
+		}
+		modifier = {
+			job_farmer_add = 2
+		}
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_gestalt = no	is_lithoid_empire = no }
+		}
+		text = job_farmer_effect_desc
+	}
+		
+	#_[生态]
+	triggered_planet_modifier = {#_regular
+		potential = {
+			exists = owner
+			owner = { is_regular_empire = yes }
+		}
+		modifier = {
+			job_pr_div_ecologist_add = 2
+		}
+	}
+	triggered_planet_modifier = {#_格式塔
+		potential = {
+			exists = owner
+			owner = { is_gestalt = yes }
+		}
+		modifier = {
+			job_pr_div_eco_drone_add = 2
+		}
+	}
+
+
+	ai_resource_production = {
+		energy = 1
+		minerals = 1
+		food = 1
+		trigger = {
+			always = yes
+		}
+	}
+}
+
+###_[水下能源区]	1e	/工程/3eg(科技)/管理
+z_pr_dstr_div_ocean = {
+	base_buildtime = 480
+
+	min_for_deposits_on_planet = 1
+	max_for_deposits_on_planet = 15
+
+	show_on_uncolonized = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_ocean = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		from = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	potential = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_ocean = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		exists = owner
+		owner = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	allow = { always = yes }
+
+	conversion_ratio = 1
+	convert_to = {
+		z_pr_dstr_div_savannah
+		z_pr_dstr_div_arid
+		z_pr_dstr_div_desert
+		z_pr_dstr_div_tropical
+	#	z_pr_dstr_div_ocean
+		z_pr_dstr_div_continent
+		z_pr_dstr_div_tundra
+		z_pr_dstr_div_alpine
+		z_pr_dstr_div_arctic
+		z_pr_dstr_div_nuked
+		z_pr_dstr_div_gaia
+		z_pr_dstr_div_sp
+		z_pr_dstr_div_resort
+	}
+	
+	
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @cost_div
+		}
+	}
+	
+	#_[基础]	电=3/能源管理=1
+	planet_modifier = {
+		planet_housing_add = 4
+	}
+	#_[jobs]
+	triggered_planet_modifier = {
+		potential = { exists = owner	owner = { is_gestalt = no } }
+		job_technician_add = 3
+		job_pr_div_res_admin_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner	owner = { is_gestalt = yes } }
+		job_technician_drone_add = 3
+		job_pr_div_res_drone_add = 1
+	}
+	
+
+	ai_resource_production = {
+		minerals = 2
+		exotic_gases = 0.2
+		trigger = {
+			always = yes
+		}
+	}
+}
+
+###_[大陆工业区]	1e	/工业/建筑槽/影响力	/海军/PDF/犯罪
+z_pr_dstr_div_continent = {
+	base_buildtime = 480
+
+	min_for_deposits_on_planet = 1
+	max_for_deposits_on_planet = 15
+
+	show_on_uncolonized = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_continent = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		from = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	potential = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_continent = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		exists = owner
+		owner = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	allow = { always = yes }
+
+	conversion_ratio = 1
+	convert_to = {
+		z_pr_dstr_div_savannah
+		z_pr_dstr_div_arid
+		z_pr_dstr_div_desert
+		z_pr_dstr_div_tropical
+		z_pr_dstr_div_ocean
+	#	z_pr_dstr_div_continent
+		z_pr_dstr_div_tundra
+		z_pr_dstr_div_alpine
+		z_pr_dstr_div_arctic
+		z_pr_dstr_div_nuked
+		z_pr_dstr_div_gaia
+		z_pr_dstr_div_sp
+		z_pr_dstr_div_resort
+	}
+
+
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @cost_div
+		}
+		produces = {
+			trigger = { exists = owner	owner = { has_technology = tech_colonization_3 } }
+			influence = 0.1
+		}
+	}
+
+	#_[基础]	1电/2工业	1军工
+	planet_modifier = {
+		planet_max_buildings_add = 1
+		planet_housing_add = 4
+	}
+	
+	#_[jobs]
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_gestalt = no } }
+		job_technician_add = 1
+		job_pr_div_militia_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_gestalt = yes } }
+		job_technician_drone_add = 1
+		job_pr_div_milit_drone_add = 1
+	}
+	#_[工业]
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_regular_empire = yes } }
+		job_artisan_add = 1
+		job_foundry_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_hive_empire = yes } }
+		job_alloy_drone_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_machine_empire = yes } }
+		job_fabricator_add = 2
+	}
+
+	ai_resource_production = {
+		minerals = 2
+		alloys = 1
+		trigger = {
+			always = yes
+		}
+	}
+}
+
+
+
+
+###_[冻原生态区]	1f(1e/1m)/贸易维护/物理/增长率
+z_pr_dstr_div_tundra = {
+	base_buildtime = 480
+
+	min_for_deposits_on_planet = 1
+	max_for_deposits_on_planet = 15
+
+	show_on_uncolonized = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_tundra = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		from = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	potential = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_tundra = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		exists = owner
+		owner = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	allow = { always = yes }
+
+	conversion_ratio = 1
+	convert_to = {
+		z_pr_dstr_div_savannah
+		z_pr_dstr_div_arid
+		z_pr_dstr_div_desert
+		z_pr_dstr_div_tropical
+		z_pr_dstr_div_ocean
+		z_pr_dstr_div_continent
+	#	z_pr_dstr_div_tundra
+		z_pr_dstr_div_alpine
+		z_pr_dstr_div_arctic
+		z_pr_dstr_div_nuked
+		z_pr_dstr_div_gaia
+		z_pr_dstr_div_sp
+		z_pr_dstr_div_resort
+	}
+
+
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @cost_div
+		}
+		upkeep = {
+			energy = 1
+		}
+	}
+
+	#_[基础]	食物2/生态2
+	planet_modifier = {
+		planet_housing_add = 4
+	}
+	triggered_planet_modifier = {#_有机
+		potential = { exists = owner	owner = { has_technology = tech_tomb_world_adaption		is_machine_empire = no } }
+		planet_pop_assembly_organic_add = 0.5
+		pop_environment_tolerance = 0.01
+	}
+	triggered_planet_modifier = {#_组装
+		potential = { exists = owner	owner = { has_technology = tech_tomb_world_adaption		is_machine_empire = yes } }
+		planet_pop_assembly_add = 0.5
+		pop_environment_tolerance = 0.01
+	}
+	
+	#_[食物]
+	triggered_planet_modifier = {#_石质蜂群
+		potential = {
+			exists = owner
+			owner = { is_hive_empire = yes	is_lithoid_empire = yes }
+		}
+		modifier = {
+			job_agri_drone_add = 1
+			job_mining_drone_add = 2
+			planet_housing_add = 1
+		}
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_hive_empire = yes	is_lithoid_empire = yes }
+		}
+		text = job_agri_drone_effect_desc
+		text = job_mining_drone_effect_desc
+	}
+	triggered_planet_modifier = {#_有机蜂群
+		potential = {
+			exists = owner
+			owner = { is_hive_empire = yes	is_lithoid_empire = no }
+		}
+		modifier = {
+			job_agri_drone_add = 3
+			planet_housing_add = 1
+		}
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_hive_empire = yes	is_lithoid_empire = no }
+		}
+		text = job_agri_drone_effect_desc
+	}
+	triggered_planet_modifier = {#_智械
+		potential = {
+			exists = owner
+			owner = { is_machine_empire = yes }
+		}
+		modifier = {
+			job_agri_drone_add = 1
+			job_technician_drone_add = 1
+		}
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_machine_empire = yes }
+		}
+		text = job_agri_drone_effect_desc
+		text = job_technician_drone_effect_desc
+	}
+	triggered_planet_modifier = {#_石质普通
+		potential = {
+			exists = owner
+			owner = { is_gestalt = no	is_lithoid_empire = yes }
+		}
+		modifier = {
+			job_farmer_add = 1
+			job_miner_add = 1
+		}
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_gestalt = no	is_lithoid_empire = yes }
+		}
+		text = job_farmer_effect_desc
+		text = job_miner_effect_desc
+	}
+	triggered_planet_modifier = {#_有机普通
+		potential = {
+			exists = owner
+			owner = { is_gestalt = no	is_lithoid_empire = no }
+		}
+		modifier = {
+			job_farmer_add = 2
+		}
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_gestalt = no	is_lithoid_empire = no }
+		}
+		text = job_farmer_effect_desc
+	}
+		
+	#_[生态]
+	triggered_planet_modifier = {#_regular
+		potential = {
+			exists = owner
+			owner = { is_regular_empire = yes }
+		}
+		modifier = {
+			job_pr_div_ecologist_add = 2
+		}
+	}
+	triggered_planet_modifier = {#_格式塔
+		potential = {
+			exists = owner
+			owner = { is_gestalt = yes }
+		}
+		modifier = {
+			job_pr_div_eco_drone_add = 2
+		}
+	}
+
+
+	ai_resource_production = {
+		energy = 1
+		minerals = 1
+		food = 1
+		trigger = {
+			always = yes
+		}
+	}
+}
+
+###_[高地能源区]	1e/1m/	物理/3rc(科技)/管理
+z_pr_dstr_div_alpine = {
+	base_buildtime = 480
+
+	min_for_deposits_on_planet = 1
+	max_for_deposits_on_planet = 15
+
+	show_on_uncolonized = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_alpine = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		from = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	potential = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_alpine = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		exists = owner
+		owner = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	allow = { always = yes }
+
+	conversion_ratio = 1
+	convert_to = {
+		z_pr_dstr_div_savannah
+		z_pr_dstr_div_arid
+		z_pr_dstr_div_desert
+		z_pr_dstr_div_tropical
+		z_pr_dstr_div_ocean
+		z_pr_dstr_div_continent
+		z_pr_dstr_div_tundra
+	#	z_pr_dstr_div_alpine
+		z_pr_dstr_div_arctic
+		z_pr_dstr_div_nuked
+		z_pr_dstr_div_gaia
+		z_pr_dstr_div_sp
+		z_pr_dstr_div_resort
+	}
+	
+	
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @cost_div
+		}
+	}
+	
+	#_[基础]	电=2/矿=1/能源管理=1
+	planet_modifier = {
+		planet_housing_add = 4
+	}
+	#_[jobs]
+	triggered_planet_modifier = {
+		potential = { exists = owner	owner = { is_gestalt = no } }
+		job_technician_add = 2
+		job_miner_add = 1
+		job_pr_div_res_admin_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner	owner = { is_gestalt = yes } }
+		job_technician_drone_add = 2
+		job_mining_drone_add = 1
+		job_pr_div_res_drone_add = 1
+	}
+
+
+	ai_resource_production = {
+		minerals = 2
+		rare_crystals = 0.2
+		trigger = {
+			always = yes
+		}
+	}
+}
+
+###_[极寒工业区]	工业/建筑槽/影响力	海军/PDF
+z_pr_dstr_div_arctic = {
+	base_buildtime = 480
+
+	min_for_deposits_on_planet = 1
+	max_for_deposits_on_planet = 15
+
+	show_on_uncolonized = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_arctic = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		from = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	potential = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_arctic = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		exists = owner
+		owner = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	allow = { always = yes }
+
+	conversion_ratio = 1
+	convert_to = {
+		z_pr_dstr_div_savannah
+		z_pr_dstr_div_arid
+		z_pr_dstr_div_desert
+		z_pr_dstr_div_tropical
+		z_pr_dstr_div_ocean
+		z_pr_dstr_div_continent
+		z_pr_dstr_div_tundra
+		z_pr_dstr_div_alpine
+	#	z_pr_dstr_div_arctic
+		z_pr_dstr_div_nuked
+		z_pr_dstr_div_gaia
+		z_pr_dstr_div_sp
+		z_pr_dstr_div_resort
+	}
+
+
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @cost_div
+		}
+		produces = {
+			trigger = { exists = owner	owner = { has_technology = tech_colonization_3 } }
+			influence = 0.1
+		}
+	}
+
+	#_[基础]	3工业	1军工
+	planet_modifier = {
+		planet_max_buildings_add = 1
+		planet_housing_add = 4
+	}
+
+	#_[jobs]
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_gestalt = no } }
+		job_pr_div_militia_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_gestalt = yes } }
+		job_pr_div_milit_drone_add = 1
+	}
+	#_[工业]
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_regular_empire = yes } }
+		job_artisan_add = 1
+		job_foundry_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_hive_empire = yes } }
+		job_alloy_drone_add = 3
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_machine_empire = yes } }
+		job_fabricator_add = 3
+	}
+
+	ai_resource_production = {
+		minerals = 2
+		alloys = 1
+		trigger = {
+			always = yes
+		}
+	}
+}
+
+
+
+
+###_[深渊工业区]	1e/1m/工业/高级资源
+z_pr_dstr_div_nuked = {
+	base_buildtime = 480
+
+	min_for_deposits_on_planet = 1
+	max_for_deposits_on_planet = 15
+
+	show_on_uncolonized = {
+		uses_district_set = standard
+		OR = {
+			z_fw_trgr_plnt_core_nuked = yes	#_
+			has_modifier = slave_colony
+		}
+		NOT = { has_modifier = resort_colony }
+		from = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	potential = {
+		uses_district_set = standard
+		OR = {
+			z_fw_trgr_plnt_core_nuked = yes	#_
+			has_modifier = slave_colony
+		}
+		NOT = { has_modifier = resort_colony }
+		exists = owner
+		owner = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	allow = { always = yes }
+
+	conversion_ratio = 1
+	convert_to = {
+		z_pr_dstr_div_savannah
+		z_pr_dstr_div_arid
+		z_pr_dstr_div_desert
+		z_pr_dstr_div_tropical
+		z_pr_dstr_div_ocean
+		z_pr_dstr_div_continent
+		z_pr_dstr_div_tundra
+		z_pr_dstr_div_alpine
+		z_pr_dstr_div_arctic
+	#	z_pr_dstr_div_nuked
+		z_pr_dstr_div_gaia
+		z_pr_dstr_div_sp
+		z_pr_dstr_div_resort
+	}
+	
+	
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @cost_div
+		}
+	}
+
+	#_[基础]	电/矿/工业/深渊矿工
+	planet_modifier = {
+		planet_housing_add = 4
+		planet_orbital_bombardment_damage = -0.04
+	}
+	
+	#_[jobs]
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_gestalt = no } }
+		job_technician_add = 1
+		job_miner_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_gestalt = yes } }
+		job_technician_drone_add = 1
+		job_mining_drone_add = 1
+	}
+	#_[工业]
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_regular_empire = yes } }
+		job_artisan_add = 1
+		job_foundry_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_hive_empire = yes } }
+		job_alloy_drone_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_machine_empire = yes } }
+		job_fabricator_add = 2
+	}
+	#_[深渊矿工]
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_gestalt = no	has_technology = tech_mine_rare_crystals	has_technology = tech_mine_exotic_gases		has_technology = tech_mine_volatile_motes } }
+		job_pr_div_abyss_miner_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_gestalt = yes	has_technology = tech_mine_rare_crystals	has_technology = tech_mine_exotic_gases		has_technology = tech_mine_volatile_motes } }
+		job_pr_div_abyss_drone_add = 1
+	}
+
+
+	ai_resource_production = {
+		minerals = 2
+		alloys = 1
+		trigger = {
+			always = yes
+		}
+	}
+}
+
+###_[乐土生态区]	增长率		/管理/ma	/能量-贸易/维护/凝聚/科研
+z_pr_dstr_div_gaia = {
+	base_buildtime = 480
+
+	min_for_deposits_on_planet = 1
+	max_for_deposits_on_planet = 15
+
+	show_on_uncolonized = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_gaia = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		from = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	potential = {
+		uses_district_set = standard
+		z_fw_trgr_plnt_core_gaia = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		exists = owner
+		owner = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	allow = { always = yes }
+
+	conversion_ratio = 1
+	convert_to = {
+		z_pr_dstr_div_savannah
+		z_pr_dstr_div_arid
+		z_pr_dstr_div_desert
+		z_pr_dstr_div_tropical
+		z_pr_dstr_div_ocean
+		z_pr_dstr_div_continent
+		z_pr_dstr_div_tundra
+		z_pr_dstr_div_alpine
+		z_pr_dstr_div_arctic
+		z_pr_dstr_div_nuked
+	#	z_pr_dstr_div_gaia
+		z_pr_dstr_div_sp
+		z_pr_dstr_div_resort
+	}
+	
+
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @cost_div
+		}
+		produces = {
+			trigger = { planet = { is_planet_class = pc_relic } }
+			minor_artifacts = 0.1
+		}
+	}
+	
+	#_[基础]
+	planet_modifier = {
+		planet_housing_add = 4
+	}
+	triggered_planet_modifier = {#_有机
+		potential = { exists = owner	owner = { has_technology = tech_tomb_world_adaption		is_machine_empire = no } }
+		planet_pop_assembly_organic_add = 0.5
+		pop_environment_tolerance = 0.01
+	}
+	triggered_planet_modifier = {#_组装
+		potential = { exists = owner	owner = { has_technology = tech_tomb_world_adaption		is_machine_empire = yes } }
+		planet_pop_assembly_add = 0.5
+		pop_environment_tolerance = 0.01
+	}
+
+	#_[资源]
+	triggered_planet_modifier = {#_石质蜂群
+		potential = {
+			exists = owner
+			owner = { is_hive_empire = yes	is_lithoid_empire = yes }
+		}
+		job_mining_drone_add = 1
+	}
+	triggered_planet_modifier = {#_有机蜂群
+		potential = {
+			exists = owner
+			owner = { is_hive_empire = yes	is_lithoid_empire = no }
+		}
+		job_agri_drone_add = 1
+	}
+	triggered_planet_modifier = {#_智械
+		potential = {
+			exists = owner
+			owner = { is_machine_empire = yes }
+		}
+		job_technician_drone_add = 1
+	}
+	triggered_planet_modifier = {#_石质普通
+		potential = {
+			exists = owner
+			owner = { is_gestalt = no	is_lithoid_empire = yes }
+		}
+		job_miner_add = 1
+	}
+	triggered_planet_modifier = {#_有机普通
+		potential = {
+			exists = owner
+			owner = { is_gestalt = no	is_lithoid_empire = no }
+		}
+		job_farmer_add = 1
+	}
+	
+	#_[其他]
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_regular_empire = yes } }
+		job_clerk_add = 1
+		job_researcher_add = 1
+		job_bureaucrat_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_hive_empire = yes } }
+		job_brain_drone_add = 1
+		job_synapse_drone_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_machine_empire = yes } }
+		job_maintenance_drone_add = 1
+		job_calculator_add = 1
+		job_coordinator_add = 1
+	}
+
+
+	ai_resource_production = {
+		food = 2
+		unity = 2
+		trigger = {
+			always = yes
+		}
+	}
+}
+
+###_[密集工业区]	1e/1m/工业/建筑槽	海军/PDF
+z_pr_dstr_div_sp = {
+	base_buildtime = 480
+
+	min_for_deposits_on_planet = 1
+	max_for_deposits_on_planet = 15
+
+	show_on_uncolonized = {
+		z_fw_trgr_plnt_core_sp = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		from = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	potential = {
+		z_fw_trgr_plnt_core_sp = yes	#_
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		exists = owner
+		owner = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	allow = { always = yes }
+
+	conversion_ratio = 1
+	convert_to = {
+		z_pr_dstr_div_savannah
+		z_pr_dstr_div_arid
+		z_pr_dstr_div_desert
+		z_pr_dstr_div_tropical
+		z_pr_dstr_div_ocean
+		z_pr_dstr_div_continent
+		z_pr_dstr_div_tundra
+		z_pr_dstr_div_alpine
+		z_pr_dstr_div_arctic
+		z_pr_dstr_div_nuked
+		z_pr_dstr_div_gaia
+	#	z_pr_dstr_div_sp
+		z_pr_dstr_div_resort
+	}
+	
+
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @cost_div
+		}
+	}
+
+	#_[基础]	1矿/1电/2工业	1军工
+	planet_modifier = {
+		planet_max_buildings_add = 1
+		planet_housing_add = 5
+	}
+
+	#_[jobs]
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_gestalt = no } }
+		job_technician_add = 1
+		job_miner_add = 1
+		job_pr_div_militia_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_gestalt = yes } }
+		job_technician_drone_add = 1
+		job_mining_drone_add = 1
+		job_pr_div_milit_drone_add = 1
+	}
+	#_[工业]
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_regular_empire = yes } }
+		job_artisan_add = 1
+		job_foundry_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_hive_empire = yes } }
+		job_alloy_drone_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_machine_empire = yes } }
+		job_fabricator_add = 2
+	}
+
+	ai_resource_production = {
+		minerals = 2
+		alloys = 1
+		trigger = {
+			always = yes
+		}
+	}
+}
+
+
+
+
+###_[观光区]		住房/增长率		/影响力/ma	/能量-贸易/维护/凝聚/rs
+z_pr_dstr_div_resort = {
+	base_buildtime = 480
+
+	min_for_deposits_on_planet = 1
+	max_for_deposits_on_planet = 15
+
+	show_on_uncolonized = {
+		uses_district_set = standard
+		has_modifier = resort_colony
+		from = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	potential = {
+		uses_district_set = standard
+		has_modifier = resort_colony
+		exists = owner
+		owner = { has_country_flag = z_pr_flg_cntr_reg }
+	}
+	allow = { has_modifier = resort_colony }
+
+	conversion_ratio = 1
+	convert_to = {
+		z_pr_dstr_div_savannah
+		z_pr_dstr_div_arid
+		z_pr_dstr_div_desert
+		z_pr_dstr_div_tropical
+		z_pr_dstr_div_ocean
+		z_pr_dstr_div_continent
+		z_pr_dstr_div_tundra
+		z_pr_dstr_div_alpine
+		z_pr_dstr_div_arctic
+		z_pr_dstr_div_nuked
+		z_pr_dstr_div_gaia
+		z_pr_dstr_div_sp
+	#	z_pr_dstr_div_resort
+	}
+	
+
+	resources = {
+		category = planet_districts_cities
+		cost = {
+			minerals = @cost_div
+		}
+		produces = {
+			trigger = { exists = owner	owner = { has_technology = tech_colonization_3 } }
+			influence = 0.1
+		}
+		produces = {
+			trigger = { planet = { is_planet_class = pc_relic } }
+			minor_artifacts = 0.1
+		}
+	}
+	
+
+	#_[基础]	3.5+1.5
+	planet_modifier = {
+		planet_housing_add = 8
+		planet_max_buildings_add = 1
+		pop_growth_speed = 0.05
+	}
+	#_[增长率]
+	triggered_planet_modifier = {#_有机
+		potential = { exists = owner	owner = { has_technology = tech_tomb_world_adaption		is_robot_empire = no } }
+		planet_pop_assembly_organic_add = 0.5
+		pop_environment_tolerance = 0.01
+	}
+	triggered_planet_modifier = {#_组装
+		potential = { exists = owner	owner = { has_technology = tech_tomb_world_adaption		is_robot_empire = yes } }
+		planet_pop_assembly_add = 0.5
+		pop_environment_tolerance = 0.01
+	}
+	#_[job]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_regular_empire = yes
+				NOT = { has_valid_civic = civic_warrior_culture }
+			}
+		}
+		job_clerk_add = 1
+		job_entertainer_add = 1
+		job_culture_worker_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_regular_empire = yes
+				has_valid_civic = civic_warrior_culture
+			}
+		}
+		job_clerk_add = 1
+		job_duelist_add = 1
+		job_culture_worker_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_hive_empire = yes } }
+		job_maintenance_drone_add = 1
+		job_technician_drone_add = 1
+		job_synapse_drone_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { is_machine_empire = yes } }
+		job_maintenance_drone_add = 1
+		job_technician_drone_add = 1
+		job_evaluator_add = 2
+	}
+
+	ai_resource_production = {
+		energy = 2
+		unity = 1
+		trigger = {
+			always = yes
+		}
+	}
+}
+

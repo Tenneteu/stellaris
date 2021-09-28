@@ -1,0 +1,311 @@
+#_[涅托岗位debug]_GFnyto_specialist_jobs
+z_pr_eft_plnt_job_debug_mod_NYTO ={
+	if ={ limit = { check_modifier_value = { modifier = job_PR_check_NYTO_add value = -1 } }	#_|修正激活|	has_global_flag =  z_pr_patch_installed_mod_NYTO
+		
+		##_[GFnyto_collapse_particle_researcher]	坍缩粒子研究员		|specialist/planet_researchers|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = GFnyto_collapse_particle_researcher VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = GFnyto_collapse_particle_researcher VALUE = 1000 }	#_[add岗位统计]
+			
+			##_[产出]
+			#GF_nyto_collapse_liquid
+			pr_job_resources_basic = { OPT = produces RES = GF_nyto_collapse_liquid VALUE = 1}
+			pr_job_resources_ids_cat = {
+				OPT = produces
+				RES = GF_nyto_collapse_liquid
+				CAT = specialist
+				IDS = planet_researchers 
+			}
+			pr_job_resources_tally = { OPT = produces RES = GF_nyto_collapse_liquid }
+
+			#physics_research
+			pr_job_resources_basic = { OPT = produces RES = physics_research VALUE = 3}
+			pr_job_resources_ids_cat = {
+				OPT = produces
+				RES = physics_research
+				CAT = specialist
+				IDS = planet_researchers_physics_research
+			}
+			pr_job_resources_tally = { OPT = produces RES =physics_research }
+
+			#society_research
+			pr_job_resources_basic = { OPT = produces RES =society_research VALUE = 3}
+			pr_job_resources_ids_cat = {
+				OPT = produces
+				RES = society_research
+				CAT = specialist
+				IDS = planet_researchers_society_research
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+
+			#engineering_research
+			pr_job_resources_basic = { OPT = produces RES = engineering_research VALUE = 3}
+			pr_job_resources_ids_cat = {
+				OPT = produces
+				RES = engineering_research
+				CAT = specialist
+				IDS =planet_researchers_engineering_research
+			}
+			
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+
+			##_[维护]
+			#consumer_goods
+			pr_job_resources_basic = { OPT = upkeep RES = consumer_goods VALUE =  2}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = consumer_goods }
+		}
+		
+		##GFnyto_white_knight 白骑士 				|specialist/planet_enforcers|
+	    if = { limit = { z_pr_trgr_plnt_job_db = { JOB = GFnyto_white_knight VALUE = 3000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = GFnyto_white_knight VALUE = 3000 }	#_[add岗位统计]
+			
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = pop_defense_armies_add VALUE = 1 }
+			pr_job_modifier_tally = { MOD = pop_defense_armies_add }
+
+			pr_job_modifier_basic = { MOD = planet_crime_add VALUE = -10 }
+			pr_job_modifier_tally = { MOD = planet_crime_add }
+
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 1 }
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+			
+			##_[产出]
+			#unity
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 5 }
+			pr_job_resources_ids_cat = {
+				OPT=produces
+				RES=unity
+				CAT=specialist
+				IDS=planet_enforcers	
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+
+			##_[维护]
+			#energy
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 2 }
+			pr_job_resources_ids_cat = {
+				OPT=upkeep
+				RES=energy
+				CAT=specialist
+				IDS=planet_enforcers	
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+
+			#consumer_goods
+			pr_job_resources_basic = { OPT = upkeep RES = consumer_goods VALUE = 1 }
+			pr_job_resources_ids_cat = {
+				OPT=upkeep
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_enforcers	
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = consumer_goods }
+
+		}
+
+		##GFnyto_phase_technician 相位技师			|specialist/planet_technician|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = GFnyto_phase_technician VALUE = 3000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = GFnyto_phase_technician VALUE = 3000 }	#_[add岗位统计]
+			
+			##_[产出]
+			#energy
+			pr_job_resources_basic = { OPT = produces RES = energy VALUE = 10 }
+			pr_job_resources_ids_cat = {
+				OPT=produces
+				RES=energy
+				CAT=specialist
+				IDS=planet_technician_energy	
+			}
+			pr_job_resources_tally = { OPT = produces RES = energy }
+
+			#engineering_research
+			pr_job_resources_basic = { OPT = produces RES = engineering_research VALUE = 5 }
+			pr_job_resources_ids_cat = {
+				OPT=produces
+				RES=engineering_research
+				CAT=specialist
+				IDS=planet_technician
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+
+			##_[维护]
+			#consumer_goods
+			pr_job_resources_basic = { OPT = upkeep RES = consumer_goods VALUE = 1 }
+			pr_job_resources_ids_cat = {
+				OPT=upkeep
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_technician
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = consumer_goods }
+		}
+
+		##GFnyto_technology_minister 科技牧师		|specialist/planet_researchers|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = GFnyto_technology_minister    VALUE = 3000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = GFnyto_technology_minister VALUE = 3000 }	#_[add岗位统计]	
+
+			##_[产出]
+			#physics_research
+			pr_job_resources_basic = { OPT = produces RES = physics_research VALUE = 7 }
+			pr_job_resources_ids_cat = {
+				OPT=produces
+				RES=physics_research
+				CAT=specialist
+				IDS=planet_researchers_physics_research	
+			}
+			pr_job_resources_tally = { OPT = produces RES =  physics_research }
+
+			#physics_research
+			pr_job_resources_basic = { OPT = produces RES = engineering_research VALUE = 7 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=specialist
+				IDS=planet_researchers_engineering_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+
+			#society_research
+			pr_job_resources_basic = { OPT = produces RES = society_research VALUE = 10 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=specialist
+				IDS=planet_researchers_society_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+
+			#unity
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 5 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+
+			##_[维护]
+			#consumer_goods
+			pr_job_resources_basic = { OPT = upkeep RES = consumer_goods VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = consumer_goods }
+		}
+
+		##_[GFnyto_explorer] 拾荒工			|specialist/planet_researchers|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = GFnyto_explorer VALUE = 100 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = GFnyto_explorer VALUE = 100 }	#_[add岗位统计]
+
+			#energy
+			pr_job_resources_basic = { OPT =produces RES =energy VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=energy
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = energy }
+
+			#minerals
+			pr_job_resources_basic = { OPT =produces RES = minerals VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=minerals
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES =  minerals }
+
+			#food
+			pr_job_resources_basic = { OPT =produces RES = food VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=food
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = food }
+
+			#alloys
+			pr_job_resources_basic = { OPT =produces RES = alloys VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=alloys
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = alloys }
+
+			#consumer_goods
+			pr_job_resources_basic = { OPT =produces RES = consumer_goods }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = consumer_goods }
+
+			#physics_research
+			pr_job_resources_basic = { OPT =produces RES = physics_research VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=physics_research
+				CAT=specialist
+				IDS=planet_researchers_physics_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = physics_research }
+
+			#engineering_research
+			pr_job_resources_basic = { OPT =produces RES = engineering_research VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=specialist
+				IDS=planet_researchers_engineering_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+
+			#society_research
+			pr_job_resources_basic = { OPT =produces RES = society_research VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=specialist
+				IDS=planet_researchers_society_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+
+			
+		}
+	}
+}
+
+#物种产出 作者协助 _GFnyto_specialist_jobs
+ #archetype = NYTO
+ #resources = {
+	#category = planet_pops
+	#upkeep = {
+		#energy = 0.5
+		#food = 0.5
+		#consumer_goods = 0.2
+		#alloys = 0.2
+		#GF_nyto_collapse_liquid = 0.1
+	#}
+	#produces = {
+	#	physics_research = 1
+	#	society_research = 1
+	#	engineering_research = 1
+	#	unity = 1
+	#	GF_nyto_dark_star_core = 0.01
+	#}

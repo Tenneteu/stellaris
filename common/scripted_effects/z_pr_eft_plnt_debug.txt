@@ -1,0 +1,560 @@
+###_	production_revolution core	###########################################################
+
+#_[殖民地基础debug/人力异常/总人力debug]
+#_[地改开始/地改完成]
+#_[man增长率init/man增长缓存debug]
+#_[星球mod清理/产业核心debug]
+
+
+
+
+###_[殖民地基础debug]	pr星球初始设置/核心地块/兼容地块DB/区划地块/人力异常/总人力debug/槽位拓展	###########################################################
+z_pr_eft_plnt_basic_debug = {
+	###_[pr星球初始设置]
+	planet_event = { id = z_pr_debug.2 }
+
+	###_[核心地块]
+	if = { limit = { NOT = { has_deposit = z_pr_d_core } }		add_deposit = z_pr_d_core }
+	
+	###_[兼容地块DB]
+	if = { limit = { NOT = { has_global_flag = z_pr_patch_installed_mod_Giga }		has_deposit = z_pr_d_Giga }		remove_deposit = z_pr_d_Giga }	#_|Giga|
+	
+	###_[区划地块]	地缘优势/地方产业
+	if = {#_[地缘优势]
+		limit = {
+			NOR = {
+				has_deposit = z_pr_d_dstr_exp_1
+				has_deposit = z_pr_d_dstr_exp_2
+				has_deposit = z_pr_d_dstr_exp_3
+				has_deposit = z_pr_d_dstr_exp_4
+				has_deposit = z_pr_d_dstr_exp_5
+			}
+		}
+		random_list = {
+			3 = { add_deposit = z_pr_d_dstr_exp_1 }
+			5 = { add_deposit = z_pr_d_dstr_exp_2 }
+			7 = { add_deposit = z_pr_d_dstr_exp_3 }
+			4 = { add_deposit = z_pr_d_dstr_exp_4 }
+			2 = { add_deposit = z_pr_d_dstr_exp_5 }
+		}
+	}
+	if = {#_[地方产业]
+		limit = {
+			NOR = {
+				has_deposit = z_pr_d_dstr_div_1
+				has_deposit = z_pr_d_dstr_div_2
+				has_deposit = z_pr_d_dstr_div_3
+				has_deposit = z_pr_d_dstr_div_4
+				has_deposit = z_pr_d_dstr_div_5
+				has_deposit = z_pr_d_dstr_div_6
+				has_deposit = z_pr_d_dstr_div_7
+				has_deposit = z_pr_d_dstr_div_8
+				has_deposit = z_pr_d_dstr_div_10
+			}
+		}
+		random_list = {
+			3 = { add_deposit = z_pr_d_dstr_div_1 }
+			5 = { add_deposit = z_pr_d_dstr_div_2 }
+			7 = { add_deposit = z_pr_d_dstr_div_3 }
+			4 = { add_deposit = z_pr_d_dstr_div_4 }
+			2 = { add_deposit = z_pr_d_dstr_div_5 }
+		}
+	}
+
+	###_[人力异常]
+	z_pr_eft_plnt_man_debug = yes		#_|z_pr_var_plnt_man|
+	###_[总人力debug]
+	z_pr_eft_plnt_pop_man_debug = yes	#_|z_pr_var_plnt_pop_man|
+
+
+	###_[槽位拓展]	建筑/分公司
+	##_[建筑]	init/区划数/基数/参量/flg_DB/clear
+	if = { limit = { exists = event_target:z_fw_tgt_global_event }
+		# init
+		remove_planet_flag = z_pr_flg_plnt_slot_bldn_1
+		remove_planet_flag = z_pr_flg_plnt_slot_bldn_2
+		remove_planet_flag = z_pr_flg_plnt_slot_bldn_4
+		remove_planet_flag = z_pr_flg_plnt_slot_bldn_8
+		remove_planet_flag = z_pr_flg_plnt_slot_bldn_16
+		remove_planet_flag = z_pr_flg_plnt_slot_bldn_32
+		#_[区划数]	var=TEMP_var_plnt_num_dstr
+		set_variable = { which = TEMP_var_plnt_num_dstr value = 0 }
+		if = { limit = { num_districts = { type = any value < 10 } }
+			if = { limit = { num_districts = { type = any value <= 1 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 1 } }
+			else_if = { limit = { num_districts = { type = any value = 2 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 2 } }
+			else_if = { limit = { num_districts = { type = any value = 3 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 3 } }
+			else_if = { limit = { num_districts = { type = any value = 4 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 4 } }
+			else_if = { limit = { num_districts = { type = any value = 5 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 5 } }
+			else_if = { limit = { num_districts = { type = any value = 6 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 6 } }
+			else_if = { limit = { num_districts = { type = any value = 7 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 7 } }
+			else_if = { limit = { num_districts = { type = any value = 8 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 8 } }
+			else = { set_variable = { which = TEMP_var_plnt_num_dstr value = 9 } }
+		}
+		else_if = { limit = { num_districts = { type = any value >= 10 }	num_districts = { type = any value < 20 } }
+			if = { limit = { num_districts = { type = any value = 10 } }	set_variable = { which = TEMP_var_plnt_num_dstr value = 10 } }
+			else_if = { limit = { num_districts = { type = any value = 11 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 11 } }
+			else_if = { limit = { num_districts = { type = any value = 12 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 12 } }
+			else_if = { limit = { num_districts = { type = any value = 13 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 13 } }
+			else_if = { limit = { num_districts = { type = any value = 14 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 14 } }
+			else_if = { limit = { num_districts = { type = any value = 15 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 15 } }
+			else_if = { limit = { num_districts = { type = any value = 16 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 16 } }
+			else_if = { limit = { num_districts = { type = any value = 17 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 17 } }
+			else_if = { limit = { num_districts = { type = any value = 18 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 18 } }
+			else = { set_variable = { which = TEMP_var_plnt_num_dstr value = 19 } }
+		}
+		else_if = { limit = { num_districts = { type = any value >= 20 }	num_districts = { type = any value < 30 } }
+			if = { limit = { num_districts = { type = any value = 20 } }	set_variable = { which = TEMP_var_plnt_num_dstr value = 20 } }
+			else_if = { limit = { num_districts = { type = any value = 21 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 21 } }
+			else_if = { limit = { num_districts = { type = any value = 22 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 22 } }
+			else_if = { limit = { num_districts = { type = any value = 23 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 23 } }
+			else_if = { limit = { num_districts = { type = any value = 24 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 24 } }
+			else_if = { limit = { num_districts = { type = any value = 25 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 25 } }
+			else_if = { limit = { num_districts = { type = any value = 26 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 26 } }
+			else_if = { limit = { num_districts = { type = any value = 27 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 27 } }
+			else_if = { limit = { num_districts = { type = any value = 28 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 28 } }
+			else = { set_variable = { which = TEMP_var_plnt_num_dstr value = 29 } }
+		}
+		else_if = { limit = { num_districts = { type = any value >= 30 }	num_districts = { type = any value < 40 } }
+			if = { limit = { num_districts = { type = any value = 30 } }	set_variable = { which = TEMP_var_plnt_num_dstr value = 40 } }
+			else_if = { limit = { num_districts = { type = any value = 31 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 31 } }
+			else_if = { limit = { num_districts = { type = any value = 32 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 32 } }
+			else_if = { limit = { num_districts = { type = any value = 33 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 33 } }
+			else_if = { limit = { num_districts = { type = any value = 34 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 34 } }
+			else_if = { limit = { num_districts = { type = any value = 35 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 35 } }
+			else_if = { limit = { num_districts = { type = any value = 36 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 36 } }
+			else_if = { limit = { num_districts = { type = any value = 37 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 37 } }
+			else_if = { limit = { num_districts = { type = any value = 38 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 38 } }
+			else = { set_variable = { which = TEMP_var_plnt_num_dstr value = 39 } }
+		}
+		else_if = { limit = { num_districts = { type = any value >= 40 }	num_districts = { type = any value < 50 } }
+			if = { limit = { num_districts = { type = any value = 40 } }	set_variable = { which = TEMP_var_plnt_num_dstr value = 40 } }
+			else_if = { limit = { num_districts = { type = any value = 41 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 41 } }
+			else_if = { limit = { num_districts = { type = any value = 42 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 42 } }
+			else_if = { limit = { num_districts = { type = any value = 43 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 43 } }
+			else_if = { limit = { num_districts = { type = any value = 44 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 44 } }
+			else_if = { limit = { num_districts = { type = any value = 45 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 45 } }
+			else_if = { limit = { num_districts = { type = any value = 46 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 46 } }
+			else_if = { limit = { num_districts = { type = any value = 47 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 47 } }
+			else_if = { limit = { num_districts = { type = any value = 48 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 48 } }
+			else = { set_variable = { which = TEMP_var_plnt_num_dstr value = 49 } }
+		}
+		else_if = { limit = { num_districts = { type = any value >= 50 }	num_districts = { type = any value < 60 } }
+			if = { limit = { num_districts = { type = any value = 50 } }	set_variable = { which = TEMP_var_plnt_num_dstr value = 50 } }
+			else_if = { limit = { num_districts = { type = any value = 51 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 51 } }
+			else_if = { limit = { num_districts = { type = any value = 52 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 52 } }
+			else_if = { limit = { num_districts = { type = any value = 53 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 53 } }
+			else_if = { limit = { num_districts = { type = any value = 54 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 54 } }
+			else_if = { limit = { num_districts = { type = any value = 55 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 55 } }
+			else_if = { limit = { num_districts = { type = any value = 56 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 56 } }
+			else_if = { limit = { num_districts = { type = any value = 57 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 57 } }
+			else_if = { limit = { num_districts = { type = any value = 58 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 58 } }
+			else = { set_variable = { which = TEMP_var_plnt_num_dstr value = 59 } }
+		}
+		else_if = { limit = { num_districts = { type = any value >= 60 }	num_districts = { type = any value < 70 } }
+			if = { limit = { num_districts = { type = any value = 60 } }	set_variable = { which = TEMP_var_plnt_num_dstr value = 60 } }
+			else_if = { limit = { num_districts = { type = any value = 61 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 61 } }
+			else_if = { limit = { num_districts = { type = any value = 62 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 62 } }
+			else_if = { limit = { num_districts = { type = any value = 63 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 63 } }
+			else_if = { limit = { num_districts = { type = any value = 64 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 64 } }
+			else_if = { limit = { num_districts = { type = any value = 65 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 65 } }
+			else_if = { limit = { num_districts = { type = any value = 66 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 66 } }
+			else_if = { limit = { num_districts = { type = any value = 67 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 67 } }
+			else_if = { limit = { num_districts = { type = any value = 68 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 68 } }
+			else = { set_variable = { which = TEMP_var_plnt_num_dstr value = 69 } }
+		}
+		else_if = { limit = { num_districts = { type = any value >= 70 }	num_districts = { type = any value < 80 } }
+			if = { limit = { num_districts = { type = any value = 70 } }	set_variable = { which = TEMP_var_plnt_num_dstr value = 70 } }
+			else_if = { limit = { num_districts = { type = any value = 71 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 71 } }
+			else_if = { limit = { num_districts = { type = any value = 72 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 72 } }
+			else_if = { limit = { num_districts = { type = any value = 73 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 73 } }
+			else_if = { limit = { num_districts = { type = any value = 74 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 74 } }
+			else_if = { limit = { num_districts = { type = any value = 75 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 75 } }
+			else_if = { limit = { num_districts = { type = any value = 76 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 76 } }
+			else_if = { limit = { num_districts = { type = any value = 77 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 77 } }
+			else_if = { limit = { num_districts = { type = any value = 78 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 78 } }
+			else = { set_variable = { which = TEMP_var_plnt_num_dstr value = 79 } }
+		}
+		else_if = { limit = { num_districts = { type = any value >= 80 }	num_districts = { type = any value < 90 } }
+			if = { limit = { num_districts = { type = any value = 80 } }	set_variable = { which = TEMP_var_plnt_num_dstr value = 80 } }
+			else_if = { limit = { num_districts = { type = any value = 81 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 81 } }
+			else_if = { limit = { num_districts = { type = any value = 82 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 82 } }
+			else_if = { limit = { num_districts = { type = any value = 83 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 83 } }
+			else_if = { limit = { num_districts = { type = any value = 84 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 84 } }
+			else_if = { limit = { num_districts = { type = any value = 85 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 85 } }
+			else_if = { limit = { num_districts = { type = any value = 86 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 86 } }
+			else_if = { limit = { num_districts = { type = any value = 87 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 87 } }
+			else_if = { limit = { num_districts = { type = any value = 88 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 88 } }
+			else = { set_variable = { which = TEMP_var_plnt_num_dstr value = 89 } }
+		}
+		else_if = { limit = { num_districts = { type = any value >= 90 } }
+			if = { limit = { num_districts = { type = any value = 90 } }	set_variable = { which = TEMP_var_plnt_num_dstr value = 90 } }
+			else_if = { limit = { num_districts = { type = any value = 91 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 91 } }
+			else_if = { limit = { num_districts = { type = any value = 92 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 92 } }
+			else_if = { limit = { num_districts = { type = any value = 93 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 93 } }
+			else_if = { limit = { num_districts = { type = any value = 94 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 94 } }
+			else_if = { limit = { num_districts = { type = any value = 95 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 95 } }
+			else_if = { limit = { num_districts = { type = any value = 96 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 96 } }
+			else_if = { limit = { num_districts = { type = any value = 97 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 97 } }
+			else_if = { limit = { num_districts = { type = any value = 98 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 98 } }
+			else_if = { limit = { num_districts = { type = any value = 99 } }		set_variable = { which = TEMP_var_plnt_num_dstr value = 99 } }
+			else = { set_variable = { which = TEMP_var_plnt_num_dstr value = 100 } }
+		}
+		#_[基数]
+		set_variable = { which = TEMP_var_slot_bldn_base value = event_target:z_fw_tgt_global_event.z_pr_var_npc0_bldn_max }	#_|建筑槽var|
+		divide_variable = { which = TEMP_var_slot_bldn_base value = 36 }	#_/36
+		#_[参量]
+		set_variable = { which = TEMP_var_plnt_slot_bldn value = TEMP_var_slot_bldn_base }
+		multiply_variable = { which = TEMP_var_plnt_slot_bldn value = TEMP_var_plnt_num_dstr }
+		round_variable = TEMP_var_plnt_slot_bldn	#_四舍五入
+		#_[flg_DB]
+		if = { limit = { check_variable = { which = TEMP_var_plnt_slot_bldn value >= 32 } }
+			subtract_variable = { which = TEMP_var_plnt_slot_bldn value = 32 }
+			set_planet_flag = z_pr_flg_plnt_slot_bldn_32
+		}
+		if = { limit = { check_variable = { which = TEMP_var_plnt_slot_bldn value >= 16 } }
+			subtract_variable = { which = TEMP_var_plnt_slot_bldn value = 16 }
+			set_planet_flag = z_pr_flg_plnt_slot_bldn_16
+		}
+		if = { limit = { check_variable = { which = TEMP_var_plnt_slot_bldn value >= 8 } }
+			subtract_variable = { which = TEMP_var_plnt_slot_bldn value = 8 }
+			set_planet_flag = z_pr_flg_plnt_slot_bldn_8
+		}
+		if = { limit = { check_variable = { which = TEMP_var_plnt_slot_bldn value >= 4 } }
+			subtract_variable = { which = TEMP_var_plnt_slot_bldn value = 4 }
+			set_planet_flag = z_pr_flg_plnt_slot_bldn_4
+		}
+		if = { limit = { check_variable = { which = TEMP_var_plnt_slot_bldn value >= 2 } }
+			subtract_variable = { which = TEMP_var_plnt_slot_bldn value = 2 }
+			set_planet_flag = z_pr_flg_plnt_slot_bldn_2
+		}
+		if = { limit = { check_variable = { which = TEMP_var_plnt_slot_bldn value >= 1 } }
+			subtract_variable = { which = TEMP_var_plnt_slot_bldn value = 1 }
+			set_planet_flag = z_pr_flg_plnt_slot_bldn_1
+		}
+		# clear
+		clear_variable = TEMP_var_slot_bldn_base
+		clear_variable = TEMP_var_plnt_num_dstr
+		clear_variable = TEMP_var_plnt_slot_bldn
+	}
+	
+	##_[分公司]	init/参量/flg_DB/clear
+	# init
+	remove_planet_flag = z_pr_flg_plnt_slot_corp_1
+	remove_planet_flag = z_pr_flg_plnt_slot_corp_2
+	remove_planet_flag = z_pr_flg_plnt_slot_corp_4
+	remove_planet_flag = z_pr_flg_plnt_slot_corp_8
+	#_[参量]
+	set_variable = { which = TEMP_var_plnt_slot_corp value = z_pr_var_plnt_pop_man }	#_|总人力|
+	divide_variable = { which = TEMP_var_plnt_slot_corp value = 25 }	#_/25
+	floor_variable = TEMP_var_plnt_slot_corp	#_向下取整
+	#_[flg_DB]
+	if = { limit = { check_variable = { which = TEMP_var_plnt_slot_corp value >= 8 } }
+		subtract_variable = { which = TEMP_var_plnt_slot_corp value = 8 }
+		set_planet_flag = z_pr_flg_plnt_slot_corp_8
+	}
+	if = { limit = { check_variable = { which = TEMP_var_plnt_slot_corp value >= 4 } }
+		subtract_variable = { which = TEMP_var_plnt_slot_corp value = 4 }
+		set_planet_flag = z_pr_flg_plnt_slot_corp_4
+	}
+	if = { limit = { check_variable = { which = TEMP_var_plnt_slot_corp value >= 2 } }
+		subtract_variable = { which = TEMP_var_plnt_slot_corp value = 2 }
+		set_planet_flag = z_pr_flg_plnt_slot_corp_2
+	}
+	if = { limit = { check_variable = { which = TEMP_var_plnt_slot_corp value >= 1 } }
+		subtract_variable = { which = TEMP_var_plnt_slot_corp value = 1 }
+		set_planet_flag = z_pr_flg_plnt_slot_corp_1
+	}
+	# clear
+	clear_variable = TEMP_var_plnt_slot_corp
+}
+
+
+###_[人力异常]	人力不存在/人力为负/人力溢出
+z_pr_eft_plnt_man_debug = {
+	#_|人力不存在|
+	if = { limit = { NOT = { is_variable_set = z_pr_var_plnt_man } }		set_variable = { which = z_pr_var_plnt_man value = 0 } }
+	#_|人力为负|
+	else_if = { limit = { check_variable = { which = z_pr_var_plnt_man value < 0 } }		set_variable = { which = z_pr_var_plnt_man value = 0 } }
+	#_|人力溢出|z禁用	溢出的原因在于岗位检测异常导致的人力增长异常
+#	else_if = { limit = { check_variable = { which = z_pr_var_plnt_man value > 50000 } }		set_variable = { which = z_pr_var_plnt_man value = 5 } }
+}
+###_[总人力debug]
+z_pr_eft_plnt_pop_man_debug = {
+	set_variable = { which = z_pr_var_plnt_pop_man value = 0 }
+	change_variable = { which = z_pr_var_plnt_pop_man value = z_pr_var_plnt_man }
+	set_variable = { which = z_pr_var_plnt_pops value = 0 }
+	
+	every_owned_pop = {
+		prev = {
+			change_variable = { which = z_pr_var_plnt_pop_man value = 1 }	#_|总人力|
+			change_variable = { which = z_pr_var_plnt_pops value = 1 }		#_|pr人口|
+		}
+	}
+}
+
+
+
+
+
+
+
+
+###_[地改开始]	设定flg<on_terraforming_begun>
+z_pr_eft_plnt_debug_terraforming_begun = {
+	random_list = {
+		5 = { set_variable = { which = z_pr_var_plnt_terraforming value = 1 } }
+		10 = { set_variable = { which = z_pr_var_plnt_terraforming value = 2 } }
+		14 = { set_variable = { which = z_pr_var_plnt_terraforming value = 3 } }
+		12 = { set_variable = { which = z_pr_var_plnt_terraforming value = 4 } }
+		8 = { set_variable = { which = z_pr_var_plnt_terraforming value = 5 } }
+		4 = { set_variable = { which = z_pr_var_plnt_terraforming value = 6 } }
+		2 = { set_variable = { which = z_pr_var_plnt_terraforming value = 7 } }
+		1 = { set_variable = { which = z_pr_var_plnt_terraforming value = 8 } }
+		1 = { set_variable = { which = z_pr_var_plnt_terraforming value = 10 } }
+	}
+}
+###_[地改完成]	<on_terraforming_complete>
+z_pr_eft_plnt_debug_terraforming_complete = {
+	remove_deposit = z_pr_d_dstr_div_1
+	remove_deposit = z_pr_d_dstr_div_2
+	remove_deposit = z_pr_d_dstr_div_3
+	remove_deposit = z_pr_d_dstr_div_4
+	remove_deposit = z_pr_d_dstr_div_5
+	remove_deposit = z_pr_d_dstr_div_6
+	remove_deposit = z_pr_d_dstr_div_7
+	remove_deposit = z_pr_d_dstr_div_8
+	remove_deposit = z_pr_d_dstr_div_10
+	
+	if = { limit = { check_variable = { which = z_pr_var_plnt_terraforming value = 1 } }
+		add_deposit = z_pr_d_dstr_div_1
+	}
+	else_if = { limit = { check_variable = { which = z_pr_var_plnt_terraforming value = 2 } }
+		add_deposit = z_pr_d_dstr_div_2
+	}
+	else_if = { limit = { check_variable = { which = z_pr_var_plnt_terraforming value = 3 } }
+		add_deposit = z_pr_d_dstr_div_3
+	}
+	else_if = { limit = { check_variable = { which = z_pr_var_plnt_terraforming value = 4 } }
+		add_deposit = z_pr_d_dstr_div_4
+	}
+	else_if = { limit = { check_variable = { which = z_pr_var_plnt_terraforming value = 5 } }
+		add_deposit = z_pr_d_dstr_div_5
+	}
+	else_if = { limit = { check_variable = { which = z_pr_var_plnt_terraforming value = 6 } }
+		add_deposit = z_pr_d_dstr_div_6
+	}
+	else_if = { limit = { check_variable = { which = z_pr_var_plnt_terraforming value = 7 } }
+		add_deposit = z_pr_d_dstr_div_7
+	}
+	else_if = { limit = { check_variable = { which = z_pr_var_plnt_terraforming value = 8 } }
+		add_deposit = z_pr_d_dstr_div_8
+	}
+	else_if = { limit = { check_variable = { which = z_pr_var_plnt_terraforming value = 10 } }
+		add_deposit = z_pr_d_dstr_div_10
+	}
+	
+	#_[clear]
+	clear_variable = z_pr_var_plnt_terraforming
+}
+
+
+
+
+
+
+
+
+###_[man增长率init]		init/debug	###########################################################
+z_pr_eft_plnt_man_growth_init = {
+
+	##_[init]
+	remove_planet_flag = z_pr_flg_plnt_man_growth_ready		#_|增长率debug准备|
+
+	remove_modifier = z_pr_mod_plnt_asbl_r_cnvt
+	remove_modifier = z_pr_mod_plnt_asbl_r_mult
+	remove_modifier = z_pr_mod_plnt_growth_cnvt
+	remove_modifier = z_pr_mod_plnt_asbl_o_cnvt
+	remove_modifier = z_pr_mod_plnt_asbl_o_mult
+	
+	##_[debug]	延时1日
+	if = {
+		limit = {
+			exists = owner
+			num_pops >= 9	#_|产业代表填满|
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+		}
+		planet_event = { id = z_pr_debug.11 days = 1 }	#_[man增长率debug]
+	}
+}
+
+
+###_[man增长缓存debug]	<z_pr_debug.100>		缓存debug/人力debug
+z_pr_eft_plnt_man_growth_cache_debug = {
+	
+	##_[缓存debug]	
+	if = { limit = { NOT = { is_variable_set = z_pr_var_plnt_man_growth_cache } }		set_variable = { which = z_pr_var_plnt_man_growth_cache value = 0 } }	#_|man增长缓存|
+	change_variable = { which = z_pr_var_plnt_man_growth_cache value = z_pr_var_plnt_man_growth }	#_[var累计]月度
+		
+	if = {
+		limit = {
+			is_variable_set = z_pr_var_plnt_man
+			is_variable_set = z_pr_var_plnt_pop_man
+		}
+		
+		##_[人力debug]
+		if = {#_零上
+			limit = { check_variable = { which = z_pr_var_plnt_man_growth_cache value > 0 } }
+			set_variable = { which = z_pr_var_plnt_man_growth_cache_temp value = z_pr_var_plnt_man_growth_cache }
+			floor_variable = z_pr_var_plnt_man_growth_cache_temp	#_想下取整
+			subtract_variable = { which = z_pr_var_plnt_man_growth_cache value = z_pr_var_plnt_man_growth_cache_temp }	#_|man增长缓存|
+			change_variable = { which = z_pr_var_plnt_man value = z_pr_var_plnt_man_growth_cache_temp }	#_|人力|
+			change_variable = { which = z_pr_var_plnt_pop_man value = z_pr_var_plnt_man_growth_cache_temp }	#_|总人力|
+			clear_variable = z_pr_var_plnt_man_growth_cache_temp
+		}
+		else = {#_零下
+			set_variable = { which = z_pr_var_plnt_man_growth_cache_temp value = z_pr_var_plnt_man_growth_cache }
+			ceiling_variable = z_pr_var_plnt_man_growth_cache_temp	#_想上取整
+			subtract_variable = { which = z_pr_var_plnt_man_growth_cache value = z_pr_var_plnt_man_growth_cache_temp }	#_|man增长缓存|
+			change_variable = { which = z_pr_var_plnt_man value = z_pr_var_plnt_man_growth_cache_temp }	#_|人力|
+			change_variable = { which = z_pr_var_plnt_pop_man value = z_pr_var_plnt_man_growth_cache_temp }	#_|总人力|
+			clear_variable = z_pr_var_plnt_man_growth_cache_temp
+		}
+	}
+}
+
+
+
+
+
+
+
+
+###_[星球mod清理]	###########################################################
+z_pr_eft_plnt_mod_clear = {
+	if = {
+		limit = {
+			NAND = {
+				NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+				owner = { has_country_flag = z_pr_flg_cntr_reg }	#_|pr革命完成|
+			}
+		}
+		remove_modifier = z_pr_mod_plnt_job_mod	#_[产业属性]
+		remove_modifier = z_pr_mod_plnt_man
+		remove_modifier = z_pr_mod_plnt_bonus
+		
+		remove_modifier = z_pr_mod_plnt_trade		#_[星球功能]
+		remove_modifier = z_pr_mod_plnt_amenities
+		remove_modifier = z_pr_mod_plnt_stability
+		remove_modifier = z_pr_mod_plnt_crime
+		remove_modifier = z_pr_mod_plnt_asbl_r_cnvt
+		remove_modifier = z_pr_mod_plnt_asbl_r_mult
+		remove_modifier = z_pr_mod_plnt_growth_cnvt
+		remove_modifier = z_pr_mod_plnt_asbl_o_cnvt
+		remove_modifier = z_pr_mod_plnt_asbl_o_mult
+		remove_modifier = z_pr_mod_plnt_tolerance
+	}
+}
+
+
+###_[产业核心debug]	mod清理/var清理
+z_pr_eft_plnt_admin_clear = {
+	every_owned_pop = {
+		limit = {
+			has_pop_flag = z_pr_flg_pop_core_counted	#_|产业核心debug标签|
+			NOR = {
+				has_job = z_pr_freeman_core		#_|产业代表|
+				has_job = z_pr_freeman_specialist
+				has_job = z_pr_freeman_worker
+				has_job = z_pr_drone_core		#_|蜂群代表|
+				has_job = z_pr_drone_adv
+				has_job = z_pr_drone_normal
+			}
+		}
+		remove_pop_flag = z_pr_flg_pop_core_counted		#_|产业核心debug标签|
+		
+		##_[mod清理]
+		remove_modifier = z_pr_mod_pop_man_house
+		remove_modifier = z_pr_mod_pop_man_gestalt
+		
+		remove_modifier = z_pr_mod_pop_plnt_pdf
+		
+		remove_modifier = z_pr_mod_pop_energy_produces
+		remove_modifier = z_pr_mod_pop_energy_upkeep
+		remove_modifier = z_pr_mod_pop_minerals_produces
+		remove_modifier = z_pr_mod_pop_minerals_upkeep
+		remove_modifier = z_pr_mod_pop_food_produces
+		remove_modifier = z_pr_mod_pop_food_upkeep
+		remove_modifier = z_pr_mod_pop_alloys_produces
+		remove_modifier = z_pr_mod_pop_alloys_upkeep
+		remove_modifier = z_pr_mod_pop_consumer_goods_produces
+		remove_modifier = z_pr_mod_pop_consumer_goods_upkeep
+		remove_modifier = z_pr_mod_pop_rare_crystals_produces
+		remove_modifier = z_pr_mod_pop_rare_crystals_upkeep
+		remove_modifier = z_pr_mod_pop_exotic_gases_produces
+		remove_modifier = z_pr_mod_pop_exotic_gases_upkeep
+		remove_modifier = z_pr_mod_pop_volatile_motes_produces
+		remove_modifier = z_pr_mod_pop_volatile_motes_upkeep
+		
+		remove_modifier = z_pr_mod_pop_physics_research_produces
+		remove_modifier = z_pr_mod_pop_engineering_research_produces
+		remove_modifier = z_pr_mod_pop_society_research_produces
+		remove_modifier = z_pr_mod_pop_unity_produces
+		
+		remove_modifier = z_pr_mod_pop_sr_living_metal_produces
+		remove_modifier = z_pr_mod_pop_sr_living_metal_upkeep
+		remove_modifier = z_pr_mod_pop_sr_zro_produces
+		remove_modifier = z_pr_mod_pop_sr_zro_upkeep
+		remove_modifier = z_pr_mod_pop_sr_dark_matter_produces
+		remove_modifier = z_pr_mod_pop_sr_dark_matter_upkeep
+		remove_modifier = z_pr_mod_pop_nanites_produces
+		remove_modifier = z_pr_mod_pop_nanites_upkeep
+
+		remove_modifier = z_pr_mod_pop_minor_artifacts_produces
+		remove_modifier = z_pr_mod_pop_influence_produces
+		
+		#_|碧蓝航线dlc|
+		remove_modifier = z_pr_mod_pop_mind_club_produces
+		remove_modifier = z_pr_mod_pop_mind_club_upkeep
+		remove_modifier = z_pr_mod_pop_azur_shippartbox_produces
+		
+		#_|舰R|
+		remove_modifier = z_pr_mod_pop_sr_pantsu_produces
+		remove_modifier = z_pr_mod_pop_sr_pantsu_upkeep
+		remove_modifier = z_pr_mod_pop_sr_neo_produces
+		remove_modifier = z_pr_mod_pop_sr_neo_upkeep
+		remove_modifier = z_pr_mod_pop_sr_alpha_produces
+		remove_modifier = z_pr_mod_pop_sr_alpha_upkeep
+		remove_modifier = z_pr_mod_pop_sr_se_produces
+		remove_modifier = z_pr_mod_pop_sr_se_upkeep
+		
+		#_|swg|
+		remove_modifier = z_pr_mod_pop_sr_kyber_swgs_produces
+		remove_modifier = z_pr_mod_pop_sr_tibanna_swgs_produces
+		
+		#_|灰烬|
+		remove_modifier = z_pr_mod_pop_sr_crystal_adf_produces
+		remove_modifier = z_pr_mod_pop_sr_parts_adf_produces
+		
+		#_|涅托|
+		remove_modifier = z_pr_mod_pop_GF_nyto_collapse_liquid_produces
+		remove_modifier = z_pr_mod_pop_GF_nyto_collapse_liquid_upkeep
+		remove_modifier = z_pr_mod_pop_GF_nyto_dark_star_core_produces
+		
+		#_|约战|
+		remove_modifier = z_pr_mod_pop_datealive_crystals_produces
+		remove_modifier = z_pr_mod_pop_datealive_crystals_upkeep
+		
+		#_|苍蓝|
+		remove_modifier = z_pr_mod_pop_nanomaterial_produces
+		remove_modifier = z_pr_mod_pop_nanomaterial_upkeep
+		remove_modifier = z_pr_mod_pop_union_core_produces
+		
+		#_|ACOT|
+		remove_modifier = z_pr_mod_pop_acot_sr_dark_energy_produces
+		remove_modifier = z_pr_mod_pop_acot_sr_dark_energy_upkeep
+		remove_modifier = z_pr_mod_pop_acot_sr_stellarite_produces
+		
+		#_|GIGA|
+	}
+}

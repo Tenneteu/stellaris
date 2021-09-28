@@ -1,0 +1,265 @@
+#_[产业属性]
+#_[星球功能]
+#_[人力增长]
+#_[人力消耗]
+#_[核心产出vanilla]
+#_[核心产出mod]		碧蓝航线dlc/舰R/swg/灰烬/涅托/约战/苍蓝		/ACOT/GIGA
+
+
+
+
+###_[产业属性]	z禁拥	#####################################################
+z_pr_mod_plnt_num_jobs = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_num_jobs.dds"
+	job_z_pr_crct_add = 1
+}
+z_pr_mod_plnt_job_mod = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_job_mod.dds"
+	job_z_pr_crct_add = -1
+}
+z_pr_mod_plnt_man = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_man.dds"
+	z_pr_post_res_plnt_man_produces_add = 1
+}
+z_pr_mod_plnt_bonus = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_bonus.dds"
+	z_pr_post_res_plnt_bonus_produces_add = 1
+}
+
+
+
+
+###_[星球功能]	#####################################################
+z_pr_mod_plnt_trade = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_trade.dds"
+	trade_value_add = 1
+}
+z_pr_mod_plnt_amenities = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_amenities.dds"
+	planet_amenities_add = 1
+}
+z_pr_mod_plnt_maintain = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_maintain.dds"
+	planet_amenities_no_happiness_add = 1
+}
+
+z_pr_mod_plnt_stability = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_stability.dds"
+	planet_stability_add = 1
+}
+z_pr_mod_plnt_crime = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_crime.dds"
+	planet_crime_add = 1
+}
+z_pr_mod_plnt_deviant = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_deviant.dds"
+	planet_crime_no_happiness_add = 1
+}
+z_pr_mod_plnt_tolerance = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_tolerance.dds"
+	pop_environment_tolerance = 1
+}
+
+
+#_[旧]	z禁用
+z_pr_mod_plnt_asbl_o_add = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_asbl_o_add.dds"
+	planet_pop_assembly_organic_add = 1
+}
+z_pr_mod_plnt_asbl_r_add = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_asbl_r_add.dds"
+	planet_pop_assembly_add = 1
+}
+
+
+
+
+###_[人力增长]	#####################################################
+z_pr_mod_plnt_asbl_r_cnvt = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_asbl_r_cnvt.dds"
+	planet_pop_assembly_add = -1
+}
+z_pr_mod_plnt_asbl_r_mult = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_asbl_r_mult.dds"
+	planet_pop_assembly_mult = -1
+}
+
+#z_pr_mod_plnt_growth		= { pop_growth_speed = 1 }
+z_pr_mod_plnt_growth_cnvt = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_growth_cnvt.dds"
+	pop_growth_speed = -1	#_[pop_growth_speed_reduction = 1]
+}
+
+z_pr_mod_plnt_asbl_o_cnvt = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_asbl_o_cnvt.dds"
+	planet_pop_assembly_organic_add = -1
+}
+z_pr_mod_plnt_asbl_o_mult = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_asbl_o_mult.dds"
+	planet_pop_assembly_organic_mult = -1
+}
+
+
+
+
+###_[人力消耗]	#####################################################
+z_pr_mod_pop_man_house 		= { pop_housing_usage_base = 0.5	pop_amenities_usage_base = 0.75 }
+z_pr_mod_pop_man_gestalt 	= { pop_housing_usage_base = 0.5	pop_amenities_usage_no_happiness_base = 0.75 }
+
+
+
+
+###_[核心产出vanilla]	#####################################################
+z_pr_mod_pop_plnt_pdf		= { pop_defense_armies_add = 1 }
+
+#_[一产]
+z_pr_mod_pop_energy_produces		= { z_pr_production_energy_produces_add = 1 }
+z_pr_mod_pop_energy_upkeep			= { z_pr_production_energy_upkeep_add = 1 }
+
+z_pr_mod_pop_minerals_produces		= { z_pr_production_minerals_produces_add = 1 }
+z_pr_mod_pop_minerals_upkeep		= { z_pr_production_minerals_upkeep_add = 1 }
+
+z_pr_mod_pop_food_produces			= { z_pr_production_food_produces_add = 1 }
+z_pr_mod_pop_food_upkeep			= { z_pr_production_food_upkeep_add = 1 }
+
+#_[二产]
+z_pr_mod_pop_alloys_produces		= { z_pr_production_alloys_produces_add = 1 }
+z_pr_mod_pop_alloys_upkeep			= { z_pr_production_alloys_upkeep_add = 1 }
+
+z_pr_mod_pop_consumer_goods_produces	= { z_pr_production_consumer_goods_produces_add = 1 }
+z_pr_mod_pop_consumer_goods_upkeep		= { z_pr_production_consumer_goods_upkeep_add = 1 }
+
+#_[高级]
+z_pr_mod_pop_rare_crystals_produces		= { z_pr_production_rare_crystals_produces_add = 1 }
+z_pr_mod_pop_rare_crystals_upkeep		= { z_pr_production_rare_crystals_upkeep_add = 1 }
+
+z_pr_mod_pop_exotic_gases_produces		= { z_pr_production_exotic_gases_produces_add = 1 }
+z_pr_mod_pop_exotic_gases_upkeep		= { z_pr_production_exotic_gases_upkeep_add = 1 }
+
+z_pr_mod_pop_volatile_motes_produces	= { z_pr_production_volatile_motes_produces_add = 1 }
+z_pr_mod_pop_volatile_motes_upkeep		= { z_pr_production_volatile_motes_upkeep_add = 1 }
+
+#_[科研]
+z_pr_mod_pop_physics_research_produces		= { z_pr_production_physics_research_produces_add = 1 }
+z_pr_mod_pop_physics_research_upkeep		= { z_pr_production_physics_research_upkeep_add = 1 }
+
+z_pr_mod_pop_engineering_research_produces	= { z_pr_production_engineering_research_produces_add = 1 }
+z_pr_mod_pop_engineering_research_upkeep	= { z_pr_production_engineering_research_upkeep_add = 1 }
+
+z_pr_mod_pop_society_research_produces		= { z_pr_production_society_research_produces_add = 1 }
+z_pr_mod_pop_society_research_upkeep		= { z_pr_production_society_research_upkeep_add = 1 }
+
+z_pr_mod_pop_unity_produces			= { z_pr_production_unity_produces_add = 1 }
+z_pr_mod_pop_unity_upkeep			= { z_pr_production_unity_upkeep_add = 1 }
+
+#_[稀有]
+z_pr_mod_pop_sr_living_metal_produces	= { z_pr_production_sr_living_metal_produces_add = 1 }
+z_pr_mod_pop_sr_living_metal_upkeep		= { z_pr_production_sr_living_metal_upkeep_add = 1 }
+
+z_pr_mod_pop_sr_zro_produces			= { z_pr_production_sr_zro_produces_add = 1 }
+z_pr_mod_pop_sr_zro_upkeep				= { z_pr_production_sr_zro_upkeep_add = 1 }
+
+z_pr_mod_pop_sr_dark_matter_produces	= { z_pr_production_sr_dark_matter_produces_add = 1 }
+z_pr_mod_pop_sr_dark_matter_upkeep		= { z_pr_production_sr_dark_matter_upkeep_add = 1 }
+
+z_pr_mod_pop_nanites_produces			= { z_pr_production_nanites_produces_add = 1 }
+z_pr_mod_pop_nanites_upkeep				= { z_pr_production_nanites_upkeep_add = 1 }
+
+#_[其他]
+z_pr_mod_pop_minor_artifacts_produces	= { z_pr_production_minor_artifacts_produces_add = 1 }
+z_pr_mod_pop_minor_artifacts_upkeep		= { z_pr_production_minor_artifacts_upkeep_add = 1 }
+
+z_pr_mod_pop_influence_produces			= { z_pr_production_influence_produces_add = 1 }
+z_pr_mod_pop_influence_upkeep			= { z_pr_production_influence_upkeep_add = 1 }
+
+
+
+###_[核心产出mod]	碧蓝航线dlc/舰R/swg/灰烬/涅托/约战/苍蓝		/ACOT/GIGA
+
+#_|碧蓝航线dlc|
+z_pr_mod_pop_mind_club_produces			= { z_pr_production_mind_club_produces_add = 1 }
+z_pr_mod_pop_mind_club_upkeep			= { z_pr_production_mind_club_upkeep_add = 1 }
+
+z_pr_mod_pop_azur_shippartbox_produces	= { z_pr_production_azur_shippartbox_produces_add = 1 }
+
+#_|舰R|
+z_pr_mod_pop_sr_pantsu_produces		= { z_pr_production_sr_pantsu_produces_add = 1 }
+z_pr_mod_pop_sr_pantsu_upkeep		= { z_pr_production_sr_pantsu_upkeep_add = 1 }
+
+z_pr_mod_pop_sr_neo_produces		= { z_pr_production_sr_neo_produces_add = 1 }
+z_pr_mod_pop_sr_neo_upkeep			= { z_pr_production_sr_neo_upkeep_add = 1 }
+
+z_pr_mod_pop_sr_alpha_produces		= { z_pr_production_sr_alpha_produces_add = 1 }
+z_pr_mod_pop_sr_alpha_upkeep		= { z_pr_production_sr_alpha_upkeep_add = 1 }
+
+z_pr_mod_pop_sr_se_produces			= { z_pr_production_sr_se_produces_add = 1 }
+z_pr_mod_pop_sr_se_upkeep			= { z_pr_production_sr_se_upkeep_add = 1 }
+
+#_|swg|
+z_pr_mod_pop_sr_kyber_swgs_produces			= { z_pr_production_sr_kyber_swgs_produces_add = 1 }	#
+z_pr_mod_pop_sr_kyber_swgs_upkeep			= { z_pr_production_sr_kyber_swgs_upkeep_add = 1 }
+
+z_pr_mod_pop_sr_tibanna_swgs_produces		= { z_pr_production_sr_tibanna_swgs_produces_add = 1 }	#
+z_pr_mod_pop_sr_tibanna_swgs_upkeep			= { z_pr_production_sr_tibanna_swgs_upkeep_add = 1 }
+
+#_|灰烬|	sr_crystal_adf/sr_parts_adf
+z_pr_mod_pop_sr_crystal_adf_produces	= { z_pr_production_sr_crystal_adf_produces_add = 1 }	#
+z_pr_mod_pop_sr_crystal_adf_upkeep		= { z_pr_production_sr_crystal_adf_upkeep_add = 1 }
+
+z_pr_mod_pop_sr_parts_adf_produces		= { z_pr_production_sr_parts_adf_produces_add = 1 }		#
+z_pr_mod_pop_sr_parts_adf_upkeep		= { z_pr_production_sr_parts_adf_upkeep_add = 1 }
+
+#_|涅托|	GF_nyto_collapse_liquid/GF_nyto_dark_star_core
+z_pr_mod_pop_GF_nyto_collapse_liquid_produces		= { z_pr_production_GF_nyto_collapse_liquid_produces_add = 1 }		#
+z_pr_mod_pop_GF_nyto_collapse_liquid_upkeep			= { z_pr_production_GF_nyto_collapse_liquid_upkeep_add = 1 }		#
+
+z_pr_mod_pop_GF_nyto_dark_star_core_produces		= { z_pr_production_GF_nyto_dark_star_core_produces_add = 1 }		#
+
+#_|约战|	datealive_crystals
+z_pr_mod_pop_datealive_crystals_produces		= { z_pr_production_datealive_crystals_produces_add = 1 }		#
+z_pr_mod_pop_datealive_crystals_upkeep			= { z_pr_production_datealive_crystals_upkeep_add = 1 }		#
+
+#_|苍蓝|	nanomaterial/union_core
+z_pr_mod_pop_nanomaterial_produces			= { z_pr_production_nanomaterial_produces_add = 1 }		#
+z_pr_mod_pop_nanomaterial_upkeep			= { z_pr_production_nanomaterial_upkeep_add = 1 }		#
+
+z_pr_mod_pop_union_core_produces			= { z_pr_production_union_core_produces_add = 1 }		#
+
+#_|ACOT|	acot_sr_dark_energy/acot_sr_stellarite
+z_pr_mod_pop_acot_sr_dark_energy_produces	= { z_pr_production_acot_sr_dark_energy_produces_add = 1 }	#
+z_pr_mod_pop_acot_sr_dark_energy_upkeep		= { z_pr_production_acot_sr_dark_energy_upkeep_add = 1 }	#
+
+z_pr_mod_pop_acot_sr_stellarite_produces	= { z_pr_production_acot_sr_stellarite_produces_add = 1 }	#
+z_pr_mod_pop_acot_sr_stellarite_upkeep		= { z_pr_production_acot_sr_stellarite_upkeep_add = 1 }
+
+#_|GIGA|	ehof_sr_sentient_metal
+z_pr_mod_pop_sr_iodizium_produces			= { z_pr_production_sr_iodizium_produces_add = 1 }
+z_pr_mod_pop_sr_iodizium_upkeep				= { z_pr_production_sr_iodizium_upkeep_add = 1 }
+
+z_pr_mod_pop_sr_solar_energy_produces			= { z_pr_production_sr_solar_energy_produces_add = 1 }
+z_pr_mod_pop_sr_solar_energy_upkeep				= { z_pr_production_sr_solar_energy_upkeep_add = 1 }
+
+z_pr_mod_pop_sr_magical_neutronium_produces			= { z_pr_production_sr_magical_neutronium_produces_add = 1 }
+z_pr_mod_pop_sr_magical_neutronium_upkeep			= { z_pr_production_sr_magical_neutronium_upkeep_add = 1 }
+
+z_pr_mod_pop_sr_psionic_sublimate_produces			= { z_pr_production_sr_psionic_sublimate_produces_add = 1 }
+z_pr_mod_pop_sr_psionic_sublimate_upkeep			= { z_pr_production_sr_psionic_sublimate_upkeep_add = 1 }
+
+z_pr_mod_pop_ehof_sr_negative_mass_produces			= { z_pr_production_ehof_sr_negative_mass_produces_add = 1 }
+z_pr_mod_pop_ehof_sr_negative_mass_upkeep			= { z_pr_production_ehof_sr_negative_mass_upkeep_add = 1 }
+
+z_pr_mod_pop_ehof_sr_sentient_metal_produces		= { z_pr_production_ehof_sr_sentient_metal_produces_add = 1 }	#
+z_pr_mod_pop_ehof_sr_sentient_metal_upkeep			= { z_pr_production_ehof_sr_sentient_metal_upkeep_add = 1 }
+
+
+
+
+
+
+
+
+
+
+
+
+

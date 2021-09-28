@@ -1,0 +1,69 @@
+#_[其他修正/产出_维护]
+z_pr_freeman = {
+	rank = 1
+	clothes_texture_index = 3
+	change_job_threshold = 2	#_倍率
+
+	keep_from_former_job = yes
+	demotion_time = 1
+
+#	should_apply_unemployment_penalties = {}
+#	unemployment_penalties = {}
+#	unemployment_resources = {}
+#	triggered_pop_modifier = {}
+
+	weight = { weight = 0.5 }	#_占位
+
+	#_[其他修正]	/10
+	pop_modifier = {
+#		pop_political_power = 10
+	}
+	
+	# scope: pop to be resettled
+	allow_resettlement = { always = no }
+#	resettlement_cost = { energy = 100 }
+
+#	resources = {}
+}
+z_pr_drone = {
+	rank = 0
+	clothes_texture_index = 3
+	change_job_threshold = 2	#_倍率
+
+	keep_from_former_job = yes
+	demotion_time = 1
+
+	weight = { weight = 0.5 }	#_占位
+
+	pop_modifier = {
+	}
+	
+	allow_resettlement = { always = no }
+}
+
+
+
+
+#_[人力缓存]
+z_pr_cat_uep = {
+	rank = 0
+	clothes_texture_index = 1
+	change_job_threshold = 0.005
+	
+#	assign_to_pop = {
+#		is_being_purged = no
+#		is_being_assimilated = no
+#		is_unemployed = yes
+#		exists = owner
+#		owner = { has_country_flag = z_pr_flg_cntr_reg }
+#	}
+
+	weight = { weight = 200 }
+
+	pop_modifier = {
+	}
+
+	# scope: pop to be resettled
+	allow_resettlement = { always = no }
+#	resettlement_cost = { energy = 50 }
+}

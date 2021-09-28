@@ -1,0 +1,189 @@
+###_z fw---行星决策	##########################################################################
+
+#_[星球设置standard/星球设置full/星球设置limit/星球设置slaved]
+
+
+
+
+###_[星球设置]	####################################################################
+
+#_[星球设置standard]
+otdt_x_dec_spcs_standard = {
+	owned_planets_only = yes
+	sound = event_administrative_work
+	potential = {
+		always = no
+		owner = {
+			NOR = {#_平权/格式塔 禁止物种控制
+				is_gestalt = yes
+				has_ethic = ethic_egalitarian
+				has_ethic = ethic_fanatic_egalitarian
+			}
+		}
+		NOR = {
+			has_planet_flag = otdt_x_flg_plnt_pop_full
+			has_planet_flag = otdt_x_flg_plnt_pop_limited
+			has_planet_flag = otdt_x_flg_plnt_pop_slaved
+		}
+		owner = {
+			is_ai = no
+			has_country_flag = otdt_x_flg_cntr_reg
+		}
+	}
+	allow = { always = no }
+	ai_weight = { weight = 0 }
+	
+	effect = {
+		custom_tooltip = otdt_x_tips_dec_spcs
+		hidden_effect = {
+			if = {#_亲外=直接跳到共荣
+				limit = {
+					owner = {
+						OR = {
+							has_ethic = ethic_xenophile
+							has_ethic = ethic_fanatic_xenophile
+						}
+					}
+				}
+				remove_planet_flag = otdt_x_flg_plnt_pop_full
+				set_planet_flag = otdt_x_flg_plnt_pop_limited
+				remove_planet_flag = otdt_x_flg_plnt_pop_slaved
+			}
+			else = {
+				set_planet_flag = otdt_x_flg_plnt_pop_full
+				remove_planet_flag = otdt_x_flg_plnt_pop_limited
+				remove_planet_flag = otdt_x_flg_plnt_pop_slaved
+			}
+			otdt_x_eft_plnt_deposit = yes		#_[功能地块debug]
+		}
+	}
+}
+
+#_[星球设置full]
+otdt_x_dec_spcs_full = {
+	owned_planets_only = yes
+	sound = event_administrative_work
+	potential = {
+		always = no
+		owner = {
+			NOR = {#_平权/格式塔 禁止物种控制
+				is_gestalt = yes
+				has_ethic = ethic_egalitarian
+				has_ethic = ethic_fanatic_egalitarian
+			}
+		}
+		has_planet_flag = otdt_x_flg_plnt_pop_full
+		owner = {
+			is_ai = no
+			has_country_flag = otdt_x_flg_cntr_reg
+		}
+	}
+	allow = { always = no }
+	ai_weight = { weight = 0 }
+	
+	effect = {
+		custom_tooltip = otdt_x_tips_dec_spcs
+		hidden_effect = {
+			if = {#_排外=直接跳到奴役
+				limit = {
+					owner = {
+						OR = {
+							has_ethic = ethic_xenophobe
+							has_ethic = ethic_fanatic_xenophobe
+						}
+					}
+				}
+				remove_planet_flag = otdt_x_flg_plnt_pop_full
+				remove_planet_flag = otdt_x_flg_plnt_pop_limited
+				set_planet_flag = otdt_x_flg_plnt_pop_slaved
+			}
+			else = {
+				remove_planet_flag = otdt_x_flg_plnt_pop_full
+				set_planet_flag = otdt_x_flg_plnt_pop_limited
+				remove_planet_flag = otdt_x_flg_plnt_pop_slaved
+			}
+			otdt_x_eft_plnt_deposit = yes		#_[功能地块debug]
+		}
+	}
+}
+
+#_[星球设置limit]
+otdt_x_dec_spcs_limited = {
+	owned_planets_only = yes
+	sound = event_administrative_work
+	potential = {
+		always = no
+		owner = {
+			NOR = {#_平权/格式塔 禁止物种控制
+				is_gestalt = yes
+				has_ethic = ethic_egalitarian
+				has_ethic = ethic_fanatic_egalitarian
+			}
+		}
+		has_planet_flag = otdt_x_flg_plnt_pop_limited
+		owner = {
+			is_ai = no
+			has_country_flag = otdt_x_flg_cntr_reg
+		}
+	}
+	allow = { always = no }
+	ai_weight = { weight = 0 }
+	
+	effect = {
+		custom_tooltip = otdt_x_tips_dec_spcs
+		hidden_effect = {
+			if = {#_亲外=直接跳到标准
+				limit = {
+					owner = {
+						OR = {
+							has_ethic = ethic_xenophile
+							has_ethic = ethic_fanatic_xenophile
+						}
+					}
+				}
+				remove_planet_flag = otdt_x_flg_plnt_pop_full
+				remove_planet_flag = otdt_x_flg_plnt_pop_limited
+				remove_planet_flag = otdt_x_flg_plnt_pop_slaved
+			}
+			else = {
+				remove_planet_flag = otdt_x_flg_plnt_pop_full
+				remove_planet_flag = otdt_x_flg_plnt_pop_limited
+				set_planet_flag = otdt_x_flg_plnt_pop_slaved
+			}
+			otdt_x_eft_plnt_deposit = yes		#_[功能地块debug]
+		}
+	}
+}
+
+#_[星球设置slaved]
+otdt_x_dec_spcs_slaved = {
+	owned_planets_only = yes
+	sound = event_administrative_work
+	potential = {
+		always = no
+		owner = {
+			NOR = {#_平权/格式塔 禁止物种控制
+				is_gestalt = yes
+				has_ethic = ethic_egalitarian
+				has_ethic = ethic_fanatic_egalitarian
+			}
+		}
+		has_planet_flag = otdt_x_flg_plnt_pop_slaved
+		owner = {
+			is_ai = no
+			has_country_flag = otdt_x_flg_cntr_reg
+		}
+	}
+	allow = { always = no }
+	ai_weight = { weight = 0 }
+	
+	effect = {
+		custom_tooltip = otdt_x_tips_dec_spcs
+		hidden_effect = {
+			remove_planet_flag = otdt_x_flg_plnt_pop_full
+			remove_planet_flag = otdt_x_flg_plnt_pop_limited
+			remove_planet_flag = otdt_x_flg_plnt_pop_slaved
+			otdt_x_eft_plnt_deposit = yes		#_[功能地块debug]
+		}
+	}
+}

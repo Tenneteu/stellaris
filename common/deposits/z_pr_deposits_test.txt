@@ -1,0 +1,549 @@
+###_	测试 deposits	#############################################################################
+#_[vanilla_pr]
+#_[碧蓝航线]
+#_[舰R]
+#_[PR_PATCH]	[星舰少女/灰烬/古代帝国/涅槃/终极科技/涅托/约战/苍蓝]
+#_[ACOT]
+#_[Giga]
+
+
+
+###_[vanilla_pr]
+z_pr_d_test_香草 = {
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		##_|vanilla|	00_other/01_ruler/02_specialist_jobs/03_worker_jobs/04_gestalt_jobs/07_fallen_empire///
+		
+		#_<00_other>
+		job_bio_trophy_add = 1
+		
+		#_<01_ruler>
+		job_head_researcher_add = 1
+		job_high_priest_add = 1
+		job_administrator_add = 1
+		job_noble_add = 1
+		job_merchant_add = 1
+		job_executive_add = 1
+		
+		#_<02_specialist_jobs>
+		job_researcher_add = 1
+		job_priest_add = 1
+		job_death_priest_add = 1
+		job_enforcer_add = 1
+		job_telepath_add = 1
+		job_entertainer_add = 1
+		job_duelist_add = 1
+		job_culture_worker_add = 1
+		job_bureaucrat_add = 1
+		job_chemist_add = 1
+		job_translucer_add = 1
+		job_gas_refiner_add = 1
+		job_roboticist_add = 1
+		job_healthcare_add = 1
+		job_manager_add = 1
+		job_necromancer_add = 1
+		job_bluelotus_technician_add = 1
+		job_death_chronicler_add = 1
+		job_foundry_add = 1
+		job_catalytic_technician_add = 1
+		job_artisan_add = 1
+		job_artificer_add = 1
+		
+		#_<03_worker_jobs>
+		job_clerk_add = 1
+		job_technician_add = 1
+		job_miner_add = 1
+		job_crystal_miner_add = 1
+		job_gas_extractor_add = 1
+		job_mote_harvester_add = 1
+		job_farmer_add = 1
+		job_soldier_add = 1
+		job_preacher_add = 1
+		job_mortal_initiate_add = 1
+		job_scrap_miner_add = 1
+		
+		#_<04_gestalt_jobs>cd
+		job_spawning_drone_add = 1
+		job_replicator_add = 1
+		job_coordinator_add = 1
+		job_evaluator_add = 1
+		job_synapse_drone_add = 1
+		job_brain_drone_add = 1
+		job_calculator_add = 1
+		job_artisan_drone_add = 1
+		job_fabricator_add = 1
+		job_alloy_drone_add = 1
+		job_catalytic_drone_add = 1
+		job_chemist_drone_add = 1
+		job_translucer_drone_add = 1
+		job_gas_refiner_drone_add = 1
+		job_patrol_drone_add = 1
+		job_crystal_mining_drone_add = 1
+		job_mote_harvesting_drone_add = 1
+		job_gas_extraction_drone_add = 1
+		
+		#_<04_gestalt_jobs>sd
+		job_mining_drone_add = 1
+		job_agri_drone_add = 1
+		job_technician_drone_add = 1
+		job_maintenance_drone_add = 1
+		job_warrior_drone_add = 1
+		job_bluelotus_drone_add = 1
+		job_chronicle_drone_add = 1
+		job_scrap_miner_drone_add = 1
+		
+		#_<07_fallen_empire>sd
+		job_fe_overseer_add = 1
+		job_fe_sky_cardinal_add = 1
+		job_fe_guardian_bot_add = 1
+		job_fe_protector_add = 1
+		job_fe_archivist_add = 1
+		job_fe_acolyte_farm_add = 1
+		job_fe_acolyte_mine_add = 1
+		job_fe_acolyte_generator_add = 1
+		job_fe_augur_add = 1
+		job_fe_xeno_keeper_add = 1
+	
+	
+		##_|产业革命|	z_pr_jobs_misc///
+		job_pr_raw_collector_add = 1
+		job_pr_raw_drone_add = 1
+		job_pr_exp_solar_technician_add = 1
+		job_pr_exp_solar_drone_add = 1
+		job_pr_exp_bh_researcher_add = 1
+		job_pr_exp_bh_drone_add = 1
+		job_pr_div_ecologist_add = 1
+		job_pr_div_eco_drone_add = 1
+		job_pr_div_res_admin_add = 1
+		job_pr_div_res_drone_add = 1
+		job_pr_div_abyss_miner_add = 1
+		job_pr_div_abyss_drone_add = 1
+		job_pr_div_militia_add = 1
+		job_pr_div_milit_drone_add = 1
+	}
+}
+
+
+
+###_[碧蓝航线]
+z_pr_d_test_碧蓝科研 = {
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		job_azur_researcher_add = 1
+	}
+}
+z_pr_d_test_碧蓝组装 = {
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		job_azur_roboticist_add = 1
+	}
+}
+z_pr_d_test_碧蓝其他 = {
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		#_<azur_jobs_district>
+		
+		job_azur_clerk_add = 1
+		job_azur_design_expert_add = 1
+		job_alloy_expert2_add = 1
+		job_azur_technician_add = 1
+		job_azur_fisher_add = 1
+		job_azur_alloys_miner_add = 1
+		job_azur_ocean_technician_add = 1
+		job_azur_gaia_sevent_add = 1
+		job_azur_gaia_worker_add = 1
+		job_azur_gaia_worker_other_add = 1
+		job_azur_gaia_artist_add = 1
+		job_azur_hydroponic_expert_add = 1
+		
+		#_<azur_jobs_normal>
+		job_nutrition_expert_add = 1
+		job_mineral_expert_add = 1
+		job_club_operator_add = 1
+		job_alloy_expert_add = 1
+		job_club_artist_add = 1
+		job_mind_doctor_add = 1
+		job_club_worker_add = 1
+		job_club_expert_add = 1
+		job_azur_shippartbox_expert_add = 1
+		job_mind_club_nurse_add = 1
+		job_mind_servant_add = 1		#_per
+	#	job_azur_researcher_add = 1
+		job_azur_manufacturing_technician_add = 1
+		job_azur_people_add = 1		#_per
+		job_azur_ib_soldier_add = 1
+		job_azur_nun_add = 1		#_per
+		
+		#_<azur_jobs_ruler>
+		job_mind_enforcer_add = 1
+		job_mind_administrator_add = 1
+		job_azur_bureaucrat_add = 1
+	#	job_azur_roboticist_add = 1
+		job_azur_mind_net_speaker_add = 1	#_per
+	}
+}
+
+
+###_[舰R]
+z_pr_d_test_舰R = {
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		#_<sep_jobs>
+		job_sep_artisan_add = 1		#_per
+		job_wsg_senergy_add = 1
+		job_sep_foundry_add = 1		#_per
+	#	job_sep_pc_port_foundry_add = 0
+		job_wsg_rare_resource_manufacturer_add = 1
+		
+		#_<sh_fe_jobs>
+		job_sh_fe_leader_add = 1
+	#	job_sh_fe_worker_add = 0
+		job_sh_fe_factorer_add = 1
+		job_sh_fe_protector_add = 1
+		
+		#_<sh_ruler_jobs>
+		job_sh_researcher_add = 1
+		
+		#_<sh_specialist_jobs>
+		job_sh_pantsu_maker_add = 1
+		job_sh_foundry_add = 1	#_per
+		job_sh_foundry_shpc_add = 1
+		job_sh_senergy_add = 1
+		job_sh_soldier_add = 1
+		
+		#_<sh_worker_jobs>
+		job_sh_clerk_add = 1	#_per
+		
+		#_<wg_other_jobs>
+		job_wsg_shop_pantsu_collector_add = 1
+		
+		#_<wsg_civic_spec_jobs>
+		job_wsg_people_scientist_add = 1	#_per
+	#	job_wsg_blueprinting_dog_add = 0
+		
+		#_<wsg_ruler_jobs>
+	#	job_wsg_administrator_add = 0
+		job_wsg_merchant_add = 1
+		job_wsg_sunflower_priest_add = 1
+		
+		#_<wsg_specialist_jobs>
+		job_wsg_pantsu_maker_add = 1
+		job_wsg_neo_producer_add = 1
+		job_barthroom_worker_add = 1
+		job_wsg_instructor_add = 1
+		job_wsg_gas_refiner_add = 1
+		job_wsg_chemist_add = 1
+		job_wsg_translucer_add = 1
+		job_wsg_foundry_add = 1		#_per
+	#	job_wsg_pc_port_foundry_add = 0
+		job_wsg_alpha_add = 1
+		job_wsg_researcher_add = 1
+		job_wsg_soldier_add = 1
+		job_wsg_mahjong_add = 1
+		job_wsg_historical_researcher_add = 1
+		job_wg_tourism_add = 1
+		job_dyson_ring_researcher_add = 1
+		
+		#_<wsg_worker_jobs>
+		job_wsg_moyu_add = 1	#_per
+		job_hot_seal_add = 1
+	}
+}
+
+
+###_[PR_PATCH]
+z_pr_d_test_PR_PATCH = {
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	###_[星舰少女]
+	#_swgs_specialist_jobs	swgs_kyber/swgs_tibanna/swgs_foundry/swgs_hq_researcher/swgs_artisan
+	triggered_planet_modifier = {
+		potential = { always = no
+			has_global_flag = z_pr_patch_installed_mod_SWGS
+		}
+
+		#_<swgs_specialist_jobs>
+		job_swgs_kyber_add = 1
+		job_swgs_tibanna_add = 1
+		job_swgs_foundry_add = 1
+		job_swgs_hq_researcher_add = 1
+		job_swgs_artisan_add = 1
+	}
+
+	###_[灰烬战线]
+	triggered_planet_modifier = {
+		potential = { always = no
+			has_global_flag = z_pr_patch_installed_mod_ADF
+		}
+
+		job_adf_crystal_add = 1
+		job_adf_parts_add = 1
+		job_adf_foundry_add = 1
+		job_adf_chief_researcher_add = 1
+		job_adf_artisan_add = 1
+	}
+
+	###_[古代帝国]
+	triggered_planet_modifier = {
+		potential = { always = no
+			has_global_flag = z_pr_patch_installed_mod_AG
+		}
+			
+		job_ag_living_metal_fabricator_add = 1
+		job_ag_living_metal_fabricator_gestalt_add = 1
+		job_ag_nanites_assembler_add = 1
+		job_ag_nanites_assembler_gestalt_add = 1
+		job_ag_dark_matter_fabricator_add = 1
+		job_ag_dark_matter_fabricator_gestalt_add = 1
+		job_ag_zro_refiner_add = 1
+		job_ag_zro_refiner_gestalt_add = 1
+	}
+	
+	###_[涅槃]
+	triggered_planet_modifier = {
+		potential = { always = no
+			has_global_flag = z_pr_patch_installed_mod_Nirvana
+		}
+		
+		job_str_overseer_add = 1
+		job_str_sky_cardinal_add = 1
+		job_str_protector_add = 1
+		job_str_archivist_add = 1
+		job_str_acolyte_farm_add = 1
+		job_str_acolyte_mine_add = 1
+		job_str_acolyte_generator_add = 1
+		job_str_augur_add = 1
+		job_str_xeno_keeper_add = 1
+		job_str_acolyte_artisan_add = 1
+		job_str_thinker_add = 1	#如果|is_capped_by_modifier|是no,per_pop与add都将无法生效
+	}
+	
+	###_[终极科技]
+	triggered_planet_modifier = {
+		potential = { always = no
+			has_global_flag = z_pr_patch_installed_mod_ULT
+		}
+		
+		job_ult_dark_energy_field_operator_add = 1
+		job_ult_mining_drone_operator_add = 1
+		job_ult_nutritionist_add = 1
+		job_ult_atomic_assembler_add = 1
+		job_ult_ecologist_add = 1
+		job_ult_product_designer_add = 1
+	}
+	
+	###_[涅托]
+	triggered_planet_modifier = {
+		potential = { always = no
+			has_global_flag = z_pr_patch_installed_mod_NYTO
+		}
+		
+		job_GFnyto_collapse_particle_researcher_add = 1
+		job_GFnyto_white_knight_add = 1
+		job_GFnyto_phase_technician_add = 1
+		job_GFnyto_technology_minister_add = 1
+		job_GFnyto_explorer_add = 1
+	}
+	
+	###_[约战]
+	triggered_planet_modifier = {
+		potential = { always = no
+			has_global_flag = z_pr_patch_installed_mod_DAL
+		}
+		
+		#事件土著文明-800
+		job_primitive_laborer_rinne_add = 1
+		job_primitive_miner_rinne_add = 1
+		job_primitive_technician_rinne_add = 1
+		job_primitive_farmer_rinne_add = 1
+		job_primitive_priest_rinne_add = 1
+		job_primitive_bureaucrat_rinne_add = 1
+		job_primitive_warrior_rinne_add = 1
+		job_primitive_researcher_rinne_add = 1
+		# 17000
+		job_DAL_utopia_seeker_add = 1
+		job_DAL_utopia_seeker_soldier_add = 1
+		job_DAL_datealive_crystals_miner_add = 1
+		job_DAL_datealive_crystals_miner_drone_add = 1
+		job_datealive_crystals_researcher_add = 1
+		job_datealive_crystals_researcher_drone_add = 1
+		job_datealive_crystals_manufacturing_add = 1
+		job_datealive_crystals_manufacturing_drone_add = 1
+		job_datealive_crystals_explorer_add = 1
+		job_datealive_crystals_explorer_drone_add = 1
+	}
+	
+	###_[苍蓝]
+	triggered_planet_modifier = {
+		potential = {
+			has_global_flag = z_pr_patch_installed_mod_ARP
+		}
+		
+		#_<arp_jobs_ruler>
+		job_fleet_flagship_add = 1
+		
+		#_<arp_jobs_normal>
+		job_maintenance_expert_add = 1
+		job_arp_research_expert_add = 1
+		job_student_union_members_add = 1
+		job_nanomaterial_employee_add = 1
+		job_core_employee_add = 1
+	}
+
+}
+
+
+#_[ACOT]
+z_pr_d_test_ACOT = {
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	triggered_planet_modifier = {
+		potential = { has_global_flag = z_pr_patch_installed_mod_ACOT }
+		
+		job_acot_overlord_drone_add = 1
+		job_acot_overseer_add = 1
+		job_acot_overlord_droid_add = 1
+		job_acot_overseer_droid_add = 1
+		job_acot_overlord_drone_add = 1
+		job_acot_overseer_drone_add = 1
+
+		job_acot_apothecary_add = 1
+		job_acot_broodmother_add = 1
+		job_acot_roboman_add = 1
+		job_acot_robodrone_add = 1
+
+		job_acot_dark_energy_man_add = 1
+		job_acot_dark_energy_drone_add = 1
+		job_acot_dark_matter_man_add = 1
+		job_acot_dark_matter_drone_add = 1
+		job_acot_dark_energy_drone_add = 1
+		job_acot_voidsphere_forgedrone_add = 1
+
+		job_acot_mineralman_add = 1
+		job_acot_mineraldrone_add = 1
+		job_acot_alloyman_add = 1
+		job_acot_alloydrone_add = 1
+		job_acot_energyman_add = 1
+		job_acot_energydrone_add = 1
+		job_acot_foodman_add = 1
+		job_acot_fooddrone_add = 1
+		job_acot_transmute_man_add = 1
+		job_acot_transmute_drone_add = 1
+		job_acot_artisan_add = 1
+		job_acot_entertainer_add = 1
+		job_acot_entertainer_drone_add = 1
+		job_acot_voidsphere_siloman_add = 1
+		job_acot_voidsphere_silodrone_add = 1
+
+		job_acot_researcher_add = 1
+		job_acot_researcher_drone_add = 1
+		job_acot_priest_add = 1
+		job_acot_voidsphere_labman_add = 1
+		job_acot_voidsphere_labdrone_add = 1
+
+		job_acot_enforcer_add = 1
+		job_acot_enforcer_drone_add = 1
+		job_acot_giga_fortress_operator_add = 1
+		job_acot_giga_fortress_operator_ancient_add = 1
+	#	job_acot_giga_fortress_operator_mentat_add = 1
+		job_acot_giga_fortress_operator_drone_add = 1
+
+		job_acot_stellariteman_add = 1
+		job_acot_stellaritedrone_add = 1
+	}
+}
+
+
+#_[Giga]	giga_jobs/giga_birch/giga_voidbirch_jobs
+z_pr_d_test_Giga = {
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	triggered_planet_modifier = {
+		potential = { has_global_flag = z_pr_patch_installed_mod_Giga }
+		
+		## giga_jobs
+		job_giga_interstellar_researcher_add = 1
+		job_giga_interstellar_researcher_drone_add = 1
+		job_giga_interstellar_scavenger_add = 1
+		job_giga_interstellar_scavenger_drone_add = 1
+		job_giga_preserver_add = 1
+		job_giga_preserver_drone_add = 1
+		job_giga_zro_extractor_add = 1
+		job_giga_zro_extractor_drone_add = 1
+		job_giga_gas_harvester_add = 1
+		job_giga_gas_harvester_drone_add = 1
+		job_virtual_rare_resource_add = 1
+		job_virtual_rare_resource_gestalt_add = 1
+		job_virtual_admin_cap_add = 1
+		job_virtual_admin_cap_hive_add = 1
+		job_virtual_admin_cap_machine_add = 1
+		job_ehof_cultivator_add = 1
+		job_ehof_cultivation_drone_add = 1
+		job_matter_synthesizer_add = 1
+		job_matter_synthesizer_drone_add = 1
+		
+		## giga_birch
+		job_penrose_weaver_add = 1
+		job_bore_engineer_add = 1
+		job_penrose_engineer_add = 1
+		job_structure_engineer_add = 1
+	#	job_structure_manager_add = 1	#
+	#	job_bore_manager_add = 1	#
+	#	job_penrose_manager_add = 1	#
+		job_penrose_weaver_drone_add = 1
+		job_structure_drone_add = 1
+	#	job_structure_process_add = 1	#
+	#	job_structure_mind_add = 1	#
+		job_bore_drone_add = 1
+	#	job_bore_process_add = 1	#
+	#	job_bore_mind_add = 1	#
+		job_penrose_drone_add = 1
+	#	job_penrose_process_add = 1	#
+	#	job_penrose_mind_add = 1	#
+	
+		## giga_voidbirch_jobs
+		job_void_bore_engineer_add = 1
+		job_void_penrose_engineer_add = 1
+	#	job_void_bore_manager_add = 1	#
+	#	job_void_penrose_manager_add = 1	#
+		job_void_bore_drone_add = 1
+	#	job_void_bore_process_add = 1	#
+	#	job_void_bore_mind_add = 1	#
+		job_void_penrose_drone_add = 1
+	#	job_void_penrose_process_add = 1	#
+	#	job_void_penrose_mind_add = 1	#
+	}
+	
+}
+
+
+

@@ -1,0 +1,763 @@
+###_	production_revolution misc_effects	###########################################################
+
+#_[ai自动建设]
+#_[ai经济辅助]
+
+
+
+
+###_[ai自动建设]	init/默认建设/区划替换执行/建筑升级执行/clear	###########################################################
+z_pr_eft_plnt_ai_auto_bldn = {
+	###_[init]
+	if = {
+		limit = { free_district_slots <= 0 }
+		add_modifier = { modifier = z_pr_mod_pop_checker days = 1 }
+		calculate_modifier = yes	#_星球mod不会立刻刷新
+	}
+	set_variable = { which = TEMP_var_plnt_ai_basic_construct value = 0 }	#_|基础建设数量|
+	set_variable = { which = TEMP_var_plnt_ai_research_bldn value = 0 }	#_|研究站建设数量|
+	if = {
+		limit = {
+			OR = {
+				years_passed > 20
+				AND = { years_passed > 2	colony_age > 20 }
+			}
+			free_building_slots > 1
+		}
+		change_variable = { which = TEMP_var_plnt_ai_basic_construct value = 1 }
+	}
+	set_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+	set_planet_flag = TEMP_flg_plnt_ai_bldn_update_ready		#_|建筑升级准备|
+
+
+
+
+	###_[默认建设]	基础区划/贸易替换/基础建筑/研究站
+	# 解决前期管理员岗位不满无法建造设施的问题,并强化ai
+	
+	## 基础区划
+	if = {
+		limit = {
+			years_passed > 2
+			colony_age > 12
+			free_district_slots > 1
+		}
+		if = {
+			limit = {
+				uses_district_set = standard
+				num_free_districts = { type = district_generator value > 0 }	#_|可建造|=发电区
+				num_districts = { type = district_generator value < 2 }
+			}
+			add_district = district_generator
+			set_planet_flag = TEMP_pr_flg_plnt_ai_basic_done	#_|基础建设done|
+		}
+		else_if = {
+			limit = {
+				uses_district_set = standard
+				num_free_districts = { type = district_mining value > 0 }		#_|可建造|=采矿区
+				num_districts = { type = district_mining value < 2 }
+			}
+			add_district = district_mining
+			set_planet_flag = TEMP_pr_flg_plnt_ai_basic_done	#_|基础建设done|
+		}
+		else_if = {
+			limit = {
+				uses_district_industrial = yes
+				NOR = { has_modifier = resort_colony		has_modifier = slave_colony }
+				num_free_districts = { type = district_industrial value > 0 }		#_|可建造|=工业区
+				num_districts = { type = district_industrial value < 1 }
+			}
+			add_district = district_industrial
+			set_planet_flag = TEMP_pr_flg_plnt_ai_basic_done	#_|基础建设done|
+		}
+	}
+	if = { limit = { years_passed < 25		has_planet_flag = TEMP_pr_flg_plnt_ai_basic_done }	#_|禁止后续建设|25年后基础建筑和区划建设同步进行
+		set_variable = { which = TEMP_var_plnt_ai_basic_construct value = 0 }	#_|基础建设数量|
+		remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready
+		remove_planet_flag = TEMP_flg_plnt_ai_bldn_update_ready
+	}
+	
+	## 贸易替换
+	# 贸易站计数	|max=3|
+	set_variable = { which = TEMP_var_num_trade_bldn value = 0 }
+	export_trigger_value_to_variable = {#lv1
+		trigger = num_buildings
+		parameters = { type = building_commercial_zone }
+		variable = TEMP_var_count
+	}
+	change_variable = { which = TEMP_var_num_trade_bldn value = TEMP_var_count }
+	export_trigger_value_to_variable = {#lv2
+		trigger = num_buildings
+		parameters = { type = building_commercial_megaplex }
+		variable = TEMP_var_count
+	}
+	change_variable = { which = TEMP_var_num_trade_bldn value = TEMP_var_count }
+#	clear_variable = TEMP_var_count
+	# 贸易站转化DB
+	subtract_variable = { which = TEMP_var_num_trade_bldn value = 3 }
+	if = { limit = { check_variable = { which = TEMP_var_num_trade_bldn value > 0 } }	#_|有可以转化的研究站|
+		# |基础建设数量|debug
+		change_variable = { which = TEMP_var_plnt_ai_basic_construct value = TEMP_var_num_trade_bldn }
+		
+		# 清除多余贸易站
+		while = { limit = { check_variable = { which = TEMP_var_num_trade_bldn value > 0 } }
+			subtract_variable = { which = TEMP_var_num_trade_bldn value = 1 }
+			if = { limit = { has_building = building_commercial_zone }
+				remove_building = building_commercial_zone
+			}
+			else = {
+				remove_building = building_commercial_megaplex
+			}
+		}
+	}
+
+	
+	## 基础建筑		人口/组装/矿/电/消费/合金/科研		|TEMP_pr_flg_plnt_ai_basic_done|决定是否进行后续建设
+	while = { limit = { check_variable = { which = TEMP_var_plnt_ai_basic_construct value > 0 } }
+		subtract_variable = { which = TEMP_var_plnt_ai_basic_construct value  = 1 }
+		
+		# 人口
+		if = {#蜂群
+			limit = {
+				exists = owner
+				owner = { is_hive_empire = yes }
+				NOR = {
+					has_building = building_spawning_pool
+					has_building_construction = building_spawning_pool
+				}
+			}
+			add_building = building_spawning_pool
+			set_planet_flag = TEMP_pr_flg_plnt_ai_basic_done	#_|基础建设done|
+		}
+	#	else_if = {#普通	SAI禁止
+	#		limit = {
+	#			NOT = { has_modifier = slave_colony }
+	#			exists = owner
+	#			owner = { is_regular_empire = yes }
+	#			NOR = {
+	#				has_building = building_clinic
+	#				has_building_construction = building_clinic
+	#				has_building = building_hospital
+	#				has_building_construction = building_hospital
+	#			}
+	#		}
+	#		add_building = building_clinic
+	#		set_planet_flag = TEMP_pr_flg_plnt_ai_basic_done	#_|基础建设done|
+	#	}
+		# 组装
+		else_if = {#普通
+			limit = {
+				NOT = { has_modifier = slave_colony }
+				exists = owner
+				owner = {
+					is_regular_empire = yes
+					NOT = { has_policy_flag = robots_outlawed }
+					OR = {
+						is_ai = no
+						NOT = { has_ascension_perk = ap_engineered_evolution }
+						is_materialist = yes
+					}
+				}
+				NOR = {
+					has_building = building_robot_assembly_plant
+					has_building_construction = building_robot_assembly_plant
+				}
+			}
+			add_building = building_robot_assembly_plant
+			set_planet_flag = TEMP_pr_flg_plnt_ai_basic_done	#_|基础建设done|
+		}
+		else_if = {#智械
+			limit = {
+				exists = owner
+				owner = { is_machine_empire = yes }
+				NOR = {
+					has_building = building_machine_assembly_plant
+					has_building_construction = building_machine_assembly_plant
+					has_building = building_machine_assembly_complex
+					has_building_construction = building_machine_assembly_complex
+				}
+			}
+			add_building = building_machine_assembly_plant
+			set_planet_flag = TEMP_pr_flg_plnt_ai_basic_done	#_|基础建设done|
+		}
+		# 矿
+		else_if = {
+			limit = {
+				# 基础条件
+				NOT = { has_modifier = resort_colony }
+				NOR = { # Ringworlds don't have mines
+					is_planet_class = pc_ringworld_habitable
+					is_planet_class = pc_cybrex
+				}
+				OR = { # Habitats only have mines if they're built on an appropriate deposit
+					NOT = { is_planet_class = pc_habitat }
+					has_planet_flag = mining_habitat
+				}
+				exists = owner
+				owner = { has_technology = tech_mineral_purification_1 }
+				# 建造条件
+				NOR = {
+					has_building = building_mineral_purification_plant
+					has_building_construction = building_mineral_purification_plant
+					has_building = building_mineral_purification_hub
+					has_building_construction = building_mineral_purification_hub
+				}
+			}
+			add_building = building_mineral_purification_plant
+			set_planet_flag = TEMP_pr_flg_plnt_ai_basic_done	#_|基础建设done|
+		}
+		# 电
+		else_if = {
+			limit = {
+				# 基础条件
+				NOT = { has_modifier = resort_colony }
+				OR = {
+					NOT = { is_planet_class = pc_habitat }
+					owner = { is_gestalt = yes }
+					has_planet_flag = energy_habitat
+				}
+				exists = owner
+				owner = { has_technology = tech_power_hub_1 }
+				# 建造条件
+				NOR = {
+					has_building = building_energy_grid
+					has_building_construction = building_energy_grid
+					has_building = building_energy_nexus
+					has_building_construction = building_energy_nexus
+				}
+			}
+			add_building = building_energy_grid
+			set_planet_flag = TEMP_pr_flg_plnt_ai_basic_done	#_|基础建设done|
+		}
+		# 消费
+		else_if = {
+			limit = {
+				# 基础条件
+				NOR = { has_modifier = resort_colony		has_modifier = slave_colony }
+				exists = owner
+				owner = { country_uses_consumer_goods = yes }
+				# 建造条件
+				NOR = {
+					has_building = building_factory_1
+					has_building_construction = building_factory_1
+					has_building = building_factory_2
+					has_building_construction = building_factory_2
+					has_building = building_factory_3
+					has_building_construction = building_factory_3
+				}
+			}
+			add_building = building_factory_1
+			set_planet_flag = TEMP_pr_flg_plnt_ai_basic_done	#_|基础建设done|
+		}
+		# 合金
+		else_if = {
+			limit = {
+				# 基础条件
+				NOR = { has_modifier = resort_colony		has_modifier = slave_colony }
+				# 建造条件
+				NOR = {
+					has_building = building_foundry_1
+					has_building_construction = building_foundry_1
+					has_building = building_foundry_2
+					has_building_construction = building_foundry_2
+					has_building = building_foundry_3
+					has_building_construction = building_foundry_3
+				}
+			}
+			add_building = building_foundry_1
+			set_planet_flag = TEMP_pr_flg_plnt_ai_basic_done	#_|基础建设done|
+		}
+		# 科研
+		else = {
+			change_variable = { which = TEMP_var_plnt_ai_research_bldn value = TEMP_var_plnt_ai_basic_construct }	#将[基础建筑建设余量]传递到[研究站建设数量]上,因为[余量-1]在开始就有,所以这里的传递不会多出一个来
+			set_variable = { which = TEMP_var_plnt_ai_basic_construct value = 0 }
+		}
+	}
+	if = { limit = { years_passed < 50		has_planet_flag = TEMP_pr_flg_plnt_ai_basic_done }	#_|禁止后续建设|50年后[基础区划/基础建筑]与[研究站补充]同步进行
+		remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready
+		remove_planet_flag = TEMP_flg_plnt_ai_bldn_update_ready
+	}
+	else_if = { limit = { always = yes }		remove_planet_flag = TEMP_pr_flg_plnt_ai_basic_done }
+	
+	## 研究站
+	if = {
+		limit = {
+			OR = {
+				check_variable = { which = TEMP_var_plnt_ai_research_bldn value > 0 }	#_|来自商业建筑转化的研究站|
+				NOT = { has_planet_flag = TEMP_pr_flg_plnt_ai_basic_done }
+			}
+		}
+		
+		# 星球研究站计数
+		set_variable = { which = TEMP_var_num_research_bldn value = 0 }
+		export_trigger_value_to_variable = {#lv1
+			trigger = num_buildings
+			parameters = { type = building_research_lab_1 }
+			variable = TEMP_var_count
+		}
+		change_variable = { which = TEMP_var_num_research_bldn value = TEMP_var_count }
+		export_trigger_value_to_variable = {#lv2
+			trigger = num_buildings
+			parameters = { type = building_research_lab_2 }
+			variable = TEMP_var_count
+		}
+		change_variable = { which = TEMP_var_num_research_bldn value = TEMP_var_count }
+		export_trigger_value_to_variable = {#lv3
+			trigger = num_buildings
+			parameters = { type = building_research_lab_3 }
+			variable = TEMP_var_count
+		}
+		change_variable = { which = TEMP_var_num_research_bldn value = TEMP_var_count }
+	#	clear_variable = TEMP_var_count
+		
+		# 年份DB
+		if = { limit = { year_passed > 5 }			set_variable = { which = TEMP_var_count value = 3 } }
+		else_if = { limit = { year_passed > 15 }	set_variable = { which = TEMP_var_count value = 5 } }
+		else_if = { limit = { year_passed > 45 }	set_variable = { which = TEMP_var_count value = 7 } }
+		else_if = { limit = { year_passed > 90 }	set_variable = { which = TEMP_var_count value = 9 } }
+		subtract_variable = { which = TEMP_var_count value = TEMP_var_num_research_bldn }
+		if = {
+			limit = {
+				check_variable = { which = TEMP_var_count value > 0 }	#_|需要研究站|
+				free_building_slots > 1		#_预留一个建筑槽备用
+			}
+			change_variable = { which = TEMP_var_plnt_ai_research_bldn value = 1 }	#基础研究站数量不足时额外补充1个
+		}
+		clear_variable = TEMP_var_count
+		clear_variable = TEMP_var_num_research_bldn
+		
+		# 添加[研究站]
+		while = { limit = { check_variable = { which = TEMP_var_plnt_ai_research_bldn value > 0 } }
+			subtract_variable = { which = TEMP_var_plnt_ai_research_bldn value  = 1 }
+			set_planet_flag = TEMP_pr_flg_plnt_ai_basic_done
+			add_building = building_research_lab_1
+		}
+	}
+	if = { limit = { years_passed < 100		has_planet_flag = TEMP_pr_flg_plnt_ai_basic_done }	#_|禁止后续建设|100年后[基础区划/基础建筑/研究站补充]和后续的[区划替换/建筑升级]同步进行
+		remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready
+		remove_planet_flag = TEMP_flg_plnt_ai_bldn_update_ready
+	}
+
+
+
+
+	###_[区划替换执行]	exp_太阳能	/地方产业普通/深渊工业区/密集工业区		/检测flg
+	
+	##_[exp_太阳能]
+	if = {
+		limit = {
+			OR = {
+				uses_district_set = standard
+				uses_district_set = hive_world
+				uses_district_set = machine_world
+			}
+		}
+		if = {#_普通
+			limit = {
+				exists = star
+				star = { z_fw_trgr_star_core_energy_normal = yes }
+				num_free_districts = { type = z_pr_dstr_exp_solar value > 0 }
+				OR = { has_district = district_generator		has_district = district_generator_uncapped }
+			}
+			remove_district = district_generator
+			remove_district = district_generator_uncapped
+			add_district = z_pr_dstr_exp_solar
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		if = {#_adv
+			limit = {
+				exists = star
+				star = { z_fw_trgr_star_core_energy_high = yes }
+				num_free_districts = { type = z_pr_dstr_exp_solar_adv value > 0 }
+				OR = { has_district = district_generator		has_district = district_generator_uncapped }
+			}
+			remove_district = district_generator
+			remove_district = district_generator_uncapped
+			add_district = z_pr_dstr_exp_solar_adv
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+	}
+	
+	##_[地方产业普通]	草原生态区/荒野能源区/绿洲工业区/浅滩生态区/水下能源区/大陆工业区/冻原生态区/高地能源区/极寒工业区/乐土生态区
+	if = {
+		limit = {
+			has_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+			uses_district_set = standard
+			NOR = {
+				has_modifier = resort_colony
+				has_modifier = slave_colony
+			}
+		}
+
+		#_[草原生态区]
+		if = { limit = { z_fw_trgr_plnt_core_savannah = yes			num_free_districts = { type = z_pr_dstr_div_savannah value > 0 }		has_district = district_farming }
+			remove_district = district_farming
+			add_district = z_pr_dstr_div_savannah
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		#_[荒野能源区]
+		else_if = { limit = { z_fw_trgr_plnt_core_arid = yes			num_free_districts = { type = z_pr_dstr_div_arid value > 0 }			has_district = district_mining }
+			remove_district = district_mining
+			add_district = z_pr_dstr_div_arid
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		#_[绿洲工业区]
+		else_if = { limit = { z_fw_trgr_plnt_core_desert = yes			num_free_districts = { type = z_pr_dstr_div_desert value > 0 }			has_district = district_industrial }
+			remove_district = district_industrial
+			add_district = z_pr_dstr_div_desert
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		else_if = { limit = { z_fw_trgr_plnt_core_desert = yes			num_free_districts = { type = z_pr_dstr_div_desert value > 0 }			has_district = z_pr_dstr_industrial }
+			remove_district = z_pr_dstr_industrial
+			add_district = z_pr_dstr_div_desert
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		else_if = { limit = { z_fw_trgr_plnt_core_desert = yes			num_free_districts = { type = z_pr_dstr_div_desert value > 0 }			has_district = z_pr_dstr_forge }
+			remove_district = z_pr_dstr_forge
+			add_district = z_pr_dstr_div_desert
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		#_[浅滩生态区]
+		else_if = { limit = { z_fw_trgr_plnt_core_tropical = yes		num_free_districts = { type = z_pr_dstr_div_tropical value > 0 }		has_district = district_farming }
+			remove_district = district_farming
+			add_district = z_pr_dstr_div_tropical
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		#_[水下能源区]
+		else_if = { limit = { z_fw_trgr_plnt_core_ocean = yes			num_free_districts = { type = z_pr_dstr_div_ocean value > 0 }			has_district = district_generator }
+			remove_district = district_generator
+			add_district = z_pr_dstr_div_ocean
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		#_[大陆工业区]
+		else_if = { limit = { z_fw_trgr_plnt_core_continent = yes		num_free_districts = { type = z_pr_dstr_div_continent value > 0 }		has_district = district_industrial }
+			remove_district = district_industrial
+			add_district = z_pr_dstr_div_continent
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		else_if = { limit = { z_fw_trgr_plnt_core_continent = yes		num_free_districts = { type = z_pr_dstr_div_continent value > 0 }		has_district = z_pr_dstr_industrial }
+			remove_district = z_pr_dstr_industrial
+			add_district = z_pr_dstr_div_continent
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		else_if = { limit = { z_fw_trgr_plnt_core_continent = yes		num_free_districts = { type = z_pr_dstr_div_continent value > 0 }		has_district = z_pr_dstr_forge }
+			remove_district = z_pr_dstr_forge
+			add_district = z_pr_dstr_div_continent
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		#_[冻原生态区]
+		else_if = { limit = { z_fw_trgr_plnt_core_tundra = yes			num_free_districts = { type = z_pr_dstr_div_tundra value > 0 }			has_district = district_farming }
+			remove_district = district_farming
+			add_district = z_pr_dstr_div_tundra
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		#_[高地能源区]
+		else_if = { limit = { z_fw_trgr_plnt_core_alpine = yes			num_free_districts = { type = z_pr_dstr_div_alpine value > 0 }			has_district = district_generator }
+			remove_district = district_generator
+			add_district = z_pr_dstr_div_alpine
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		#_[极寒工业区]
+		else_if = { limit = { z_fw_trgr_plnt_core_arctic = yes			num_free_districts = { type = z_pr_dstr_div_arctic value > 0 }			has_district = district_industrial }
+			remove_district = district_industrial
+			add_district = z_pr_dstr_div_arctic
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		else_if = { limit = { z_fw_trgr_plnt_core_arctic = yes			num_free_districts = { type = z_pr_dstr_div_arctic value > 0 }			has_district = z_pr_dstr_industrial }
+			remove_district = z_pr_dstr_industrial
+			add_district = z_pr_dstr_div_arctic
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		else_if = { limit = { z_fw_trgr_plnt_core_arctic = yes			num_free_districts = { type = z_pr_dstr_div_arctic value > 0 }			has_district = z_pr_dstr_forge }
+			remove_district = z_pr_dstr_forge
+			add_district = z_pr_dstr_div_arctic
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		#_[乐土生态区]
+		else_if = { limit = { z_fw_trgr_plnt_core_gaia = yes			num_free_districts = { type = z_pr_dstr_div_gaia value > 0 }			has_district = district_farming }
+			remove_district = district_farming
+			add_district = z_pr_dstr_div_gaia
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+	}
+	
+	##_[深渊工业区]
+	if = {
+		limit = {
+			has_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+			uses_district_set = standard
+			OR = { z_fw_trgr_plnt_core_nuked = yes			has_modifier = slave_colony }
+		}
+		
+		if = { limit = { has_district = district_industrial			num_free_districts = { type = z_pr_dstr_div_nuked value > 0 } }
+			remove_district = district_industrial
+			add_district = z_pr_dstr_div_nuked
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		else_if = { limit = { has_district = z_pr_dstr_industrial		num_free_districts = { type = z_pr_dstr_div_nuked value > 0 } }
+			remove_district = z_pr_dstr_industrial
+			add_district = z_pr_dstr_div_nuked
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		else_if = { limit = { has_district = z_pr_dstr_forge			num_free_districts = { type = z_pr_dstr_div_nuked value > 0 } }
+			remove_district = z_pr_dstr_forge
+			add_district = z_pr_dstr_div_nuked
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+	}
+	
+	##_[密集工业区]
+	if = {
+		limit = {
+			has_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+			z_fw_trgr_plnt_core_sp = yes	#_
+			NOR = {
+				has_modifier = resort_colony
+				has_modifier = slave_colony
+			}
+		}
+		if = { limit = { has_district = district_industrial			num_free_districts = { type = z_pr_dstr_div_sp value > 0 } }
+			remove_district = district_industrial
+			add_district = z_pr_dstr_div_sp
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		else_if = { limit = { has_district = z_pr_dstr_industrial			num_free_districts = { type = z_pr_dstr_div_sp value > 0 } }
+			remove_district = z_pr_dstr_industrial
+			add_district = z_pr_dstr_div_sp
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+		else_if = { limit = { has_district = z_pr_dstr_forge			num_free_districts = { type = z_pr_dstr_div_sp value > 0 } }
+			remove_district = z_pr_dstr_forge
+			add_district = z_pr_dstr_div_sp
+			remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready		#_|区划替换准备|
+		}
+	}
+		
+	##_[检测flg]
+	if = {
+		limit = {
+			years_passed < 75	#_|禁止后续建设|90年后[区划替换]和[建筑升级]同时进行
+			NOT = { has_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready }	#_|区划替换准备|无,即执行过[区划替换]
+		}
+		remove_planet_flag = TEMP_flg_plnt_ai_bldn_update_ready		#_|建筑升级准备|
+	}
+
+
+
+
+	##_[建筑升级执行]
+	#_v			官僚/节点	/食物/矿物/能量		/合金/工厂	/科研	/贸易	/穹顶/房产/机械蜂房/蜂巢/剧院/诊所	/土著碑/神殿/献祭/银河碑/节点/模拟器/企业/机仆
+	if = { limit = { has_planet_flag = TEMP_flg_plnt_ai_bldn_update_ready }		#_|建筑升级准备|
+	
+		#_[官僚]
+		if = { limit = { has_building = building_bureaucratic_1					owner = { has_technology = tech_colonial_bureaucracy } }
+			remove_building = building_bureaucratic_1
+			add_building = building_bureaucratic_2
+		}
+		#_[节点]
+		else_if = { limit = { has_building = building_uplink_node						owner = { has_technology = tech_colonial_bureaucracy } }
+			remove_building = building_uplink_node
+			add_building = building_network_junction
+		}
+		else_if = { limit = { has_building = building_network_junction					owner = { has_technology = tech_galactic_bureaucracy } }
+			remove_building = building_network_junction
+			add_building = building_system_conflux
+		}
+
+		#_[食物]
+		else_if = { limit = { has_building = building_food_processing_facility			owner = { has_technology = tech_food_processing_2 } }
+			remove_building = building_food_processing_facility
+			add_building = building_food_processing_center
+		}
+		#_[矿物]
+		else_if = { limit = { has_building = building_mineral_purification_plant		owner = { has_technology = tech_mineral_purification_2 } }
+			remove_building = building_mineral_purification_plant
+			add_building = building_mineral_purification_hub
+		}
+		#_[能量]
+		else_if = { limit = { has_building = building_energy_grid						owner = { has_technology = tech_power_hub_2 } }
+			remove_building = building_energy_grid
+			add_building = building_energy_nexus
+		}
+
+		#_[合金]
+		else_if = { limit = { has_building = building_foundry_1							owner = { has_technology = tech_alloys_1 } }
+			remove_building = building_foundry_1
+			add_building = building_foundry_2
+		}
+		else_if = { limit = { has_building = building_foundry_2							owner = { has_technology = tech_alloys_2 } }
+			remove_building = building_foundry_2
+			add_building = building_foundry_3
+		}
+		#_[工厂]
+		else_if = { limit = { has_building = building_factory_1							owner = { has_technology = tech_luxuries_1 } }
+			remove_building = building_factory_1
+			add_building = building_factory_2
+		}
+		else_if = { limit = { has_building = building_factory_2							owner = { has_technology = tech_luxuries_2 } }
+			remove_building = building_factory_2
+			add_building = building_factory_3
+		}
+
+		#_[科研]
+		else_if = { limit = { has_building = building_research_lab_1					owner = { has_technology = tech_basic_science_lab_2 } }
+			remove_building = building_research_lab_1
+			add_building = building_research_lab_2
+		}
+		else_if = { limit = { has_building = building_research_lab_2					owner = { has_technology = tech_basic_science_lab_3 } }
+			remove_building = building_research_lab_2
+			add_building = building_research_lab_3
+		}
+
+		#_[穹顶]
+		else_if = { limit = { has_building = building_luxury_residence					owner = { has_technology = tech_paradise_dome } }
+			remove_building = building_luxury_residence
+			add_building = building_paradise_dome
+		}
+		#_[房产]
+		else_if = { limit = { has_building = building_communal_housing					owner = { has_technology = tech_paradise_dome } }
+			remove_building = building_communal_housing
+			add_building = building_communal_housing_large
+		}
+		#_[机械蜂房]
+		else_if = { limit = { has_building = building_drone_storage						owner = { has_technology = tech_micro_replicators } }
+			remove_building = building_drone_storage
+			add_building = building_drone_megastorage
+		}
+		#_[蜂巢]
+		else_if = { limit = { has_building = building_hive_warren						owner = { has_technology = tech_housing_2 } }
+			remove_building = building_hive_warren
+			add_building = building_expanded_warren
+		}
+		#_[剧院]
+		else_if = { limit = { has_building = building_holo_theatres						owner = { has_technology = tech_hyper_entertainment_forum } }
+			remove_building = building_holo_theatres
+			add_building = building_hyper_entertainment_forum
+		}
+		#_[诊所]
+		else_if = { limit = { has_building = building_clinic							owner = { has_technology = tech_frontier_hospital } }
+			remove_building = building_clinic
+			add_building = building_hospital
+		}
+
+		#_[土著碑]
+		else_if = { limit = { has_building = building_autochthon_monument				has_upgraded_capital = yes			owner = { has_technology = tech_heritage_site } }
+			remove_building = building_autochthon_monument
+			add_building = building_heritage_site
+		}
+		else_if = { limit = { has_building = building_heritage_site						has_major_upgraded_capital = yes	owner = { has_technology = tech_hypercomms_forum } }
+			remove_building = building_heritage_site
+			add_building = building_hypercomms_forum
+		}
+		#_[神殿]
+		else_if = { limit = { has_building = building_temple							has_upgraded_capital = yes			owner = { has_technology = tech_holographic_rituals } }
+			remove_building = building_temple
+			add_building = building_holotemple
+		}
+		else_if = { limit = { has_building = building_holotemple						has_major_upgraded_capital = yes	owner = { has_technology = tech_consecration_fields } }
+			remove_building = building_holotemple
+			add_building = building_sacred_nexus
+		}
+		#_[献祭]
+		else_if = { limit = { has_building = building_sacrificial_temple_1				owner = { has_technology = tech_holographic_rituals } }
+			remove_building = building_sacrificial_temple_1
+			add_building = building_sacrificial_temple_2
+		}
+		else_if = { limit = { has_building = building_sacrificial_temple_2				owner = { has_technology = tech_consecration_fields } }
+			remove_building = building_sacrificial_temple_2
+			add_building = building_sacrificial_temple_3
+		}
+		#_[银河碑]
+		else_if = { limit = { has_building = building_galactic_memorial_1				has_upgraded_capital = yes }
+			remove_building = building_galactic_memorial_1
+			add_building = building_galactic_memorial_2
+		}
+		else_if = { limit = { has_building = building_galactic_memorial_2				has_major_upgraded_capital = yes }
+			remove_building = building_galactic_memorial_2
+			add_building = building_galactic_memorial_3
+		}
+		#_[节点]
+		else_if = { limit = { has_building = building_hive_node							has_upgraded_capital = yes			owner = { has_technology = tech_hive_cluster } }
+			remove_building = building_hive_node
+			add_building = building_hive_cluster
+		}
+		else_if = { limit = { has_building = building_hive_cluster						has_major_upgraded_capital = yes	owner = { has_technology = tech_hive_confluence } }
+			remove_building = building_hive_cluster
+			add_building = building_hive_confluence
+		}
+		#_[模拟器]
+		else_if = { limit = { has_building = building_simulation_1						has_upgraded_capital = yes			owner = { has_technology = tech_heritage_site } }
+			remove_building = building_simulation_1
+			add_building = building_simulation_2
+		}
+		else_if = { limit = { has_building = building_simulation_2						has_major_upgraded_capital = yes	owner = { has_technology = tech_hypercomms_forum } }
+			remove_building = building_simulation_2
+			add_building = building_simulation_3
+		}
+		#_[企业]
+		else_if = { limit = { has_building = building_corporate_monument				has_upgraded_capital = yes			owner = { has_technology = tech_heritage_site } }
+			remove_building = building_corporate_monument
+			add_building = building_corporate_site
+		}
+		else_if = { limit = { has_building = building_corporate_site					has_major_upgraded_capital = yes	owner = { has_technology = tech_hypercomms_forum } }
+			remove_building = building_corporate_site
+			add_building = building_corporate_forum
+		}
+		#_[机仆]
+		else_if = { limit = { has_building = building_organic_sanctuary					owner = { has_technology = tech_paradise_dome } }
+			remove_building = building_organic_sanctuary
+			add_building = building_organic_paradise
+		}
+	}
+
+
+
+
+	###_[clear]
+	remove_modifier = z_pr_mod_pop_checker
+	clear_variable = TEMP_var_plnt_ai_basic_construct
+	clear_variable = TEMP_var_plnt_ai_research_bldn
+	remove_planet_flag = TEMP_pr_flg_plnt_ai_basic_done
+	remove_planet_flag = TEMP_flg_plnt_ai_dstr_replace_ready	
+	remove_planet_flag = TEMP_flg_plnt_ai_bldn_update_ready	
+}
+
+
+
+
+###_[ai经济辅助]	电赤字/矿赤字/消费品赤字	###########################################################
+z_pr_eft_plnt_ai_economic_assist = {
+
+	#_|电赤字|
+	if = {
+		limit = {
+			uses_district_set = standard
+			num_free_districts = { type = district_generator value > 0 }	#_|可建造|=发电区
+			owner = { has_monthly_income = { resource = energy  value < 100 } }		#_|需要电|
+		}
+		add_district = district_generator
+	}
+	#_|矿赤字|
+	else_if = {
+		limit = {
+			uses_district_set = standard
+			num_free_districts = { type = district_mining value > 0 }		#_|可建造|=采矿区
+			owner = { has_monthly_income = { resource = minerals  value < 100 } }	#_|需要矿|
+		}
+		add_district = district_mining
+	}
+	#_|消费品赤字|
+	else_if = {
+		limit = {
+			uses_district_industrial = yes
+			num_free_districts = { type = district_industrial value > 0 }		#_|可建造|=工业区
+			owner = {
+				country_uses_consumer_goods = yes
+				has_monthly_income = { resource = consumer_goods  value < 15 }	#_|消费品赤字|
+				has_monthly_income = { resource = minerals  value > 50 }		#_|矿足够|
+			}
+		}
+		add_district = district_industrial
+	}
+	
+}

@@ -1,0 +1,548 @@
+###_	production_revolution core	###########################################################
+
+#_[z_pr岗位debug]		z_pr_jobs_misc/
+
+
+
+
+###_[z_pr岗位debug]		z_pr_jobs_misc/	####################################
+z_pr_eft_plnt_job_debug_pr = {
+
+	if = { limit = { check_modifier_value = { modifier = job_PR_check_vanilla_add value = -1 } }	#_|修正激活|
+	
+		###_[z_pr_jobs_misc]	pr_raw_collector/pr_raw_drone
+		###_					pr_exp_solar_technician/pr_exp_solar_drone/pr_exp_bh_researcher/pr_exp_bh_drone		/pr_div_ecologist/pr_div_eco_drone/pr_div_res_admin/pr_div_res_drone/pr_div_militia/pr_div_milit_drone
+		if = { limit = { always = yes }
+		
+			##_[pr_raw_collector]		|worker/planet_miners|
+			if = { limit = { check_modifier_value = { modifier = job_pr_raw_collector_add value > -1000 } }
+				#_[岗位统计]
+				set_variable = { which = TEMP_var_plnt_job_count value = 0 }
+				export_modifier_to_variable = { modifier = job_pr_raw_collector_add variable = TEMP_var_plnt_job_count }	#_[mod值]
+				change_variable = { which = TEMP_var_plnt_job_count value = 1000 }
+				change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_count }	#_|岗位累积temp|
+				change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_count }	#_[真实岗位累积]
+				
+				#_[核心统计]		p_minerals/p_minerals
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_energy_produces_base value = 2 }	#_|基础|
+				if = { limit = { exists = owner owner = { is_robot_empire = yes } }		change_variable = { which = TEMP_var_energy_produces_base value = 1 } }	#_[机械帝国]
+				if = { limit = { has_active_building = building_energy_nexus }			change_variable = { which = TEMP_var_energy_produces_base value = 1 } }	#_|bldn|=nexus
+				else_if = { limit = { has_active_building = building_energy_grid }		change_variable = { which = TEMP_var_energy_produces_base value = 0.5 } }	#_|bldn|=grid
+				pr_job_resources_ids_cat = { OPT=produces RES=energy CAT=worker IDS=planet_miners }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_energy_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_produces_base value = TEMP_var_energy_produces_base }	#_[factor累积]
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_minerals_produces_base value = 3 }	#_|基础|
+				if = { limit = { has_active_building = building_mineral_purification_hub }			change_variable = { which = TEMP_var_minerals_produces_base value = 2 } }	#_|bldn|=hub
+				else_if = { limit = { has_active_building = building_mineral_purification_plant }	change_variable = { which = TEMP_var_minerals_produces_base value = 1 } }	#_|bldn|=plant
+				pr_job_resources_ids_cat = { OPT=produces RES=minerals CAT=worker IDS=planet_miners_minerals }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_minerals_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_minerals_produces_base value = TEMP_var_minerals_produces_base }	#_[factor累积]
+			}
+		
+			##_[pr_raw_drone]	|simple_drone/planet_miners|
+			if = { limit = { check_modifier_value = { modifier = job_pr_raw_drone_add value > -1000 } }
+				#_[岗位统计]
+				set_variable = { which = TEMP_var_plnt_job_count value = 0 }
+				export_modifier_to_variable = { modifier = job_pr_raw_drone_add variable = TEMP_var_plnt_job_count }	#_[mod值]
+				change_variable = { which = TEMP_var_plnt_job_count value = 1000 }
+				change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_count }	#_|岗位累积temp|
+				change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_count }	#_[真实岗位累积]
+				
+				#_[核心统计]		p_minerals/p_minerals
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_energy_produces_base value = 2 }	#_|基础|
+				if = { limit = { exists = owner owner = { is_robot_empire = yes } }		change_variable = { which = TEMP_var_energy_produces_base value = 1 } }	#_[机械帝国]
+				if = { limit = { has_active_building = building_energy_nexus }			change_variable = { which = TEMP_var_energy_produces_base value = 1 } }	#_|bldn|=nexus
+				else_if = { limit = { has_active_building = building_energy_grid }		change_variable = { which = TEMP_var_energy_produces_base value = 0.5 } }	#_|bldn|=grid
+				pr_job_resources_ids_cat = { OPT=produces RES=energy CAT=simple_drone IDS=planet_miners }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_energy_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_produces_base value = TEMP_var_energy_produces_base }	#_[factor累积]
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_minerals_produces_base value = 3 }	#_|基础|
+				if = { limit = { has_active_building = building_mineral_purification_hub }			change_variable = { which = TEMP_var_minerals_produces_base value = 2 } }	#_|bldn|=hub
+				else_if = { limit = { has_active_building = building_mineral_purification_plant }	change_variable = { which = TEMP_var_minerals_produces_base value = 1 } }	#_|bldn|=plant
+				pr_job_resources_ids_cat = { OPT=produces RES=minerals CAT=simple_drone IDS=planet_miners_minerals }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_minerals_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_minerals_produces_base value = TEMP_var_minerals_produces_base }	#_[factor累积]
+			}
+		
+			##_[pr_exp_solar_technician]	|worker/planet_technician|
+			if = { limit = { check_modifier_value = { modifier = job_pr_exp_solar_technician_add value > -500 } }
+				#_[岗位统计]
+				set_variable = { which = TEMP_var_plnt_job_count value = 0 }
+				export_modifier_to_variable = { modifier = job_pr_exp_solar_technician_add variable = TEMP_var_plnt_job_count }	#_[mod值]
+				change_variable = { which = TEMP_var_plnt_job_count value = 500 }
+				change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_count }	#_|岗位累积temp|
+				change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_count }	#_[真实岗位累积]
+				
+				#_[核心统计]		p_minerals
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_energy_produces_base value = 12 }	#_|基础|
+				if = { limit = { exists = owner owner = { is_robot_empire = yes } }		change_variable = { which = TEMP_var_energy_produces_base value = 4 } }	#_[机械帝国]
+				if = { limit = { has_active_building = building_energy_nexus }			change_variable = { which = TEMP_var_energy_produces_base value = 4 } }	#_[bldn=nexus]
+				else_if = { limit = { has_active_building = building_energy_grid }		change_variable = { which = TEMP_var_energy_produces_base value = 2 } }	#_[bldn=grid]
+				pr_job_resources_ids_cat = { OPT=produces RES=energy CAT=worker IDS=planet_technician_energy }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_energy_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_produces_base value = TEMP_var_energy_produces_base }	#_[factor累积]
+
+			}
+			##_[pr_exp_solar_drone]			|simple_drone/planet_technician|
+			if = { limit = { check_modifier_value = { modifier = job_pr_exp_solar_drone_add value > -500 } }
+				#_[岗位统计]
+				set_variable = { which = TEMP_var_plnt_job_count value = 0 }
+				export_modifier_to_variable = { modifier = job_pr_exp_solar_drone_add variable = TEMP_var_plnt_job_count }	#_[mod值]
+				change_variable = { which = TEMP_var_plnt_job_count value = 500 }
+				change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_count }	#_|岗位累积temp|
+				change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_count }	#_[真实岗位累积]
+				
+				#_[核心统计]		p_minerals/u_minerals
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_energy_produces_base value = 12 }	#_|基础|
+				if = { limit = { exists = owner owner = { is_robot_empire = yes } }		change_variable = { which = TEMP_var_energy_produces_base value = 4 } }	#_[机械帝国]
+				if = { limit = { has_active_building = building_energy_nexus }			change_variable = { which = TEMP_var_energy_produces_base value = 4 } }	#_[bldn=nexus]
+				else_if = { limit = { has_active_building = building_energy_grid }		change_variable = { which = TEMP_var_energy_produces_base value = 2 } }	#_[bldn=grid]
+				pr_job_resources_ids_cat = { OPT=produces RES=energy CAT=simple_drone IDS=planet_technician_energy }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_energy_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_produces_base value = TEMP_var_energy_produces_base }	#_[factor累积]
+				
+			}
+			
+			##_[pr_exp_bh_researcher]		|specialist/planet_researchers|
+			if = { limit = { check_modifier_value = { modifier = job_pr_exp_bh_researcher_add value > -500 } }
+				#_[岗位统计]
+				set_variable = { which = TEMP_var_plnt_job_count value = 0 }
+				export_modifier_to_variable = { modifier = job_pr_exp_bh_researcher_add variable = TEMP_var_plnt_job_count }	#_[mod值]
+				change_variable = { which = TEMP_var_plnt_job_count value = 500 }
+				change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_count }	#_|岗位累积temp|
+				change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_count }	#_[真实岗位累积]
+				
+				#_[核心统计]	p_physics_research/p_engineering_research/p_society_research/p_unity/p_vdm	/u_minerals/u_consumer_goods
+				#_[p_physics_research]
+				set_variable = { which = TEMP_var_physics_research_produces_base value = 12 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=physics_research CAT=specialist IDS=planet_researchers_physics_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_physics_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_physics_research_produces_base value = TEMP_var_physics_research_produces_base }	#_[factor累积]
+				#_[p_engineering_research]
+				set_variable = { which = TEMP_var_engineering_research_produces_base value = 8 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=engineering_research CAT=specialist IDS=planet_researchers_engineering_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_engineering_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_engineering_research_produces_base value = TEMP_var_engineering_research_produces_base }	#_[factor累积]
+				#_[p_society_research]
+				set_variable = { which = TEMP_var_society_research_produces_base value = 4 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=society_research CAT=specialist IDS=planet_researchers_society_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_technocracy } }		change_variable = { which = TEMP_var_unity_produces_base value = 2 } }	#_[国策]=技术治国
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_researchers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[p_vdm]
+				set_variable = { which = TEMP_var_sr_dark_matter_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_technology = tech_mine_dark_matter } }		change_variable = { which = TEMP_var_sr_dark_matter_produces_base value = 1 } }	#_[科技]=暗物质
+				pr_job_resources_ids_cat = { OPT=produces RES=sr_dark_matter CAT=specialist IDS=planet_researchers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_sr_dark_matter_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_sr_dark_matter_produces_base value = TEMP_var_sr_dark_matter_produces_base }	#_[factor累积]
+				
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 4 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=consumer_goods CAT=specialist IDS=planet_researchers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+			}
+			##_[pr_exp_bh_drone]			|complex_drone/planet_researchers|
+			if = { limit = { check_modifier_value = { modifier = job_pr_exp_bh_drone_add value > -500 } }
+				#_[岗位统计]
+				set_variable = { which = TEMP_var_plnt_job_count value = 0 }
+				export_modifier_to_variable = { modifier = job_pr_exp_bh_drone_add variable = TEMP_var_plnt_job_count }	#_[mod值]
+				change_variable = { which = TEMP_var_plnt_job_count value = 500 }
+				change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_count }	#_|岗位累积temp|
+				change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_count }	#_[真实岗位累积]
+				
+				#_[核心统计]	p_physics_research/p_engineering_research/p_society_research/p_vdm	/u_minerals/u_minerals
+				#_[p_physics_research]
+				set_variable = { which = TEMP_var_physics_research_produces_base value = 12 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=physics_research CAT=complex_drone IDS=planet_researchers_physics_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_physics_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_physics_research_produces_base value = TEMP_var_physics_research_produces_base }	#_[factor累积]
+				#_[p_engineering_research]
+				set_variable = { which = TEMP_var_engineering_research_produces_base value = 8 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=engineering_research CAT=complex_drone IDS=planet_researchers_engineering_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_engineering_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_engineering_research_produces_base value = TEMP_var_engineering_research_produces_base }	#_[factor累积]
+				#_[p_society_research]
+				set_variable = { which = TEMP_var_society_research_produces_base value = 4 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=society_research CAT=complex_drone IDS=planet_researchers_society_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+				
+				#_[p_vdm]
+				set_variable = { which = TEMP_var_sr_dark_matter_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_technology = tech_mine_dark_matter } }		change_variable = { which = TEMP_var_sr_dark_matter_produces_base value = 1 } }	#_[科技]=暗物质
+				pr_job_resources_ids_cat = { OPT=produces RES=sr_dark_matter CAT=complex_drone IDS=planet_researchers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_sr_dark_matter_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_sr_dark_matter_produces_base value = TEMP_var_sr_dark_matter_produces_base }	#_[factor累积]
+				
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 4 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=energy CAT=complex_drone IDS=planet_researchers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_minerals_upkeep_base value = 4 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=minerals CAT=complex_drone IDS=planet_researchers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_minerals_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_minerals_upkeep_base value = TEMP_var_minerals_upkeep_base }	#_[factor累积]
+			}
+
+			##_[pr_div_ecologist]			|specialist/planet_researchers|
+			if = { limit = { check_modifier_value = { modifier = job_pr_div_ecologist_add value > -500 } }
+				#_[岗位统计]
+				set_variable = { which = TEMP_var_plnt_job_count value = 0 }
+				export_modifier_to_variable = { modifier = job_pr_div_ecologist_add variable = TEMP_var_plnt_job_count }	#_[mod值]
+				change_variable = { which = TEMP_var_plnt_job_count value = 500 }
+				change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_count }	#_|岗位累积temp|
+				change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_count }	#_[真实岗位累积]
+				
+				#_[星球统计]	贸易/舒适
+				#_[贸易]
+				set_variable = { which = TEMP_var_job_trade_value_add value = 4 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_trade_value_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_trade_value_add value = TEMP_var_job_trade_value_add }		#_[factor累积]
+				#_[舒适]
+				set_variable = { which = TEMP_var_job_planet_amenities_add value = 4 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_amenities_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_amenities_add value = TEMP_var_job_planet_amenities_add }	#_[factor累积]
+				
+				#_[核心统计]	p_physics_research/p_engineering_research/p_society_research/p_unity
+				#_[p_physics_research]
+				set_variable = { which = TEMP_var_physics_research_produces_base value = 0 }	#_|基础|
+				if = { limit = { z_fw_trgr_plnt_core_tundra = yes }		change_variable = { which = TEMP_var_physics_research_produces_base value = 6 } }	#_|星球|=冻原
+				pr_job_resources_ids_cat = { OPT=produces RES=physics_research CAT=specialist IDS=planet_researchers_physics_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_physics_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_physics_research_produces_base value = TEMP_var_physics_research_produces_base }	#_[factor累积]
+				#_[p_engineering_research]
+				set_variable = { which = TEMP_var_engineering_research_produces_base value = 0 }	#_|基础|
+				if = { limit = { z_fw_trgr_plnt_core_tropical = yes }		change_variable = { which = TEMP_var_engineering_research_produces_base value = 6 } }	#_|星球|=热带
+				pr_job_resources_ids_cat = { OPT=produces RES=engineering_research CAT=specialist IDS=planet_researchers_engineering_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_engineering_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_engineering_research_produces_base value = TEMP_var_engineering_research_produces_base }	#_[factor累积]
+				#_[p_society_research]
+				set_variable = { which = TEMP_var_society_research_produces_base value = 0 }	#_|基础|
+				if = { limit = { z_fw_trgr_plnt_core_savannah = yes }		change_variable = { which = TEMP_var_society_research_produces_base value = 6 } }	#_|星球|=热草
+				pr_job_resources_ids_cat = { OPT=produces RES=society_research CAT=specialist IDS=planet_researchers_society_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+				
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 2 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_researchers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+			}
+			##_[pr_div_eco_drone]			|complex_drone/planet_researchers|
+			if = { limit = { check_modifier_value = { modifier = job_pr_div_eco_drone_add value > -500 } }
+				#_[岗位统计]
+				set_variable = { which = TEMP_var_plnt_job_count value = 0 }
+				export_modifier_to_variable = { modifier = job_pr_div_eco_drone_add variable = TEMP_var_plnt_job_count }	#_[mod值]
+				change_variable = { which = TEMP_var_plnt_job_count value = 500 }
+				change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_count }	#_|岗位累积temp|
+				change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_count }	#_[真实岗位累积]
+				
+				#_[星球统计]	维护
+				#_[维护]
+				set_variable = { which = TEMP_var_job_planet_amenities_no_happiness_add value = 6 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_amenities_no_happiness_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_amenities_no_happiness_add value = TEMP_var_job_planet_amenities_no_happiness_add }	#_[factor累积]
+				
+				#_[核心统计]	p_physics_research/p_engineering_research/p_society_research/p_unity
+				#_[p_physics_research]
+				set_variable = { which = TEMP_var_physics_research_produces_base value = 0 }	#_|基础|
+				if = { limit = { z_fw_trgr_plnt_core_tundra = yes }		change_variable = { which = TEMP_var_physics_research_produces_base value = 6 } }	#_|星球|=冻原
+				pr_job_resources_ids_cat = { OPT=produces RES=physics_research CAT=complex_drone IDS=planet_researchers_physics_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_physics_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_physics_research_produces_base value = TEMP_var_physics_research_produces_base }	#_[factor累积]
+				#_[p_engineering_research]
+				set_variable = { which = TEMP_var_engineering_research_produces_base value = 0 }	#_|基础|
+				if = { limit = { z_fw_trgr_plnt_core_tropical = yes }		change_variable = { which = TEMP_var_engineering_research_produces_base value = 6 } }	#_|星球|=热带
+				pr_job_resources_ids_cat = { OPT=produces RES=engineering_research CAT=complex_drone IDS=planet_researchers_engineering_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_engineering_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_engineering_research_produces_base value = TEMP_var_engineering_research_produces_base }	#_[factor累积]
+				#_[p_society_research]
+				set_variable = { which = TEMP_var_society_research_produces_base value = 0 }	#_|基础|
+				if = { limit = { z_fw_trgr_plnt_core_savannah = yes }		change_variable = { which = TEMP_var_society_research_produces_base value = 6 } }	#_|星球|=热草
+				pr_job_resources_ids_cat = { OPT=produces RES=society_research CAT=complex_drone IDS=planet_researchers_society_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+				
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 2 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=complex_drone IDS=planet_researchers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+			}
+
+			##_[pr_div_res_admin]			|specialist/planet_researchers|
+			if = { limit = { check_modifier_value = { modifier = job_pr_div_res_admin_add value > -500 } }
+				#_[岗位统计]
+				set_variable = { which = TEMP_var_plnt_job_count value = 0 }
+				export_modifier_to_variable = { modifier = job_pr_div_res_admin_add variable = TEMP_var_plnt_job_count }	#_[mod值]
+				change_variable = { which = TEMP_var_plnt_job_count value = 500 }
+				change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_count }	#_|岗位累积temp|
+				change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_count }	#_[真实岗位累积]
+				
+				#_[核心统计]	热带/海洋/高山
+				#_|星球|=热带
+				if = { limit = { z_fw_trgr_plnt_core_arid = yes }
+					#_[p_society_research]
+					set_variable = { which = TEMP_var_society_research_produces_base value = 8 }	#_|基础|
+					pr_job_resources_ids_cat = { OPT=produces RES=society_research CAT=specialist IDS=planet_researchers_society_research }	#_[资源阶层行业]
+					multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+					change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+					#_[p_volatile_motes]
+					set_variable = { which = TEMP_var_volatile_motes_produces_base value = 0 }	#_|基础|
+					if = { limit = { exists = owner owner = { has_technology = tech_mine_volatile_motes } }		change_variable = { which = TEMP_var_volatile_motes_produces_base value = 2 } }	#_|科技|
+					pr_job_resources_ids_cat = { OPT=produces RES=volatile_motes CAT=specialist IDS=planet_researchers }	#_[资源阶层行业]
+					multiply_variable = { which = TEMP_var_volatile_motes_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+					change_variable = { which = z_pr_var_volatile_motes_produces_base value = TEMP_var_volatile_motes_produces_base }	#_[factor累积]
+				}
+				
+				#_|星球|=海洋
+				else_if = { limit = { z_fw_trgr_plnt_core_ocean = yes }
+					#_[p_engineering_research]
+					set_variable = { which = TEMP_var_engineering_research_produces_base value = 8 }	#_|基础|
+					pr_job_resources_ids_cat = { OPT=produces RES=engineering_research CAT=specialist IDS=planet_researchers_engineering_research }	#_[资源阶层行业]
+					multiply_variable = { which = TEMP_var_engineering_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+					change_variable = { which = z_pr_var_engineering_research_produces_base value = TEMP_var_engineering_research_produces_base }	#_[factor累积]
+					#_[p_exotic_gases]
+					set_variable = { which = TEMP_var_exotic_gases_produces_base value = 0 }	#_|基础|
+					if = { limit = { exists = owner owner = { has_technology = tech_mine_exotic_gases } }		change_variable = { which = TEMP_var_exotic_gases_produces_base value = 2 } }	#_|科技|
+					pr_job_resources_ids_cat = { OPT=produces RES=exotic_gases CAT=specialist IDS=planet_researchers }	#_[资源阶层行业]
+					multiply_variable = { which = TEMP_var_exotic_gases_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+					change_variable = { which = z_pr_var_exotic_gases_produces_base value = TEMP_var_exotic_gases_produces_base }	#_[factor累积]
+				}
+				
+				#_|星球|=高山
+				else_if = { limit = { z_fw_trgr_plnt_core_alpine = yes }
+					#_[p_physics_research]
+					set_variable = { which = TEMP_var_physics_research_produces_base value = 8 }	#_|基础|
+					pr_job_resources_ids_cat = { OPT=produces RES=physics_research CAT=specialist IDS=planet_researchers_physics_research }	#_[资源阶层行业]
+					multiply_variable = { which = TEMP_var_physics_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+					change_variable = { which = z_pr_var_physics_research_produces_base value = TEMP_var_physics_research_produces_base }	#_[factor累积]
+					#_[p_rare_crystals]
+					set_variable = { which = TEMP_var_rare_crystals_produces_base value = 0 }	#_|基础|
+					if = { limit = { exists = owner owner = { has_technology = tech_mine_rare_crystals } }		change_variable = { which = TEMP_var_rare_crystals_produces_base value = 2 } }	#_|科技|
+					pr_job_resources_ids_cat = { OPT=produces RES=rare_crystals CAT=specialist IDS=planet_researchers }	#_[资源阶层行业]
+					multiply_variable = { which = TEMP_var_rare_crystals_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+					change_variable = { which = z_pr_var_rare_crystals_produces_base value = TEMP_var_rare_crystals_produces_base }	#_[factor累积]
+				}
+				
+			}
+			##_[pr_div_res_drone]			|complex_drone/planet_researchers|
+			if = { limit = { check_modifier_value = { modifier = job_pr_div_res_drone_add value > -500 } }
+				#_[岗位统计]
+				set_variable = { which = TEMP_var_plnt_job_count value = 0 }
+				export_modifier_to_variable = { modifier = job_pr_div_res_drone_add variable = TEMP_var_plnt_job_count }	#_[mod值]
+				change_variable = { which = TEMP_var_plnt_job_count value = 500 }
+				change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_count }	#_|岗位累积temp|
+				change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_count }	#_[真实岗位累积]
+				
+				#_[核心统计]	热带/海洋/高山
+				#_|星球|=热带
+				if = { limit = { z_fw_trgr_plnt_core_arid = yes }
+					#_[p_society_research]
+					set_variable = { which = TEMP_var_society_research_produces_base value = 8 }	#_|基础|
+					pr_job_resources_ids_cat = { OPT=produces RES=society_research CAT=complex_drone IDS=planet_researchers_society_research }	#_[资源阶层行业]
+					multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+					change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+					#_[p_volatile_motes]
+					set_variable = { which = TEMP_var_volatile_motes_produces_base value = 0 }	#_|基础|
+					if = { limit = { exists = owner owner = { has_technology = tech_mine_volatile_motes } }		change_variable = { which = TEMP_var_volatile_motes_produces_base value = 2 } }	#_|科技|
+					pr_job_resources_ids_cat = { OPT=produces RES=volatile_motes CAT=complex_drone IDS=planet_researchers }	#_[资源阶层行业]
+					multiply_variable = { which = TEMP_var_volatile_motes_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+					change_variable = { which = z_pr_var_volatile_motes_produces_base value = TEMP_var_volatile_motes_produces_base }	#_[factor累积]
+				}
+				
+				#_|星球|=海洋
+				else_if = { limit = { z_fw_trgr_plnt_core_ocean = yes }
+					#_[p_engineering_research]
+					set_variable = { which = TEMP_var_engineering_research_produces_base value = 8 }	#_|基础|
+					pr_job_resources_ids_cat = { OPT=produces RES=engineering_research CAT=complex_drone IDS=planet_researchers_engineering_research }	#_[资源阶层行业]
+					multiply_variable = { which = TEMP_var_engineering_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+					change_variable = { which = z_pr_var_engineering_research_produces_base value = TEMP_var_engineering_research_produces_base }	#_[factor累积]
+					#_[p_exotic_gases]
+					set_variable = { which = TEMP_var_exotic_gases_produces_base value = 0 }	#_|基础|
+					if = { limit = { exists = owner owner = { has_technology = tech_mine_exotic_gases } }		change_variable = { which = TEMP_var_exotic_gases_produces_base value = 2 } }	#_|科技|
+					pr_job_resources_ids_cat = { OPT=produces RES=exotic_gases CAT=complex_drone IDS=planet_researchers }	#_[资源阶层行业]
+					multiply_variable = { which = TEMP_var_exotic_gases_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+					change_variable = { which = z_pr_var_exotic_gases_produces_base value = TEMP_var_exotic_gases_produces_base }	#_[factor累积]
+				}
+				
+				#_|星球|=高山
+				else_if = { limit = { z_fw_trgr_plnt_core_alpine = yes }
+					#_[p_physics_research]
+					set_variable = { which = TEMP_var_physics_research_produces_base value = 8 }	#_|基础|
+					pr_job_resources_ids_cat = { OPT=produces RES=physics_research CAT=complex_drone IDS=planet_researchers_physics_research }	#_[资源阶层行业]
+					multiply_variable = { which = TEMP_var_physics_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+					change_variable = { which = z_pr_var_physics_research_produces_base value = TEMP_var_physics_research_produces_base }	#_[factor累积]
+					#_[p_rare_crystals]
+					set_variable = { which = TEMP_var_rare_crystals_produces_base value = 0 }	#_|基础|
+					if = { limit = { exists = owner owner = { has_technology = tech_mine_rare_crystals } }		change_variable = { which = TEMP_var_rare_crystals_produces_base value = 2 } }	#_|科技|
+					pr_job_resources_ids_cat = { OPT=produces RES=rare_crystals CAT=complex_drone IDS=planet_researchers }	#_[资源阶层行业]
+					multiply_variable = { which = TEMP_var_rare_crystals_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+					change_variable = { which = z_pr_var_rare_crystals_produces_base value = TEMP_var_rare_crystals_produces_base }	#_[factor累积]
+				}
+
+			}
+
+			##_[pr_div_abyss_miner]			|specialist/planet_miners|
+			if = { limit = { check_modifier_value = { modifier = job_pr_div_abyss_miner_add value > -500 } }
+				#_[岗位统计]
+				set_variable = { which = TEMP_var_plnt_job_count value = 0 }
+				export_modifier_to_variable = { modifier = job_pr_div_abyss_miner_add variable = TEMP_var_plnt_job_count }	#_[mod值]
+				change_variable = { which = TEMP_var_plnt_job_count value = 500 }
+				change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_count }	#_|岗位累积temp|
+				change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_count }	#_[真实岗位累积]
+				
+				#_[核心统计]	p_rare_crystals/p_exotic_gases/p_volatile_motes
+				#_[p_rare_crystals]
+				set_variable = { which = TEMP_var_rare_crystals_produces_base value = 1 }	#_|基础|
+					pr_job_resources_ids_cat = { OPT=produces RES=rare_crystals CAT=specialist IDS=planet_miners }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_rare_crystals_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_rare_crystals_produces_base value = TEMP_var_rare_crystals_produces_base }	#_[factor累积]
+				#_[p_exotic_gases]
+				set_variable = { which = TEMP_var_exotic_gases_produces_base value = 1 }	#_|基础|
+					pr_job_resources_ids_cat = { OPT=produces RES=exotic_gases CAT=specialist IDS=planet_miners }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_exotic_gases_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_exotic_gases_produces_base value = TEMP_var_exotic_gases_produces_base }	#_[factor累积]
+				#_[p_volatile_motes]
+				set_variable = { which = TEMP_var_volatile_motes_produces_base value = 1 }	#_|基础|
+					pr_job_resources_ids_cat = { OPT=produces RES=volatile_motes CAT=specialist IDS=planet_miners }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_volatile_motes_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_volatile_motes_produces_base value = TEMP_var_volatile_motes_produces_base }	#_[factor累积]
+			}
+			##_[pr_div_abyss_drone]			|complex_drone/planet_miners|
+			if = { limit = { check_modifier_value = { modifier = job_pr_div_abyss_drone_add value > -500 } }
+				#_[岗位统计]
+				set_variable = { which = TEMP_var_plnt_job_count value = 0 }
+				export_modifier_to_variable = { modifier = job_pr_div_abyss_drone_add variable = TEMP_var_plnt_job_count }	#_[mod值]
+				change_variable = { which = TEMP_var_plnt_job_count value = 500 }
+				change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_count }	#_|岗位累积temp|
+				change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_count }	#_[真实岗位累积]
+				
+				#_[核心统计]	p_rare_crystals/p_exotic_gases/p_volatile_motes
+				#_[p_rare_crystals]
+				set_variable = { which = TEMP_var_rare_crystals_produces_base value = 1 }	#_|基础|
+					pr_job_resources_ids_cat = { OPT=produces RES=rare_crystals CAT=complex_drone IDS=planet_miners }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_rare_crystals_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_rare_crystals_produces_base value = TEMP_var_rare_crystals_produces_base }	#_[factor累积]
+				#_[p_exotic_gases]
+				set_variable = { which = TEMP_var_exotic_gases_produces_base value = 1 }	#_|基础|
+					pr_job_resources_ids_cat = { OPT=produces RES=exotic_gases CAT=complex_drone IDS=planet_miners }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_exotic_gases_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_exotic_gases_produces_base value = TEMP_var_exotic_gases_produces_base }	#_[factor累积]
+				#_[p_volatile_motes]
+				set_variable = { which = TEMP_var_volatile_motes_produces_base value = 1 }	#_|基础|
+					pr_job_resources_ids_cat = { OPT=produces RES=volatile_motes CAT=complex_drone IDS=planet_miners }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_volatile_motes_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_volatile_motes_produces_base value = TEMP_var_volatile_motes_produces_base }	#_[factor累积]
+			}
+
+			##_[pr_div_militia]				|specialist/planet_metallurgists|
+			if = { limit = { check_modifier_value = { modifier = job_pr_div_militia_add value > -500 } }
+				#_[岗位统计]
+				set_variable = { which = TEMP_var_plnt_job_count value = 0 }
+				export_modifier_to_variable = { modifier = job_pr_div_militia_add variable = TEMP_var_plnt_job_count }	#_[mod值]
+				change_variable = { which = TEMP_var_plnt_job_count value = 500 }
+				change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_count }	#_|岗位累积temp|
+				change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_count }	#_[真实岗位累积]
+				
+				#_[星球统计]	稳定/犯罪/海军
+				#_[稳定]
+				set_variable = { which = TEMP_var_job_planet_stability_add value = 0 }	#_|基础|
+				if = { limit = { z_fw_trgr_plnt_core_desert = yes }		change_variable = { which = TEMP_var_job_planet_stability_add value = 5 } }	#_|行星|=沙漠
+				multiply_variable = { which = TEMP_var_job_planet_stability_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_stability_add value = TEMP_var_job_planet_stability_add }		#_[factor累积]
+				#_[犯罪]
+				set_variable = { which = TEMP_var_job_planet_crime_add value = 0 }	#_|基础|
+				if = { limit = { z_fw_trgr_plnt_core_continent = yes }		change_variable = { which = TEMP_var_job_planet_crime_add value = -15 } }	#_|行星|=大陆
+				multiply_variable = { which = TEMP_var_job_planet_crime_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_crime_add value = TEMP_var_job_planet_crime_add }	#_[factor累积]
+				#_[海军]
+				set_variable = { which = TEMP_var_job_country_naval_cap_add value = 4 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_country_naval_cap_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_country_naval_cap_add value = TEMP_var_job_country_naval_cap_add }	#_[factor累积]
+				
+				#_[核心统计]		防卫军	/p_alloys/p_unity
+				#_[防卫军]
+				set_variable = { which = TEMP_var_job_pop_defense_armies_add value = 1 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_pop_defense_armies_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_pop_defense_armies_add value = TEMP_var_job_pop_defense_armies_add }	#_[factor累积]
+				#_[p_alloys]
+				set_variable = { which =TEMP_var_alloys_produces_base value = 2 }	#_|基础|
+				if = { limit = { has_active_building = building_foundry_3 }				change_variable = { which =TEMP_var_alloys_produces_base value = 2 } }	#_[bldn=合金3]
+				else_if = { limit = { has_active_building = building_foundry_2 }		change_variable = { which =TEMP_var_alloys_produces_base value = 1 } }	#_[bldn=合金2]
+					pr_job_resources_ids_cat = { OPT=produces RES=alloys CAT=specialist IDS=planet_metallurgists }	#_[资源阶层行业]
+				multiply_variable = { which =TEMP_var_alloys_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_alloys_produces_base value =TEMP_var_alloys_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 2 }	#_|基础|
+					pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_metallurgists }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+			}
+			##_[pr_div_milit_drone]				|complex_drone/planet_metallurgists|
+			if = { limit = { check_modifier_value = { modifier = job_pr_div_milit_drone_add value > -500 } }
+				#_[岗位统计]
+				set_variable = { which = TEMP_var_plnt_job_count value = 0 }
+				export_modifier_to_variable = { modifier = job_pr_div_milit_drone_add variable = TEMP_var_plnt_job_count }	#_[mod值]
+				change_variable = { which = TEMP_var_plnt_job_count value = 500 }
+				change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_count }	#_|岗位累积temp|
+				change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_count }	#_[真实岗位累积]
+				
+				#_[星球统计]	稳定/异常/海军
+				#_[稳定]
+				set_variable = { which = TEMP_var_job_planet_stability_add value = 0 }	#_|基础|
+				if = { limit = { z_fw_trgr_plnt_core_desert = yes }		change_variable = { which = TEMP_var_job_planet_stability_add value = 5 } }	#_|行星|=沙漠
+				multiply_variable = { which = TEMP_var_job_planet_stability_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_stability_add value = TEMP_var_job_planet_stability_add }		#_[factor累积]
+				#_[异常]
+				set_variable = { which = TEMP_var_job_planet_crime_no_happiness_add value = 0 }	#_|基础|
+				if = { limit = { z_fw_trgr_plnt_core_continent = yes }		change_variable = { which = TEMP_var_job_planet_crime_no_happiness_add value = -15 } }	#_|行星|=大陆
+				multiply_variable = { which = TEMP_var_job_planet_crime_no_happiness_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_crime_no_happiness_add value = TEMP_var_job_planet_crime_no_happiness_add }	#_[factor累积]
+				#_[海军]
+				set_variable = { which = TEMP_var_job_country_naval_cap_add value = 4 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_country_naval_cap_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_country_naval_cap_add value = TEMP_var_job_country_naval_cap_add }	#_[factor累积]
+				
+				#_[核心统计]		防卫军	/p_alloys/p_unity
+				#_[防卫军]
+				set_variable = { which = TEMP_var_job_pop_defense_armies_add value = 1 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_pop_defense_armies_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_pop_defense_armies_add value = TEMP_var_job_pop_defense_armies_add }	#_[factor累积]
+				#_[p_alloys]
+				set_variable = { which =TEMP_var_alloys_produces_base value = 2 }	#_|基础|
+				if = { limit = { has_active_building = building_foundry_3 }				change_variable = { which =TEMP_var_alloys_produces_base value = 2 } }	#_[bldn=合金3]
+				else_if = { limit = { has_active_building = building_foundry_2 }		change_variable = { which =TEMP_var_alloys_produces_base value = 1 } }	#_[bldn=合金2]
+					pr_job_resources_ids_cat = { OPT=produces RES=alloys CAT=complex_drone IDS=planet_metallurgists }	#_[资源阶层行业]
+				multiply_variable = { which =TEMP_var_alloys_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_alloys_produces_base value =TEMP_var_alloys_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 2 }	#_|基础|
+					pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=complex_drone IDS=planet_metallurgists }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+			}
+			
+		}
+	}
+	
+}
+

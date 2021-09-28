@@ -1,0 +1,355 @@
+###_	production_revolution core	###########################################################
+
+#_[修正导出参数]
+
+#_[ratio人力修正init/ratio人力修正/ratio人力修正结算]
+#_[全人力修正init/全人力修正累计/全人力修正结算]
+
+#_[ratio人力经济init/ratio人力经济/ratio人力经济结算]
+#_[全人力经济init/全人力经济累计/全人力经济结算]
+
+#_[普通修正/条件修正/修正统计]
+#_[比例bonus修正]
+
+#_[基础资源/条件资源/资源统计/资源阶层行业]
+#_[比例bonus资源]
+
+#_[add岗位统计/per_pop岗位统计]
+
+#_[资源output_debug]
+
+
+
+
+###_[修正导出参数]	###############################################################################################################################################################################################
+#_prtm		<MOD/VAR>
+z_pr_eft_mod_to_var = { export_modifier_to_variable = { modifier = $MOD$ variable = $VAR$ } }
+
+
+
+
+
+
+
+
+###_[ratio人力修正init]		###############################################################################################################################################################################################
+#_prmt		<MOD>
+z_pr_eft_plnt_man_mod_ratio_init = {
+	set_variable = { which = z_pr_var_man_$MOD$_ratio value = 0 }
+}
+###_[ratio人力修正]
+#_prmt		<MOD/WEIGHT>
+z_pr_eft_pop_man_mod_ratio = {
+	change_variable = { which = z_pr_var_man_$MOD$_ratio value = $WEIGHT$ }
+}
+###_[ratio人力修正结算]
+#_prmt		<MOD>
+#_var		|TEMP_var_plnt_administer_count|
+z_pr_eft_plnt_man_mod_ratio_tally = {
+	divide_variable = { which = z_pr_var_man_$MOD$_ratio value = TEMP_var_plnt_administer_count }
+}
+
+
+
+
+###_[全人力修正init]		###############################################################################################################################################################################################
+#_prmt		<MOD>
+z_pr_eft_plnt_man_mod_add_init = {
+	set_variable = { which = z_pr_var_man_$MOD$ value = 0 }
+}
+###_[全人力修正累计]	全人口手动添加
+#_prmt		<MOD/WEIGHT>
+z_pr_eft_plnt_man_mod_add_change = {
+	change_variable = { which = z_pr_var_man_$MOD$ value = $WEIGHT$ }
+}
+###_[全人力修正结算]
+#_prmt		<MOD>
+#_var		|z_pr_var_plnt_man_alpha|统计用人力DEFAULT
+z_pr_eft_plnt_man_mod_add_tally = {
+	if = { limit = { is_variable_set = z_pr_var_man_$MOD$_ratio }
+		change_variable = { which = z_pr_var_man_$MOD$ value = z_pr_var_man_$MOD$_ratio }
+	}
+	#_|全人力经济基值|×|统计用人力DEFAULT|
+	multiply_variable = { which = z_pr_var_man_$MOD$ value = z_pr_var_plnt_man_alpha }	#_|统计用人力DEFAULT|
+}
+
+
+
+
+
+
+
+
+###_[ratio人力经济init]		###############################################################################################################################################################################################
+#_prmt		<OPT/RES>
+z_pr_eft_plnt_man_res_ratio_init = {
+	set_variable = { which = z_pr_var_man_$RES$_$OPT$_ratio value = 0 }
+}
+
+###_[ratio人力经济]		人口经济/阶层经济/统计/clear
+#|pop_cat|是|pop|的附属
+#_prmt		<OPT/RES	/WEIGHT_P/ALL_P/SPCS_P/RES_P		WEIGHT_C/ALL_C/RES_C>
+z_pr_eft_pop_man_res_ratio = {
+	
+	## 人口经济
+	set_variable = { which = TEMP_var_pop value = $WEIGHT_P|0$ }
+	if = { limit = { check_variable = { which = TEMP_var_pop value > 0 } }
+		set_variable = { which = TEMP_var_mult value = 1 }
+		[[ALL_P]	change_variable = { which = TEMP_var_mult value = $ALL_P$ }]
+		[[SPCS_P]	change_variable = { which = TEMP_var_mult value = $SPCS_P$ }]
+		[[RES_P]	change_variable = { which = TEMP_var_mult value = $RES_P$ }]
+		multiply_variable = { which = TEMP_var_pop value = TEMP_var_mult }
+		# 最值限定
+		if = { limit = { check_variable = { which  = TEMP_var_pop value < 0 } }		set_variable = { which = TEMP_var_pop value = 0 } }
+	}
+	
+	## 人口经济
+	set_variable = { which = TEMP_var_cat value = $WEIGHT_C|0$ }
+	set_variable = { which = TEMP_var_mult value = 1 }
+	[[ALL_P]	change_variable = { which = TEMP_var_mult value = $ALL_P$ }]
+	[[SPCS_P]	change_variable = { which = TEMP_var_mult value = $SPCS_P$ }]
+	[[RES_P]	change_variable = { which = TEMP_var_mult value = $RES_P$ }]
+	[[ALL_C]	change_variable = { which = TEMP_var_mult value = $ALL_C$ }]
+	[[RES_C]	change_variable = { which = TEMP_var_mult value = $RES_C$ }]
+	multiply_variable = { which = TEMP_var_cat value = TEMP_var_mult }
+	# 最值限定
+	if = { limit = { check_variable = { which  = TEMP_var_cat value < 0 } }		set_variable = { which = TEMP_var_cat value = 0 } }
+	
+	## 统计
+	planet = {
+		change_variable = { which = z_pr_var_man_$RES$_$OPT$_ratio value = prev.TEMP_var_pop }
+		change_variable = { which = z_pr_var_man_$RES$_$OPT$_ratio value = prev.TEMP_var_cat }
+	}
+	
+	## clear
+	clear_variable = TEMP_var_mult
+	clear_variable = TEMP_var_pop
+	clear_variable = TEMP_var_cat
+}
+
+###_[ratio人力经济结算]
+#_prmt		<OPT/RES>
+#_var		|TEMP_var_plnt_administer_count|
+z_pr_eft_plnt_man_res_ratio_tally = {
+	divide_variable = { which = z_pr_var_man_$RES$_$OPT$_ratio value = TEMP_var_plnt_administer_count }
+}
+
+
+
+
+###_[全人力经济init]		###############################################################################################################################################################################################
+#_prmt		<OPT/RES>
+z_pr_eft_plnt_man_res_add_init = {
+	set_variable = { which = z_pr_var_man_$RES$_$OPT$_add value = 0 }
+}
+
+###_[全人力经济累计]
+#_prmt		<OPT/RES/WEIGHT>
+z_pr_eft_plnt_man_res_add_change = {
+	change_variable = { which = z_pr_var_man_$RES$_$OPT$_add value = $WEIGHT$ }
+}
+
+###_[全人力经济结算]
+#_prmt		<OPT/RES>
+#_var		|z_pr_var_plnt_man_alpha|统计用人力DEFAULT
+z_pr_eft_plnt_man_res_add_tally = {
+	if = { limit = { is_variable_set = z_pr_var_man_$RES$_$OPT$_ratio }
+		change_variable = { which = z_pr_var_man_$RES$_$OPT$_add value = z_pr_var_man_$RES$_$OPT$_ratio }
+	}
+	#_最值限定
+	if = { limit = { check_variable = { which = z_pr_var_man_$RES$_$OPT$_add value < 0 } }
+		set_variable = { which = z_pr_var_man_$RES$_$OPT$_add value = 0 }
+	}
+	#_|全人力经济基值|×|统计用人力DEFAULT|
+	multiply_variable = { which = z_pr_var_man_$RES$_$OPT$_add value = z_pr_var_plnt_man_alpha }	#_|统计用人力DEFAULT|
+}
+
+
+
+
+
+
+
+
+###_[普通修正]	###############################################################################################################################################################################################
+#_prmt	|MOD/VALUE|
+pr_job_modifier_basic = { set_variable = { which = TEMP_var_job_$MOD$ value = $VALUE|0$ } }
+###_[条件修正]
+#_prmt	|MOD/VALUE|
+pr_job_modifier_triggered = { change_variable = { which = TEMP_var_job_$MOD$ value = $VALUE$ } }
+###_[修正统计]
+#_prmt	|MOD|
+pr_job_modifier_tally = {
+	multiply_variable = { which = TEMP_var_job_$MOD$ value = TEMP_var_plnt_job_count }	#_[*岗位数]
+	change_variable = { which = z_pr_var_job_$MOD$ value = TEMP_var_job_$MOD$ }		#_[factor累积]
+}
+###_[比例bonus修正]	add
+#_prmt		|MOD/RATIO/WEIGHT|
+pr_job_modifier_ratio = {
+	set_variable = { which = TEMP_var_plnt_prmt_ratio value = z_pr_var_plnt_$RATIO$_ratio }	#_|比率|基础
+	multiply_variable = { which = TEMP_var_plnt_prmt_ratio value = $WEIGHT$ }	#_|权重|
+	change_variable = { which = TEMP_var_job_$MOD$ value = TEMP_var_plnt_prmt_ratio }	#_[var累积]
+	clear_variable = TEMP_var_plnt_prmt_ratio
+}
+
+
+
+
+
+
+
+
+###_[基础资源]	###############################################################################################################################################################################################
+#_prmt	|RES/OPT/VALUE|
+pr_job_resources_basic = { set_variable = { which = TEMP_var_$RES$_$OPT$_base value = $VALUE|0$ } }
+###_[条件资源]
+#_prmt	|RES/OPT/VALUE|
+pr_job_resources_trigger = { change_variable = { which = TEMP_var_$RES$_$OPT$_base value = $VALUE$ } }
+###_[资源统计]
+#_prmt	|RES/OPT|
+pr_job_resources_tally = {
+	multiply_variable = { which = TEMP_var_$RES$_$OPT$_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+	change_variable = { which = z_pr_var_$RES$_$OPT$_base value = TEMP_var_$RES$_$OPT$_base }	#_[factor累积]
+}
+###_[资源阶层行业]	add
+#_prmt		|RES/OPT/CAT/IDS|
+pr_job_resources_ids_cat = {
+	#_[阶层加成]
+	if = { limit = { is_variable_set = z_pr_var_cat_$CAT|1$_$OPT$_mult }		set_variable = { which = TEMP_var_$RES$_$OPT$_base_add value = z_pr_var_cat_$CAT|1$_$OPT$_mult } }
+	else_if = { limit = { always = yes }		set_variable = { which = TEMP_var_$RES$_$OPT$_base_add value = 0 } }
+	#_[行业加成]
+	if = { limit = { is_variable_set = z_pr_var_ids_$IDS|1$_$OPT$_mult }		change_variable = { which = TEMP_var_$RES$_$OPT$_base_add value = z_pr_var_ids_$IDS|1$_$OPT$_mult } }
+	else_if = { limit = { always = yes }		change_variable = { which = TEMP_var_$RES$_$OPT$_base_add value = 0 } }
+
+	#_add=mult*base
+	multiply_variable = { which = TEMP_var_$RES$_$OPT$_base_add value = TEMP_var_$RES$_$OPT$_base }	#_[x基数]
+	#_base_new=base+add
+	change_variable = { which = TEMP_var_$RES$_$OPT$_base value = TEMP_var_$RES$_$OPT$_base_add }
+	#_清理mult
+	clear_variable = TEMP_var_$RES$_$OPT$_base_add
+}
+###_[比例bonus资源]	add
+#_prmt		|RES/OPT/RATIO/WEIGHT|
+pr_job_resources_ratio = {
+	set_variable = { which = TEMP_var_plnt_prmt_ratio value = z_pr_var_plnt_$RATIO$_ratio }	#_|比率|基础
+	multiply_variable = { which = TEMP_var_plnt_prmt_ratio value = $WEIGHT$ }	#_|权重|
+	change_variable = { which = TEMP_var_$RES$_$OPT$_base value = TEMP_var_plnt_prmt_ratio }	#_[var累积]
+	clear_variable = TEMP_var_plnt_prmt_ratio
+}
+
+
+
+
+
+
+
+
+###_[add岗位统计]	###############################################################################################################################################################################################
+#_prmt		|JOB/VALUE/VAR|
+z_pr_eft_plnt_prmt_job_add = {
+	export_modifier_to_variable = { modifier = job_$JOB$_add variable = TEMP_var_plnt_job_count }	#_[mod值]
+	
+	[[VALUE]
+		#正常
+		if = { limit = { check_variable = { which = TEMP_var_plnt_job_count value < 0 } }
+			change_variable = { which = TEMP_var_plnt_job_count value = $VALUE$ }
+		}
+		#岗位不存在
+		else_if = { limit = { always = yes }
+			set_variable = { which = TEMP_var_plnt_job_count value = 0 }
+			log_error = "PR_JOB_ERROR:$JOB$"
+			set_global_flag = z_pr_flg_glbl_job_ERROR
+		}
+		change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_count }	#_|岗位累积temp|
+		change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_count }	#_[真实岗位累积]
+	]
+	
+	[[VAR]#当前岗位数导出到星球
+		set_variable = { which = $VAR$_$JOB$ value = TEMP_var_plnt_job_count }
+	]
+	
+	#_导出参数	---z测试
+#	set_variable = { which = test_var_plnt_job_$JOB$ value = TEMP_var_plnt_job_count }
+}
+###_[per_pop岗位统计]
+#_prmt		|JOB/VAR|
+z_pr_eft_plnt_prmt_job_per_pop = {
+	if = { limit = { check_modifier_value = { modifier = job_$JOB$_per_pop value > 0 } }
+		#_[per_pop]
+		export_modifier_to_variable = { modifier = job_$JOB$_per_pop variable = TEMP_var_plnt_job_per_pop }	#_[mod值]
+		multiply_variable = { which = TEMP_var_plnt_job_per_pop value = z_pr_var_plnt_pops }	#_[*pr人口]
+		floor_variable = TEMP_var_plnt_job_per_pop		#_向下取整
+		change_variable = { which = TEMP_var_plnt_job_count value = TEMP_var_plnt_job_per_pop }		#_|per_pop岗位|
+		change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_per_pop }	#_|岗位累积temp|
+		change_variable = { which = z_pr_var_plnt_job_actual value = TEMP_var_plnt_job_per_pop }	#_[真实岗位累积]
+		#_[per_man]
+		if = { limit = { is_variable_set = z_pr_var_plnt_man_alpha }	#_|统计用人力DEFAULT|
+			export_modifier_to_variable = { modifier = job_$JOB$_per_pop variable = TEMP_var_plnt_job_per_man }	#_[mod值]
+			multiply_variable = { which = TEMP_var_plnt_job_per_man value = z_pr_var_plnt_man_alpha }	#_[*统计用人力DEFAULT]
+			floor_variable = TEMP_var_plnt_job_per_man		#_向下取整
+			change_variable = { which = TEMP_var_plnt_job_count value = TEMP_var_plnt_job_per_man }		#_|per_pop岗位|
+			change_variable = { which = z_pr_var_plnt_workshop value = TEMP_var_plnt_job_per_man }	#_|岗位累积temp|
+		}
+		
+		[[VAR]#当前岗位数导出,已在[add岗位统计]中设定
+			change_variable = { which = $VAR$ value = TEMP_var_plnt_job_per_pop }
+			change_variable = { which = $VAR$ value = TEMP_var_plnt_job_per_man }
+		]
+	}
+	
+	#_导出参数	---z测试
+#	set_variable = { which = test_var_plnt_job_$JOB$_all value = TEMP_var_plnt_job_count }
+}
+
+
+
+
+
+
+
+
+###_[资源output_debug]	###############################################################################################################################################################################################
+#_list		init/岗位产出/人力产出/添加产出mod
+#_prmt		<RES/OPT>
+z_pr_eft_plnt_prmt_output_debug = {
+
+	##|init|
+	remove_modifier = z_pr_mod_pop_$RES$_$OPT$
+	set_variable = { which = FACTOR_var_pop_res value = 0 }
+
+	
+	##_|岗位产出|	job基础/job加成/效率加成
+	if = { limit = { prev = { is_variable_set = z_pr_var_$RES$_$OPT$_base		check_variable = { which = z_pr_var_$RES$_$OPT$_base value > 0 } } }
+		
+		# job基础
+		change_variable = { which = FACTOR_var_pop_res value = prev.z_pr_var_$RES$_$OPT$_base }
+		
+		# job加成
+		if = {#_|单项|
+			limit = { prev = { is_variable_set = z_pr_var_$RES$_$OPT$_mult } }
+			multiply_variable = { which = FACTOR_var_pop_res value = prev.z_pr_var_$RES$_$OPT$_mult }
+		}
+		else = {#_|全部|
+			multiply_variable = { which = FACTOR_var_pop_res value = prev.z_pr_var_plnt_job_$OPT$_mult }
+		}
+		
+		# 效率加成
+		multiply_variable = { which = FACTOR_var_pop_res value = prev.z_pr_var_plnt_ultilization }
+	}
+	
+	
+	##_|人力产出|	在<人力额外产出debug>完成统计
+	if = { limit = { prev = { is_variable_set = z_pr_var_man_$RES$_$OPT$_add } }
+		change_variable = { which = FACTOR_var_pop_res value = prev.z_pr_var_man_$RES$_$OPT$_add }
+	}
+
+
+	##_|添加产出mod|
+	if = { limit = { check_variable = { which = FACTOR_var_pop_res value > 0 } }
+		add_modifier = { modifier = z_pr_mod_pop_$RES$_$OPT$ days = -1 multiplier = FACTOR_var_pop_res }
+	}
+	clear_variable = FACTOR_var_pop_res
+}
+
+
+

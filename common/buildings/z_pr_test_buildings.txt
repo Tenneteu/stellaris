@@ -1,0 +1,66 @@
+
+z_pr_bldn_test_capital = {
+	base_buildtime = 1
+	icon = building_mote_harvesting_traps
+	is_capped_by_modifier = no
+	category = resource	#_标签检测
+
+	potential = {
+		always = no
+		is_capital = yes
+	}
+	allow = {
+		exists = owner
+		owner = { is_ai = no }
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			energy = 1
+		}
+		produces = {
+			minerals = 100
+		}
+	}
+	
+	#_[test]
+	triggered_planet_modifier = {
+		potential = { NOT = { has_planet_flag = z_pr_flg_plnt_test_job_check } }
+		job_z_pr_ai_dummy_energy_add = -100
+	}
+	triggered_planet_modifier = {
+		potential = { NOT = { has_planet_flag = z_pr_flg_plnt_test_job_check } }
+		job_z_pr_ai_dummy_energy_add = 10
+	}
+	triggered_planet_modifier = {
+		potential = { has_planet_flag = z_pr_flg_plnt_test_pop_growth }
+		pop_growth_speed = 25
+		planet_pop_assembly_mult = 25
+	}
+	
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_regular_empire = yes }
+		}
+		modifier = {
+			job_mote_harvester_add = 10
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_gestalt = yes }
+		}
+		modifier = {
+			job_mote_harvesting_drone_add = 10
+		}
+	}
+
+	prerequisites = {
+		"tech_basic_industry"
+	}
+
+	ai_weight = { weight = 0 }
+}

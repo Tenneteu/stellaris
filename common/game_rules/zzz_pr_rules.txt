@@ -1,0 +1,50 @@
+###_++++ z fw universial 游戏规则 范用兼容框架	######################################################
+#_[v自动移民]
+
+
+
+
+###_[v自动移民]
+###_[hfe/z_pf2/z_pr]	##################
+# Root = current planet
+# This = pop
+# Purge, Sapience, Migration Controls policy (ignored by Gestalts and Synths), and target habitability are checked in code.
+can_pop_auto_migrate = {
+	#_[+z_pr]
+	planet = {
+		NAND = {#_[z_pr]
+			exists = owner
+			owner = { has_country_flag = z_pr_flg_cntr_reg }	#_|pr革命完成|
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }	#_|pr忽略|
+		}
+		NOT = { has_modifier = planet_culture_shock }
+		OR = {
+			colony_age > 60
+			is_capital = yes			# Don't break Doomsday!
+		}
+	}
+	#_[+hfe]
+	or = {
+		is_unemployed = yes
+		hfe_trigger_unemployed_auto_migrate = yes
+	}
+	is_being_assimilated = no
+	#_[+hfe]
+	OR = {
+		owner = {#_hfe
+			or = {
+				is_country_type = hfe_pirate
+				hfe_trigger_is_human_fallen = yes
+			}
+		}
+		AND = {
+			is_shackled_robot = no
+			is_enslaved = no
+		}
+		planet = {
+			has_building = building_slave_processing
+		}
+	}
+	#_[z_pf2]
+	NOT = { has_global_flag = z_pf2_flg_vam_disabled }
+}

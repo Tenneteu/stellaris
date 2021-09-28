@@ -1,0 +1,271 @@
+###_[灰烬战线岗位debug]
+z_pr_eft_plnt_job_debug_mod_adf = {
+	#_ADF灰烬遗存
+	if = { limit = { check_modifier_value = { modifier = job_PR_check_ADF_add value = -1 } }	#_|修正激活|	has_global_flag = z_pr_patch_installed_mod_ADF
+
+		##_[adf_crystal]			|specialist/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = adf_crystal VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = adf_crystal VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = adf_crystal }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[sr_crystal_adf]
+			pr_job_resources_basic = { OPT = produces RES = sr_crystal_adf VALUE = 5 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_crystal_adf
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_crystal_adf }
+			#_[volatile_motes]
+			pr_job_resources_basic = { OPT = produces RES = volatile_motes VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=volatile_motes
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = volatile_motes }
+			
+			#_[upkeep]
+			#_[minerals]
+			pr_job_resources_basic = { OPT = upkeep RES = minerals VALUE = 5 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=minerals
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = minerals }
+		}
+
+		##_[adf_parts]			|specialist/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = adf_parts VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = adf_parts VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = adf_parts }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[sr_parts_adf]
+			pr_job_resources_basic = { OPT = produces RES = sr_parts_adf VALUE = 7 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_parts_adf
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_parts_adf }
+			#_[rare_crystals]
+			pr_job_resources_basic = { OPT = produces RES = rare_crystals VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=rare_crystals
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = rare_crystals }
+			
+			#_[upkeep]
+			#_[minerals]
+			pr_job_resources_basic = { OPT = upkeep RES = minerals VALUE = 3 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=minerals
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = minerals }
+			#_[consumer_goods]
+			pr_job_resources_basic = { OPT = upkeep RES = consumer_goods VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = consumer_goods }
+		
+		}
+
+		##_[adf_foundry]			|specialist/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = adf_foundry VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = adf_foundry VALUE = 2000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = adf_foundry }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[alloys]
+			pr_job_resources_basic = { OPT = produces RES = alloys VALUE = 16 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=alloys
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = alloys }
+			
+			#_[consumer_goods]
+			pr_job_resources_basic = { OPT = produces RES = consumer_goods VALUE = 0 }
+			if = {#_|国策|
+				limit = { exists = owner owner = { has_technology = adf_tech_building_alloys_Forge } }
+				pr_job_resources_trigger = { OPT = produces RES = consumer_goods VALUE = 0.05 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = consumer_goods }
+			
+			#_[upkeep]
+			#_[minerals]
+			pr_job_resources_basic = { OPT = upkeep RES = minerals VALUE = 4 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=minerals
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = minerals }
+		}
+
+		##_[adf_chief_researcher]			|specialist/planet_researchers|		特殊条件=has_trait
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = adf_chief_researcher VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = adf_chief_researcher VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = adf_chief_researcher }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = planet_amenities_add VALUE = 2 }
+			pr_job_modifier_ratio = { MOD=planet_amenities_add RATIO=trait_v_amenities WEIGHT=1.6 }	#_|比例bonus修正|
+			pr_job_modifier_ratio = { MOD=planet_amenities_add RATIO=trait_v_repugnant WEIGHT=-1.6 }	#_|比例bonus修正|
+			pr_job_modifier_tally = { MOD = planet_amenities_add }
+			
+			##_[produce]	资源类型
+			#_[physics_research]
+			pr_job_resources_basic = { OPT = produces RES = physics_research VALUE = 15 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=physics_research
+				CAT=specialist
+				IDS=planet_researchers_physics_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = physics_research }
+			
+			#_[engineering_research]
+			pr_job_resources_basic = { OPT = produces RES = engineering_research VALUE = 15 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=specialist
+				IDS=planet_researchers_engineering_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+			
+			#_[society_research]
+			pr_job_resources_basic = { OPT = produces RES = society_research VALUE = 15 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=specialist
+				IDS=planet_researchers_society_research	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+			
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 0 }
+			if = {#_|科技|
+				limit = { exists = owner owner = { has_valid_civic = civic_technocracy } }
+				pr_job_resources_trigger = { OPT = produces RES = unity VALUE = 1 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+
+			
+			#_[upkeep]
+			#_[food]
+			pr_job_resources_basic = { OPT = upkeep RES = food VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=food
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = food }
+			
+			#_[consumer_goods]
+			pr_job_resources_basic = { OPT = upkeep RES = consumer_goods VALUE = 1.8 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = consumer_goods }
+		}
+
+		##_[adf_artisan]			|specialist/planet_artisans|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = adf_artisan VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = adf_artisan VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = adf_artisan }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[consumer_goods]
+			pr_job_resources_basic = { OPT = produces RES = consumer_goods VALUE = 6 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = consumer_goods }
+			#_[food]
+			pr_job_resources_basic = { OPT = produces RES = food VALUE = 3 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=food
+				CAT=specialist
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = food }
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=specialist
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+
+			
+			#_[upkeep]
+			#_[minerals]
+			pr_job_resources_basic = { OPT = upkeep RES = minerals VALUE = 8 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=minerals
+				CAT=specialist
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = minerals }
+			#_[energy]
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 0 }
+			if = {#_|政策|
+				limit = { exists = owner owner = { has_edict = industrial_subsidies } }
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 1 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=specialist
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+		}
+	}
+}

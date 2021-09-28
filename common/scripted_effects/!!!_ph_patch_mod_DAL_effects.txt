@@ -1,0 +1,1063 @@
+#	planet_jobs_datealive_crystals_produces_mult
+
+
+###_[约战岗位debug]
+z_pr_eft_plnt_job_debug_mod_DAL = {
+
+	if = { limit = { check_modifier_value = { modifier = job_PR_check_DAL_add value = -1 } }	#_|修正激活|	has_global_flag = z_pr_patch_installed_mod_DAL
+
+#------------------土著-------------------------
+
+##_[primitive_laborer_rinne]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = primitive_laborer_rinne VALUE = 100 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = primitive_laborer_rinne VALUE = 100 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_laborer }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			##_[修正统计]不存在修正
+			#pr_job_modifier_basic = { MOD = 修正ID VALUE = 修正值 }
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_modifier_triggered = { MOD = 修正ID VALUE = 修正值 }
+			#}
+			#pr_job_modifier_tally = { MOD = 修正ID }
+			
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = produces RES = consumer_goods VALUE = 1 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_resources_trigger = { OPT = 产出_维护 RES = 资源ID VALUE = 资源值 }
+			#}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=consumer_goods
+				CAT=worker
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = consumer_goods }
+			
+			
+			pr_job_resources_basic = { OPT = produces RES = alloys VALUE = 0.5 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_resources_trigger = { OPT = 产出_维护 RES = 资源ID VALUE = 资源值 }
+			#}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=alloys
+				CAT=worker
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = alloys }
+			
+			
+			pr_job_resources_basic = { OPT = upkeep RES = minerals VALUE = 3 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_resources_trigger = { OPT = 产出_维护 RES = 资源ID VALUE = 资源值 }
+			#}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=minerals
+				CAT=worker
+				IDS=planet_artisans	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = minerals }
+			
+		}
+
+
+##_[primitive_miner_rinne]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = primitive_miner_rinne VALUE = 100 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = primitive_miner_rinne VALUE = 100 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_miner_rinne }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			##_[修正统计]不存在修正
+			#pr_job_modifier_basic = { MOD = 修正ID VALUE = 修正值 }
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_modifier_triggered = { MOD = 修正ID VALUE = 修正值 }
+			#}
+			#pr_job_modifier_tally = { MOD = 修正ID }
+			
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = produces RES = minerals VALUE = 4 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_resources_trigger = { OPT = 产出_维护 RES = 资源ID VALUE = 资源值 }
+			#}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=minerals
+				CAT=worker
+				IDS=planet_miners	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = minerals }
+			
+			
+			
+			
+		}
+
+
+##_[primitive_technician_rinne]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = primitive_technician_rinne VALUE = 100 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = primitive_technician_rinne VALUE = 100 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_laborer }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			##_[修正统计]不存在修正
+			#pr_job_modifier_basic = { MOD = 修正ID VALUE = 修正值 }
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_modifier_triggered = { MOD = 修正ID VALUE = 修正值 }
+			#}
+			#pr_job_modifier_tally = { MOD = 修正ID }
+			
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = produces RES = energy VALUE = 4 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_resources_trigger = { OPT = 产出_维护 RES = 资源ID VALUE = 资源值 }
+			#}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=energy
+				CAT=worker
+				IDS=planet_technician	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = energy }
+			
+			
+			
+			
+		}
+
+
+##_[primitive_farmer_rinne]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = primitive_farmer_rinne VALUE = 100 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = primitive_farmer_rinne VALUE = 100 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_laborer }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			##_[修正统计]不存在修正
+			#pr_job_modifier_basic = { MOD = 修正ID VALUE = 修正值 }
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_modifier_triggered = { MOD = 修正ID VALUE = 修正值 }
+			#}
+			#pr_job_modifier_tally = { MOD = 修正ID }
+			
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = produces RES = food VALUE = 5 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_resources_trigger = { OPT = 产出_维护 RES = 资源ID VALUE = 资源值 }
+			#}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=food
+				CAT=worker
+				IDS=planet_farmers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = food }
+			
+			
+			
+			
+		}
+
+
+##_[primitive_researcher_rinne]		|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = primitive_researcher_rinne VALUE = 100 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = primitive_researcher_rinne VALUE = 100 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_laborer }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			##_[修正统计]不存在修正
+			#pr_job_modifier_basic = { MOD = 修正ID VALUE = 修正值 }
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_modifier_triggered = { MOD = 修正ID VALUE = 修正值 }
+			#}
+			#pr_job_modifier_tally = { MOD = 修正ID }
+			
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = produces RES = physics_research VALUE = 2 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_resources_trigger = { OPT = 产出_维护 RES = 资源ID VALUE = 资源值 }
+			#}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=physics_research
+				CAT=worker
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = physics_research }
+			
+			
+			pr_job_resources_basic = { OPT = produces RES = engineering_research VALUE = 2 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_resources_trigger = { OPT = 产出_维护 RES = 资源ID VALUE = 资源值 }
+			#}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=worker
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+
+
+			pr_job_resources_basic = { OPT = produces RES = society_research VALUE = 2 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_resources_trigger = { OPT = 产出_维护 RES = 资源ID VALUE = 资源值 }
+			#}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=worker
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+			
+			
+			pr_job_resources_basic = { OPT = upkeep RES = consumer_goods VALUE = 0.1 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_resources_trigger = { OPT = 产出_维护 RES = 资源ID VALUE = 资源值 }
+			#}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=consumer_goods
+				CAT=worker
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = consumer_goods }
+			
+		}
+
+		
+##_[primitive_priest_rinne]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = primitive_priest_rinne VALUE = 100 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = primitive_priest_rinne VALUE = 100 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_laborer }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			#_[修正统计] - planet_amenities_add
+			pr_job_modifier_basic = { MOD = planet_amenities_add VALUE = 2 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_modifier_triggered = { MOD = planet_amenities_add VALUE = 2 }
+			#}
+			pr_job_modifier_tally = { MOD = planet_amenities_add }
+			
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 2 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_resources_trigger = { OPT = 产出_维护 RES = 资源ID VALUE = 资源值 }
+			#}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=worker
+				IDS=planet_priests	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+			
+			
+			pr_job_resources_basic = { OPT = upkeep RES = consumer_goods VALUE = 0.1 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_resources_trigger = { OPT = 产出_维护 RES = 资源ID VALUE = 资源值 }
+			#}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=consumer_goods
+				CAT=worker
+				IDS=planet_priests	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = consumer_goods }
+			
+		}
+
+		
+##_[primitive_warrior_rinne]		|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = primitive_warrior_rinne VALUE = 100 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = primitive_warrior_rinne VALUE = 100 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_laborer }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			#_[修正统计] - pop_defense_armies_add 
+			#------ 用于pop_modifier------
+			pr_job_modifier_basic = { MOD = pop_defense_armies_add VALUE = 2 }
+			
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_modifier_triggered = { MOD = pop_defense_armies_add VALUE = 2 }
+			#}
+			pr_job_modifier_tally = { MOD = pop_defense_armies_add }
+			#----------------------------
+
+
+		}
+
+		
+##_[primitive_bureaucrat_rinne]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = primitive_bureaucrat_rinne VALUE = 100 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = primitive_bureaucrat_rinne VALUE = 100 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_laborer }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			#_[修正统计] - planet_amenities_add 
+			pr_job_modifier_basic = { MOD = planet_amenities_add VALUE = 2 }
+			
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_modifier_triggered = { MOD = planet_amenities_add VALUE = 2 }
+			#}
+			pr_job_modifier_tally = { MOD = planet_amenities_add }
+
+
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 1 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_resources_trigger = { OPT = 产出_维护 RES = 资源ID VALUE = 资源值 }
+			#}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=worker
+				IDS=planet_administrators	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+			
+			
+			pr_job_resources_basic = { OPT = upkeep RES = consumer_goods VALUE = 0.1 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_resources_trigger = { OPT = 产出_维护 RES = 资源ID VALUE = 资源值 }
+			#}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=consumer_goods
+				CAT=worker
+				IDS=planet_administrators	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = consumer_goods }
+			
+		}
+
+
+
+
+#------------------非土著-------------------------
+##_[DAL_utopia_seeker]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = DAL_utopia_seeker VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = DAL_utopia_seeker VALUE = 2000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = DAL_utopia_seeker  }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			#_[修正统计] - planet_amenities_add
+			pr_job_modifier_basic = { MOD = planet_amenities_add VALUE = 3 }
+			#
+			if = {
+				limit = { 
+					planet = {
+						OR = {
+							owner = { has_technology = "tech_become_true_happiness" }
+						} 
+					}
+				}
+				pr_job_modifier_triggered = { MOD = planet_amenities_add VALUE = 2 }
+			}
+			if = {
+				limit = { 
+					planet = {
+						OR = {
+							owner = { has_country_flag = dal_has_finish_evolution_of_crystal_project }
+						} 
+					}
+				}
+				pr_job_modifier_triggered = { MOD = planet_amenities_add VALUE = 2 }
+			}
+			pr_job_modifier_tally = { MOD = planet_amenities_add }
+			
+			#_[修正统计] - planet_jobs_datealive_crystals_produces_mult
+			pr_job_modifier_basic = { MOD = planet_jobs_datealive_crystals_produces_mult VALUE = 0.03 }
+			#不存在额外条件
+			#if = {
+			#	limit = { pop条件转planet条件 }
+			#	pr_job_modifier_triggered = { MOD = planet_jobs_datealive_crystals_produces_mult VALUE = 2 }
+			#}
+			pr_job_modifier_tally = { MOD = planet_jobs_datealive_crystals_produces_mult }
+
+			#_[修正统计] - planet_stability_add
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 0.5 }
+			if = {
+				limit = { 
+					planet = {
+						OR = {
+							owner = { has_valid_civic = civic_DAL_utopia }
+							owner = { has_valid_civic = civic_DAL_true_utopia }	
+							owner = { has_valid_civic = civic_DAL_utopia_secondary_species }	
+							
+						} 
+					}
+				}
+				pr_job_modifier_triggered = { MOD = planet_stability_add VALUE = 0.5 }
+			}
+			if = {
+				limit = { 
+					planet = {
+						OR = {
+							owner = { has_technology = "tech_become_true_happiness" }
+						} 
+					}
+				}
+				pr_job_modifier_triggered = { MOD = planet_stability_add VALUE = 2 }
+			}
+			if = {
+				limit = { 
+					planet = {
+						OR = {
+							owner = { has_country_flag = dal_has_finish_evolution_of_crystal_project }
+						} 
+					}
+				}
+				pr_job_modifier_triggered = { MOD = planet_stability_add VALUE = 1 }
+			}
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+
+
+
+
+
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 2 }
+			#
+			if = {
+				limit = { 
+					planet = {
+						owner = { has_valid_civic = civic_DAL_true_utopia }
+					}
+				}
+				pr_job_resources_trigger = { OPT = produces RES = unity VALUE = 1.5 }
+			}
+			if = {
+				limit = { 
+					planet = {
+						owner = { has_technology = "tech_become_true_happiness" }
+					}
+				}
+				pr_job_resources_trigger = { OPT = produces RES = unity VALUE = 1 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=worker
+				IDS=planet_priests	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+
+
+			#
+			pr_job_resources_basic = {  OPT = produces RES = society_research VALUE = 0 }
+			if = {
+				limit = { 
+					has_utopian_living_standard_type = yes
+				}
+				pr_job_resources_trigger = { OPT = produces RES = society_research VALUE = 2 }
+			}
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=worker
+				IDS=planet_priests	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+
+			pr_job_resources_basic = {  OPT = produces RES = physics_research VALUE = 0 }
+			if = {
+				limit = { 
+					has_utopian_living_standard_type = yes
+				}
+				pr_job_resources_trigger = { OPT = produces RES = physics_research VALUE = 2 }
+			}
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=physics_research
+				CAT=worker
+				IDS=planet_priests	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = physics_research }
+
+
+			pr_job_resources_basic = {  OPT = produces RES = engineering_research VALUE = 0 }
+			if = {
+				limit = { 
+					has_utopian_living_standard_type = yes
+				}
+				pr_job_resources_trigger = { OPT = produces RES = engineering_research VALUE = 2 }
+			}
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=worker
+				IDS=planet_priests	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+			
+			
+			pr_job_resources_basic = { OPT = upkeep RES = consumer_goods VALUE = 2 }
+			#不存在额外条件
+			if = {
+				limit = { 
+					planet = {
+						owner = { has_technology = "tech_become_true_happiness" }
+					}
+				}
+				pr_job_resources_trigger = { OPT = upkeep RES = consumer_goods VALUE = 1 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=consumer_goods
+				CAT=worker
+				IDS=planet_priests	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = consumer_goods }
+			
+		}
+
+
+##_[DAL_utopia_seeker_soldier]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = DAL_utopia_seeker_soldier VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = DAL_utopia_seeker_soldier VALUE = 2000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = DAL_utopia_seeker_soldier }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			#_[修正统计] - planet_amenities_add
+			pr_job_modifier_basic = { MOD = empire_size_pops_mult VALUE = -0.005 }
+			pr_job_modifier_tally = { MOD = empire_size_pops_mult }
+			
+			#_[修正统计] - planet_jobs_datealive_crystals_produces_mult
+			pr_job_modifier_basic = { MOD = country_naval_cap_add VALUE = 8 }
+			pr_job_modifier_tally = { MOD = country_naval_cap_add }
+
+			#_[修正统计] - planet_stability_add
+			pr_job_modifier_basic = { MOD = pop_happiness VALUE = 0.01 }
+			pr_job_modifier_tally = { MOD = pop_happiness }
+
+
+			pr_job_modifier_basic = { MOD = planet_amenities_add VALUE = 3 }
+			pr_job_modifier_tally = { MOD = planet_amenities_add }
+
+			pr_job_modifier_basic = { MOD = trade_value_add VALUE = 0 }
+			if = {
+				limit = { 
+					planet = {
+						OR = {
+							owner = { has_technology = tech_spuer_true_happiness }
+						} 
+					}
+				}
+				pr_job_modifier_triggered = { MOD = trade_value_add VALUE = 8 }
+			}
+			pr_job_modifier_tally = { MOD = trade_value_add }
+
+
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 5 }
+			#
+			if = {
+				limit = { 
+					has_utopian_living_standard_type = yes
+				}
+				pr_job_resources_trigger = { OPT = produces RES = unity VALUE = 3 }
+			}
+			if = {
+				limit = { 
+					planet = {
+						owner = { has_technology = tech_spuer_true_happiness }
+					}
+				}
+				pr_job_resources_trigger = { OPT = produces RES = unity VALUE = 8 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=worker
+				IDS=planet_culture_workers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+
+
+			#
+			
+			
+			pr_job_resources_basic = { OPT = upkeep RES = consumer_goods VALUE = 2 }
+			
+			if = {
+				limit = { 
+					planet = {
+						owner = { has_technology = tech_spuer_true_happiness }
+					}
+				}
+				pr_job_resources_trigger = { OPT = upkeep RES = consumer_goods VALUE = 1 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=consumer_goods
+				CAT=worker
+				IDS=planet_culture_workers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = consumer_goods }
+			
+		}
+
+
+
+##_[DAL_datealive_crystals_miner]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = DAL_datealive_crystals_miner VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = DAL_datealive_crystals_miner VALUE = 2000 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_laborer }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = produces RES = datealive_crystals VALUE = 2 }
+			#
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=datealive_crystals
+				CAT=worker
+				IDS=planet_miners	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = datealive_crystals }
+
+
+			
+		}
+
+
+##_[DAL_datealive_crystals_miner_drone]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = DAL_datealive_crystals_miner_drone VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = DAL_datealive_crystals_miner_drone VALUE = 2000 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_laborer }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = produces RES = datealive_crystals VALUE = 2 }
+			#
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=datealive_crystals
+				CAT=simple_drone
+				IDS=planet_miners	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = datealive_crystals }
+
+
+			
+		}
+
+
+##_[datealive_crystals_manufacturing_drone]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = datealive_crystals_manufacturing_drone VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = datealive_crystals_manufacturing_drone VALUE = 2000 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_laborer }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = produces RES = datealive_crystals VALUE = 1 }
+			#
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=datealive_crystals
+				CAT=simple_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = datealive_crystals }
+
+
+			pr_job_resources_basic = { OPT = upkeep RES = minerals VALUE = 10 }
+			#
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=minerals
+				CAT=simple_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+
+
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 10 }
+			#
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=simple_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+		}
+
+
+##_[datealive_crystals_manufacturing]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = datealive_crystals_manufacturing VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = datealive_crystals_manufacturing VALUE = 2000 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_laborer }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = produces RES = datealive_crystals VALUE = 1 }
+			#
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=datealive_crystals
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = datealive_crystals }
+
+
+			pr_job_resources_basic = { OPT = upkeep RES = minerals VALUE = 10 }
+			#
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=minerals
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+
+
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 10 }
+			#
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+		}
+
+		
+##_[datealive_crystals_researcher]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = datealive_crystals_researcher VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = datealive_crystals_researcher VALUE = 2000 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_laborer }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = upkeep RES = datealive_crystals VALUE = 1 }
+			#
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=datealive_crystals
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = datealive_crystals }
+
+
+			pr_job_resources_basic = {  OPT = produces RES = society_research VALUE = 12 }
+			
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+
+			pr_job_resources_basic = {  OPT = produces RES = physics_research VALUE = 12 }
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=physics_research
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = physics_research }
+
+
+			pr_job_resources_basic = {  OPT = produces RES = engineering_research VALUE = 12 }
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=specialist
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+		}
+
+
+##_[datealive_crystals_researcher_drone]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = datealive_crystals_researcher_drone VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = datealive_crystals_researcher_drone VALUE = 2000 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_laborer }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = upkeep RES = datealive_crystals VALUE = 1 }
+			#
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=datealive_crystals
+				CAT=complex_drone
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = datealive_crystals }
+
+
+			pr_job_resources_basic = {  OPT = produces RES = society_research VALUE = 12 }
+			
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=complex_drone
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+
+			pr_job_resources_basic = {  OPT = produces RES = physics_research VALUE = 12 }
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=physics_research
+				CAT=complex_drone
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = physics_research }
+
+
+			pr_job_resources_basic = {  OPT = produces RES = engineering_research VALUE = 12 }
+			
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=complex_drone
+				IDS=planet_researchers	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+		}
+
+
+##_[datealive_crystals_explorer]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = datealive_crystals_explorer VALUE = 500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = datealive_crystals_explorer VALUE = 500 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_laborer }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			#_[修正统计] - planet_amenities_add
+			pr_job_modifier_basic = { MOD = planet_max_districts_add VALUE = 1 }
+			#
+			pr_job_modifier_tally = { MOD = planet_max_districts_add }
+			
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = upkeep RES = consumer_goods VALUE = 0 }
+			#
+			if = {
+				limit = { 
+					planet = {
+						owner = { is_regular_empire = yes }
+					}
+				}
+				pr_job_resources_trigger = { OPT = upkeep RES = consumer_goods VALUE = 5  }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_administrators	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = consumer_goods }
+
+
+			pr_job_resources_basic = { OPT = upkeep RES = food VALUE = 0 }
+			#
+			if = {
+				limit = { 
+					planet = {
+						owner = { is_hive_empire = yes }
+					}
+				}
+				pr_job_resources_trigger = { OPT = upkeep RES = food VALUE = 10 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=food
+				CAT=specialist
+				IDS=planet_administrators	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = food }
+
+			pr_job_resources_basic = { OPT = upkeep RES = food VALUE = 0 }
+			#
+			if = {
+				limit = { 
+					planet = {
+						owner = { is_machine_empire = yes }
+					}
+				}
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 10 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=specialist
+				IDS=planet_administrators	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+
+		}
+
+
+##_[datealive_crystals_explorer_drone]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = datealive_crystals_explorer_drone VALUE = 500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = datealive_crystals_explorer_drone VALUE = 500 }	#_[add岗位统计]
+			#z_pr_eft_plnt_prmt_job_per_pop = { JOB = primitive_laborer }	#_[per_pop岗位统计]	---只有存在"job_$primitive_laborer$_per_pop"的时候才加这个
+			
+			#_[修正统计] - planet_amenities_add
+			pr_job_modifier_basic = { MOD = planet_max_districts_add VALUE = 1 }
+			#
+			pr_job_modifier_tally = { MOD = planet_max_districts_add }
+			
+			##_[资源统计]	资源ID
+			#_[资源ID]
+			
+			
+			pr_job_resources_basic = { OPT = upkeep RES = consumer_goods VALUE = 0 }
+			#
+			if = {
+				limit = { 
+					planet = {
+						owner = { is_regular_empire = yes }
+					}
+				}
+				pr_job_resources_trigger = { OPT = upkeep RES = consumer_goods VALUE = 5  }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=consumer_goods
+				CAT=complex_drone
+				IDS=planet_administrators	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = consumer_goods }
+
+
+			pr_job_resources_basic = { OPT = upkeep RES = food VALUE = 0 }
+			#
+			if = {
+				limit = { 
+					planet = {
+						owner = { is_hive_empire = yes }
+					}
+				}
+				pr_job_resources_trigger = { OPT = upkeep RES = food VALUE = 10 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=food
+				CAT=complex_drone
+				IDS=planet_administrators	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = food }
+
+			pr_job_resources_basic = { OPT = upkeep RES = food VALUE = 0 }
+			#
+			if = {
+				limit = { 
+					planet = {
+						owner = { is_machine_empire = yes }
+					}
+				}
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 10 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=complex_drone
+				IDS=planet_administrators	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+		}
+
+	}
+}

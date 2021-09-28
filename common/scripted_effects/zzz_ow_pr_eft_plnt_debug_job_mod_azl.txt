@@ -1,0 +1,1300 @@
+###_	production_revolution core	###########################################################
+#_[per_pop岗位统计]
+
+#_[碧蓝航线dlc岗位debug]
+
+
+
+
+
+###_[碧蓝航线dlc岗位debug]		azur_jobs_district/azur_jobs_normal/azur_jobs_ruler		###########################################################
+z_pr_eft_plnt_job_debug_mod_azl_dlc = {
+	###_[岗位检测]
+	
+	if = { limit = { check_modifier_value = { modifier = job_PR_check_azl_add value = -1 } }	#_|修正激活|	has_global_flag = z_pr_patch_installed_mod_azl
+	
+		###_[azur_jobs_district]
+		#_碧蓝星港		azur_clerk/azur_design_expert/alloy_expert2/azur_technician
+		#_海上都市		azur_fisher/azur_alloys_miner/azur_ocean_technician
+		#_碧蓝盖亚		azur_gaia_sevent/azur_gaia_worker/azur_gaia_worker_other/azur_gaia_artist/
+		#_星环			azur_hydroponic_expert
+		if = { limit = { always = yes }
+			#_碧蓝星港
+			##_[azur_clerk]				|worker/planet_managers|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_clerk VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_clerk VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_clerk }
+				
+				#_[星球统计]	贸易/舒适
+				#_[贸易]
+				set_variable = { which = TEMP_var_job_trade_value_add value = 8 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_trade_value_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_trade_value_add value = TEMP_var_job_trade_value_add }		#_[factor累积]
+				#_[舒适]
+				set_variable = { which = TEMP_var_job_planet_amenities_add value = 4 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_amenities_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_amenities_add value = TEMP_var_job_planet_amenities_add }	#_[factor累积]
+				
+				#_[核心统计]	p_society_research/p_unity
+				#_[p_society_research]
+				set_variable = { which = TEMP_var_society_research_produces_base value = 1 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=society_research CAT=worker IDS=planet_managers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 0.5 } }	#_[国策]
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=worker IDS=planet_managers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+			}
+		
+			##_[azur_design_expert]		|specialist/planet_researchers|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_design_expert VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_design_expert VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_design_expert }
+				
+				#_[星球统计]	舒适
+				#_[舒适]
+				set_variable = { which = TEMP_var_job_planet_amenities_add value = 3 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_amenities_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_amenities_add value = TEMP_var_job_planet_amenities_add }	#_[factor累积]
+				
+				#_[核心统计]	p_physics_research/p_engineering_research/p_society_research/p_unity		/u_minerals/u_consumer_goods
+				#_[p_physics_research]
+				set_variable = { which = TEMP_var_physics_research_produces_base value = 6 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_technology } }		change_variable = { which = TEMP_var_physics_research_produces_base value = 2 } }	#_[国策]
+				if = { limit = { has_modifier = azur_planet_scientific_physics }			change_variable = { which = TEMP_var_physics_research_produces_base value = 8 } }	#_|mod|=物理专精
+				if = { limit = { has_modifier = azur_planet_scientific_society }			change_variable = { which = TEMP_var_physics_research_produces_base value = -4 } }	#_|mod|=社会专精
+				if = { limit = { has_modifier = azur_planet_scientific_engineering }		change_variable = { which = TEMP_var_physics_research_produces_base value = -4 } }	#_|mod|=工程专精
+				pr_job_resources_ratio = { OPT=produces RES=physics_research RATIO=trait_mod_azl_weakup WEIGHT=2 }	#_|比例bonus资源|
+				pr_job_resources_ids_cat = { OPT=produces RES=physics_research CAT=specialist IDS=planet_researchers_physics_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_physics_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_physics_research_produces_base value = TEMP_var_physics_research_produces_base }	#_[factor累积]
+				
+				#_[p_engineering_research]
+				set_variable = { which = TEMP_var_engineering_research_produces_base value = 6 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_technology } }		change_variable = { which = TEMP_var_engineering_research_produces_base value = 2 } }	#_[国策]
+				if = { limit = { has_modifier = azur_planet_scientific_physics }			change_variable = { which = TEMP_var_engineering_research_produces_base value = -4 } }	#_|mod|=物理专精
+				if = { limit = { has_modifier = azur_planet_scientific_society }			change_variable = { which = TEMP_var_engineering_research_produces_base value = -4 } }	#_|mod|=社会专精
+				if = { limit = { has_modifier = azur_planet_scientific_engineering }		change_variable = { which = TEMP_var_engineering_research_produces_base value = 8 } }	#_|mod|=工程专精
+				pr_job_resources_ratio = { OPT=produces RES=engineering_research RATIO=trait_mod_azl_weakup WEIGHT=2 }	#_|比例bonus资源|
+				pr_job_resources_ids_cat = { OPT=produces RES=engineering_research CAT=specialist IDS=planet_researchers_engineering_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_engineering_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_engineering_research_produces_base value = TEMP_var_engineering_research_produces_base }	#_[factor累积]
+				
+				#_[p_society_research]
+				set_variable = { which = TEMP_var_society_research_produces_base value = 6 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_technology } }		change_variable = { which = TEMP_var_society_research_produces_base value = 2 } }	#_[国策]
+				if = { limit = { has_modifier = azur_planet_scientific_physics }			change_variable = { which = TEMP_var_society_research_produces_base value = -4 } }	#_|mod|=物理专精
+				if = { limit = { has_modifier = azur_planet_scientific_society }			change_variable = { which = TEMP_var_society_research_produces_base value = 8 } }	#_|mod|=社会专精
+				if = { limit = { has_modifier = azur_planet_scientific_engineering }		change_variable = { which = TEMP_var_society_research_produces_base value = -4 } }	#_|mod|=工程专精
+				pr_job_resources_ratio = { OPT=produces RES=society_research RATIO=trait_mod_azl_weakup WEIGHT=2 }	#_|比例bonus资源|
+				pr_job_resources_ids_cat = { OPT=produces RES=society_research CAT=specialist IDS=planet_researchers_society_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+				
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 6 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 2 } }	#_[国策]
+				pr_job_resources_ratio = { OPT=produces RES=unity RATIO=trait_mod_azl_weakup WEIGHT=2 }	#_|比例bonus资源|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_researchers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 2 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=energy CAT=specialist IDS=planet_researchers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+				
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 1 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=consumer_goods CAT=specialist IDS=planet_researchers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+			}
+			
+			##_[alloy_expert2]			|specialist/planet_metallurgists|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = alloy_expert2 VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = alloy_expert2 VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = alloy_expert2 }
+				
+				#_[核心统计]	p_alloys/p_engineering_research/p_unity/p_azl_spb	/u_minerals/u_minerals/u_consumer_goods
+				#_[p_alloys]
+				set_variable = { which = TEMP_var_alloys_produces_base value = 8 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_specialist } }		change_variable = { which = TEMP_var_alloys_produces_base value = 1 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=alloys CAT=specialist IDS=planet_metallurgists }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_alloys_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_alloys_produces_base value = TEMP_var_alloys_produces_base }	#_[factor累积]
+				#_[p_engineering_research]
+				set_variable = { which = TEMP_var_engineering_research_produces_base value = 3 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=engineering_research CAT=specialist IDS=planet_metallurgists }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_engineering_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_engineering_research_produces_base value = TEMP_var_engineering_research_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 1 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_metallurgists }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				#_[p_azl_spb]
+				set_variable = { which = TEMP_var_azur_shippartbox_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_technology = tech_mind_club_4_shippartbox } }		change_variable = { which = TEMP_var_azur_shippartbox_produces_base value = 1 } }	#_|科技|
+				pr_job_resources_ids_cat = { OPT=produces RES=azur_shippartbox CAT=specialist IDS=planet_metallurgists }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_azur_shippartbox_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_azur_shippartbox_produces_base value = TEMP_var_azur_shippartbox_produces_base }	#_[factor累积]
+				
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 1 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=energy CAT=specialist IDS=planet_metallurgists }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_minerals_upkeep_base value = 4 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=minerals CAT=specialist IDS=planet_metallurgists }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_minerals_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_minerals_upkeep_base value = TEMP_var_minerals_upkeep_base }	#_[factor累积]
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 1 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=consumer_goods CAT=specialist IDS=planet_metallurgists }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+			
+			}
+
+			##_[azur_technician]		|specialist/planet_technician|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_technician VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_technician VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_technician }
+				
+				#_[核心统计]		p_minerals/p_physics_research/p_unity	/u_azl_mc
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_energy_produces_base value = 18 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_harmonious } }		change_variable = { which = TEMP_var_energy_produces_base value = 2 } }	#_|国策|
+				if = { limit = { has_active_building = azur_building_club_station }			change_variable = { which = TEMP_var_energy_produces_base value = 6 } }	#_|bldn|
+				pr_job_resources_ids_cat = { OPT=produces RES=energy CAT=specialist IDS=planet_technician_energy }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_energy_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_produces_base value = TEMP_var_energy_produces_base }	#_[factor累积]
+				#_[p_physics_research]
+				set_variable = { which = TEMP_var_physics_research_produces_base value = 3 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=physics_research CAT=specialist IDS=planet_technician }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_physics_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_physics_research_produces_base value = TEMP_var_physics_research_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 1 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_technician }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_azl_mc]
+				set_variable = { which = TEMP_var_mind_club_upkeep_base value = 0.3 }	#_|基础|
+				multiply_variable = { which = TEMP_var_mind_club_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_mind_club_upkeep_base value = TEMP_var_mind_club_upkeep_base }	#_[factor累积]
+
+			}
+			
+			#_海上都市
+			##_[azur_fisher]			|worker/planet_farmers|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_fisher VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_fisher VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_fisher }
+				
+				#_[核心统计]		p_food/p_exotic_gases	/u_minerals
+				#_[p_food]
+				set_variable = { which = TEMP_var_food_produces_base value = 12 }	#_|基础|
+				if = { limit = { has_active_building = building_food_processing_center }			change_variable = { which = TEMP_var_food_produces_base value = 4 } }	#_[bldn=设施]
+				else_if = { limit = { has_active_building = building_food_processing_facility }		change_variable = { which = TEMP_var_food_produces_base value = 2 } }	#_[bldn=中心]
+				pr_job_resources_ids_cat = { OPT=produces RES=food CAT=worker IDS=planet_farmers_food }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_food_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_food_produces_base value = TEMP_var_food_produces_base }	#_[factor累积]
+				#_[p_exotic_gases]
+				set_variable = { which = TEMP_var_exotic_gases_produces_base value = 0.2 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=exotic_gases CAT=worker IDS=planet_farmers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_exotic_gases_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_exotic_gases_produces_base value = TEMP_var_exotic_gases_produces_base }	#_[factor累积]
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 0.5 }	#_|基础|
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+			}
+			
+			##_[azur_alloys_miner]		|worker/planet_miners|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_alloys_miner VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_alloys_miner VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_alloys_miner }
+				
+				#_[核心统计]		p_minerals/p_alloys/p_volatile_motes	/u_minerals
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_minerals_produces_base value = 4 }	#_|基础|
+				if = { limit = { has_active_building = building_mineral_purification_hub }			change_variable = { which = TEMP_var_minerals_produces_base value = 4 } }	#_[bldn=hub]
+				else_if = { limit = { has_active_building = building_mineral_purification_plant }	change_variable = { which = TEMP_var_minerals_produces_base value = 2 } }	#_[bldn=plant]
+				pr_job_resources_ids_cat = { OPT=produces RES=minerals CAT=worker IDS=planet_miners_minerals }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_minerals_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_minerals_produces_base value = TEMP_var_minerals_produces_base }	#_[factor累积]
+				#_[p_alloys]
+				set_variable = { which = TEMP_var_alloys_produces_base value = 2 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=alloys CAT=worker IDS=planet_miners }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_alloys_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_alloys_produces_base value = TEMP_var_alloys_produces_base }	#_[factor累积]
+				#_[p_volatile_motes]
+				set_variable = { which = TEMP_var_volatile_motes_produces_base value = 0.2 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=volatile_motes CAT=worker IDS=planet_miners }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_volatile_motes_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_volatile_motes_produces_base value = TEMP_var_volatile_motes_produces_base }	#_[factor累积]
+				
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 0.5 }	#_|基础|
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+			}
+			
+			##_[azur_ocean_technician]	|worker/planet_technician|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_ocean_technician VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_ocean_technician VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_ocean_technician }
+				
+				#_[核心统计]		p_minerals	/u_minerals
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_energy_produces_base value = 12 }	#_|基础|
+				if = { limit = { has_active_building = building_energy_nexus }			change_variable = { which = TEMP_var_energy_produces_base value = 4 } }	#_[bldn=nexus]
+				else_if = { limit = { has_active_building = building_energy_grid }		change_variable = { which = TEMP_var_energy_produces_base value = 2 } }	#_[bldn=grid]
+				pr_job_resources_ids_cat = { OPT=produces RES=energy CAT=worker IDS=planet_technician_energy }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_energy_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_produces_base value = TEMP_var_energy_produces_base }	#_[factor累积]
+				#_[p_rare_crystals]
+				set_variable = { which = TEMP_var_rare_crystals_produces_base value = 0.2 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=rare_crystals CAT=worker IDS=planet_technician }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_rare_crystals_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_rare_crystals_produces_base value = TEMP_var_rare_crystals_produces_base }	#_[factor累积]
+
+			}
+			
+			#_碧蓝盖亚
+			##_[azur_gaia_sevent]		|worker/planet_entertainers|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_gaia_sevent VALUE = 1000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_gaia_sevent VALUE = 1000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_gaia_sevent }
+				
+				#_[星球统计]	贸易/舒适/岗位全产出
+				#_[贸易]
+				set_variable = { which = TEMP_var_job_trade_value_add value = 10 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_trade_value_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_trade_value_add value = TEMP_var_job_trade_value_add }		#_[factor累积]
+				#_[舒适]
+				set_variable = { which = TEMP_var_job_planet_amenities_add value = 5 }	#_|基础|
+				pr_job_modifier_ratio = { MOD=planet_amenities_add RATIO=trait_v_amenities WEIGHT=1 }	#_|比例bonus修正|
+				pr_job_modifier_ratio = { MOD=planet_amenities_add RATIO=trait_v_repugnant WEIGHT=-1 }	#_|比例bonus修正|
+				multiply_variable = { which = TEMP_var_job_planet_amenities_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_amenities_add value = TEMP_var_job_planet_amenities_add }	#_[factor累积]
+				#_[岗位全产出]
+				set_variable = { which = TEMP_var_job_planet_jobs_produces_mult value = 0.02 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_jobs_produces_mult value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_jobs_produces_mult value = TEMP_var_job_planet_jobs_produces_mult }	#_[factor累积]
+				
+				#_[核心统计]	u_food/u_consumer_goods
+				#_[u_food]
+				set_variable = { which = TEMP_var_food_upkeep_base value = 1 }	#_|基础|
+				multiply_variable = { which = TEMP_var_food_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_food_upkeep_base value = TEMP_var_food_upkeep_base }	#_[factor累积]
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 1 }	#_|基础|
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+			}
+		
+			##_[azur_gaia_worker]		|specialist/planet_farmers|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_gaia_worker VALUE = 1000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_gaia_worker VALUE = 1000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_gaia_worker }
+				
+				#_[星球统计]	舒适
+				#_[舒适]
+				set_variable = { which = TEMP_var_job_planet_amenities_add value = 2 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_amenities_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_amenities_add value = TEMP_var_job_planet_amenities_add }	#_[factor累积]
+				
+				#_[核心统计]		p_food/p_unity	/p_rare_crystals/p_exotic_gases/p_volatile_motes	/u_consumer_goods
+				#_[p_food]
+				set_variable = { which = TEMP_var_food_produces_base value = 18 }	#_|基础|
+				if = { limit = { has_active_building = azur_building_food_center }			change_variable = { which = TEMP_var_food_produces_base value = 6 } }	#_[bldn=设施]
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_harmonious } }		change_variable = { which = TEMP_var_food_produces_base value = 3 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=food CAT=specialist IDS=planet_farmers_food }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_food_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_food_produces_base value = TEMP_var_food_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 1 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_farmers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[p_rare_crystals]
+				set_variable = { which = TEMP_var_rare_crystals_produces_base value = 0.2 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=rare_crystals CAT=specialist IDS=planet_farmers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_rare_crystals_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_rare_crystals_produces_base value = TEMP_var_rare_crystals_produces_base }	#_[factor累积]
+				#_[p_exotic_gases]
+				set_variable = { which = TEMP_var_exotic_gases_produces_base value = 0.2 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=exotic_gases CAT=specialist IDS=planet_farmers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_exotic_gases_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_exotic_gases_produces_base value = TEMP_var_exotic_gases_produces_base }	#_[factor累积]
+				#_[p_volatile_motes]
+				set_variable = { which = TEMP_var_volatile_motes_produces_base value = 0.2 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=volatile_motes CAT=specialist IDS=planet_farmers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_volatile_motes_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_volatile_motes_produces_base value = TEMP_var_volatile_motes_produces_base }	#_[factor累积]
+				
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 1 }	#_|基础|
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+
+			}
+			
+			##_[azur_gaia_worker_other]		|specialist/planet_miners|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_gaia_worker_other VALUE = 1000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_gaia_worker_other VALUE = 1000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_gaia_worker_other }
+				
+				#_[核心统计]		p_minerals/p_alloys/p_unity	/u_consumer_goods
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_minerals_produces_base value = 18 }	#_|基础|
+				if = { limit = { has_active_building = azur_building_mineral_purification }			change_variable = { which = TEMP_var_minerals_produces_base value = 4 } }	#_[bldn=hub]
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_harmonious } }		change_variable = { which = TEMP_var_minerals_produces_base value = 2 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=minerals CAT=specialist IDS=planet_miners_minerals }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_minerals_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_minerals_produces_base value = TEMP_var_minerals_produces_base }	#_[factor累积]
+				#_[p_alloys]
+				set_variable = { which = TEMP_var_alloys_produces_base value = 3 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=alloys CAT=specialist IDS=planet_miners }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_alloys_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_alloys_produces_base value = TEMP_var_alloys_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 1 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_miners }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 1 }	#_|基础|
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+
+			}
+			
+			##_[azur_gaia_artist]	|specialist/planet_artisans|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_gaia_artist VALUE = 1000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_gaia_artist VALUE = 1000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_gaia_artist }
+				
+				#_[核心统计]		p_consumer_goods	/u_minerals/u_minerals
+				#_[p_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_produces_base value = 20 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=consumer_goods CAT=specialist IDS=planet_artisans }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_consumer_goods_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_produces_base value = TEMP_var_consumer_goods_produces_base }	#_[factor累积]
+				
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 5 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=energy CAT=specialist IDS=planet_artisans }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_minerals_upkeep_base value = 5 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=minerals CAT=specialist IDS=planet_artisans }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_minerals_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_minerals_upkeep_base value = TEMP_var_minerals_upkeep_base }	#_[factor累积]
+			
+			}
+			
+			#_星环
+			##_[azur_hydroponic_expert]			|specialist/planet_farmers|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_hydroponic_expert VALUE = 1000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_hydroponic_expert VALUE = 1000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_hydroponic_expert }
+				
+				#_[核心统计]		p_food/p_unity	/u_consumer_goods
+				#_[p_food]
+				set_variable = { which = TEMP_var_food_produces_base value = 30 }	#_|基础|
+				if = { limit = { has_active_building = azur_building_food_center }			change_variable = { which = TEMP_var_food_produces_base value = 8 } }	#_[bldn=设施]
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_harmonious } }		change_variable = { which = TEMP_var_food_produces_base value = 4 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=food CAT=specialist IDS=planet_farmers_food }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_food_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_food_produces_base value = TEMP_var_food_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 2 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_farmers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 2 }	#_|基础|
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+			}
+			
+		}
+
+
+		###_[azur_jobs_normal]
+		#_1				nutrition_expert/mineral_expert/club_operator/alloy_expert/club_artist/mind_doctor/club_worker/club_expert
+		#_2				azur_shippartbox_expert/mind_club_nurse/mind_servant/azur_researcher/azur_manufacturing_technician/azur_people/azur_ib_soldier/job_azur_nun_add
+		if = { limit = { always = yes }
+			
+			##_[nutrition_expert]		|specialist/planet_farmers|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = nutrition_expert VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = nutrition_expert VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = nutrition_expert }
+				
+				#_[星球统计]	岗位人口增长
+				#_[岗位人口增长]
+				set_variable = { which = TEMP_var_job_pop_growth_speed value = 0.05 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_pop_growth_speed value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_pop_growth_speed value = TEMP_var_job_pop_growth_speed }	#_[factor累积]
+				
+				#_[核心统计]		p_food/p_society_research/p_unity	/u_consumer_goods
+				#_[p_food]
+				set_variable = { which = TEMP_var_food_produces_base value = 30 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_harmonious } }		change_variable = { which = TEMP_var_food_produces_base value = 6 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=food CAT=specialist IDS=planet_farmers_food }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_food_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_food_produces_base value = TEMP_var_food_produces_base }	#_[factor累积]
+				#_[p_society_research]
+				set_variable = { which = TEMP_var_society_research_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_specialist } }		change_variable = { which = TEMP_var_society_research_produces_base value = 3 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=society_research CAT=specialist IDS=planet_farmers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 2 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_farmers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 3 }	#_|基础|
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+			}
+			
+			##_[mineral_expert]			|specialist/planet_miners|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = mineral_expert VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = mineral_expert VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = mineral_expert }
+				
+				#_[星球统计]	岗位产出2a
+				#_[岗位产出2a]
+				set_variable = { which = TEMP_var_job_planet_jobs_alloys_produces_mult value = 0.05 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_jobs_alloys_produces_mult value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_jobs_alloys_produces_mult value = TEMP_var_job_planet_jobs_alloys_produces_mult }	#_[factor累积]
+				
+				#_[核心统计]		p_minerals/p_engineering_research/p_unity	/u_consumer_goods
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_minerals_produces_base value = 20 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_harmonious } }		change_variable = { which = TEMP_var_minerals_produces_base value = 4 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=minerals CAT=specialist IDS=planet_miners_minerals }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_minerals_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_minerals_produces_base value = TEMP_var_minerals_produces_base }	#_[factor累积]
+				#_[p_engineering_research]
+				set_variable = { which = TEMP_var_engineering_research_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_specialist } }		change_variable = { which = TEMP_var_engineering_research_produces_base value = 3 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=engineering_research CAT=specialist IDS=planet_miners }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_engineering_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_engineering_research_produces_base value = TEMP_var_engineering_research_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 2 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_miners }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 3 }	#_|基础|
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+			}
+			
+			##_[club_operator]			|specialist/planet_technician|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = club_operator VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = club_operator VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = club_operator }
+				
+				#_[核心统计]		p_food/p_physics_research/p_unity	/u_consumer_goods/u_azl_mc
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_energy_produces_base value = 45 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_harmonious } }		change_variable = { which = TEMP_var_energy_produces_base value = 9 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=energy CAT=specialist IDS=planet_technician_energy }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_energy_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_produces_base value = TEMP_var_energy_produces_base }	#_[factor累积]
+				#_[p_physics_research]
+				set_variable = { which = TEMP_var_physics_research_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_specialist } }		change_variable = { which = TEMP_var_physics_research_produces_base value = 3 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=physics_research CAT=specialist IDS=planet_technician }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_physics_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_physics_research_produces_base value = TEMP_var_physics_research_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 2 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_technician }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 3 }	#_|基础|
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+				#_[u_azl_mc]
+				set_variable = { which = TEMP_var_mind_club_upkeep_base value = 1 }	#_|基础|
+				multiply_variable = { which = TEMP_var_mind_club_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_mind_club_upkeep_base value = TEMP_var_mind_club_upkeep_base }	#_[factor累积]
+			}
+		
+			##_[alloy_expert]			|specialist/planet_metallurgists|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = alloy_expert VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = alloy_expert VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = alloy_expert }
+				
+				#_[核心统计]	p_alloys/p_unity		/u_minerals
+				#_[p_alloys]
+				set_variable = { which = TEMP_var_alloys_produces_base value = 9 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_specialist } }		change_variable = { which = TEMP_var_alloys_produces_base value = 1.5 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=alloys CAT=specialist IDS=planet_metallurgists }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_alloys_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_alloys_produces_base value = TEMP_var_alloys_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 1 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_metallurgists }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_minerals_upkeep_base value = 13.5 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=minerals CAT=specialist IDS=planet_metallurgists }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_minerals_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_minerals_upkeep_base value = TEMP_var_minerals_upkeep_base }	#_[factor累积]
+			
+			}	
+			
+			##_[club_artist]			|specialist/planet_artisans|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = club_artist VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = club_artist VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = club_artist }
+				
+				#_[核心统计]		p_consumer_goods	/u_minerals/u_minerals
+				#_[p_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_produces_base value = 18 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_specialist } }		change_variable = { which = TEMP_var_consumer_goods_produces_base value = 3 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=consumer_goods CAT=specialist IDS=planet_artisans }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_consumer_goods_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_produces_base value = TEMP_var_consumer_goods_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 1 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_artisans }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 4 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=energy CAT=specialist IDS=planet_artisans }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_minerals_upkeep_base value = 8 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=minerals CAT=specialist IDS=planet_artisans }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_minerals_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_minerals_upkeep_base value = TEMP_var_minerals_upkeep_base }	#_[factor累积]
+			
+			}
+			
+			##_[mind_doctor]			|specialist/planet_culture_workers|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = mind_doctor VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = mind_doctor VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = mind_doctor }
+				
+				#_[星球统计]	舒适
+				#_[舒适]
+				set_variable = { which = TEMP_var_job_planet_amenities_add value = 12 }	#_|基础|
+				pr_job_modifier_ratio = { MOD=planet_amenities_add RATIO=trait_v_amenities WEIGHT=3 }	#_|比例bonus修正|
+				pr_job_modifier_ratio = { MOD=planet_amenities_add RATIO=trait_v_repugnant WEIGHT=-3 }	#_|比例bonus修正|
+				multiply_variable = { which = TEMP_var_job_planet_amenities_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_amenities_add value = TEMP_var_job_planet_amenities_add }	#_[factor累积]
+				
+				#_[核心统计]		p_society_research/p_unity		/u_minerals/u_consumer_goods
+				#_[p_society_research]
+				set_variable = { which = TEMP_var_society_research_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_specialist } }		change_variable = { which = TEMP_var_society_research_produces_base value = 3 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=society_research CAT=specialist IDS=planet_culture_workers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 8 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 2 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_culture_workers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 1 }	#_|基础|
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 3 }	#_|基础|
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+			
+			}
+		
+			##_[club_worker]			|specialist/planet_jobs|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = club_worker VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = club_worker VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = club_worker }
+				
+				#_[核心统计]		p_azl_mc/p_physics_research/p_engineering_research		/u_minerals/u_minerals/u_alloys
+				#_[p_azl_mc]
+				set_variable = { which = TEMP_var_mind_club_produces_base value = 2 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=mind_club CAT=specialist IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_mind_club_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_mind_club_produces_base value = TEMP_var_mind_club_produces_base }	#_[factor累积]
+				#_[p_physics_research]
+				set_variable = { which = TEMP_var_physics_research_produces_base value = 3 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=physics_research CAT=specialist IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_physics_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_physics_research_produces_base value = TEMP_var_physics_research_produces_base }	#_[factor累积]
+				#_[p_engineering_research]
+				set_variable = { which = TEMP_var_engineering_research_produces_base value = 3 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=engineering_research CAT=specialist IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_engineering_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_engineering_research_produces_base value = TEMP_var_engineering_research_produces_base }	#_[factor累积]
+				
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 4 }	#_|基础|
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_minerals_upkeep_base value = 12 }	#_|基础|
+				multiply_variable = { which = TEMP_var_minerals_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_minerals_upkeep_base value = TEMP_var_minerals_upkeep_base }	#_[factor累积]
+				#_[u_alloys]
+				set_variable = { which = TEMP_var_alloys_upkeep_base value = 2 }	#_|基础|
+				multiply_variable = { which = TEMP_var_alloys_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_alloys_upkeep_base value = TEMP_var_alloys_upkeep_base }	#_[factor累积]
+			}
+			
+			##_[club_expert]			|ruler/planet_jobs|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = club_expert VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = club_expert VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = club_expert }
+				
+				#_[核心统计]		p_azl_mc/p_physics_research/p_engineering_research		/u_minerals/u_minerals/u_alloys/u_unity
+				#_[p_azl_mc]
+				set_variable = { which = TEMP_var_mind_club_produces_base value = 3 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=mind_club CAT=ruler IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_mind_club_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_mind_club_produces_base value = TEMP_var_mind_club_produces_base }	#_[factor累积]
+				#_[p_physics_research]
+				set_variable = { which = TEMP_var_physics_research_produces_base value = 6 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=physics_research CAT=ruler IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_physics_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_physics_research_produces_base value = TEMP_var_physics_research_produces_base }	#_[factor累积]
+				#_[p_engineering_research]
+				set_variable = { which = TEMP_var_engineering_research_produces_base value = 6 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=engineering_research CAT=ruler IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_engineering_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_engineering_research_produces_base value = TEMP_var_engineering_research_produces_base }	#_[factor累积]
+				
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 3 }	#_|基础|
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_minerals_upkeep_base value = 9 }	#_|基础|
+				multiply_variable = { which = TEMP_var_minerals_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_minerals_upkeep_base value = TEMP_var_minerals_upkeep_base }	#_[factor累积]
+				#_[u_alloys]
+				set_variable = { which = TEMP_var_alloys_upkeep_base value = 1.5 }	#_|基础|
+				multiply_variable = { which = TEMP_var_alloys_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_alloys_upkeep_base value = TEMP_var_alloys_upkeep_base }	#_[factor累积]
+				#_[u_unity]
+				set_variable = { which = TEMP_var_unity_upkeep_base value = 3 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_holy } }		change_variable = { which = TEMP_var_unity_upkeep_base value = -3 } }	#_|国策|
+				multiply_variable = { which = TEMP_var_unity_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_upkeep_base value = TEMP_var_unity_upkeep_base }	#_[factor累积]
+			}
+			
+			
+			##_[azur_shippartbox_expert]	|specialist/planet_jobs|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_shippartbox_expert VALUE = 4000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_shippartbox_expert VALUE = 4000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_shippartbox_expert }
+				
+				#_[核心统计]		p_azl_spb		/u_minerals/u_alloys/u_rare_crystals/u_exotic_gases/u_volatile_motes
+				#_[p_azl_spb]
+				set_variable = { which = TEMP_var_azur_shippartbox_produces_base value = 2 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_ship } }		change_variable = { which = TEMP_var_azur_shippartbox_produces_base value = 0.5 } }	#_|国策|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_expand } }		change_variable = { which = TEMP_var_azur_shippartbox_produces_base value = 0.25 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=azur_shippartbox CAT=specialist IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_azur_shippartbox_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_azur_shippartbox_produces_base value = TEMP_var_azur_shippartbox_produces_base }	#_[factor累积]
+				
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 2 }	#_|基础|
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+				#_[u_alloys]
+				set_variable = { which = TEMP_var_alloys_upkeep_base value = 4 }	#_|基础|
+				multiply_variable = { which = TEMP_var_alloys_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_alloys_upkeep_base value = TEMP_var_alloys_upkeep_base }	#_[factor累积]
+				#_[u_rare_crystals]
+				set_variable = { which = TEMP_var_rare_crystals_upkeep_base value = 0.1 }	#_|基础|
+				multiply_variable = { which = TEMP_var_rare_crystals_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_rare_crystals_upkeep_base value = TEMP_var_rare_crystals_upkeep_base }	#_[factor累积]
+				#_[u_exotic_gases]
+				set_variable = { which = TEMP_var_exotic_gases_upkeep_base value = 0.1 }	#_|基础|
+				multiply_variable = { which = TEMP_var_exotic_gases_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_exotic_gases_upkeep_base value = TEMP_var_exotic_gases_upkeep_base }	#_[factor累积]
+				#_[u_volatile_motes]
+				set_variable = { which = TEMP_var_volatile_motes_upkeep_base value = 0.1 }	#_|基础|
+				multiply_variable = { which = TEMP_var_volatile_motes_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_volatile_motes_upkeep_base value = TEMP_var_volatile_motes_upkeep_base }	#_[factor累积]
+			}
+			
+			##_[mind_club_nurse]		|specialist/planet_doctors|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = mind_club_nurse VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = mind_club_nurse VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = mind_club_nurse }
+				
+				#_[星球统计]	舒适/岗位人口增长/环境
+				#_[舒适]
+				set_variable = { which = TEMP_var_job_planet_amenities_add value = 15 }	#_|基础|
+				pr_job_modifier_ratio = { MOD=planet_amenities_add RATIO=trait_v_amenities WEIGHT=3 }	#_|比例bonus修正|
+				pr_job_modifier_ratio = { MOD=planet_amenities_add RATIO=trait_v_repugnant WEIGHT=-3 }	#_|比例bonus修正|
+				multiply_variable = { which = TEMP_var_job_planet_amenities_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_amenities_add value = TEMP_var_job_planet_amenities_add }	#_[factor累积]
+				#_[岗位人口增长]
+				set_variable = { which = TEMP_var_job_pop_growth_speed value = 0.15 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_harmonious } }		change_variable = { which = TEMP_var_job_pop_growth_speed value = 0.05 } }	#_|国策|
+				multiply_variable = { which = TEMP_var_job_pop_growth_speed value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_pop_growth_speed value = TEMP_var_job_pop_growth_speed }	#_[factor累积]
+				#_[环境]
+				set_variable = { which = TEMP_var_job_pop_environment_tolerance value = 0.05 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_pop_environment_tolerance value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_pop_environment_tolerance value = TEMP_var_job_pop_environment_tolerance }	#_[factor累积]
+				
+				#_[核心统计]	p_society_research/p_unity		/u_minerals/u_consumer_goods/u_azl_mc
+				#_[p_society_research]
+				set_variable = { which = TEMP_var_society_research_produces_base value = 4 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_specialist } }		change_variable = { which = TEMP_var_society_research_produces_base value = 2 } }	#_|国策|
+				multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 2 }	#_|基础|
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 2 }	#_|基础|
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 3 }	#_|基础|
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+				#_[u_azl_mc]
+				set_variable = { which = TEMP_var_mind_club_upkeep_base value = 0.2 }	#_|基础|
+				multiply_variable = { which = TEMP_var_mind_club_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_mind_club_upkeep_base value = TEMP_var_mind_club_upkeep_base }	#_[factor累积]
+			}
+
+			##_[mind_servant]			|worker/planet_entertainers|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = mind_servant VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = mind_servant VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = mind_servant }
+				
+				#_[星球统计]	舒适/岗位全产出
+				#_[舒适]
+				set_variable = { which = TEMP_var_job_planet_amenities_add value = 10 }	#_|基础|
+				pr_job_modifier_ratio = { MOD=planet_amenities_add RATIO=trait_v_amenities WEIGHT=3 }	#_|比例bonus修正|
+				pr_job_modifier_ratio = { MOD=planet_amenities_add RATIO=trait_v_repugnant WEIGHT=-3 }	#_|比例bonus修正|
+				multiply_variable = { which = TEMP_var_job_planet_amenities_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_amenities_add value = TEMP_var_job_planet_amenities_add }	#_[factor累积]
+				#_[岗位全产出]
+				set_variable = { which = TEMP_var_job_planet_jobs_produces_mult value = 0.03 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_jobs_produces_mult value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_jobs_produces_mult value = TEMP_var_job_planet_jobs_produces_mult }	#_[factor累积]
+				
+				#_[核心统计]	p_physics_research/p_engineering_research/p_society_research/p_unity		/u_minerals/u_food/u_consumer_goods
+				#_[p_physics_research]
+				set_variable = { which = TEMP_var_physics_research_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_technology } }		change_variable = { which = TEMP_var_physics_research_produces_base value = 1 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=physics_research CAT=worker IDS=planet_entertainers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_physics_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_physics_research_produces_base value = TEMP_var_physics_research_produces_base }	#_[factor累积]
+				#_[p_engineering_research]
+				set_variable = { which = TEMP_var_engineering_research_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_technology } }		change_variable = { which = TEMP_var_engineering_research_produces_base value = 1 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=engineering_research CAT=worker IDS=planet_entertainers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_engineering_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_engineering_research_produces_base value = TEMP_var_engineering_research_produces_base }	#_[factor累积]
+				#_[p_society_research]
+				set_variable = { which = TEMP_var_society_research_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_technology } }		change_variable = { which = TEMP_var_society_research_produces_base value = 1 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=society_research CAT=worker IDS=planet_entertainers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 2 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=worker IDS=planet_entertainers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 1 }	#_|基础|
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+				#_[u_food]
+				set_variable = { which = TEMP_var_food_upkeep_base value = 3 }	#_|基础|
+				multiply_variable = { which = TEMP_var_food_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_food_upkeep_base value = TEMP_var_food_upkeep_base }	#_[factor累积]
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 2 }	#_|基础|
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+			
+			}
+			
+			##_[azur_researcher]		|specialist/planet_researchers|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_researcher VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_researcher VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_researcher }
+				
+				#_[产出]	physics_research/engineering_research/society_research
+				#_[physics_research]
+				set_variable = { which = TEMP_var_physics_research_produces_base value = 8 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_technology } }		change_variable = { which = TEMP_var_physics_research_produces_base value = 2 } }	#_[国策]
+				if = { limit = { has_modifier = azur_planet_scientific_physics }			change_variable = { which = TEMP_var_physics_research_produces_base value = 10 } }	#_|mod|=物理专精
+				if = { limit = { has_modifier = azur_planet_scientific_society }			change_variable = { which = TEMP_var_physics_research_produces_base value = -5 } }	#_|mod|=社会专精
+				if = { limit = { has_modifier = azur_planet_scientific_engineering }		change_variable = { which = TEMP_var_physics_research_produces_base value = -5 } }	#_|mod|=工程专精
+				pr_job_resources_ratio = { OPT=produces RES=physics_research RATIO=trait_mod_azl_weakup WEIGHT=3 }	#_|比例bonus资源|
+				pr_job_resources_ids_cat = { OPT=produces RES=physics_research CAT=specialist IDS=researchers_physics_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_physics_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_physics_research_produces_base value = TEMP_var_physics_research_produces_base }	#_[factor累积]
+				
+				#_[engineering_research]
+				set_variable = { which = TEMP_var_engineering_research_produces_base value = 8 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_technology } }		change_variable = { which = TEMP_var_engineering_research_produces_base value = 2 } }	#_[国策]
+				if = { limit = { has_modifier = azur_planet_scientific_physics }			change_variable = { which = TEMP_var_engineering_research_produces_base value = -5 } }	#_|mod|=物理专精
+				if = { limit = { has_modifier = azur_planet_scientific_society }			change_variable = { which = TEMP_var_engineering_research_produces_base value = -5 } }	#_|mod|=社会专精
+				if = { limit = { has_modifier = azur_planet_scientific_engineering }		change_variable = { which = TEMP_var_engineering_research_produces_base value = 10 } }	#_|mod|=工程专精
+				pr_job_resources_ratio = { OPT=produces RES=engineering_research RATIO=trait_mod_azl_weakup WEIGHT=3 }	#_|比例bonus资源|
+				pr_job_resources_ids_cat = { OPT=produces RES=engineering_research CAT=specialist IDS=planet_researchers_engineering_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_engineering_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_engineering_research_produces_base value = TEMP_var_engineering_research_produces_base }	#_[factor累积]
+				
+				#_[society_research]
+				set_variable = { which = TEMP_var_society_research_produces_base value = 8 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_technology } }		change_variable = { which = TEMP_var_society_research_produces_base value = 2 } }	#_[国策]
+				if = { limit = { has_modifier = azur_planet_scientific_physics }			change_variable = { which = TEMP_var_society_research_produces_base value = -5 } }	#_|mod|=物理专精
+				if = { limit = { has_modifier = azur_planet_scientific_society }			change_variable = { which = TEMP_var_society_research_produces_base value = 10 } }	#_|mod|=社会专精
+				if = { limit = { has_modifier = azur_planet_scientific_engineering }		change_variable = { which = TEMP_var_society_research_produces_base value = -5 } }	#_|mod|=工程专精
+				pr_job_resources_ratio = { OPT=produces RES=society_research RATIO=trait_mod_azl_weakup WEIGHT=3 }	#_|比例bonus资源|
+				pr_job_resources_ids_cat = { OPT=produces RES=society_research CAT=specialist IDS=planet_researchers_society_research }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+				
+				##_[维护]		energy/consumer_goods/mind_club
+				#_[energy]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 1 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=energy CAT=specialist IDS=planet_researchers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+				#_[consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 2 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=consumer_goods CAT=specialist IDS=planet_researchers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+				#_[mind_club]
+				set_variable = { which = TEMP_var_mind_club_upkeep_base value = 0.1 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=upkeep RES=mind_club CAT=specialist IDS=planet_researchers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_mind_club_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_mind_club_upkeep_base value = TEMP_var_mind_club_upkeep_base }	#_[factor累积]
+			}
+
+			##_[azur_manufacturing_technician]	|specialist/planet_jobs|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_manufacturing_technician VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_manufacturing_technician VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_manufacturing_technician }
+				
+				#_[核心统计]		p_rare_crystals/p_exotic_gases/p_volatile_motes/p_unity	/p_vslm/p_vzro		/u_minerals
+				#_[p_rare_crystals]
+				set_variable = { which = TEMP_var_rare_crystals_produces_base value = 1 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_specialist } }		change_variable = { which = TEMP_var_rare_crystals_produces_base value = 0.15 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=rare_crystals CAT=specialist IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_rare_crystals_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_rare_crystals_produces_base value = TEMP_var_rare_crystals_produces_base }	#_[factor累积]
+				#_[p_exotic_gases]
+				set_variable = { which = TEMP_var_exotic_gases_produces_base value = 1 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_specialist } }		change_variable = { which = TEMP_var_exotic_gases_produces_base value = 0.15 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=exotic_gases CAT=specialist IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_exotic_gases_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_exotic_gases_produces_base value = TEMP_var_exotic_gases_produces_base }	#_[factor累积]
+				#_[p_volatile_motes]
+				set_variable = { which = TEMP_var_volatile_motes_produces_base value = 1 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_specialist } }		change_variable = { which = TEMP_var_volatile_motes_produces_base value = 0.15 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=volatile_motes CAT=specialist IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_volatile_motes_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_volatile_motes_produces_base value = TEMP_var_volatile_motes_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 1 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[p_vslm]
+				set_variable = { which = TEMP_var_sr_living_metal_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_technology = tech_mine_living_metal } }		change_variable = { which = TEMP_var_sr_living_metal_produces_base value = 0.1 } }	#_|科技|
+				pr_job_resources_ids_cat = { OPT=produces RES=sr_living_metal CAT=specialist IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_sr_living_metal_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_sr_living_metal_produces_base value = TEMP_var_sr_living_metal_produces_base }	#_[factor累积]
+				#_[p_vzro]
+				set_variable = { which = TEMP_var_sr_zro_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_technology = tech_mine_zro } }		change_variable = { which = TEMP_var_sr_zro_produces_base value = 0.1 } }	#_|科技|
+				pr_job_resources_ids_cat = { OPT=produces RES=sr_zro CAT=specialist IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_sr_zro_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_sr_zro_produces_base value = TEMP_var_sr_zro_produces_base }	#_[factor累积]
+				
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_minerals_upkeep_base value = 10 }	#_|基础|
+				multiply_variable = { which = TEMP_var_minerals_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_minerals_upkeep_base value = TEMP_var_minerals_upkeep_base }	#_[factor累积]
+			}
+			
+			##_[azur_people]			|worker/planet_jobs|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_people VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_people VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_people }
+				
+				#_[星球统计]	舒适
+				#_[舒适]
+				set_variable = { which = TEMP_var_job_planet_amenities_add value = 1 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_amenities_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_amenities_add value = TEMP_var_job_planet_amenities_add }	#_[factor累积]
+				
+				#_[核心统计]	p_physics_research/p_engineering_research/p_society_research/p_unity
+				#_[p_physics_research]
+				set_variable = { which = TEMP_var_physics_research_produces_base value = 0.5 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_technology } }		change_variable = { which = TEMP_var_physics_research_produces_base value = 0.3 } }	#_[国策]
+				pr_job_resources_ids_cat = { OPT=produces RES=physics_research CAT=worker IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_physics_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_physics_research_produces_base value = TEMP_var_physics_research_produces_base }	#_[factor累积]
+				#_[p_engineering_research]
+				set_variable = { which = TEMP_var_engineering_research_produces_base value = 0.5 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_technology } }		change_variable = { which = TEMP_var_engineering_research_produces_base value = 0.3 } }	#_[国策]
+				pr_job_resources_ids_cat = { OPT=produces RES=engineering_research CAT=worker IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_engineering_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_engineering_research_produces_base value = TEMP_var_engineering_research_produces_base }	#_[factor累积]
+				#_[p_society_research]
+				set_variable = { which = TEMP_var_society_research_produces_base value = 0.5 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_technology } }		change_variable = { which = TEMP_var_society_research_produces_base value = 0.3 } }	#_[国策]
+				pr_job_resources_ids_cat = { OPT=produces RES=society_research CAT=worker IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 0.5 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 1 } }	#_|国策|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_harmonious } }		change_variable = { which = TEMP_var_unity_produces_base value = 1 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=worker IDS=planet_jobs }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+			}
+
+			##_[azur_ib_soldier]		|specialist/planet_soldiers|×
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_ib_soldier VALUE = 1000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_ib_soldier VALUE = 1000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_ib_soldier }
+				
+				#_[星球统计]	稳定/海军
+				#_[稳定]
+				set_variable = { which = TEMP_var_job_planet_stability_add value = 5 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_expand } }		change_variable = { which = TEMP_var_job_planet_stability_add value = 10 } }	#_[国策]
+				multiply_variable = { which = TEMP_var_job_planet_stability_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_stability_add value = TEMP_var_job_planet_stability_add }		#_[factor累积]
+				#_[海军]
+				set_variable = { which = TEMP_var_job_country_naval_cap_add value = 2 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_council } }		change_variable = { which = TEMP_var_job_country_naval_cap_add value = 2 } }	#_[国策]
+				multiply_variable = { which = TEMP_var_job_country_naval_cap_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_country_naval_cap_add value = TEMP_var_job_country_naval_cap_add }	#_[factor累积]
+				
+				#_[核心统计]		防卫军/p_minerals
+				#_[防卫军]
+				set_variable = { which = TEMP_var_job_pop_defense_armies_add value = 4 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_pop_defense_armies_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_pop_defense_armies_add value = TEMP_var_job_pop_defense_armies_add }	#_[factor累积]
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_energy_produces_base value = 1 }	#_|基础|
+				multiply_variable = { which = TEMP_var_energy_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_produces_base value = TEMP_var_energy_produces_base }	#_[factor累积]
+			}
+
+			##_[azur_nun]				|specialist/planet_priests|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_nun VALUE = 2000 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_nun VALUE = 2000 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_nun }
+				
+				#_[星球统计]	舒适/岗位worker产出
+				#_[舒适]
+				set_variable = { which = TEMP_var_job_planet_amenities_add value = 5 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_amenities_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_amenities_add value = TEMP_var_job_planet_amenities_add }	#_[factor累积]	岗位cd产出
+				#_[岗位worker产出]
+				set_variable = { which = TEMP_var_job_planet_jobs_worker_produces_mult value = 0.02 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_jobs_worker_produces_mult value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_jobs_worker_produces_mult value = TEMP_var_job_planet_jobs_worker_produces_mult }	#_[factor累积]
+				
+				#_[核心统计]	p_azl_mc	/p_minerals/p_minerals/p_food/p_unity		/u_consumer_goods
+				#_[p_azl_mc]
+				set_variable = { which = TEMP_var_mind_club_produces_base value = 0 }	#_|基础|
+				if = { limit = { has_modifier = azur_holy_land }		change_variable = { which = TEMP_var_mind_club_produces_base value = 1 } }	#_[行星mod]
+				pr_job_resources_ids_cat = { OPT=produces RES=mind_club CAT=specialist IDS=planet_priests }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_mind_club_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_mind_club_produces_base value = TEMP_var_mind_club_produces_base }	#_[factor累积]
+				
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_energy_produces_base value = 5 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_holy } }		change_variable = { which = TEMP_var_energy_produces_base value = 2.5 } }	#_[国策]
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_harmonious } }		change_variable = { which = TEMP_var_energy_produces_base value = 1 } }	#_[国策]
+				if = { limit = { has_modifier = azur_holy_land }		change_variable = { which = TEMP_var_energy_produces_base value = 5 } }	#_[行星mod]
+				pr_job_resources_ids_cat = { OPT=produces RES=energy CAT=specialist IDS=planet_priests }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_energy_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_produces_base value = TEMP_var_energy_produces_base }	#_[factor累积]
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_minerals_produces_base value = 5 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_holy } }		change_variable = { which = TEMP_var_minerals_produces_base value = 2.5 } }	#_[国策]
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_harmonious } }		change_variable = { which = TEMP_var_minerals_produces_base value = 1 } }	#_[国策]
+				if = { limit = { has_modifier = azur_holy_land }		change_variable = { which = TEMP_var_minerals_produces_base value = 5 } }	#_[行星mod]
+				pr_job_resources_ids_cat = { OPT=produces RES=minerals CAT=specialist IDS=planet_priests }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_minerals_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_minerals_produces_base value = TEMP_var_minerals_produces_base }	#_[factor累积]
+				#_[p_food]
+				set_variable = { which = TEMP_var_food_produces_base value = 5 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_holy } }		change_variable = { which = TEMP_var_food_produces_base value = 2.5 } }	#_[国策]
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_harmonious } }		change_variable = { which = TEMP_var_food_produces_base value = 1 } }	#_[国策]
+				if = { limit = { has_modifier = azur_holy_land }		change_variable = { which = TEMP_var_food_produces_base value = 5 } }	#_[行星mod]
+				pr_job_resources_ids_cat = { OPT=produces RES=food CAT=specialist IDS=planet_priests }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_food_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_food_produces_base value = TEMP_var_food_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 2.5 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 2.5 } }	#_[国策]
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_holy } }		change_variable = { which = TEMP_var_unity_produces_base value = 2.5 } }	#_[国策]
+				if = { limit = { has_modifier = azur_holy_land }		change_variable = { which = TEMP_var_unity_produces_base value = 5 } }	#_[行星mod]
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_priests }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 3 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_holy } }		change_variable = { which = TEMP_var_consumer_goods_upkeep_base value = -2 } }	#_[国策]
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+				
+			}
+		}
+
+		###_[azur_jobs_ruler]		mind_enforcer/mind_administrator/azur_bureaucrat/azur_roboticist/azur_mind_net_speaker
+		if = { limit = { always = yes }
+			
+			##_[mind_enforcer]			|specialist/planet_enforcers|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = mind_enforcer VALUE = 300 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = mind_enforcer VALUE = 300 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = mind_enforcer }
+				
+				#_[星球统计]	稳定/犯罪/岗位全维护
+				#_[稳定]
+				set_variable = { which = TEMP_var_job_planet_stability_add value = 4 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_expand } }		change_variable = { which = TEMP_var_job_planet_stability_add value = 6 } }	#_|国策|
+				multiply_variable = { which = TEMP_var_job_planet_stability_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_stability_add value = TEMP_var_job_planet_stability_add }	#_[factor累积]
+				#_[犯罪]
+				set_variable = { which = TEMP_var_job_planet_crime_add value = -25 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_crime_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_crime_add value = TEMP_var_job_planet_crime_add }	#_[factor累积]
+				#_[岗位全维护]
+				set_variable = { which = TEMP_var_job_planet_jobs_upkeep_mult value = -0.05 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_jobs_upkeep_mult value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_jobs_upkeep_mult value = TEMP_var_job_planet_jobs_upkeep_mult }	#_[factor累积]
+				
+				#_[核心统计]	防卫军/p_society_research/p_unity	/u_minerals/u_consumer_goods
+				#_[防卫军]
+				set_variable = { which = TEMP_var_job_pop_defense_armies_add value = 3 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_pop_defense_armies_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_pop_defense_armies_add value = TEMP_var_job_pop_defense_armies_add }	#_[factor累积]
+				#_[p_society_research]
+				set_variable = { which = TEMP_var_society_research_produces_base value = 3 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=society_research CAT=specialist IDS=planet_enforcers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 3 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=specialist IDS=planet_enforcers }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 2 }	#_|基础|
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 2 }	#_|基础|
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+			
+			}
+		
+			##_[mind_administrator]		|ruler/planet_administrators|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = mind_administrator VALUE = 200 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = mind_administrator VALUE = 200 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = mind_administrator }
+				
+				#_[星球统计]	贸易/舒适
+				#_[贸易]	trade_value_mult=0.1
+				set_variable = { which = TEMP_var_job_trade_value_add value = 10 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_trade_value_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_trade_value_add value = TEMP_var_job_trade_value_add }		#_[factor累积]
+				#_[舒适]
+				set_variable = { which = TEMP_var_job_planet_amenities_add value = 10 }	#_|基础|
+				pr_job_modifier_ratio = { MOD=planet_amenities_add RATIO=trait_v_amenities WEIGHT=5 }	#_|比例bonus修正|
+				pr_job_modifier_ratio = { MOD=planet_amenities_add RATIO=trait_v_repugnant WEIGHT=-5 }	#_|比例bonus修正|
+				multiply_variable = { which = TEMP_var_job_planet_amenities_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_amenities_add value = TEMP_var_job_planet_amenities_add }	#_[factor累积]
+				
+				#_[核心统计]	p_unity
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 15 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=ruler IDS=planet_administrators }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+			}
+			
+			##_[azur_bureaucrat]		|ruler/planet_bureaucrats|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_bureaucrat VALUE = 300 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_bureaucrat VALUE = 300 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_bureaucrat }
+				
+				#_[星球统计]	国家规模/海军
+				#_[国家规模]
+				set_variable = { which = TEMP_var_job_country_admin_cap_add value = 20 }	#_|基础|
+				if = { limit = { exists = sector sector = { exists = leader leader = { has_trait = leader_trait_azur_governor } } }	#_|星区总督特性|
+					change_variable = { which = TEMP_var_job_country_admin_cap_add value = 5 }
+				}
+				multiply_variable = { which = TEMP_var_job_country_admin_cap_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_country_admin_cap_add value = TEMP_var_job_country_admin_cap_add }	#_[factor累积]
+				#_[海军]
+				set_variable = { which = TEMP_var_job_country_naval_cap_add value = 8 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_ship } }		change_variable = { which = TEMP_var_job_country_naval_cap_add value = 2 } }	#_|国策|
+				multiply_variable = { which = TEMP_var_job_country_naval_cap_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_country_naval_cap_add value = TEMP_var_job_country_naval_cap_add }	#_[factor累积]
+				
+				#_[核心统计]	p_unity	/u_consumer_goods
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_council } }		change_variable = { which = TEMP_var_unity_produces_base value = 4 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=ruler IDS=planet_bureaucrats }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 6 }	#_|基础|
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+			
+			}
+
+			##_[azur_roboticist]	|specialist/planet_pop_assemblers|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_roboticist VALUE = 100 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_roboticist VALUE = 100 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_roboticist }
+				
+				#_[星球统计]	岗位克隆add/岗位组装add
+				#_[岗位克隆add]
+				set_variable = { which = TEMP_var_job_planet_pop_assembly_organic_add value = 3 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_pop_assembly_organic_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_pop_assembly_organic_add value = TEMP_var_job_planet_pop_assembly_organic_add }	#_[factor累积]
+				#_[岗位组装add]
+				set_variable = { which = TEMP_var_job_planet_pop_assembly_add value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { NOT = { has_policy_flag = robots_outlawed } } }		change_variable = { which = TEMP_var_job_planet_pop_assembly_add value = 3 } }	#_|政策|=机器人合法
+				multiply_variable = { which = TEMP_var_job_planet_pop_assembly_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_pop_assembly_add value = TEMP_var_job_planet_pop_assembly_add }	#_[factor累积]
+				
+				#_[核心统计]	u_minerals/u_alloys/u_azl_mc
+				#_[u_minerals]
+				set_variable = { which = TEMP_var_energy_upkeep_base value = 0.5 }	#_|基础|
+				multiply_variable = { which = TEMP_var_energy_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_upkeep_base value = TEMP_var_energy_upkeep_base }	#_[factor累积]
+				#_[u_alloys]
+				set_variable = { which = TEMP_var_alloys_upkeep_base value = 0.5 }	#_|基础|
+				multiply_variable = { which = TEMP_var_alloys_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_alloys_upkeep_base value = TEMP_var_alloys_upkeep_base }	#_[factor累积]
+				#_[u_azl_mc]
+				set_variable = { which = TEMP_var_mind_club_upkeep_base value = 0.5 }	#_|基础|
+				multiply_variable = { which = TEMP_var_mind_club_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_mind_club_upkeep_base value = TEMP_var_mind_club_upkeep_base }	#_[factor累积]
+			}
+
+			##_[azur_mind_net_speaker]		|ruler/planet_bureaucrats|
+			if = { limit = { z_pr_trgr_plnt_job_db = { JOB = azur_mind_net_speaker VALUE = 500 } }
+				z_pr_eft_plnt_prmt_job_add = { JOB = azur_mind_net_speaker VALUE = 500 }
+				z_pr_eft_plnt_prmt_job_per_pop = { JOB = azur_mind_net_speaker }
+				
+				#_[星球统计]	国家规模/岗位全产出/岗位全维护
+				#_[国家规模]
+				set_variable = { which = TEMP_var_job_country_admin_cap_add value = 20 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_country_admin_cap_add value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_country_admin_cap_add value = TEMP_var_job_country_admin_cap_add }	#_[factor累积]
+				#_[岗位全产出]
+				set_variable = { which = TEMP_var_job_planet_jobs_produces_mult value = 0.05 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_jobs_produces_mult value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_jobs_produces_mult value = TEMP_var_job_planet_jobs_produces_mult }	#_[factor累积]
+				#_[岗位全维护]
+				set_variable = { which = TEMP_var_job_planet_jobs_upkeep_mult value = 0.05 }	#_|基础|
+				multiply_variable = { which = TEMP_var_job_planet_jobs_upkeep_mult value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_job_planet_jobs_upkeep_mult value = TEMP_var_job_planet_jobs_upkeep_mult }	#_[factor累积]
+				
+				#_[核心统计]	p_minerals/p_society_research/p_unity		/u_consumer_goods
+				#_[p_minerals]
+				set_variable = { which = TEMP_var_energy_produces_base value = 20 }	#_|基础|
+				pr_job_resources_ids_cat = { OPT=produces RES=energy CAT=ruler IDS=planet_bureaucrats }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_energy_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_energy_produces_base value = TEMP_var_energy_produces_base }	#_[factor累积]
+				#_[p_society_research]
+				set_variable = { which = TEMP_var_society_research_produces_base value = 0 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_technology } }		change_variable = { which = TEMP_var_society_research_produces_base value = 5 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=society_research CAT=ruler IDS=planet_bureaucrats }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_society_research_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_society_research_produces_base value = TEMP_var_society_research_produces_base }	#_[factor累积]
+				#_[p_unity]
+				set_variable = { which = TEMP_var_unity_produces_base value = 10 }	#_|基础|
+				if = { limit = { exists = owner owner = { has_valid_civic = civic_azur_unity } }		change_variable = { which = TEMP_var_unity_produces_base value = 5 } }	#_|国策|
+				pr_job_resources_ids_cat = { OPT=produces RES=unity CAT=ruler IDS=planet_bureaucrats }	#_[资源阶层行业]
+				multiply_variable = { which = TEMP_var_unity_produces_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_unity_produces_base value = TEMP_var_unity_produces_base }	#_[factor累积]
+				
+				#_[u_consumer_goods]
+				set_variable = { which = TEMP_var_consumer_goods_upkeep_base value = 6 }	#_|基础|
+				multiply_variable = { which = TEMP_var_consumer_goods_upkeep_base value = TEMP_var_plnt_job_count }	#_[*岗位数]
+				change_variable = { which = z_pr_var_consumer_goods_upkeep_base value = TEMP_var_consumer_goods_upkeep_base }	#_[factor累积]
+			
+			}
+
+		}
+
+	}
+	
+}

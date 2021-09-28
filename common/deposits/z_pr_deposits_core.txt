@@ -1,0 +1,842 @@
+###_	pr deposits	#############################################################################
+#_|per_man|最大上限=|z_pr_var_plnt_man_alpha|=10000
+#_[已验证]=[岗位修正]数量到达1G也不会溢出
+
+
+
+#_[核心地块]		基础产出/固有区划/AI强化/建筑槽/产业代表/pf2联动		/岗位修正v	/碧蓝航线/舰R	/星舰少女/灰烬战线/古代帝国/涅槃/终极科技/涅托/约战/苍蓝		/ACOT/Giga
+z_pr_d_core = {
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	###_[基础产出]	#######################################
+	resources = {
+		category = z_pr_production
+		produces = {#_普通
+			trigger = {
+				planet = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore } }
+				exists = owner owner = { has_country_flag = z_pr_flg_cntr_reg		is_gestalt = no }
+			}
+			energy = 2
+			minerals = 2
+			food = 8
+			alloys = 1
+			consumer_goods = 2
+			physics_research = 2
+			engineering_research = 2
+			society_research = 2
+			unity = 1
+		}
+		produces = {#_格式塔
+			trigger = {
+				planet = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore } }
+				exists = owner owner = { has_country_flag = z_pr_flg_cntr_reg		is_gestalt = yes }
+			}
+			energy = 2
+			minerals = 2
+			food = 8
+			alloys = 2
+			physics_research = 2
+			engineering_research = 2
+			society_research = 2
+			unity = 1
+		}
+		produces = {#_智械
+			trigger = {
+				planet = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore } }
+				exists = owner owner = { has_country_flag = z_pr_flg_cntr_reg		is_robot_empire = yes }
+			}
+			energy = 8
+			food = -8
+		}
+		produces = {#_石质
+			trigger = {
+				planet = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore } }
+				exists = owner owner = { has_country_flag = z_pr_flg_cntr_reg		is_lithoid_empire = yes }
+			}
+			minerals = 8
+			food = -8
+		}
+	}
+	
+
+
+	###_[固有区划]	#######################################
+	planet_modifier = {
+		z_pr_dstr_div_ring_mining_max = 5		#_[采矿区段]
+		planet_housing_add = 10
+		
+	#	job_merchant_per_pop = 0.5	#_---z测试
+	}
+	
+	
+	###_[AI强化]	#######################################
+	triggered_planet_modifier = {#_普通
+		potential = { exists = owner owner = { is_ai = yes		is_gestalt = no } }
+		planet_crime_add = -25
+		pop_environment_tolerance = 5
+	}
+	triggered_planet_modifier = {#_格式塔
+		potential = { exists = owner owner = { is_ai = yes		is_gestalt = yes } }
+		planet_crime_no_happiness_add = -25
+		pop_environment_tolerance = 5
+	}
+	
+	
+	###_[产业代表]	#######################################
+	triggered_planet_modifier = {#_普通
+		potential = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore }		exists = owner owner = { has_country_flag = z_pr_flg_cntr_reg		is_gestalt = no } }
+		job_z_pr_freeman_core_add = 1
+		job_z_pr_freeman_specialist_add = 8
+		job_z_pr_freeman_worker_add = 8
+		planet_amenities_add = 9
+	}
+	triggered_planet_modifier = {#_普通默认
+		potential = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			exists = owner
+			owner = { has_country_flag = z_pr_flg_cntr_reg		is_gestalt = no }
+			NOR = { has_planet_flag = z_pr_flg_plnt_cliquy		has_planet_flag = z_pr_flg_plnt_pure }
+		}
+		job_z_pr_freeman_specialist_add = -5
+		job_z_pr_freeman_worker_add = -3
+	}
+	triggered_planet_modifier = {#_普通排外
+		potential = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			exists = owner
+			owner = { has_country_flag = z_pr_flg_cntr_reg		is_gestalt = no }
+			has_planet_flag = z_pr_flg_plnt_cliquy
+		}
+		job_z_pr_freeman_specialist_add = -3
+		job_z_pr_freeman_worker_add = -5
+	}
+	triggered_planet_modifier = {#_普通纯血
+		potential = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			exists = owner
+			owner = { has_country_flag = z_pr_flg_cntr_reg		is_gestalt = no }
+			has_planet_flag = z_pr_flg_plnt_pure
+		}
+		job_z_pr_freeman_worker_add = -8
+	}
+	triggered_planet_modifier = {#_蜂群
+		potential = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore }		exists = owner owner = { has_country_flag = z_pr_flg_cntr_reg		is_gestalt = yes } }
+		job_z_pr_drone_core_add = 1
+		job_z_pr_drone_adv_add = 8
+		job_z_pr_drone_normal_add = 8
+		planet_amenities_no_happiness_add = 9
+	}
+	triggered_planet_modifier = {#_蜂群默认
+		potential = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			exists = owner
+			owner = { has_country_flag = z_pr_flg_cntr_reg		is_gestalt = yes }
+			NOR = { has_planet_flag = z_pr_flg_plnt_cliquy		has_planet_flag = z_pr_flg_plnt_pure }
+		}
+		job_z_pr_drone_adv_add = -5
+		job_z_pr_drone_normal_add = -3
+	}
+	triggered_planet_modifier = {#_蜂群排外
+		potential = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			exists = owner
+			owner = { has_country_flag = z_pr_flg_cntr_reg		is_gestalt = yes }
+			has_planet_flag = z_pr_flg_plnt_cliquy
+		}
+		job_z_pr_drone_adv_add = -3
+		job_z_pr_drone_normal_add = -5
+	}
+	triggered_planet_modifier = {#_蜂群纯血
+		potential = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			exists = owner
+			owner = { has_country_flag = z_pr_flg_cntr_reg		is_gestalt = yes }
+			has_planet_flag = z_pr_flg_plnt_pure
+		}
+		job_z_pr_drone_normal_add = -8
+	}
+	triggered_planet_modifier = {#_女仆
+		potential = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore }		exists = owner owner = { has_country_flag = z_pr_flg_cntr_reg		has_civic = civic_machine_servitor } }
+		job_z_pr_bio_trophy_add = 1
+		job_z_pr_drone_adv_add = -1
+	}
+	
+
+	###_[建筑槽]
+	#_|建筑|
+	triggered_planet_modifier = { potential = { has_planet_flag = z_pr_flg_plnt_slot_bldn_1 }			planet_max_buildings_add = 1 }
+	triggered_planet_modifier = { potential = { has_planet_flag = z_pr_flg_plnt_slot_bldn_2 }			planet_max_buildings_add = 2 }
+	triggered_planet_modifier = { potential = { has_planet_flag = z_pr_flg_plnt_slot_bldn_4 }			planet_max_buildings_add = 4 }
+	triggered_planet_modifier = { potential = { has_planet_flag = z_pr_flg_plnt_slot_bldn_8 }			planet_max_buildings_add = 8 }
+	triggered_planet_modifier = { potential = { has_planet_flag = z_pr_flg_plnt_slot_bldn_16 }			planet_max_buildings_add = 16 }
+	triggered_planet_modifier = { potential = { has_planet_flag = z_pr_flg_plnt_slot_bldn_32 }			planet_max_buildings_add = 32 }
+	#_|分公司|
+	triggered_planet_modifier = { potential = { has_planet_flag = z_pr_flg_plnt_slot_corp_1 }			planet_max_branch_office_buildings_add = 1 }
+	triggered_planet_modifier = { potential = { has_planet_flag = z_pr_flg_plnt_slot_corp_2 }			planet_max_branch_office_buildings_add = 2 }
+	triggered_planet_modifier = { potential = { has_planet_flag = z_pr_flg_plnt_slot_corp_4 }			planet_max_branch_office_buildings_add = 4 }
+	triggered_planet_modifier = { potential = { has_planet_flag = z_pr_flg_plnt_slot_corp_8 }			planet_max_branch_office_buildings_add = 8 }
+
+
+
+
+	###_[pf2联动]	自动降级	#######################################
+	#_[自动降级]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			OR = {
+				has_planet_flag = z_pf2_flg_plnt_auto_demote	#_|pf2自动降级|
+				owner = { is_ai = yes }
+				AND = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore }	owner = { has_country_flag = z_pr_flg_cntr_reg } }	#_|pr革命完成|非|pr忽略|
+			}
+		}
+		pop_demotion_time_mult = -0.99
+	#	z_pf2_ecoc_core_energy_upkeep_add = 2
+	}
+	
+	
+	
+	
+	###_[岗位修正v]	vanilla=3207000/产业革命=8000	##############################################################################
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+		}
+		job_PR_check_vanilla_add = -1
+		
+		##_|vanilla|	00_other/01_ruler/02_specialist_jobs/03_worker_jobs/04_gestalt_jobs/07_fallen_empire///
+		#_<00_other>
+	#	job_z_pr_crct_add = 5001	#
+	
+		job_bio_trophy_add = -5000
+		
+		#_<01_ruler>
+	#	job_z_pr_crct_add = 100000
+	
+		job_head_researcher_add = -10000
+		job_high_priest_add = -10000
+		job_administrator_add = -10000
+		job_noble_add = -10000
+		job_merchant_add = -50000
+		job_executive_add = -10000
+		
+		#_<02_specialist_jobs>
+	#	job_z_pr_crct_add = 1080000
+	
+		job_researcher_add = -100000
+		job_priest_add = -100000
+		job_death_priest_add = -50000
+		job_enforcer_add = -20000
+		job_telepath_add = -20000
+		job_entertainer_add = -100000
+		job_duelist_add = -100000
+		job_culture_worker_add = -100000
+		job_bureaucrat_add = -100000
+		job_chemist_add = -30000
+		job_translucer_add = -30000
+		job_gas_refiner_add = -30000
+		job_roboticist_add = -10000
+		job_healthcare_add = -10000
+		job_manager_add = -50000
+		job_necromancer_add = -10000
+		job_bluelotus_technician_add = -10000
+		job_death_chronicler_add = -10000
+		job_foundry_add = -50000
+		job_catalytic_technician_add = -50000
+		job_artisan_add = -50000
+		job_artificer_add = -50000
+		
+		#_<03_worker_jobs>
+	#	job_z_pr_crct_add = 660000
+	
+		job_clerk_add = -70000
+		job_technician_add = -100000
+		job_miner_add = -100000
+		job_crystal_miner_add = -10000
+		job_gas_extractor_add = -10000
+		job_mote_harvester_add = -10000
+		job_farmer_add = -100000
+		job_soldier_add = -100000
+		job_preacher_add = -100000
+		job_mortal_initiate_add = -10000
+		job_scrap_miner_add = -50000
+		
+		#_<04_gestalt_jobs>cd
+	#	job_z_pr_crct_add = 940000
+	
+		job_spawning_drone_add = -10000
+		job_replicator_add = -10000
+		job_coordinator_add = -100000
+		job_evaluator_add = -100000
+		job_synapse_drone_add = -100000
+		job_brain_drone_add = -100000
+		job_calculator_add = -100000
+		job_artisan_drone_add = -50000
+		job_fabricator_add = -50000
+		job_alloy_drone_add = -50000
+		job_catalytic_drone_add = -50000
+		job_chemist_drone_add = -30000
+		job_translucer_drone_add = -30000
+		job_gas_refiner_drone_add = -30000
+		job_patrol_drone_add = -100000
+		job_crystal_mining_drone_add = -10000
+		job_mote_harvesting_drone_add = -10000
+		job_gas_extraction_drone_add = -10000
+		
+		#_<04_gestalt_jobs>sd
+	#	job_z_pr_crct_add = 600000
+	
+		job_mining_drone_add = -100000
+		job_agri_drone_add = -100000
+		job_technician_drone_add = -100000
+		job_maintenance_drone_add = -100000
+		job_warrior_drone_add = -100000
+		job_bluelotus_drone_add = -10000
+		job_chronicle_drone_add = -40000
+		job_scrap_miner_drone_add = -50000
+		
+		#_<07_fallen_empire>sd
+	#	job_z_pr_crct_add = 72000
+	
+		job_fe_overseer_add = -4000
+		job_fe_sky_cardinal_add = -4000
+		job_fe_guardian_bot_add = -4000
+		job_fe_protector_add = -4000
+		job_fe_archivist_add = -8000
+		job_fe_acolyte_farm_add = -12000
+		job_fe_acolyte_mine_add = -12000
+		job_fe_acolyte_generator_add = -12000
+		job_fe_augur_add = -8000
+		job_fe_xeno_keeper_add = -4000
+	
+	
+		##_|产业革命|	z_pr_jobs_misc///
+		#_<z_pr_jobs_misc>
+	#	job_z_pr_crct_add = 8000
+	
+		job_pr_raw_collector_add = -1000
+		job_pr_raw_drone_add = -1000
+		job_pr_exp_solar_technician_add = -500
+		job_pr_exp_solar_drone_add = -500
+		job_pr_exp_bh_researcher_add = -500
+		job_pr_exp_bh_drone_add = -500
+		job_pr_div_ecologist_add = -500
+		job_pr_div_eco_drone_add = -500
+		job_pr_div_res_admin_add = -500
+		job_pr_div_res_drone_add = -500
+		job_pr_div_abyss_miner_add = -500
+		job_pr_div_abyss_drone_add = -500
+		job_pr_div_militia_add = -500
+		job_pr_div_milit_drone_add = -500
+	}
+
+
+	###_[碧蓝航线dlc]	##############################################################################
+	#_JOB文件	azur_jobs_district/azur_jobs_normal/azur_jobs_ruler
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+			#_|mod检测标签|	如global_flag/国家条件/星球条件
+			has_global_flag = z_pr_patch_installed_mod_azl
+		}
+		job_PR_check_azl_add = -1
+		
+		#_<azur_jobs_district>
+	#	job_z_pr_crct_add = 19001
+	
+		job_azur_clerk_add = -2000
+		job_azur_design_expert_add = -2000
+		job_alloy_expert2_add = -2000
+		job_azur_technician_add = -2000
+		job_azur_fisher_add = -2000
+		job_azur_alloys_miner_add = -2000
+		job_azur_ocean_technician_add = -2000
+		job_azur_gaia_sevent_add = -1000
+		job_azur_gaia_worker_add = -1000
+		job_azur_gaia_worker_other_add = -1000
+		job_azur_gaia_artist_add = -1000
+		job_azur_hydroponic_expert_add = -1000
+		
+		#_<azur_jobs_normal>
+	#	job_z_pr_crct_add = 33000
+	
+		job_nutrition_expert_add = -2000
+		job_mineral_expert_add = -2000
+		job_club_operator_add = -2000
+		job_alloy_expert_add = -2000
+		job_club_artist_add = -2000
+		job_mind_doctor_add = -2000
+		job_club_worker_add = -2000
+		job_club_expert_add = -2000
+		job_azur_shippartbox_expert_add = -4000
+		job_mind_club_nurse_add = -2000
+		job_mind_servant_add = -2000		#_per
+		job_azur_researcher_add = -2000
+		job_azur_manufacturing_technician_add = -2000
+		job_azur_people_add = -2000		#_per
+		job_azur_ib_soldier_add = -1000
+		job_azur_nun_add = -2000		#_per
+		
+		#_<azur_jobs_ruler>
+	#	job_z_pr_crct_add = 1400
+	
+	#	job_club_bishop_add = 0
+	#	job_azur_general_add = 0
+		job_mind_enforcer_add = -300
+		job_mind_administrator_add = -200
+	#	job_mind_researcher_add = 0
+		job_azur_bureaucrat_add = -300
+	#	job_azur_roboticist_ruler_add = 0
+		job_azur_roboticist_add = -100
+	#	job_azur_central_secretar_add = 0
+	#	job_azur_authoritarian_executive_add = 0
+	#	job_azur_think_tank_administrator_add = 0
+		job_azur_mind_net_speaker_add = -500	#_per
+	#	job_cube_pontiff_add = 0
+	}
+
+	###_[舰R]	##############################################################################
+	#_sep	sep_jobs
+	#_sh	sh_fe_jobs/sh_ruler_jobs/sh_specialist_jobs/sh_worker_jobs
+	#_wg	wg_other_jobs
+	#_wsg	wsg_civic_spec_jobs/wsg_ruler_jobs//wsg_worker_jobs
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+			#_|mod检测标签|	如global_flag/国家条件/星球条件
+			has_global_flag = z_pr_patch_installed_mod_wsg
+		}
+		job_PR_check_wsg_add = -1
+		
+		#_<sep_jobs>
+	#	job_z_pr_crct_add = 8001
+		
+		job_sep_artisan_add = -3000		#_per
+		job_wsg_senergy_add = -1500
+		job_sep_foundry_add = -3000		#_per
+	#	job_sep_pc_port_foundry_add = 0
+		job_wsg_rare_resource_manufacturer_add = -500
+		
+		
+		#_<sh_fe_jobs>
+	#	job_z_pr_crct_add = 1000
+		
+		job_sh_fe_leader_add = -200
+	#	job_sh_fe_worker_add = 0
+		job_sh_fe_factorer_add = -500
+		job_sh_fe_protector_add = -300
+		
+		
+		#_<sh_ruler_jobs>
+	#	job_z_pr_crct_add = 500
+		
+		job_sh_researcher_add = -500
+		
+		
+		#_<sh_specialist_jobs>
+	#	job_z_pr_crct_add = 5000
+		
+		job_sh_pantsu_maker_add = -1000
+		job_sh_foundry_add = -2500	#_per
+		job_sh_foundry_shpc_add = -300
+		job_sh_senergy_add = -500
+		job_sh_soldier_add = -700
+		
+		
+		#_<sh_worker_jobs>
+	#	job_z_pr_crct_add = 2000
+		
+		job_sh_clerk_add = -2000	#_per
+		
+		
+		#_<wg_other_jobs>
+	#	job_z_pr_crct_add = 200
+		
+		job_wsg_shop_pantsu_collector_add = -200
+		
+		
+		#_<wsg_civic_spec_jobs>
+	#	job_z_pr_crct_add = 1000
+		
+		job_wsg_people_scientist_add = -1000	#_per
+	#	job_wsg_blueprinting_dog_add = 0
+		
+		
+		#_<wsg_ruler_jobs>
+	#	job_z_pr_crct_add = 200
+		
+	#	job_wsg_administrator_add = 0
+		job_wsg_merchant_add = -100
+		job_wsg_sunflower_priest_add = -100
+		
+		
+		#_<wsg_specialist_jobs>
+	#	job_z_pr_crct_add = 9500
+		
+		job_wsg_pantsu_maker_add = -1500
+		job_wsg_neo_producer_add = -1000
+		job_barthroom_worker_add = -500
+		job_wsg_instructor_add = -100
+		job_wsg_gas_refiner_add = -300
+		job_wsg_chemist_add = -300
+		job_wsg_translucer_add = -300
+		job_wsg_foundry_add = -2000		#_per
+	#	job_wsg_pc_port_foundry_add = 0
+		job_wsg_alpha_add = -500
+		job_wsg_researcher_add = -500
+		job_wsg_soldier_add = -1000
+		job_wsg_mahjong_add = -500
+		job_wsg_historical_researcher_add = -100
+		job_wg_tourism_add = -500
+		job_dyson_ring_researcher_add = -400
+		
+		
+		
+		#_<wsg_worker_jobs>
+	#	job_z_pr_crct_add = 3000
+		
+		job_wsg_moyu_add = -2500	#_per
+		job_hot_seal_add = -500
+		
+	}
+
+
+	###_PR-PATCH	#####################################################################################################################
+	###_[星舰少女]
+	#_swgs_specialist_jobs	swgs_kyber/swgs_tibanna/swgs_foundry/swgs_hq_researcher/swgs_artisan
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+			#_|mod检测标签|	如global_flag/国家条件/星球条件
+			has_global_flag = z_pr_patch_installed_mod_SWGS
+		}
+		job_PR_check_SWGS_add = -1
+		
+		#_<swgs_specialist_jobs>
+	#	job_z_pr_crct_add = 9001
+		
+		job_swgs_kyber_add = -2000
+		job_swgs_tibanna_add = -2000
+		job_swgs_foundry_add = -2000
+		job_swgs_hq_researcher_add = -1000
+		job_swgs_artisan_add = -2000
+	}
+
+	###_[灰烬战线]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+			#_|mod检测标签|	如global_flag/国家条件/星球条件
+			has_global_flag = z_pr_patch_installed_mod_ADF
+		}
+		job_PR_check_ADF_add = -1
+		
+		#_<swgs_specialist_jobs>
+	#	job_z_pr_crct_add = 6001
+		
+		job_adf_crystal_add = -1000
+		job_adf_parts_add = -1000
+		job_adf_foundry_add = -2000
+		job_adf_chief_researcher_add = -1000
+		job_adf_artisan_add = -1000
+	}
+
+	###_[古代帝国]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+			#_|mod检测标签|	如global_flag/国家条件/星球条件
+			has_global_flag = z_pr_patch_installed_mod_AG	#has_ancient_empire_mod
+		}
+		job_PR_check_AG_add = -1
+		
+		#_<swgs_specialist_jobs>
+	#	job_z_pr_crct_add = 4001
+			
+		job_ag_living_metal_fabricator_add = -500
+		job_ag_living_metal_fabricator_gestalt_add = -500
+		job_ag_nanites_assembler_add = -500
+		job_ag_nanites_assembler_gestalt_add = -500
+		job_ag_dark_matter_fabricator_add = -500
+		job_ag_dark_matter_fabricator_gestalt_add = -500
+		job_ag_zro_refiner_add = -500
+		job_ag_zro_refiner_gestalt_add = -500
+	}
+	
+	###_[涅槃]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+			#_|mod检测标签|	如global_flag/国家条件/星球条件
+			has_global_flag = z_pr_patch_installed_mod_Nirvana
+		}
+		job_PR_check_Nirvana_add = -1
+	#	job_z_pr_crct_add = 15001
+		
+		job_str_overseer_add = -1000
+		job_str_sky_cardinal_add = -1000
+		job_str_protector_add = -1000
+		job_str_archivist_add = -1000
+		job_str_acolyte_farm_add = -2000
+		job_str_acolyte_mine_add = -2000
+		job_str_acolyte_generator_add = -2000
+		job_str_augur_add = -1000
+		job_str_xeno_keeper_add = -1000
+		job_str_acolyte_artisan_add = -1000
+		job_str_thinker_add = -2000	#如果|is_capped_by_modifier|是no,per_pop与add都将无法生效
+	}
+	
+	###_[终极科技]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+			#_|mod检测标签|	如global_flag/国家条件/星球条件
+			has_global_flag = z_pr_patch_installed_mod_ULT
+		}
+		job_PR_check_ULT_add = -1
+	#	job_z_pr_crct_add = 11001
+		
+		job_ult_dark_energy_field_operator_add = -2000
+		job_ult_mining_drone_operator_add = -2000
+		job_ult_nutritionist_add = -2000
+		job_ult_atomic_assembler_add = -2000
+		job_ult_ecologist_add = -1000
+		job_ult_product_designer_add = -2000
+	}
+	
+	###_[涅托]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+			#_|mod检测标签|	如global_flag/国家条件/星球条件
+			has_global_flag = z_pr_patch_installed_mod_NYTO
+		}
+		job_PR_check_NYTO_add = -1
+	#	job_z_pr_crct_add = 10101
+
+		#坍缩粒子研究人员
+		job_GFnyto_collapse_particle_researcher_add = -1000
+		#白骑士
+		job_GFnyto_white_knight_add = -3000
+		#相位技师
+		job_GFnyto_phase_technician_add = -3000
+		#科技牧师
+		job_GFnyto_technology_minister_add = -3000
+		#拾荒工
+		job_GFnyto_explorer_add = -100
+	}
+	
+	###_[约战]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+			#_|mod检测标签|	如global_flag/国家条件/星球条件
+			has_global_flag = z_pr_patch_installed_mod_DAL
+		}
+		job_PR_check_DAL_add = -1
+		#_<swgs_specialist_jobs>
+	#	job_z_pr_crct_add = 17801
+		
+		#事件土著文明-800
+		job_primitive_laborer_rinne_add = -100
+		job_primitive_miner_rinne_add = -100
+		job_primitive_technician_rinne_add = -100
+		job_primitive_farmer_rinne_add = -100
+		job_primitive_priest_rinne_add = -100
+		job_primitive_bureaucrat_rinne_add = -100
+		job_primitive_warrior_rinne_add = -100
+		job_primitive_researcher_rinne_add = -100
+		
+		# 17000
+		job_DAL_utopia_seeker_add = -2000	#
+		job_DAL_utopia_seeker_soldier_add = -2000	#
+		
+		job_DAL_datealive_crystals_miner_add = -2000
+		job_DAL_datealive_crystals_miner_drone_add = -2000
+		
+		job_datealive_crystals_researcher_add = -2000
+		job_datealive_crystals_researcher_drone_add = -2000
+		
+		job_datealive_crystals_manufacturing_add = -2000
+		job_datealive_crystals_manufacturing_drone_add = -2000
+		
+		job_datealive_crystals_explorer_add = -500
+		job_datealive_crystals_explorer_drone_add = -500
+	}
+	
+	###_[苍蓝]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+			#_|mod检测标签|	如global_flag/国家条件/星球条件
+			has_global_flag = z_pr_patch_installed_mod_ARP
+		}
+		job_PR_check_ARP_add = -1
+	#	job_z_pr_crct_add = 521
+		
+		#_<arp_jobs_ruler>
+		job_fleet_flagship_add = -20
+		
+		#_<arp_jobs_normal>
+		job_maintenance_expert_add = -100
+		job_arp_research_expert_add = -100
+		job_student_union_members_add = -100
+		job_nanomaterial_employee_add = -100
+		job_core_employee_add = -100
+	}
+
+
+	###_[ACOT]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+			#_|mod检测标签|	如global_flag/国家条件/星球条件
+			has_global_flag = z_pr_patch_installed_mod_ACOT	#acot_activated
+		}
+		job_PR_check_ACOT_add = -1
+		#_<swgs_specialist_jobs>
+	#	job_z_pr_crct_add = 41001
+		
+		job_acot_overlord_drone_add = -500
+		job_acot_overseer_add = -1500
+		job_acot_overlord_droid_add = -500
+		job_acot_overseer_droid_add = -1500
+		job_acot_overlord_drone_add = -500
+		job_acot_overseer_drone_add = -1500
+
+		job_acot_apothecary_add = -1000
+		job_acot_broodmother_add = -1000
+		job_acot_roboman_add = -1000
+		job_acot_robodrone_add = -1000
+
+		job_acot_dark_energy_man_add = -1000
+		job_acot_dark_energy_drone_add = -1000
+		job_acot_dark_matter_man_add = -1000
+		job_acot_dark_matter_drone_add = -1000
+		job_acot_dark_energy_drone_add = -1000
+		job_acot_voidsphere_forgedrone_add = -1000
+
+		job_acot_mineralman_add = -1000
+		job_acot_mineraldrone_add = -1000
+		job_acot_alloyman_add = -1000
+		job_acot_alloydrone_add = -1000
+		job_acot_energyman_add = -1000
+		job_acot_energydrone_add = -1000
+		job_acot_foodman_add = -1000
+		job_acot_fooddrone_add = -1000
+		job_acot_transmute_man_add = -1000
+		job_acot_transmute_drone_add = -1000
+		job_acot_artisan_add = -1000
+		job_acot_entertainer_add = -1000
+		job_acot_entertainer_drone_add = -1000
+		job_acot_voidsphere_siloman_add = -1000
+		job_acot_voidsphere_silodrone_add = -1000
+
+		job_acot_researcher_add = -1000
+		job_acot_researcher_drone_add = -1000
+		job_acot_priest_add = -1000
+		job_acot_voidsphere_labman_add = -1000
+		job_acot_voidsphere_labdrone_add = -1000
+
+		job_acot_enforcer_add = -1000
+		job_acot_enforcer_drone_add = -1000
+		job_acot_giga_fortress_operator_add = -1000
+		job_acot_giga_fortress_operator_ancient_add = -1000
+	#	job_acot_giga_fortress_operator_mentat_add = -1000
+		job_acot_giga_fortress_operator_drone_add = -1000
+
+		job_acot_stellariteman_add = -1000
+		job_acot_stellaritedrone_add = -1000
+	}
+
+
+	###_[Giga]	giga_jobs/giga_birch/giga_voidbirch_jobs
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+			#_|mod检测标签|	如global_flag/国家条件/星球条件
+			has_global_flag = z_pr_patch_installed_mod_Giga	#gigastructures_enabled
+		}
+		job_PR_check_Giga_add = -1
+	#	job_z_pr_crct_add = 54001
+	
+		## giga_jobs
+		job_giga_interstellar_researcher_add = -2000
+		job_giga_interstellar_researcher_drone_add = -2000
+		job_giga_interstellar_scavenger_add = -2000
+		job_giga_interstellar_scavenger_drone_add = -2000
+		job_giga_preserver_add = -2000
+		job_giga_preserver_drone_add = -2000
+		job_giga_zro_extractor_add = -2000
+		job_giga_zro_extractor_drone_add = -2000
+		job_giga_gas_harvester_add = -2000
+		job_giga_gas_harvester_drone_add = -2000
+		job_virtual_rare_resource_add = -2000
+		job_virtual_rare_resource_gestalt_add = -2000
+		job_virtual_admin_cap_add = -2000
+		job_virtual_admin_cap_hive_add = -2000
+		job_virtual_admin_cap_machine_add = -2000
+		job_ehof_cultivator_add = -2000
+		job_ehof_cultivation_drone_add = -2000
+		job_matter_synthesizer_add = -2000
+		job_matter_synthesizer_drone_add = -2000
+		
+		## giga_birch
+		job_penrose_weaver_add = -2000
+		job_bore_engineer_add = -2000
+		job_penrose_engineer_add = -2000
+		job_structure_engineer_add = -2000
+	#	job_structure_manager_add = -2000	#
+	#	job_bore_manager_add = -2000	#
+	#	job_penrose_manager_add = -2000	#
+		job_penrose_weaver_drone_add = -2000
+		job_structure_drone_add = -2000
+	#	job_structure_process_add = -2000	#
+	#	job_structure_mind_add = -2000	#
+		job_bore_drone_add = -2000
+	#	job_bore_process_add = -2000	#
+	#	job_bore_mind_add = -2000	#
+		job_penrose_drone_add = -2000
+	#	job_penrose_process_add = -2000	#
+	#	job_penrose_mind_add = -2000	#
+	
+		## giga_voidbirch_jobs
+		job_void_bore_engineer_add = -2000
+		job_void_penrose_engineer_add = -2000
+	#	job_void_bore_manager_add = -2000	#
+	#	job_void_penrose_manager_add = -2000	#
+		job_void_bore_drone_add = -2000
+	#	job_void_bore_process_add = -2000	#
+	#	job_void_bore_mind_add = -2000	#
+		job_void_penrose_drone_add = -2000
+	#	job_void_penrose_process_add = -2000	#
+	#	job_void_penrose_mind_add = -2000	#
+	}
+	
+}
+
+
+

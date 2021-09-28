@@ -1,0 +1,232 @@
+###_z fw---行星决策	##########################################################################
+
+#_[星球参数统计]
+#_[星球设置]
+
+
+
+
+###_[星球参数统计]	快速产出加成debug/测试模式/标准模式	##################################	z禁用
+otdt_x_dec_plnt_var_check = {
+	owned_planets_only = yes
+	sound = event_administrative_work
+	potential = {
+		always = no
+		exists = owner
+		owner = {
+			is_ai = no
+			has_country_flag = otdt_x_flg_cntr_reg
+		}
+	}
+	allow = {
+		always = no
+		custom_tooltip = {#_不存在[apmc执行锁定flg]
+			hidden_trigger = { NOT = { has_planet_flag = otdt_x_flg_plnt_apmc_executing } }
+			fail_text = otdt_x_tips_apmc_dec_locked
+		}
+	}
+	ai_weight = { weight = 0 }
+	
+	effect = {
+		custom_tooltip = otdt_x_tips_dec_plnt_var_check
+		hidden_effect = {
+			#_[核心模块debug]
+			otdt_x_eft_plnt_deposit_core = yes
+			#_[功能地块debug]
+			otdt_x_eft_plnt_deposit = yes
+			#_[人力上限_debug]
+			otdt_x_eft_plnt_cap_manpower = yes
+			#_[海军工业统计]
+			otdt_x_eft_plnt_navy_count = yes
+			otdt_x_eft_plnt_navy = yes
+			#_[管理值统计]
+			otdt_x_eft_plnt_admin_count = yes
+			otdt_x_eft_plnt_admin = yes
+			#_[行星防卫军统计]
+			otdt_x_eft_plnt_guard_count = yes
+			otdt_x_eft_plnt_guard = yes
+			#_[快速产出加成debug]
+			otdt_x_eft_plnt_express_bonus_debug = yes
+			
+			#_[测试模式]
+			if = {
+				limit = { owner = { has_country_flag = z_mm_flg_cntr_test } }
+				planet_event = { id = otdt_x_check.0 }
+			}
+			#_[标准模式]
+			else = {
+				#_参数转换
+				set_variable = { which = otdt_x_var_plnt_manpower_bonus_check value = otdt_x_var_plnt_manpower_bonus }
+				subtract_variable = { which = otdt_x_var_plnt_manpower_bonus_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_manpower_bonus_check value = 100 }
+				
+				set_variable = { which = otdt_x_var_plnt_manpower_upkeep_check value = otdt_x_var_plnt_manpower_upkeep }
+				subtract_variable = { which = otdt_x_var_plnt_manpower_upkeep_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_manpower_upkeep_check value = 100 }
+				
+				set_variable = { which = otdt_x_var_plnt_bonus_add_1e_check value = otdt_x_var_plnt_bonus_add_1e }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_add_1e_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_add_1e_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_mult_1e_check value = otdt_x_var_plnt_bonus_mult_1e }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_mult_1e_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_mult_1e_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_final_1e_check value = otdt_x_var_plnt_bonus_final_1e }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_final_1e_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_final_1e_check value = 100 }
+				
+				set_variable = { which = otdt_x_var_plnt_bonus_add_1m_check value = otdt_x_var_plnt_bonus_add_1m }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_add_1m_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_add_1m_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_mult_1m_check value = otdt_x_var_plnt_bonus_mult_1m }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_mult_1m_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_mult_1m_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_final_1m_check value = otdt_x_var_plnt_bonus_final_1m }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_final_1m_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_final_1m_check value = 100 }
+				
+				set_variable = { which = otdt_x_var_plnt_bonus_add_1f_check value = otdt_x_var_plnt_bonus_add_1f }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_add_1f_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_add_1f_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_mult_1f_check value = otdt_x_var_plnt_bonus_mult_1f }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_mult_1f_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_mult_1f_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_final_1f_check value = otdt_x_var_plnt_bonus_final_1f }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_final_1f_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_final_1f_check value = 100 }
+				
+				set_variable = { which = otdt_x_var_plnt_bonus_add_2a_check value = otdt_x_var_plnt_bonus_add_2a }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_add_2a_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_add_2a_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_mult_2a_check value = otdt_x_var_plnt_bonus_mult_2a }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_mult_2a_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_mult_2a_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_final_2a_check value = otdt_x_var_plnt_bonus_final_2a }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_final_2a_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_final_2a_check value = 100 }
+				
+				set_variable = { which = otdt_x_var_plnt_bonus_add_2c_check value = otdt_x_var_plnt_bonus_add_2c }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_add_2c_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_add_2c_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_mult_2c_check value = otdt_x_var_plnt_bonus_mult_2c }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_mult_2c_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_mult_2c_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_final_2c_check value = otdt_x_var_plnt_bonus_final_2c }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_final_2c_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_final_2c_check value = 100 }
+				
+				set_variable = { which = otdt_x_var_plnt_bonus_add_3n_check value = otdt_x_var_plnt_bonus_add_3n }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_add_3n_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_add_3n_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_mult_3n_check value = otdt_x_var_plnt_bonus_mult_3n }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_mult_3n_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_mult_3n_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_final_3n_check value = otdt_x_var_plnt_bonus_final_3n }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_final_3n_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_final_3n_check value = 100 }
+				
+				set_variable = { which = otdt_x_var_plnt_bonus_add_3r_check value = otdt_x_var_plnt_bonus_add_3r }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_add_3r_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_add_3r_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_mult_3r_check value = otdt_x_var_plnt_bonus_mult_3r }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_mult_3r_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_mult_3r_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_final_3r_check value = otdt_x_var_plnt_bonus_final_3r }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_final_3r_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_final_3r_check value = 100 }
+				
+				set_variable = { which = otdt_x_var_plnt_bonus_add_rp_check value = otdt_x_var_plnt_bonus_add_rp }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_add_rp_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_add_rp_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_mult_rp_check value = otdt_x_var_plnt_bonus_mult_rp }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_mult_rp_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_mult_rp_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_final_rp_check value = otdt_x_var_plnt_bonus_final_rp }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_final_rp_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_final_rp_check value = 100 }
+				
+				set_variable = { which = otdt_x_var_plnt_bonus_add_re_check value = otdt_x_var_plnt_bonus_add_re }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_add_re_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_add_re_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_mult_re_check value = otdt_x_var_plnt_bonus_mult_re }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_mult_re_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_mult_re_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_final_re_check value = otdt_x_var_plnt_bonus_final_re }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_final_re_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_final_re_check value = 100 }
+				
+				set_variable = { which = otdt_x_var_plnt_bonus_add_rs_check value = otdt_x_var_plnt_bonus_add_rs }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_add_rs_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_add_rs_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_mult_rs_check value = otdt_x_var_plnt_bonus_mult_rs }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_mult_rs_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_mult_rs_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_final_rs_check value = otdt_x_var_plnt_bonus_final_rs }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_final_rs_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_final_rs_check value = 100 }
+				
+				set_variable = { which = otdt_x_var_plnt_bonus_add_ru_check value = otdt_x_var_plnt_bonus_add_ru }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_add_ru_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_add_ru_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_mult_ru_check value = otdt_x_var_plnt_bonus_mult_ru }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_mult_ru_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_mult_ru_check value = 100 }
+				set_variable = { which = otdt_x_var_plnt_bonus_final_ru_check value = otdt_x_var_plnt_bonus_final_ru }
+				subtract_variable = { which = otdt_x_var_plnt_bonus_final_ru_check value = 1 }
+				multiply_variable = { which = otdt_x_var_plnt_bonus_final_ru_check value = 100 }
+				
+				planet_event = { id = otdt_x_check.1 }
+			}
+		}
+	}
+}
+
+
+
+
+###_[星球设置]	快速产出加成debug	##################################	z禁用
+otdt_x_dec_plnt_setting = {
+	owned_planets_only = yes
+	sound = event_administrative_work
+	potential = {
+		always = no
+		exists = owner
+		owner = {
+			is_ai = no
+			has_country_flag = otdt_x_flg_cntr_reg
+		}
+	}
+	allow = {
+		always = no
+		custom_tooltip = {#_不存在[apmc执行锁定flg]
+			hidden_trigger = { NOT = { has_planet_flag = otdt_x_flg_plnt_apmc_executing } }
+			fail_text = otdt_x_tips_apmc_dec_locked
+		}
+	}
+	ai_weight = { weight = 0 }
+	
+	effect = {
+		custom_tooltip = otdt_x_tips_dec_plnt_setting
+		hidden_effect = {
+			#_[核心模块debug]
+			otdt_x_eft_plnt_deposit_core = yes
+			#_[功能地块debug]
+			otdt_x_eft_plnt_deposit = yes
+			#_[人力上限_debug]
+			otdt_x_eft_plnt_cap_manpower = yes
+			#_[海军工业统计]
+			otdt_x_eft_plnt_navy_count = yes
+			otdt_x_eft_plnt_navy = yes
+			#_[管理值统计]
+			otdt_x_eft_plnt_admin_count = yes
+			otdt_x_eft_plnt_admin = yes
+			#_[行星防卫军统计]
+			otdt_x_eft_plnt_guard_count = yes
+			otdt_x_eft_plnt_guard = yes
+			#_[快速产出加成debug]
+			otdt_x_eft_plnt_express_bonus_debug = yes
+			
+			otdt_x_eft_plnt_setting = yes
+			planet_event = { id = otdt_x_check.2 }
+		}
+	}
+}

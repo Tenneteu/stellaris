@@ -1,0 +1,727 @@
+###_z pr 区划	###################################################################################
+@base_cost = 300
+@city_cost = 500
+
+#_[高级城市区]
+#_[高级工业区/高级锻造区]
+
+
+
+
+###_[高级城市区]
+z_pr_dstr_ap2_city = {
+	base_buildtime = 480
+	is_capped_by_modifier = no
+
+	show_on_uncolonized = {
+		from = { z_pr_trgr_cntr_pr_2nd = yes }
+		OR = {
+			uses_district_set = standard
+			uses_district_set = hive_world
+			uses_district_set = machine_world
+		}
+	}
+
+	potential = {
+		exists = owner
+		owner = { z_pr_trgr_cntr_pr_2nd = yes }
+		OR = {
+			uses_district_set = standard
+			uses_district_set = hive_world
+			uses_district_set = machine_world
+		}
+	}
+
+	allow = {
+		NAND = {
+			exists = owner
+			owner = { is_ai = yes }
+			free_building_slots > 1
+			free_housing > 3
+		}
+		NOT = { has_modifier = resort_colony }
+		NOT = { has_modifier = slave_colony }
+	}
+
+	conversion_ratio = 1
+	convert_to = {
+		district_arcology_housing
+		district_city
+		district_nexus
+		district_hive
+	#	z_pr_dstr_ap2_city
+	}
+	
+	
+	###_[产业革命]	########################################################
+	#_[clerk]		[planet_amenities_add=2][trade_value_add=2]
+	#_[maintenance_drone]		[planet_amenities_no_happiness_add=4][{has_valid_civic}civic_machine_maintenance_protocols=unity=1]
+	
+	planet_modifier = {
+		planet_housing_add = 10
+		planet_max_buildings_add = 1	#_[建筑槽]
+	}
+	
+	#_[传统]
+	triggered_planet_modifier = {
+		potential = {#_[tr_prosperity_optimized_nexus/tr_prosperity_extended_hives]
+			exists = owner
+			owner = { has_tradition = tr_prosperity_public_works }
+		}
+		modifier = {
+			planet_housing_add = 2
+		}
+	}
+	
+	#_[regular]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_regular_empire = yes }
+		}
+		modifier = {
+			planet_amenities_add = 15
+			trade_value_add = 5
+		}
+	}
+	triggered_planet_modifier = {#_[传统]
+		potential = {
+			exists = owner
+			owner = { has_non_swapped_tradition = tr_prosperity_interstellar_franchising }
+		}
+		modifier = {
+			planet_amenities_add = 5
+			trade_value_add = 5
+		}
+	}
+	#_[格式塔]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_gestalt = yes }
+		}
+		modifier = {
+			planet_amenities_no_happiness_add = 20
+		}
+	}
+	#_[hive]
+	triggered_planet_modifier = {#_[hive星球]	maintenance_drone*3
+		potential = {
+			is_planet_class = pc_hive
+			exists = owner
+			owner = { is_hive_empire = yes }
+		}
+		modifier = {
+			planet_housing_add = 8
+			planet_amenities_no_happiness_add = 15
+		}
+	}
+	triggered_planet_modifier = {#_[传统]
+		potential = {
+			exists = owner
+			owner = { has_swapped_tradition = tr_prosperity_extended_hives }
+		}
+		modifier = {
+			planet_housing_add = 4
+		}
+	}
+	#_[machine]	< is_machine_empire = yes>
+	triggered_planet_modifier = {#_[国策]
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_machine_maintenance_protocols }
+		}
+		modifier = {
+			z_pr_production_unity_produces_add = 0.5		#_[10%]
+		}
+	}
+
+
+	###_[vanilla]	########################################################
+	resources = {
+		category = planet_districts_cities
+		cost = {
+			minerals = @city_cost
+		}
+		upkeep = {
+			energy = 2
+		}
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 100
+			planet = {
+				planet_devastation < 1
+				years_passed > 10
+				OR = {
+					free_housing < 4
+					free_building_slots < 0
+				}
+			}
+		}
+		modifier = {
+			weight = 1
+			num_free_districts = { type = district_mining value = 0 }
+			num_free_districts = { type = district_generator value = 0 }
+			num_free_districts = { type = district_farming value = 0 }
+		}
+		modifier = {
+			factor = 0
+			NOR = {
+				num_free_districts = { type = district_mining value = 0 }
+				num_free_districts = { type = district_generator value = 0 }
+				num_free_districts = { type = district_farming value = 0 }
+			}
+			OR = {
+				num_free_districts = { type = district_mining value > 0 }
+				num_free_districts = { type = district_generator value > 0 }
+				num_free_districts = { type = district_farming value > 0 }
+			}
+		}
+		modifier = {
+			factor = 0
+			NOR = {
+				num_free_districts = { type = district_mining value = 0 }
+				num_free_districts = { type = district_generator value = 0 }
+				num_free_districts = { type = district_farming value = 0 }
+			}
+			owner = {
+				has_resource = {
+					type = minerals
+					amount < 400
+				}
+			}
+		}
+	}
+}
+
+
+
+
+###_[高级工业区]	产业革命/生产基数/z_pr_flg_cntr_reg
+z_pr_dstr_ap2_industrial = {
+	base_buildtime = 480
+	is_capped_by_modifier = no
+	show_on_uncolonized = {
+		exists = from
+		from = {
+			OR = {
+				is_regular_empire = yes
+				has_valid_civic = civic_machine_servitor
+			}
+			z_pr_trgr_cntr_pr_2nd = yes
+		}
+		OR = {
+			uses_district_set = standard
+			uses_district_set = hive_world
+			uses_district_set = machine_world
+		}
+	}
+	
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				is_regular_empire = yes
+				has_valid_civic = civic_machine_servitor
+			}
+			z_pr_trgr_cntr_pr_2nd = yes
+		}
+		OR = {
+			uses_district_set = standard
+			uses_district_set = hive_world
+			uses_district_set = machine_world
+		}
+	}
+	allow = {
+		NOT = { has_modifier = resort_colony }
+		NOT = { has_modifier = slave_colony }
+	}
+
+	conversion_ratio = 1
+	convert_to = {
+		z_pr_dstr_industrial
+	#	z_pr_dstr_ap2_industrial
+	#	z_pr_dstr_forge
+		z_pr_dstr_ap2_forge
+	}
+	
+	
+	###_[产业革命]	岗位产出	########################################################
+	#_地块						[z_pr_d_production]=合金/消费品 产出+20%	[33%产出/33%维护]
+	#_[artisan]					consumer_goods_6/minerals_6
+	#_[artisan_drone]1.33		consumer_goods_8/minerals_8
+	
+	#_[ai辅助]
+	triggered_planet_modifier = {
+		potential = {
+			NOT = { has_planet_flag = z_pr_flg_plnt_manpower_debug }
+			exists = owner
+			owner = { is_ai = yes }
+		}
+		job_z_pr_ai_dummy_consumer_goods_add = 1
+	}
+	#_[消费品]	####################################
+	planet_modifier = {
+		planet_housing_add = 5
+		#_[2nd]相对vanilla+33%
+		z_pr_post_z_pr_res_post_produces_add = 5	#_[生产基数]
+		z_pr_production_consumer_goods_produces_add= 4.0		#_[10%]
+		z_pr_production_minerals_upkeep_add= 4.0		#_[10%]
+	}
+	triggered_planet_modifier = {#_[工厂4]	t6
+		potential = {
+			always = no	#_test
+			has_building = building_factory_2
+		}
+		modifier = {
+			z_pr_production_consumer_goods_produces_add = 1.0		#_[10%]
+			z_pr_production_minerals_upkeep_add = 1.0		#_[10%]
+		}
+	}
+	triggered_planet_modifier = {#_[工厂5]	t7
+		potential = {
+			always = no	#_test
+			has_building = building_factory_2
+		}
+		modifier = {
+			z_pr_production_consumer_goods_produces_add = 2.0		#_[10%]
+			z_pr_production_minerals_upkeep_add = 2.0		#_[10%]
+		}
+	}
+	triggered_planet_modifier = {#_[工厂6]	t8	高级
+		potential = {
+			always = no	#_test
+			has_building = building_factory_2
+		}
+		modifier = {
+			z_pr_production_consumer_goods_produces_add = 3.0		#_[10%]
+			z_pr_production_minerals_upkeep_add = 3.0		#_[10%]
+		}
+	}
+	triggered_planet_modifier = {#_[工厂7]	t9	稀有
+		potential = {
+			always = no	#_test
+			has_building = building_factory_2
+		}
+		modifier = {
+			z_pr_production_consumer_goods_produces_add = 4.0		#_[10%]
+			z_pr_production_minerals_upkeep_add = 4.0		#_[10%]
+		}
+	}
+
+	
+	###_[vanilla]	z_pr_flg_cntr_reg	########################################################
+	resources = {
+		category = planet_districts_cities
+		cost = {
+			minerals = @city_cost
+		}
+		upkeep = {
+			energy = 2
+		}
+	}
+	
+
+	ai_weight = {
+		weight = 0
+		modifier = {#_普通
+			weight = 500
+			num_districts = { type = z_pr_dstr_ap2_industrial value < 2 }
+			owner = {#_帝国
+				has_monthly_income = {
+					resource = minerals
+					value > 30	#_矿不能赤字
+				}
+			}
+		}
+		modifier = {#_攻击性国家
+			weight = 500
+			num_districts = { type = z_pr_dstr_ap2_industrial value < 3 }
+			owner = {
+				has_ai_personality_behaviour = conqueror
+				OR = {
+					has_ai_personality_behaviour = opportunist
+					has_ai_personality_behaviour = purger
+					has_ai_personality_behaviour = propagator
+				}
+			}
+			owner = {#_帝国
+				has_monthly_income = {
+					resource = minerals
+					value > 30	#_矿不能赤字
+				}
+			}
+		}
+		modifier = {#_无限工业
+			weight = 300
+			mid_game_years_passed > 25
+			owner = {#_帝国
+				country_uses_consumer_goods = yes	#_需要2c
+				has_monthly_income = {
+					resource = consumer_goods
+					value < 75
+				}
+				OR = {
+					country_uses_food = no
+					has_monthly_income = {
+						resource = food
+						value >= 0
+					}
+					has_resource = {
+						type = food
+						amount > 0
+					}
+				}#_消费品短缺不能是因为食物短缺导致
+			}
+		}
+		modifier = {#_无限工业+
+			factor = 2
+			mid_game_years_passed > 50
+			owner = {#_帝国
+				country_uses_consumer_goods = yes	#_需要2c
+				has_monthly_income = {
+					resource = consumer_goods
+					value < 75
+				}
+				OR = {
+					country_uses_food = no
+					has_monthly_income = {
+						resource = food
+						value >= 0
+					}
+					has_resource = {
+						type = food
+						amount > 0
+					}
+				}#_消费品短缺不能是因为食物短缺导致
+			}
+		}
+		modifier = {#_攻击型国家_无限工业+
+			factor = 2
+			mid_game_years_passed > 50
+			owner = {
+				has_ai_personality_behaviour = conqueror
+				OR = {
+					has_ai_personality_behaviour = opportunist
+					has_ai_personality_behaviour = purger
+					has_ai_personality_behaviour = propagator
+				}
+			}
+			owner = {#_帝国
+				country_uses_consumer_goods = yes	#_需要2c
+				has_monthly_income = {
+					resource = consumer_goods
+					value < 75
+				}
+				OR = {
+					country_uses_food = no
+					has_monthly_income = {
+						resource = food
+						value >= 0
+					}
+					has_resource = {
+						type = food
+						amount > 0
+					}
+				}#_消费品短缺不能是因为食物短缺导致
+			}
+		}
+		modifier = {#_无限工业++
+			factor = 2
+			mid_game_years_passed > 75
+			owner = {#_帝国
+				country_uses_consumer_goods = yes	#_需要2c
+				has_monthly_income = {
+					resource = consumer_goods
+					value < 100
+				}
+				OR = {
+					country_uses_food = no
+					has_monthly_income = {
+						resource = food
+						value >= 0
+					}
+					has_resource = {
+						type = food
+						amount > 0
+					}
+				}#_消费品短缺不能是因为食物短缺导致
+			}
+		}
+		modifier = {#_攻击型国家_无限工业++
+			factor = 2
+			mid_game_years_passed > 75
+			owner = {
+				has_ai_personality_behaviour = conqueror
+				OR = {
+					has_ai_personality_behaviour = opportunist
+					has_ai_personality_behaviour = purger
+					has_ai_personality_behaviour = propagator
+				}
+			}
+			owner = {#_帝国
+				country_uses_consumer_goods = yes	#_需要2c
+				has_monthly_income = {
+					resource = consumer_goods
+					value < 100
+				}
+				OR = {
+					country_uses_food = no
+					has_monthly_income = {
+						resource = food
+						value >= 0
+					}
+					has_resource = {
+						type = food
+						amount > 0
+					}
+				}#_消费品短缺不能是因为食物短缺导致
+			}
+		}
+	}
+	ai_resource_production = {
+		consumer_goods = 12
+		trigger = { always = yes }
+	}
+}
+
+###_[高级锻造区]	产业革命/生产基数/z_pr_flg_cntr_reg
+z_pr_dstr_ap2_forge = {
+	base_buildtime = 480
+	is_capped_by_modifier = no
+	show_on_uncolonized = {
+		exists = from
+		from = { z_pr_trgr_cntr_pr_2nd = yes }
+		OR = {
+			uses_district_set = standard
+			uses_district_set = hive_world
+			uses_district_set = machine_world
+		}
+	}
+	
+	potential = {
+		exists = owner
+		owner = { z_pr_trgr_cntr_pr_2nd = yes }
+		OR = {
+			uses_district_set = standard
+			uses_district_set = hive_world
+			uses_district_set = machine_world
+		}
+	}
+	allow = {
+		NOT = { has_modifier = resort_colony }
+		NOT = { has_modifier = slave_colony }
+	}
+
+	conversion_ratio = 1
+	convert_to = {
+	#	z_pr_dstr_industrial
+		z_pr_dstr_ap2_industrial
+		z_pr_dstr_forge
+	#	z_pr_dstr_ap2_forge
+	}
+	
+	
+	###_[产业革命]	岗位产出	########################################################
+	#_地块						[z_pr_d_production]=合金/消费品 产出+20%	[33%产出/33%维护]
+	#_[alloy_drone/foundry]		alloys_3/minerals_6
+	#_[fabricator]1.33			alloys_4/minerals_8
+	
+	#_[ai辅助]
+	triggered_planet_modifier = {
+		potential = {
+			NOT = { has_planet_flag = z_pr_flg_plnt_manpower_debug }
+			exists = owner
+			owner = { is_ai = yes }
+		}
+		modifier = {
+			job_z_pr_ai_dummy_alloys_add = 1
+		}
+	}
+	#_[合金]	####################################
+	planet_modifier = {
+		planet_housing_add = 5
+		#_[2nd]相对vanilla+33%
+		z_pr_post_z_pr_res_post_produces_add = 5	#_[生产基数]
+		z_pr_production_alloys_produces_add = 2.0		#_[10%]
+		z_pr_production_minerals_upkeep_add= 4.0		#_[10%]
+	}
+	triggered_planet_modifier = {#_[冶炼4]	t6
+		potential = {
+			always = no	#_test
+			has_building = building_factory_2
+		}
+		modifier = {
+			z_pr_production_alloys_produces_add = 0.5		#_[10%]
+			z_pr_production_minerals_upkeep_add = 1.0		#_[10%]
+		}
+	}
+	triggered_planet_modifier = {#_[冶炼5]	t7
+		potential = {
+			always = no	#_test
+			has_building = building_factory_2
+		}
+		modifier = {
+			z_pr_production_alloys_produces_add = 1.0		#_[10%]
+			z_pr_production_minerals_upkeep_add = 2.0		#_[10%]
+		}
+	}
+	triggered_planet_modifier = {#_[冶炼6]	t8	高级
+		potential = {
+			always = no	#_test
+			has_building = building_factory_2
+		}
+		modifier = {
+			z_pr_production_alloys_produces_add = 1.5		#_[10%]
+			z_pr_production_minerals_upkeep_add = 3.0		#_[10%]
+		}
+	}
+	triggered_planet_modifier = {#_[冶炼7]	t9	稀有
+		potential = {
+			always = no	#_test
+			has_building = building_factory_2
+		}
+		modifier = {
+			z_pr_production_alloys_produces_add = 2.0		#_[10%]
+			z_pr_production_minerals_upkeep_add = 4.0		#_[10%]
+		}
+	}
+
+	
+	###_[vanilla]	z_pr_flg_cntr_reg	########################################################
+	resources = {
+		category = planet_districts_cities
+		cost = {
+			minerals = @city_cost
+		}
+		upkeep = {
+			energy = 2
+		}
+	}
+
+
+	ai_weight = {
+		weight = 0
+		modifier = {#_普通
+			weight = 500
+			num_districts = { type = z_pr_dstr_ap2_forge value < 3 }
+			owner = {#_帝国
+				has_monthly_income = {
+					resource = minerals
+					value > 30	#_矿不能赤字
+				}
+			}
+		}
+		modifier = {#_攻击性国家
+			weight = 500
+			num_districts = { type = z_pr_dstr_ap2_forge value < 5 }
+			owner = {
+				has_ai_personality_behaviour = conqueror
+				OR = {
+					has_ai_personality_behaviour = opportunist
+					has_ai_personality_behaviour = purger
+					has_ai_personality_behaviour = propagator
+				}
+			}
+			owner = {#_帝国
+				has_monthly_income = {
+					resource = minerals
+					value > 30	#_矿不能赤字
+				}
+			}
+		}
+		modifier = {#_无限工业
+			weight = 300
+			mid_game_years_passed > 25
+			owner = {#_帝国
+				has_monthly_income = {
+					resource = alloys
+					value < 200
+				}
+				has_monthly_income = {
+					resource = minerals
+					value > 30	#_矿不能赤字
+				}
+			}
+		}
+		modifier = {#_无限工业+
+			factor = 2
+			mid_game_years_passed > 50
+			owner = {#_帝国
+				has_monthly_income = {
+					resource = alloys
+					value < 200
+				}
+				has_monthly_income = {
+					resource = minerals
+					value > 45	#_矿不能赤字
+				}
+			}
+		}
+		modifier = {#_攻击型国家_无限工业+
+			factor = 2
+			mid_game_years_passed > 50
+			owner = {
+				has_ai_personality_behaviour = conqueror
+				OR = {
+					has_ai_personality_behaviour = opportunist
+					has_ai_personality_behaviour = purger
+					has_ai_personality_behaviour = propagator
+				}
+			}
+			owner = {#_帝国
+				has_monthly_income = {
+					resource = alloys
+					value < 300
+				}
+				has_monthly_income = {
+					resource = minerals
+					value > 45	#_矿不能赤字
+				}
+			}
+		}
+		modifier = {#_无限工业++
+			factor = 2
+			mid_game_years_passed > 75
+			owner = {#_帝国
+				has_monthly_income = {
+					resource = alloys
+					value < 350
+				}
+				has_monthly_income = {
+					resource = minerals
+					value > 60	#_矿不能赤字
+				}
+			}
+		}
+		modifier = {#_攻击型国家_无限工业++
+			factor = 2
+			mid_game_years_passed > 75
+			owner = {
+				has_ai_personality_behaviour = conqueror
+				OR = {
+					has_ai_personality_behaviour = opportunist
+					has_ai_personality_behaviour = purger
+					has_ai_personality_behaviour = propagator
+				}
+			}
+			owner = {#_帝国
+				has_monthly_income = {
+					resource = alloys
+					value < 500
+				}
+				has_monthly_income = {
+					resource = minerals
+					value > 60	#_矿不能赤字
+				}
+			}
+		}
+	}
+	ai_resource_production = {
+		alloys = 6
+		trigger = { always = yes }
+	}
+}

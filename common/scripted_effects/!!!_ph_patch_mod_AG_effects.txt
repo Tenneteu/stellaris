@@ -1,0 +1,353 @@
+###_[古代帝国岗位debug]
+z_pr_eft_plnt_job_debug_mod_AG = {
+	#_Ancient Empire
+	if = { limit = { check_modifier_value = { modifier = job_PR_check_AG_add value = -1 } }	#_|修正激活|	has_global_flag = z_pr_patch_installed_mod_AG
+
+		##_[ag_living_metal_fabricator]			|specialist/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = ag_living_metal_fabricator VALUE = 500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = ag_living_metal_fabricator VALUE = 500 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = ag_living_metal_fabricator }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[sr_living_metal]
+			pr_job_resources_basic = { OPT = produces RES = sr_living_metal VALUE = 3}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_living_metal
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_living_metal }
+
+			##_[upkeep]	energy/alloys
+			#_[energy]
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 4 }
+			if = {#_|法令|
+				limit = { exists = owner owner = { has_edict = ag_living_metal_subsidies } }
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+
+			#_[alloys]
+			pr_job_resources_basic = { OPT = upkeep RES = alloys VALUE = 4 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=alloys
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = alloys }
+		
+		}
+
+		##_[ag_living_metal_fabricator_gestalt]			|complex_drone/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = ag_living_metal_fabricator_gestalt VALUE = 500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = ag_living_metal_fabricator_gestalt VALUE = 500 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = ag_living_metal_fabricator_gestalt }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[sr_living_metal]
+			pr_job_resources_basic = { OPT = produces RES = sr_living_metal VALUE = 3}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_living_metal
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_living_metal }
+
+			#_[upkeep]
+			#_[energy/alloys]
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 4 }
+			if = {#_|法令|
+				limit = { exists = owner owner = { has_edict = ag_living_metal_subsidies } }
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+
+			pr_job_resources_basic = { OPT = upkeep RES = alloys VALUE = 4 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=alloys
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = alloys }
+		
+		}
+
+		##_[ag_nanites_assembler]			|specialist/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = ag_nanites_assembler VALUE = 500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = ag_nanites_assembler VALUE = 500 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = ag_nanites_assembler }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[nanites]
+			pr_job_resources_basic = { OPT = produces RES = nanites VALUE = 3}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=nanites
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = nanites }
+
+			#_[upkeep]
+			#_[energy/alloys/rare_crystals]
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 0 }
+			if = {#_|法令|
+				limit = { exists = owner owner = { has_edict = ag_living_metal_subsidies } }
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+
+			pr_job_resources_basic = { OPT = upkeep RES = alloys VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=alloys
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = alloys }
+
+			pr_job_resources_basic = { OPT = upkeep RES = rare_crystals VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=rare_crystals
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = rare_crystals }
+		
+		}
+
+		##_[ag_nanites_assembler_gestalt]			|complex_drone/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = ag_nanites_assembler_gestalt VALUE = 500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = ag_nanites_assembler_gestalt VALUE = 500 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = ag_nanites_assembler_gestalt }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[nanites]
+			pr_job_resources_basic = { OPT = produces RES = nanites VALUE = 3}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=nanites
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = nanites }
+
+			#_[upkeep]
+			#_[energy/alloys/rare_crystals]
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 0 }
+			if = {#_|法令|
+				limit = { exists = owner owner = { has_edict = ag_living_metal_subsidies } }
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+
+			pr_job_resources_basic = { OPT = upkeep RES = alloys VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=alloys
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = alloys }
+
+			pr_job_resources_basic = { OPT = upkeep RES = rare_crystals VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=rare_crystals
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = rare_crystals }
+		}
+
+		##_[ag_dark_matter_fabricator]			|specialist/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = ag_dark_matter_fabricator VALUE = 500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = ag_dark_matter_fabricator VALUE = 500 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = ag_dark_matter_fabricator }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = produces RES = sr_dark_matter VALUE = 3}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_dark_matter }
+
+			#_[upkeep]
+			#_[energy]
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 25 }
+			if = {#_|法令|
+				limit = { exists = owner owner = { has_edict = ag_living_metal_subsidies } }
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+
+			
+		
+		}
+
+		##_[ag_dark_matter_fabricator_gestalt]			|complex_drone/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = ag_dark_matter_fabricator_gestalt VALUE = 500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = ag_dark_matter_fabricator_gestalt VALUE = 500 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = ag_dark_matter_fabricator_gestalt }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = produces RES = sr_dark_matter VALUE = 3}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_dark_matter
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_dark_matter }
+
+			#_[upkeep]
+			#_[energy]
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 25 }
+			if = {#_|法令|
+				limit = { exists = owner owner = { has_edict = ag_living_metal_subsidies } }
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+
+			
+		}
+
+		##_[ag_zro_refiner]			|specialist/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = ag_zro_refiner VALUE = 500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = ag_zro_refiner VALUE = 500 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = ag_zro_refiner }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[sr_zro]
+			pr_job_resources_basic = { OPT = produces RES = sr_zro VALUE = 3}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_zro
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_zro }
+
+			#_[upkeep]
+			#_[energy/exotic_gases]
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 10 }
+			if = {#_|法令|
+				limit = { exists = owner owner = { has_edict = ag_living_metal_subsidies } }
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+
+			pr_job_resources_basic = { OPT = upkeep RES = exotic_gases VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=exotic_gases
+				CAT=specialist
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = exotic_gases }
+		
+		}
+
+		##_[ag_zro_refiner_gestalt]			|complex_drone/planet_metallurgists|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = ag_zro_refiner_gestalt VALUE = 500 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = ag_zro_refiner_gestalt VALUE = 500 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = ag_zro_refiner_gestalt }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[sr_zro]
+			pr_job_resources_basic = { OPT = produces RES = sr_zro VALUE = 3}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_zro
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_zro }
+
+			#_[upkeep]
+			#_[energy/exotic_gases]
+			pr_job_resources_basic = { OPT = upkeep RES = energy VALUE = 10 }
+			if = {#_|法令|
+				limit = { exists = owner owner = { has_edict = ag_living_metal_subsidies } }
+				pr_job_resources_trigger = { OPT = upkeep RES = energy VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=energy
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = energy }
+
+			pr_job_resources_basic = { OPT = upkeep RES = alloys VALUE = 2 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=alloys
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = alloys }
+
+			pr_job_resources_basic = { OPT = upkeep RES = exotic_gases VALUE = 1 }
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=upkeep
+				RES=exotic_gases
+				CAT=complex_drone
+				IDS=planet_metallurgists	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = upkeep RES = exotic_gases }
+		}
+	}
+}

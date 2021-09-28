@@ -1,0 +1,56 @@
+###_	production_revolution triggers	###########################################################
+
+#_[资源_1e/资源_1m/资源_1f]
+#_[工业_2a/工业_2c]
+#_[科研_1]
+
+
+
+
+###_[资源_1e]	###########################################################
+z_pr_trgr_plnt_bldn_1e_v = {
+	OR = {
+		has_building = building_energy_grid
+		has_building = building_energy_nexus
+	}
+}
+
+###_[资源_1m]
+z_pr_trgr_plnt_bldn_1m_v = {
+	OR = {
+		has_building = building_mineral_purification_plant
+		has_building = building_mineral_purification_hub
+	}
+}
+
+
+
+
+###_[工业_2a]	###########################################################
+z_pr_trgr_plnt_bldn_2a_v = {
+	OR = {
+	#	has_building = building_foundry_1
+		has_building = building_foundry_2
+		has_building = building_foundry_3
+	}
+}
+
+#_[工业_2c]
+z_pr_trgr_plnt_bldn_2c_v = {
+	OR = {
+	#	has_building = building_factory_1
+		has_building = building_factory_2
+		has_building = building_factory_3
+	}
+}
+
+
+
+
+###_[科研_1]	###########################################################
+z_pr_trgr_plnt_bldn_tech_1 = {
+	OR = {
+		has_building = building_institute
+		has_building = building_supercomputer
+	}
+}

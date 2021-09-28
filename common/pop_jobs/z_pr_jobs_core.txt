@@ -1,0 +1,815 @@
+###_	production revolution [free_pops]
+#_		需要{modifier_fix}	z_framework已包括
+@z_pr_core_weight = 250000
+@z_pr_specialist_weight = 150000
+@z_pr_worker_weight = 100000
+#_[管理核心/公民委员/劳务委员/核心节点/高级节点/单元节点/藏品代表]
+#_[人力缓存/岗位修正]
+#_[自由职业/后补单元]
+
+
+###_[管理核心]	星球产业/基础修正/人力修正/海军/国家规模
+z_pr_freeman_core = {
+#	category = z_pr_freeman
+	category = ruler
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+#	can_set_priority = no
+	
+	#_[星球产业]
+	resources = { category = z_pr_production }
+
+	possible_pre_triggers = {#_[非奴隶]
+		has_owner = yes
+		is_enslaved = no
+		is_sapient = yes
+		is_being_purged = no
+		is_being_assimilated = no
+	}
+	possible = {
+		z_pr_trgr_pop_right_full = yes	#_|公民物种|
+		z_pr_trgr_job_core = yes		#_|核心锁定|
+	}
+	weight = {
+		weight = @z_pr_core_weight
+		modifier = {
+			factor = 10
+			has_job = z_pr_freeman_core
+		}
+		modifier = {
+			factor = 5
+			has_trait = z_pr_trait_core_species
+		}
+		modifier = {
+			factor = 2
+			z_pr_trgr_pop_freeman = yes
+		}
+		modifier = {
+			factor = 2
+			is_same_species = owner.owner_species
+		}
+	}
+	
+	#_[基础修正]
+	planet_modifier = {
+		planet_amenities_add = 3
+		pop_growth_speed = 0.15		#_[regular]
+	}
+	country_modifier = {
+		country_naval_cap_add = 4
+		country_admin_cap_add = 4
+	}
+	pop_modifier = {
+		pop_defense_armies_add = 1
+	}
+
+	#_[海军]
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_1 } }
+		modifier = { country_naval_cap_add = 1 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_2 } }
+		modifier = { country_naval_cap_add = 2 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_4 } }
+		modifier = { country_naval_cap_add = 4 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_8 } }
+		modifier = { country_naval_cap_add = 8 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_16 } }
+		modifier = { country_naval_cap_add = 16 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_32 } }
+		modifier = { country_naval_cap_add = 32 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_64 } }
+		modifier = { country_naval_cap_add = 64 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_128 } }
+		modifier = { country_naval_cap_add = 128 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_256 } }
+		modifier = { country_naval_cap_add = 256 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_512 } }
+		modifier = { country_naval_cap_add = 512 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_1024 } }
+		modifier = { country_naval_cap_add = 1024 }
+	}
+	
+	#_[国家规模]
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_1 } }
+		modifier = { country_admin_cap_add = 1 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_2 } }
+		modifier = { country_admin_cap_add = 2 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_4 } }
+		modifier = { country_admin_cap_add = 4 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_8 } }
+		modifier = { country_admin_cap_add = 8 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_16 } }
+		modifier = { country_admin_cap_add = 16 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_32 } }
+		modifier = { country_admin_cap_add = 32 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_64 } }
+		modifier = { country_admin_cap_add = 64 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_128 } }
+		modifier = { country_admin_cap_add = 128 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_256 } }
+		modifier = { country_admin_cap_add = 256 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_512 } }
+		modifier = { country_admin_cap_add = 512 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_1024 } }
+		modifier = { country_admin_cap_add = 1024 }
+	}
+	
+	
+	#_[人口克隆]
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_0 } }
+		modifier = { planet_pop_assembly_organic_add = 0.5 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_1 } }
+		modifier = { planet_pop_assembly_organic_add = 1 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_2 } }
+		modifier = { planet_pop_assembly_organic_add = 2 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_4 } }
+		modifier = { planet_pop_assembly_organic_add = 4 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_8 } }
+		modifier = { planet_pop_assembly_organic_add = 8 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_16 } }
+		modifier = { planet_pop_assembly_organic_add = 16 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_32 } }
+		modifier = { planet_pop_assembly_organic_add = 32 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_64 } }
+		modifier = { planet_pop_assembly_organic_add = 64 }
+	}
+	
+	#_[人口组装]
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_0 } }
+		modifier = { planet_pop_assembly_add = 0.5 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_1 } }
+		modifier = { planet_pop_assembly_add = 1 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_2 } }
+		modifier = { planet_pop_assembly_add = 2 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_4 } }
+		modifier = { planet_pop_assembly_add = 4 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_8 } }
+		modifier = { planet_pop_assembly_add = 8 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_16 } }
+		modifier = { planet_pop_assembly_add = 16 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_32 } }
+		modifier = { planet_pop_assembly_add = 32 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_64 } }
+		modifier = { planet_pop_assembly_add = 64 }
+	}
+}
+###_[公民委员]	星球产业/基础修正/人力修正
+z_pr_freeman_specialist = {
+	category = z_pr_freeman
+#	category = specialist
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+#	can_set_priority = no
+	
+	#_[星球产业]
+	resources = { category = planet_jobs }
+
+	possible_pre_triggers = {#_[非奴隶]
+		has_owner = yes
+		is_sapient = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_enslaved = no
+	}
+	possible = {
+		NOT = { has_job = z_pr_freeman_core }
+	#	NOR = {
+	#		has_citizenship_type = { country = planet.owner type = citizenship_slavery }
+	#		has_citizenship_type = { country = planet.owner type = citizenship_robot_servitude }
+	#	}
+	}
+	weight = {
+		weight = @z_pr_specialist_weight
+		modifier = {
+			factor = 5
+			has_job = z_pr_freeman_specialist
+		}
+		modifier = {#_|主物种|
+			factor = 4
+			z_pr_trgr_pop_right_full = yes	#_|公民物种|
+		}
+		modifier = {
+			factor = 4
+			has_trait = z_pr_trait_core_species
+		}
+		modifier = {
+			factor = 1.5
+			z_pr_trgr_pop_freeman = yes
+		}
+	}
+}
+###_[劳务委员]	星球产业/基础修正/人力修正
+z_pr_freeman_worker = {
+	category = z_pr_freeman
+#	category = worker
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+#	can_set_priority = no
+	
+	#_[星球产业]
+	resources = { category = planet_jobs }
+
+	possible_pre_triggers = {#_[非奴隶]
+		has_owner = yes
+		is_sapient = yes
+		is_being_purged = no
+		is_being_assimilated = no
+	}
+	possible = { NOT = { has_job = z_pr_freeman_core } }
+	weight = {
+		weight = @z_pr_worker_weight
+		modifier = {
+			factor = 5
+			has_job = z_pr_freeman_worker
+		}
+		modifier = {#_|非主物种|
+			factor = 4
+			z_pr_trgr_pop_right_full = no	#_|公民物种|
+		}
+		modifier = {
+			factor = 4
+			has_trait = z_pr_trait_core_species
+		}
+		modifier = {
+			factor = 1.5
+			z_pr_trgr_pop_freeman = yes
+		}
+	}
+}
+
+
+###_[核心节点]	星球产业/基础修正/人力修正/海军/国家规模
+z_pr_drone_core = {
+#	category = z_pr_drone
+	category = complex_drone
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+#	can_set_priority = no
+	
+	#_[星球产业]
+	resources = { category = z_pr_production }
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_enslaved = no
+		is_sapient = yes
+		is_being_purged = no
+		is_being_assimilated = no
+	}
+	possible = {
+		z_pr_trgr_pop_right_full = yes	#_|公民物种|
+		z_pr_trgr_job_core = yes		#_|核心锁定|
+	}
+	weight = {
+		weight = @z_pr_core_weight
+		modifier = {
+			factor = 10
+			has_job = z_pr_drone_core
+		}
+		modifier = {
+			factor = 5
+			has_trait = z_pr_trait_core_species
+		}
+		modifier = {
+			factor = 2
+			z_pr_trgr_pop_freeman = yes
+		}
+		modifier = {
+			factor = 2
+			is_same_species = owner.owner_species
+		}
+	}
+	
+	#_[基础修正]
+	planet_modifier = {
+		planet_amenities_no_happiness_add = 3
+		pop_growth_speed = 0.25		#_[hive]
+		planet_pop_assembly_add = 0.5	#_[machine]
+	}
+	country_modifier = {
+		country_naval_cap_add = 4
+		country_admin_cap_add = 4
+	}
+	pop_modifier = {
+		pop_defense_armies_add = 1
+	}
+
+	
+	#_[海军]
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_1 } }
+		modifier = { country_naval_cap_add = 1 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_2 } }
+		modifier = { country_naval_cap_add = 2 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_4 } }
+		modifier = { country_naval_cap_add = 4 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_8 } }
+		modifier = { country_naval_cap_add = 8 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_16 } }
+		modifier = { country_naval_cap_add = 16 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_32 } }
+		modifier = { country_naval_cap_add = 32 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_64 } }
+		modifier = { country_naval_cap_add = 64 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_128 } }
+		modifier = { country_naval_cap_add = 128 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_256 } }
+		modifier = { country_naval_cap_add = 256 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_512 } }
+		modifier = { country_naval_cap_add = 512 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_navy_1024 } }
+		modifier = { country_naval_cap_add = 1024 }
+	}
+	
+	#_[国家规模]
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_1 } }
+		modifier = { country_admin_cap_add = 1 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_2 } }
+		modifier = { country_admin_cap_add = 2 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_4 } }
+		modifier = { country_admin_cap_add = 4 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_8 } }
+		modifier = { country_admin_cap_add = 8 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_16 } }
+		modifier = { country_admin_cap_add = 16 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_32 } }
+		modifier = { country_admin_cap_add = 32 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_64 } }
+		modifier = { country_admin_cap_add = 64 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_128 } }
+		modifier = { country_admin_cap_add = 128 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_256 } }
+		modifier = { country_admin_cap_add = 256 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_512 } }
+		modifier = { country_admin_cap_add = 512 }
+	}
+	triggered_country_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_plnt_cntr_admin_1024 } }
+		modifier = { country_admin_cap_add = 1024 }
+	}
+
+	
+	#_[人口克隆]
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_0 } }
+		modifier = { planet_pop_assembly_organic_add = 0.5 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_1 } }
+		modifier = { planet_pop_assembly_organic_add = 1 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_2 } }
+		modifier = { planet_pop_assembly_organic_add = 2 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_4 } }
+		modifier = { planet_pop_assembly_organic_add = 4 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_8 } }
+		modifier = { planet_pop_assembly_organic_add = 8 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_16 } }
+		modifier = { planet_pop_assembly_organic_add = 16 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_32 } }
+		modifier = { planet_pop_assembly_organic_add = 32 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_64 } }
+		modifier = { planet_pop_assembly_organic_add = 64 }
+	}
+	
+	#_[人口组装]
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_0 } }
+		modifier = { planet_pop_assembly_add = 0.5 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_1 } }
+		modifier = { planet_pop_assembly_add = 1 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_2 } }
+		modifier = { planet_pop_assembly_add = 2 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_4 } }
+		modifier = { planet_pop_assembly_add = 4 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_8 } }
+		modifier = { planet_pop_assembly_add = 8 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_16 } }
+		modifier = { planet_pop_assembly_add = 16 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_32 } }
+		modifier = { planet_pop_assembly_add = 32 }
+	}
+	triggered_planet_modifier = {
+		potential = { exists = planet	planet = { has_planet_flag = z_pr_flg_job_planet_pop_assembly_add_64 } }
+		modifier = { planet_pop_assembly_add = 64 }
+	}
+}
+###_[高级节点]	星球产业/基础修正/人力修正
+z_pr_drone_adv = {
+	category = z_pr_drone
+#	category = simple_drone
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+#	can_set_priority = no
+	
+	#_[星球产业]
+	resources = { category = planet_jobs }
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_sapient = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_enslaved = no
+	}
+	possible = {
+		NOR = {
+			has_job = z_pr_drone_core
+			has_job = spawning_drone
+			has_job = replicator
+		}
+		NAND = {#_|智械奴隶禁止|
+			has_citizenship_type = { country = planet.owner type = citizenship_slavery }
+			OR = {
+				has_slavery_type = { type = slavery_matrix }
+				has_slavery_type = { type = slavery_livestock }
+			}
+		}
+	}
+	weight = {
+		weight = @z_pr_specialist_weight
+		modifier = {
+			factor = 5
+			has_job = z_pr_drone_adv
+		}
+		modifier = {#_|主物种|
+			factor = 4
+			z_pr_trgr_pop_right_full = yes	#_|公民物种|
+		}
+		modifier = {
+			factor = 4
+			has_trait = z_pr_trait_core_species
+		}
+		modifier = {
+			factor = 2
+			z_pr_trgr_pop_freeman = yes
+		}
+	}
+}
+###_[单元节点]	星球产业/基础修正/人力修正
+z_pr_drone_normal = {
+	category = z_pr_drone
+#	category = simple_drone
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+#	can_set_priority = no
+	
+	#_[星球产业]
+	resources = { category = planet_jobs }
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_sapient = yes
+		is_being_purged = no
+		is_being_assimilated = no
+	}
+	possible = {
+		NOR = {
+			has_job = z_pr_drone_core
+			has_job = spawning_drone
+			has_job = replicator
+		}
+	}
+	weight = {
+		weight = @z_pr_specialist_weight
+		modifier = {
+			factor = 5
+			has_job = z_pr_drone_normal
+		}
+		modifier = {#_|非主物种|
+			factor = 4
+			z_pr_trgr_pop_right_full = no	#_|公民物种|
+		}
+		modifier = {#_|奴役矩阵更容易获得奴隶|
+			factor = 1.5
+			has_citizenship_type = { country = planet.owner type = citizenship_slavery }
+			OR = {
+				has_slavery_type = { type = slavery_matrix }
+				has_slavery_type = { type = slavery_livestock }
+			}
+		}
+		modifier = {
+			factor = 4
+			has_trait = z_pr_trait_core_species
+		}
+		modifier = {
+			factor = 2
+			z_pr_trgr_pop_freeman = yes
+		}
+	}
+}
+
+
+###_[藏品代表]
+z_pr_bio_trophy = {
+	icon = bio_trophy
+	category = bio_trophy
+	clothes_texture_index = 1
+	building_icon = building_organic_sanctuary
+#	can_set_priority = no
+	
+	possible = {
+		has_citizenship_type = { country = planet.owner type = citizenship_organic_trophy }
+	}
+
+	resources = {
+		category = planet_bio_trophies
+		produces = {
+			unity = 10
+		}
+	}
+	planet_modifier = {
+		planet_jobs_complex_drone_produces_mult = 0.025
+	}
+	triggered_pop_modifier = {
+		pop_housing_usage_add = -1
+	}
+	
+	weight = {
+		weight = @special_job_weight
+	}
+}
+
+
+
+
+###_[人力缓存]	z禁用
+z_pr_uep = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_sapient = yes
+		is_being_purged = no
+		is_being_assimilated = no
+	}
+	possible = { always = no }
+	weight = { weight = 0.005 }
+}
+
+
+###_[岗位修正]
+z_pr_crct = {
+	category = z_pr_cat_uep
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+	can_set_priority = no
+
+	possible_pre_triggers = {
+	}
+	possible = { always = no }
+	weight = { weight = 0 }
+}
+
+
+
+
+###_[自由职业]
+z_pr_freelancer = {
+	category = worker
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+#	can_set_priority = no
+	
+	#_[星球产业]
+	resources = { category = planet_jobs
+		produces = {
+			energy = 1
+			minerals = 1
+			food = 1
+			alloys = 0.5
+			consumer_goods = 1
+			unity = 0.5
+		}
+		produces = {
+			trigger = { years_passed > 15 }
+			physics_research = 0.5
+			engineering_research = 0.5
+			society_research = 0.5
+		}
+		produces = {
+			trigger = { exists = owner	owner = { is_robot_empire = yes } }
+			energy = 1
+			food = -1
+		}
+		produces = {
+			trigger = { exists = owner	owner = { is_lithoid_empire = yes } }
+			minerals = 1
+			food = -1
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+	possible = {
+		worker_job_check_trigger = yes
+	}
+	weight = { weight = 1 }
+	
+	#_[基础修正]
+	planet_modifier = {
+		planet_amenities_add = 1
+		trade_value_add = 1
+	}
+}
+###_[后补单元]
+z_pr_free_drone = {
+	category = simple_drone
+	is_capped_by_modifier = yes
+	clothes_texture_index = 1
+	building_icon = building_palace
+#	can_set_priority = no
+	
+	#_[星球产业]
+	resources = { category = planet_jobs
+		produces = {
+			energy = 1
+			minerals = 1
+			food = 1
+			alloys = 1
+			unity = 0.5
+		}
+		produces = {
+			trigger = { years_passed > 15 }
+			physics_research = 0.5
+			engineering_research = 0.5
+			society_research = 0.5
+		}
+		produces = {
+			trigger = { exists = owner	owner = { is_robot_empire = yes } }
+			energy = 1
+			food = -1
+		}
+		produces = {
+			trigger = { exists = owner	owner = { is_lithoid_empire = yes } }
+			minerals = 1
+			food = -1
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_enslaved = no
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+	possible = {
+		drone_job_check_trigger = yes
+	}
+	weight = { weight = 1 }
+	
+	#_[基础修正]
+	planet_modifier = {
+		planet_amenities_no_happiness_add = 1
+	}
+}

@@ -1,0 +1,262 @@
+###_	production_revolution core	###########################################################
+
+#_|产业革命核心|
+#_[pr国家总参数检测/人力变动参数debug]
+#_[国家区划刷新]
+#_[pr完成革命/pr执行革命]
+#_[空岗位统计]
+#_[底层物种调整]
+#_[apmc转化为人口/man转化循环]
+
+
+###_|产业革命核心|
+z_pr_eft_installed_core = { set_global_flag = z_pr_installed }
+
+
+###_[pr国家总参数检测]
+z_pr_eft_cntr_var_debug = {
+	## init
+	set_variable = { which = z_pr_var_cntr_man value = 0 }	#_|全国人力|
+	set_variable = { which = z_pr_var_cntr_workshop value = 0 }	#_|全国工房|
+	set_variable = { which = z_pr_var_cntr_job_actual value = 0 }	#_|全国被转化的岗位|
+	
+	## tally
+	every_owned_planet = { limit = { is_colony = yes	is_under_colonization = no }
+		prev = {
+			change_variable = { which = z_pr_var_cntr_man value = prev.z_pr_var_plnt_man }		#_|全国人力|
+			change_variable = { which = z_pr_var_cntr_workshop value = prev.z_pr_var_plnt_workshop }	#_|全国工房|
+			change_variable = { which = z_pr_var_cntr_job_actual value = prev.z_pr_var_plnt_job_actual }	#_|全国被转化的岗位|
+		}
+	}
+}
+###_[人力变动参数debug]
+#_prmt	<VALUE>
+z_pr_prmt_eft_plnt_var_man_debug = {
+	change_variable = { which = z_pr_var_plnt_man value = $VALUE$ }
+	change_variable = { which = z_pr_var_plnt_pop_man value = $VALUE$ }
+	owner = { change_variable = { which = z_pr_var_cntr_man value = $VALUE$ } }	#_|全国人力|
+}
+
+
+
+
+###_[国家区划刷新]
+z_pr_eft_cntr_colony_structure_debug = {
+	every_owned_planet = {
+		limit = { is_colony = yes }
+		validate_planet_buildings_and_districts = yes
+	}
+}
+
+
+
+
+###_[pr完成革命]	初始化/初始debug	###########################################################
+z_pr_eft_cntr_revolution = {
+	#_[初始化]
+	set_country_flag = z_pr_flg_cntr_reg	#_|pr革命完成|
+	#_[初始debug]
+	country_event = { id = z_pr_core.3 random = 13 }
+}
+###_[pr执行革命]
+z_pr_eft_cntr_execute_revolution = {
+	country_event = { id = z_pr_core.3 }
+}
+
+
+
+
+###_[空岗位统计]	max=19	###########################################################	z禁用
+#_var			[TEMP_var_plnt_free_jobs]
+z_pr_eft_plnt_core_free_jobs = {
+	if = { limit = { free_jobs <= 0 }
+		set_variable = { which = TEMP_var_plnt_free_jobs value = 0 }
+	}
+	else_if = { limit = { free_jobs <= 19 }
+		set_variable = { which = TEMP_var_plnt_free_jobs value = trigger:free_jobs }
+	}
+	else_if = { limit = { free_jobs > 19 }
+		set_variable = { which = TEMP_var_plnt_free_jobs value = 19 }
+	}
+	
+	### 触发测试 ###
+#	if = { limit = { owner = { is_ai = no } }
+#		owner = {
+#			set_variable = { which = TEMP_var_free_jobs value = prev.TEMP_var_plnt_free_jobs }
+#			country_event = { id = pr_test_popup.17 }
+#		}
+#	}
+}
+
+
+
+
+###_[底层物种调整]	<自动pop转化/>
+#_<this>=pop
+#_<prev>=pop所在星球
+z_pr_eft_pop_lower_spcs_change = {
+	if = {
+		limit = {
+			#plnt	|未执行过|=优化考虑
+			prev = { NOT = { has_planet_flag = z_pr_flg_plnt_spcs_changed } }
+			#pop
+			OR = {
+				# 同化
+				is_being_assimilated = yes
+				# 平权
+				AND = {
+					has_citizenship_type = { country = prev.owner type = citizenship_limited }
+					prev.owner = {
+						OR = {#_平等
+							has_ethic = ethic_egalitarian
+							has_ethic = ethic_fanatic_egalitarian
+						}
+					}
+				}
+				# 奴隶
+				has_citizenship_type = { country = prev.owner type = citizenship_slavery }
+				# 机仆
+				has_citizenship_type = { country = prev.owner type = citizenship_robot_servitude }
+			}
+		}
+		prev = {#plnt
+			random_owned_pop = {
+				limit = { NOT = { is_same_species = prevprev }
+					OR = {#是底层
+						has_job = z_pr_freeman_worker
+						has_job = z_pr_drone_normal
+					}
+				}
+				change_species = prevprev
+				#优化
+				if = { limit = { prev.owner = { is_ai = yes } }#ai
+					prev = { set_timed_planet_flag = { flag = z_pr_flg_plnt_spcs_changed days = 179 } }	#半年
+				}
+				else = {#pc
+					prev = { set_timed_planet_flag = { flag = z_pr_flg_plnt_spcs_changed days = 13 } }
+				}
+			}
+		}
+	}
+}
+
+
+
+
+###_[apmc转化为人口]	碧蓝航线		/主要/居留/奴隶/机械奴工	####################################
+z_pr_eft_plnt_man_cnvt_apmc = {
+	owner = {#_<星球所有者>
+		random_owned_pop_species = {
+			limit = {
+				NOR = {
+					has_citizenship_type = { country = prev type = citizenship_assimilation }
+					has_citizenship_type = { country = prev type = citizenship_purge }
+					has_citizenship_type = { country = prev type = citizenship_purge_machine }
+				}
+				#_|碧蓝航线同化|
+				azl_pr_trgr_spcs_no_azur_when_assimilation = no
+			}
+			weights = {
+				base = 1
+				modifier = {#_[同星同种]
+					factor = 2
+					prevprev = { any_owned_pop = { is_same_species = prevprev } }
+				}
+				modifier = {#_[绝对同星同种]
+					factor = 2
+					prevprev = { any_owned_pop = { is_exact_same_species = prevprev } }
+				}
+				
+				modifier = {#_[主要]
+					factor = 5
+					OR = {
+						has_citizenship_type = { country = prev type = citizenship_full }
+						has_citizenship_type = { country = prev type = citizenship_full_machine }
+					}
+				}
+				modifier = {#_[居留]
+					factor = 2
+					has_citizenship_type = { country = prev type = citizenship_limited }
+					prev = {
+						OR = {#_平等
+							has_ethic = ethic_egalitarian
+							has_ethic = ethic_fanatic_egalitarian
+						}
+					}
+				}
+				modifier = {#_[奴隶]
+					factor = 4
+					has_citizenship_type = { country = prev type = citizenship_slavery }
+					prev = { has_civic = civic_slaver_guilds }	#_奴隶工会
+				}
+				modifier = {#_[机械奴工]
+					factor = 3
+					has_citizenship_type = { country = prev type = citizenship_robot_servitude }
+					prev = { is_regular_empire = yes	has_civic = civic_machine_servitor }
+				}
+				modifier = {#_[活体陈设]
+					factor = 10
+					prevprev = { has_available_jobs = z_pr_bio_trophy }
+					has_citizenship_type = { country = prev type = citizenship_organic_trophy }
+				}
+			}
+			
+			#_[创建人口]
+			prevprev = {#_<当前星球>
+				create_pop = {
+					species = prev
+					ethos = prevprev	#_<owner>
+				}
+			}
+		}
+	}
+}
+
+
+###_[man转化循环]	init/循环debug/clear/当前人力
+z_pr_eft_plnt_core_man_cnvt_cycle = {
+	set_update_modifiers_batch = begin
+
+	# init
+	if = { limit = { check_variable = { which = z_pr_var_plnt_man value > 0 } }
+		z_pr_prmt_eft_plnt_var_man_debug = { VALUE = -1 }	#_[人力变动参数debug]
+		z_pr_eft_plnt_man_cnvt_apmc = yes
+	}
+	
+	# 循环debug
+	while = { count = 19
+		limit = {
+			check_variable = { which = z_pr_var_plnt_man value > 0 }	#_|人力足够|
+			exists = last_created_pop
+			last_created_pop = { is_unemployed = no }	#_|上一个转化的pop入职|则继续循环
+		}
+		z_pr_prmt_eft_plnt_var_man_debug = { VALUE = -1 }	#_[人力变动参数debug]
+		z_pr_eft_plnt_man_cnvt_apmc = yes
+	}
+	
+	# clear		<last_created_pop>若|未就职|且不满足|AI建设预留|则清除.此eft自动触发时星球必然没有uep,所以<last_created_pop>如果|未就职|则一定是唯一的uep
+	if = {
+		limit = {
+			exists = last_created_pop
+			last_created_pop = { is_unemployed = yes }
+			#_|AI建设预留|
+			NAND = {
+				owner = { is_ai = yes }
+				OR = {
+					free_district_slots > 0
+					free_building_slots > 0
+				}
+			}
+		}
+		
+		#_[pop转化]last
+		z_pr_prmt_eft_plnt_var_man_debug = { VALUE = 1 }	#_[人力变动参数debug]
+		last_created_pop = { kill_pop = yes }
+	}
+	
+	# 当前人力
+	z_pr_eft_plnt_mod_plnt_man_debug = yes
+	
+	set_update_modifiers_batch = end
+}
+

@@ -1,0 +1,414 @@
+###_	production_revolution	####################################################################
+namespace = z_pr_test
+#_[debug]
+#_[测试数据/基础功能测试]
+#_[行星幸福/母星加人力]
+#_[国家产出mod/星球产出mod/普通pop产出mod/核心pop产出mod]
+#_[添加人口_全部革命]					已验证=暂停更新mod对人口瞬间创建无影响
+#_[星球职位mod输出var]					已验证
+#_[核心添加factor_mod产出]				已验证
+#_[全局瞬间杀人/全局瞬间杀人无更新]		已验证=暂停更新mod对瞬间杀人无影响
+#_[全局循环杀人/全局循环杀人无更新]		已验证=无论瞬间eft还是循环事件执行,对速度并无影响.最好的办法就是分段,少量执行
+
+#_[已验证]		=所有经济类mod都会加在所有pop上,只不过会根据trgr决定mod是否生效
+#_[已验证]		=country_food_produces_mult相当于set_variable,如果不存在任何mod则var为0
+#_[已验证]		=[num_free_districts]这个命令,同时考虑|空闲区划槽位|和|当前区划上限|
+#_[已验证]		=星球mod不会实时添加,需要[calculate_modifier]
+#_[已验证]pop	=[create_pop]创建的人口入职检测在其他effect之前
+
+
+
+
+###_[debug]id=9
+country_event = {#_pop转化
+	id = z_pr_test.9
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_galaxy_planet = {
+			limit = { has_modifier = z_pr_mod_plnt_num_jobs }
+			remove_modifier = z_pr_mod_plnt_num_jobs
+		}
+	}
+}
+
+
+
+
+###_[测试数据]检测指定岗位数量
+planet_event = {#_pop转化
+	id = z_pr_test.700
+	title = z_pr_plnt_test_check_title
+	desc = z_pr_plnt_test_check_desc
+	picture = GFX_evt_alien_propaganda
+	is_triggered_only = yes
+	option = { name = OK }
+}
+
+
+
+
+
+###_[基础功能测试]id=7
+country_event = {#_pop转化
+	id = z_pr_test.7
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_country = { limit = { z_pr_trgr_cntr_valid = yes }
+			set_country_flag = z_pr_flg_cntr_reg
+		}
+		every_galaxy_planet = {
+			limit = {#_|自动转化殖民地|
+				is_colony = yes
+				is_under_colonization = no
+				NOT = { has_planet_flag = z_pr_flg_plnt_ignore }	#_|pr忽略|
+			#	NOT = { has_planet_flag = z_pr_flg_plnt_apmc_counted }	#_|殖民地apmc执行过|
+				owner = { has_country_flag = z_pr_flg_cntr_reg }	#_|pr革命完成|
+			}
+			#_[pop转化初始化]
+			set_planet_flag = z_pr_flg_plnt_apmc_counted	#_|殖民地apmc执行过|
+			set_variable = { which = z_pr_var_plnt_pop_cnvt_left value = 0 }	#_|pop转化余量|
+			set_variable = { which = TEMP_var_plnt_pop value = 0 }	#_[剩余人口]
+			every_owned_pop = { prev = { change_variable = { which = TEMP_var_plnt_pop value = 1 } } }
+		#	#_[全局转化进行标签]
+		#	prev = { set_country_flag = z_pr_flg_npc0_pop_cnvt_cycle }
+			#_[pop转化]
+			planet_event = { id = z_pr_core.21 days = 1 }
+		}
+	}
+}
+country_event = {#_dstr替换
+	id = z_pr_test.70
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = { z_pr_eft_plnt_ai_auto_bldn = yes }
+	}
+}
+
+
+
+
+###_[行星幸福]id=71
+country_event = {
+	id = z_pr_test.71
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = {
+			if = { limit = { happiness_planet > 0.6 }
+				root = { country_event = { id = z_pr_test.610 } }
+			}
+		}
+	}
+}
+###_[母星加人力=100]
+country_event = {
+	id = z_pr_test.72
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = {
+			if = { limit = { is_variable_set = z_pr_var_plnt_man }
+				z_pr_prmt_eft_plnt_var_man_debug = { VALUE = 100 }	#_[人力变动参数debug]
+			}
+		}
+	}
+}
+
+
+
+
+###_[国家产出mod]id=6
+country_event = {
+	id = z_pr_test.6
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		give_technology = { tech = tech_power_plant_2 message = no }
+		add_tradition = tr_diplomacy_the_federation
+		add_tradition = tr_adaptability_dietary_enrichment
+		country_event = { id = z_pr_test.61 days = 1 }
+		country_event = { id = z_pr_test.62 days = 2 }
+		country_event = { id = z_pr_test.63 days = 3 }
+		country_event = { id = z_pr_test.64 days = 4 }
+	}
+}
+country_event = {
+	id = z_pr_test.61
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		export_modifier_to_variable = { modifier = country_food_produces_mult variable = z_pr_var_cntr_test_mod_tr_adaptability }	#_|tr_adaptability_dietary_enrichment|
+		export_modifier_to_variable = { modifier = planet_jobs_specialist_produces_mult variable = z_pr_var_cntr_test_mod_specialist }	#_|ethic_fanatic_egalitarian|
+		export_modifier_to_variable = { modifier = planet_technician_energy_produces_mult variable = z_pr_var_cntr_test_mod_technician }	#_|tech_power_plant_2|
+		export_modifier_to_variable = { modifier = planet_jobs_worker_produces_mult variable = z_pr_var_cntr_test_mod_worker }	#_|trait_very_strong|
+		country_event = { id = z_pr_test.610 }
+	}
+}
+country_event = {#_参数检测
+	id = z_pr_test.610
+	title = z_pr_test_cntr
+	desc = z_pr_test_cntr.desc
+	is_triggered_only = yes
+	after = {
+		clear_variable = z_pr_var_cntr_test_mod_tr_adaptability
+		clear_variable = z_pr_var_cntr_test_mod_specialist
+		clear_variable = z_pr_var_cntr_test_mod_technician
+		clear_variable = z_pr_var_cntr_test_mod_worker
+	}
+	option = { name = OK }
+}
+###_[星球产出mod]
+country_event = {
+	id = z_pr_test.62
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = {
+			export_modifier_to_variable = { modifier = country_food_produces_mult variable = z_pr_var_plnt_test_mod_tr_adaptability }	#_|tr_adaptability_dietary_enrichment|
+			export_modifier_to_variable = { modifier = country_food_produces_mult variable = z_pr_var_plnt_test_mod_tr_adaptability }	#_|tr_adaptability_dietary_enrichment|双重导出检测是否是set
+			prev = { set_variable = { which = z_pr_var_cntr_test_mod_tr_adaptability value = prev.z_pr_var_plnt_test_mod_tr_adaptability } }
+			clear_variable = z_pr_var_plnt_test_mod_tr_adaptability
+			export_modifier_to_variable = { modifier = planet_jobs_specialist_produces_mult variable = z_pr_var_plnt_test_mod_specialist }	#_|ethic_fanatic_egalitarian|
+			prev = { set_variable = { which = z_pr_var_cntr_test_mod_specialist value = prev.z_pr_var_plnt_test_mod_specialist } }
+			clear_variable = z_pr_var_plnt_test_mod_specialist
+			export_modifier_to_variable = { modifier = planet_technician_energy_produces_mult variable = z_pr_var_plnt_test_mod_technician }	#_|tech_power_plant_2|
+			prev = { set_variable = { which = z_pr_var_cntr_test_mod_technician value = prev.z_pr_var_plnt_test_mod_technician } }
+			clear_variable = z_pr_var_plnt_test_mod_technician
+			export_modifier_to_variable = { modifier = planet_jobs_worker_produces_mult variable = z_pr_var_plnt_test_mod_worker }	#_|trait_very_strong|
+			prev = { set_variable = { which = z_pr_var_cntr_test_mod_worker value = prev.z_pr_var_plnt_test_mod_worker } }
+			clear_variable = z_pr_var_plnt_test_mod_worker
+		}
+		country_event = { id = z_pr_test.610 }
+	}
+}
+###_[普通pop产出mod]
+country_event = {
+	id = z_pr_test.63
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = {
+			random_owned_pop = { limit = { OR = { has_job = z_pr_freeman_specialist		has_job = z_pr_freeman_worker } }
+				export_modifier_to_variable = { modifier = country_food_produces_mult variable = z_pr_var_pop_test_mod_tr_adaptability }	#_|ethic_fanatic_egalitarian|
+				prevprev = { set_variable = { which = z_pr_var_cntr_test_mod_tr_adaptability value = prev.z_pr_var_pop_test_mod_tr_adaptability } }
+				clear_variable = z_pr_var_pop_test_mod_tr_adaptability
+				export_modifier_to_variable = { modifier = planet_jobs_specialist_produces_mult variable = z_pr_var_pop_test_mod_specialist }	#_|ethic_fanatic_egalitarian|
+				prevprev = { set_variable = { which = z_pr_var_cntr_test_mod_specialist value = prev.z_pr_var_pop_test_mod_specialist } }
+				clear_variable = z_pr_var_pop_test_mod_specialist
+				export_modifier_to_variable = { modifier = planet_technician_energy_produces_mult variable = z_pr_var_pop_test_mod_technician }	#_|tech_power_plant_2|
+				prevprev = { set_variable = { which = z_pr_var_cntr_test_mod_technician value = prev.z_pr_var_pop_test_mod_technician } }
+				clear_variable = z_pr_var_pop_test_mod_technician
+				export_modifier_to_variable = { modifier = planet_jobs_worker_produces_mult variable = z_pr_var_pop_test_mod_worker }			#_|trait_very_strong|
+				prevprev = { set_variable = { which = z_pr_var_cntr_test_mod_worker value = prev.z_pr_var_pop_test_mod_worker } }
+				clear_variable = z_pr_var_pop_test_mod_worker
+			}
+		}
+		country_event = { id = z_pr_test.610 }
+	}
+}
+###_[核心pop产出mod]
+country_event = {
+	id = z_pr_test.64
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = {
+			random_owned_pop = { limit = { has_job = z_pr_freeman_core }
+				export_modifier_to_variable = { modifier = country_food_produces_mult variable = z_pr_var_pop_test_mod_tr_adaptability }	#_|ethic_fanatic_egalitarian|
+				prevprev = { set_variable = { which = z_pr_var_cntr_test_mod_tr_adaptability value = prev.z_pr_var_pop_test_mod_tr_adaptability } }
+				clear_variable = z_pr_var_pop_test_mod_tr_adaptability
+				export_modifier_to_variable = { modifier = planet_jobs_specialist_produces_mult variable = z_pr_var_pop_test_mod_specialist }	#_|ethic_fanatic_egalitarian|
+				prevprev = { set_variable = { which = z_pr_var_cntr_test_mod_specialist value = prev.z_pr_var_pop_test_mod_specialist } }
+				clear_variable = z_pr_var_pop_test_mod_specialist
+				export_modifier_to_variable = { modifier = planet_technician_energy_produces_mult variable = z_pr_var_pop_test_mod_technician }	#_|tech_power_plant_2|
+				prevprev = { set_variable = { which = z_pr_var_cntr_test_mod_technician value = prev.z_pr_var_pop_test_mod_technician } }
+				clear_variable = z_pr_var_pop_test_mod_technician
+				export_modifier_to_variable = { modifier = planet_jobs_worker_produces_mult variable = z_pr_var_pop_test_mod_worker }			#_|trait_very_strong|
+				prevprev = { set_variable = { which = z_pr_var_cntr_test_mod_worker value = prev.z_pr_var_pop_test_mod_worker } }
+				clear_variable = z_pr_var_pop_test_mod_worker
+			}
+		}
+		country_event = { id = z_pr_test.610 }
+	}
+}
+
+
+
+
+###_[添加人口_全部革命]id=1
+country_event = {
+	id = z_pr_test.1
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_country = { limit = { z_pr_trgr_cntr_valid = yes }
+			set_country_flag = z_pr_flg_cntr_reg
+		}
+		set_update_modifiers_batch = begin	#_|停止mod更新|
+		every_galaxy_planet = { limit = { is_colony = yes		is_under_colonization = no		exists = owner owner = { z_pr_trgr_cntr_valid = yes } }
+			while = { count = 50
+				#_[创建人口]
+				create_pop = {
+					species = owner.owner_species
+					ethos = owner
+				}
+			}
+		}
+		set_update_modifiers_batch = end	#_|恢复mod更新|
+	}
+}
+country_event = {#_无更新暂停
+	id = z_pr_test.101
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_country = { limit = { z_pr_trgr_cntr_valid = yes }
+			set_country_flag = z_pr_flg_cntr_reg
+		}
+		every_galaxy_planet = { limit = { is_colony = yes		is_under_colonization = no		exists = owner owner = { z_pr_trgr_cntr_valid = yes } }
+			while = { count = 50
+				#_[创建人口]
+				create_pop = {
+					species = owner.owner_species
+					ethos = owner
+				}
+			}
+		}
+	}
+}
+
+
+
+
+###_[星球职位mod输出var]
+country_event = {
+	id = z_pr_test.10
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = {
+			set_variable = { which = z_pr_var_plnt_test value = 0 }
+			export_modifier_to_variable = { modifier = job_farmer_add variable = z_pr_var_plnt_test }	#_[mod值]
+		}
+	}
+}
+#_[核心添加factor_mod产出]
+country_event = {
+	id = z_pr_test.11
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		random_owned_pop = { limit = { OR = { has_job = z_pr_freeman_core	has_job = z_pr_drone_core } }
+			add_modifier = { modifier = z_pr_mod_pop_energy_produces days = -1 multiplier = 100 }
+		}
+	}
+}
+
+
+
+
+###_[全局瞬间杀人]id=2
+country_event = {
+	id = z_pr_test.20
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_country = { limit = { z_pr_trgr_cntr_valid = yes }
+			set_country_flag = z_pr_flg_cntr_reg
+			every_owned_pop = { limit = { z_pr_trgr_pop_clean = yes }
+				kill_pop = yes
+				planet = { change_variable = { which = z_pr_var_plnt_man value = 1 } }
+			}
+		}
+	}
+}
+###_[全局瞬间杀人无更新]
+country_event = {
+	id = z_pr_test.21
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		set_update_modifiers_batch = begin	#_|停止mod更新|
+		every_country = { limit = { z_pr_trgr_cntr_valid = yes }
+			set_country_flag = z_pr_flg_cntr_reg
+			every_owned_pop = { limit = { z_pr_trgr_pop_clean = yes }
+				kill_pop = yes
+				planet = { change_variable = { which = z_pr_var_plnt_man value = 1 } }
+			}
+		}
+		set_update_modifiers_batch = end	#_|恢复mod更新|
+	}
+}
+
+
+#_[全局循环杀人]
+country_event = {
+	id = z_pr_test.22
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_country = { limit = { z_pr_trgr_cntr_valid = yes }
+			set_country_flag = z_pr_flg_cntr_reg
+		}
+		every_galaxy_planet = {
+			limit = {
+				is_colony = yes
+				is_under_colonization = no
+			}
+			set_planet_flag = z_pr_flg_plnt_test_cnvt_cycle
+			planet_event = { id = z_pr_test.221 }
+		}
+	}
+}
+planet_event = {
+	id = z_pr_test.221
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { has_planet_flag = z_pr_flg_plnt_test_cnvt_cycle }
+	immediate = {
+		remove_planet_flag = z_pr_flg_plnt_test_cnvt_cycle
+		random_owned_pop = { limit = { z_pr_trgr_pop_clean = yes }
+			kill_pop = yes
+			root = {
+				change_variable = { which = z_pr_var_plnt_man value = 1 }
+				set_planet_flag = z_pr_flg_plnt_test_cnvt_cycle
+			}
+		}
+		planet_event = { id = z_pr_test.221 }	#_自循环
+	}
+}
+#_[全局循环杀人无更新]
+country_event = {
+	id = z_pr_test.23
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		set_update_modifiers_batch = begin	#_|停止mod更新|
+		
+		every_country = { limit = { z_pr_trgr_cntr_valid = yes }
+			set_country_flag = z_pr_flg_cntr_reg
+		}
+		every_galaxy_planet = {
+			limit = {
+				is_colony = yes
+				is_under_colonization = no
+			}
+			set_planet_flag = z_pr_flg_plnt_test_cnvt_cycle
+			planet_event = { id = z_pr_test.221 }
+		}
+		
+		country_event = { id = z_pr_test.231 days = 1 }
+	}
+}
+country_event = {
+	id = z_pr_test.231
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		set_update_modifiers_batch = end	#_|恢复mod更新|
+	}
+}
+

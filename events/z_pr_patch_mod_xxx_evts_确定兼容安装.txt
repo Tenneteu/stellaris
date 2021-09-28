@@ -1,0 +1,47 @@
+###_	production_revolution 核心	####################################################################
+namespace = z_pr_patch_mod_xxx
+#_[初始化]
+#_[万用初始化]
+
+#_|提示|	在兼容mod中新建“on_press_begin”并在其中添加“事件.1”
+#_|提示|	通过搜索"on_game_start"和"set_global_flag"寻找安装标签
+
+
+
+
+###_[初始化]	<on_press_begin>
+country_event = {
+	id = z_pr_patch_mod_xxx.1
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		#_[安装检视]
+		if = {
+			limit = {#_|xxx安装|
+				has_global_flag = mod的安装标签
+				NOT = { has_global_flag = z_pr_patch_installed_mod_xxx }	#_“xxx”为mod缩写
+			}
+			set_global_flag = z_pr_patch_installed_mod_xxx
+		}
+	}
+}
+###_[万用初始化]
+country_event = {
+	id = z_pr_patch_mod_xxx.10
+	hide_window = yes
+	fire_only_once = yes
+	trigger = { is_ai = no }
+	mean_time_to_happen = { days = 13 }
+
+	immediate = {
+		if = {
+			limit = {#_|xxx安装|
+				has_global_flag = mod的安装标签
+				NOT = { has_global_flag = z_pr_patch_installed_mod_xxx }
+			}
+			#_[安装检视]
+			set_global_flag = z_pr_patch_installed_mod_xxx
+		}
+	}
+}
+

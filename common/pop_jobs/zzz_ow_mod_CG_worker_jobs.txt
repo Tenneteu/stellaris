@@ -1,0 +1,100 @@
+#_|cygm|
+#_多刺	/CG_worker_jobs.txt
+
+
+#全职性玩偶
+full_time_sex_toy = {
+	category = worker
+	is_capped_by_modifier = no
+	clothes_texture_index = 2
+	icon = full_time_sex_toy
+		
+	possible = {
+		working_pop_job_tigger = yes
+		#_|产业革命|
+		planet = { exists = owner		owner = { NOT = { has_country_flag = z_pr_flg_cntr_reg } } }
+	}
+	resources = {
+		category = planet_erotic
+		produces = {
+			consumer_goods = 1
+		}
+		produces = {
+			consumer_goods = 1
+			trigger = {
+				pop = {
+					has_trait = trait_deep_emotion		
+				}
+			}
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {	
+			pop = { NOT = { has_trait = trait_live_with_master } }
+		}
+		modifier = {
+			planet_amenities_add = 1
+		}
+	}
+	weight = {
+		weight = 0.01
+		modifier = {
+			factor = 1
+			has_trait = trait_live_with_master
+		}
+		modifier = {
+			factor = 1
+			has_trait = trait_deep_emotion
+		}
+		modifier = {
+			factor = 1
+			has_trait = trait_body_by_juice
+		}
+	}
+}
+#失业性奴
+nojob_sexslave = {
+	category = worker
+	is_capped_by_modifier = no
+	clothes_texture_index = 2
+	icon = nojob_sexslave
+		
+	possible = {
+		working_pop_job_tigger = yes
+		#_|产业革命|
+		planet = { exists = owner		owner = { NOT = { has_country_flag = z_pr_flg_cntr_reg } } }
+	}	
+	resources = {
+		category = planet_nojob_sexslave
+		produces = {
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			pop = {
+				OR = {
+					has_modifier = CM_sexual_slave_pop_lust
+					has_modifier = CM_sexual_slave_pop_pure
+					has_modifier = CM_sexual_slave_pop_normal
+				}
+			}
+		}
+		modifier = { planet_amenities_add = 0.5 }
+	}
+	triggered_planet_modifier = {
+		potential = {
+			pop = {
+				OR = {
+					has_modifier = CM_sexual_rbq_pop_lust
+					has_modifier = CM_sexual_rbq_pop_pure
+					has_modifier = CM_sexual_rbq_pop_normal
+				}
+			}
+		}
+		modifier = { planet_amenities_add = 1.0 }
+	}
+	weight = {
+		weight = 0.01
+	}
+}
+

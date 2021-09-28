@@ -1,0 +1,28 @@
+###_z performance2	###################################################################################
+
+#_[人口上限]
+
+
+
+
+###_[人口上限]	普通/消费品/凝聚/联盟
+z_pf2_mod_plnt_pop_growth = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_plnt_mod_ai.dds"
+	icon_frame = 1
+#	pop_growth_speed = 0.01
+}
+z_pf2_mod_plnt_pop_decline = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_plnt_mod_ai.dds"
+	icon_frame = 1
+#	pop_growth_speed_reduction = 0.01
+}
+z_pf2_mod_plnt_pop_clone = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_plnt_mod_ai.dds"
+	icon_frame = 1
+#	planet_pop_assembly_organic_add = 0.01
+}
+z_pf2_mod_plnt_pop_assembly = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_plnt_mod_ai.dds"
+	icon_frame = 1
+#	planet_pop_assembly_add = 0.01
+}

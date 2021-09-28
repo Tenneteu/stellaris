@@ -1,0 +1,10 @@
+###_	production_revolution var	#########################################################
+
+
+#SAI自毁0.0003
+@z_pr_ai_weight_base = 0.05
+@z_pr_ai_factor_non = 0.01
+
+#job权重
+@z_pr_sv_adv_worker = 1.5
+@z_pr_sv_adv_specialist = 15

@@ -1,0 +1,651 @@
+#_|z小伞处理|
+
+
+
+
+###_[涅槃岗位debug]
+z_pr_eft_plnt_job_debug_mod_NE = {
+	#_nirvana_empire
+	if = { limit = { check_modifier_value = { modifier = job_PR_check_Nirvana_add value = -1 } }	#_|修正激活|	has_global_flag = z_pr_patch_installed_mod_Nirvana }
+
+		##_[str_overseer]			|ruler/|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = str_overseer VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = str_overseer VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = str_overseer }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = country_admin_cap_add VALUE = 25 }
+			pr_job_modifier_tally = { MOD = country_admin_cap_add }
+			pr_job_modifier_basic = { MOD = planet_amenities_add VALUE = 10 }
+			pr_job_modifier_tally = { MOD = planet_amenities_add }
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 5 }
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+		
+		}
+
+		##_[str_sky_cardinal]			|ruler/|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = str_sky_cardinal VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = str_sky_cardinal VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = str_sky_cardinal }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[修正统计] [pop_happiness = 0.05 -> planet_stability = 5 z小伞处理]
+			pr_job_modifier_basic = { MOD = planet_stability VALUE = 5 }
+			pr_job_modifier_tally = { MOD = planet_stability }
+			pr_job_modifier_basic = { MOD = country_admin_cap_add VALUE = 25 }
+			pr_job_modifier_tally = { MOD = country_admin_cap_add }
+			pr_job_modifier_basic = { MOD = planet_amenities_add VALUE = 10 }
+			pr_job_modifier_tally = { MOD = planet_amenities_add }
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 10 }
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+		
+		}
+
+		##_[str_protector]			|specialist/|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = str_protector VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = str_protector VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = str_protector }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = country_admin_cap_add VALUE = 5 }
+			pr_job_modifier_tally = { MOD = country_admin_cap_add }
+			pr_job_modifier_basic = { MOD = planet_crime_add VALUE = -25 }
+			pr_job_modifier_tally = { MOD = planet_crime_add }
+			pr_job_modifier_basic = { MOD = pop_defense_armies_add VALUE = 4 }
+			pr_job_modifier_tally = { MOD = pop_defense_armies_add }
+		}
+		
+		##_[str_archivist]			|specialist/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = str_archivist VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = str_archivist VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = str_archivist }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[physics_research]
+			pr_job_resources_basic = { OPT = produces RES = physics_research VALUE = 10}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=physics_research
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = physics_research }
+			#_[society_research]
+			pr_job_resources_basic = { OPT = produces RES = society_research VALUE = 10}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+			#_[engineering_research]
+			pr_job_resources_basic = { OPT = produces RES = engineering_research VALUE = 10}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+			#_[sr_zro]
+			pr_job_resources_basic = { OPT = produces RES = sr_zro VALUE = 0.25}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_zro
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_zro }
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = produces RES = sr_dark_matter VALUE = 0.25}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_dark_matter }
+		}
+
+		##_[str_acolyte_farm]			|worker/planet_farmers|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = str_acolyte_farm VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = str_acolyte_farm VALUE = 2000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = str_acolyte_farm }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[food]
+			pr_job_resources_basic = { OPT = produces RES = food VALUE = 14}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=food
+				CAT=worker
+				IDS=planet_farmers_food	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = food }
+		}
+
+		##_[str_acolyte_mine]			|worker/planet_miners|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = str_acolyte_mine VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = str_acolyte_mine VALUE = 2000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = str_acolyte_mine }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[minerals]
+			pr_job_resources_basic = { OPT = produces RES = minerals VALUE = 10}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=minerals
+				CAT=worker
+				IDS=planet_miners_minerals	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = minerals }
+		}
+
+		##_[str_acolyte_generator]			|worker/planet_technician|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = str_acolyte_generator VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = str_acolyte_generator VALUE = 2000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = str_acolyte_generator }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[energy]
+			pr_job_resources_basic = { OPT = produces RES = energy VALUE = 10}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=energy
+				CAT=worker
+				IDS=planet_technician_energy	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = energy }
+		}
+
+		##_[str_augur]			|specialist/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = str_augur VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = str_augur VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = str_augur }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[produce]	资源类型
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 8}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+			
+			#_[alloys]
+			pr_job_resources_basic = { OPT = produces RES = alloys VALUE = 0}
+			if = {
+				limit = {#_|国家flag|
+					exists = owner
+					owner = {
+					OR = {
+						has_country_flag = fallen_empire_2_servant
+						has_country_flag = fallen_empire_1_servant
+					}
+				} }
+				pr_job_resources_trigger = { OPT = produces RES = alloys VALUE = 15 }
+			}
+			if = {#_|玩家|
+				limit = { exists = owner owner = { is_ai = yes } }
+				pr_job_resources_trigger = { OPT = produces RES = alloys VALUE = 15 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=alloys
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = alloys }
+			
+			#_[food]
+			pr_job_resources_basic = { OPT = produces RES = food VALUE = 0}
+			if = {#_|玩家+国家类型|
+				limit = {
+					exists = owner
+					owner = {	
+						is_ai = yes 
+						is_nirvana_empire_dragon = yes
+					}
+				}
+				pr_job_resources_trigger = { OPT = produces RES = food VALUE = 10 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=food
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = food }
+		}
+
+		##_[str_xeno_keeper]			|specialist/|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = str_xeno_keeper VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = str_xeno_keeper VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = str_xeno_keeper }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = planet_amenities_add VALUE = 10 }
+			pr_job_modifier_tally = { MOD = planet_amenities_add }
+			pr_job_modifier_basic = { MOD = planet_crime_add VALUE = -20 }
+			pr_job_modifier_tally = { MOD = planet_crime_add }
+			pr_job_modifier_basic = { MOD = pop_defense_armies_add VALUE = 3 }
+			pr_job_modifier_tally = { MOD = pop_defense_armies_add }
+		}
+
+		##_[str_acolyte_artisan]			|specialist/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = str_acolyte_artisan VALUE = 1000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = str_acolyte_artisan VALUE = 1000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = str_acolyte_artisan }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = planet_amenities_add VALUE = 3 }
+			pr_job_modifier_tally = { MOD = planet_amenities_add }
+			
+			##_[produce]	资源类型
+			#_[consumer_goods]
+			pr_job_resources_basic = { OPT = produces RES = consumer_goods VALUE = 3}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = consumer_goods }
+		}
+
+		##_[str_thinker]			|specialist/planet_jobs|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = str_thinker VALUE = 2000 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = str_thinker VALUE = 2000 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = str_thinker }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = country_naval_cap_add VALUE = 4 }
+			if = {#_|飞升|
+				limit = { exists = owner
+					owner = {
+						OR = {
+							has_ascension_perk = ap_god_of_multiverse
+							has_ascension_perk = ap_god_of_heaven
+						}
+					}
+				}
+				pr_job_modifier_triggered = { MOD = country_naval_cap_add VALUE = 4 }
+			}
+			pr_job_modifier_tally = { MOD = country_naval_cap_add }
+			pr_job_modifier_basic = { MOD = planet_stability_add VALUE = 2 }
+			if = {#_|飞升|
+				limit = { exists = owner
+					owner = {
+						OR = {
+							has_ascension_perk = ap_god_of_multiverse
+							has_ascension_perk = ap_god_of_heaven
+						}
+					}
+				}
+				pr_job_modifier_triggered = { MOD = planet_stability_add VALUE = 2 }
+			}
+			pr_job_modifier_tally = { MOD = planet_stability_add }
+			
+			
+			##_[produce]	资源类型
+			#_[influence]
+			pr_job_resources_basic = { OPT = produces RES = influence VALUE = 0}
+			if = {#_|飞升|
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = influence VALUE = 0.002 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=influence
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = influence }
+			
+			#_[nanites]
+			pr_job_resources_basic = { OPT = produces RES = nanites VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = nanites VALUE = 0.02 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=nanites
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = nanites }
+			
+			#_[rare_crystals]
+			pr_job_resources_basic = { OPT = produces RES = rare_crystals VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = rare_crystals VALUE = 0.02 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=rare_crystals
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = rare_crystals }
+			
+			#_[exotic_gases]
+			pr_job_resources_basic = { OPT = produces RES = exotic_gases VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = exotic_gases VALUE = 0.02 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=exotic_gases
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = exotic_gases }
+			
+			#_[volatile_motes]
+			pr_job_resources_basic = { OPT = produces RES = volatile_motes VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = volatile_motes VALUE = 0.02 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=volatile_motes
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = volatile_motes }
+			
+			#_[sr_zro]
+			pr_job_resources_basic = { OPT = produces RES = sr_zro VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = sr_zro VALUE = 0.02 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_zro
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_zro }
+			
+			#_[sr_dark_matter]
+			pr_job_resources_basic = { OPT = produces RES = sr_dark_matter VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = sr_dark_matter VALUE = 0.02 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_dark_matter
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_dark_matter }
+			
+			#_[sr_living_metal]
+			pr_job_resources_basic = { OPT = produces RES = sr_living_metal VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = sr_living_metal VALUE = 0.02 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=sr_living_metal
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = sr_living_metal }
+			
+			#_[food]
+			pr_job_resources_basic = { OPT = produces RES = food VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = food VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=food
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = food }
+			
+			#_[unity]
+			pr_job_resources_basic = { OPT = produces RES = unity VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = unity VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=unity
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = unity }
+			
+			#_[alloys]
+			pr_job_resources_basic = { OPT = produces RES = alloys VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = alloys VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=alloys
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = alloys }
+			
+			#_[minerals]
+			pr_job_resources_basic = { OPT = produces RES = minerals VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = minerals VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=minerals
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = minerals }
+			
+			#_[consumer_goods]
+			pr_job_resources_basic = { OPT = produces RES = consumer_goods VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = consumer_goods VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=consumer_goods
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = consumer_goods }
+			
+			#_[energy]
+			pr_job_resources_basic = { OPT = produces RES = energy VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = energy VALUE = 2 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=energy
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = energy }
+			
+			#_[engineering_research]
+			pr_job_resources_basic = { OPT = produces RES = engineering_research VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = engineering_research VALUE = 4 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=engineering_research
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = engineering_research }
+			
+			#_[physics_research]
+			pr_job_resources_basic = { OPT = produces RES = physics_research VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = physics_research VALUE = 4 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=physics_research
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = physics_research }
+			
+			#_[society_research]
+			pr_job_resources_basic = { OPT = produces RES = society_research VALUE = 0}
+			if = {#_|飞升
+				limit = { exists = owner 
+					owner = { 
+						OR = {
+							has_ascension_perk = ap_god_of_heaven 
+							has_ascension_perk = ap_god_of_multiverse
+						}
+					} 
+				}
+				pr_job_resources_trigger = { OPT = produces RES = society_research VALUE = 4 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=produces
+				RES=society_research
+				CAT=specialist
+				IDS=planet_jobs	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = produces RES = society_research }
+		}
+	}
+}

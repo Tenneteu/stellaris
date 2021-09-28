@@ -1,0 +1,956 @@
+###_	production_revolution core	###########################################################
+#_[生产效率DB]
+#_[星球承载debug]
+#_[人力额外产出debug]			统计用人力DEFAULT/统计用人力MAX
+#_[当前人力/产出mod_debug]		核心产出		/碧蓝航线dlc/舰R/星舰少女/灰烬/涅托/约战/苍蓝		/ACOT/Giga
+
+#_|科技提升预留|	效率权重/积分基数		/占用率阈值(越高可承载人力越高)/增长加成最值	
+
+
+
+
+###_[生产效率DB]=|z_pr_var_plnt_ultilization|		人力岗位比/效率权重/效率未满/效率溢出/最值限定
+#_引用var	|z_pr_var_plnt_workshop/z_pr_var_plnt_man|
+z_pr_eft_plnt_man_bonus = {
+
+	###_[人力岗位比]	分母/分子/比值
+	#_[分母]	最低10
+	if = { limit = { check_variable = { which = z_pr_var_plnt_workshop value < 10 } }
+		set_variable = { which = z_pr_var_plnt_man_QTNT_dnm value = 10 }
+	}
+	else_if = { limit = { always = yes }
+		set_variable = { which = z_pr_var_plnt_man_QTNT_dnm value = z_pr_var_plnt_workshop }
+	}
+	#_[分子]	默认+10
+	set_variable = { which = z_pr_var_plnt_man_QTNT_nmr value = 10 }
+	change_variable = { which = z_pr_var_plnt_man_QTNT_nmr value = z_pr_var_plnt_man }
+	#_[比值]
+	set_variable = { which = z_pr_var_plnt_man_QTNT value = z_pr_var_plnt_man_QTNT_nmr }
+	divide_variable = { which = z_pr_var_plnt_man_QTNT value = z_pr_var_plnt_man_QTNT_dnm }
+	
+	
+	###_[效率权重]	init/幸福度/效率debug
+	#_[init]
+	set_variable = { which = z_pr_var_plnt_ultilization_weight value = 1.0 }	#_|默认|
+	## 科技提升预留
+	#_[效率debug]
+	set_variable = { which = TEMP_var_plnt_ultilization value = z_pr_var_plnt_man_QTNT }	#_|效率余量|init
+	multiply_variable = { which = TEMP_var_plnt_ultilization value = z_pr_var_plnt_ultilization_weight }	#_|默认|
+
+
+	###_[效率未满]
+	if = { limit = { check_variable = { which = TEMP_var_plnt_ultilization value <= 1 } }
+		set_variable = { which = z_pr_var_plnt_ultilization value = TEMP_var_plnt_ultilization }	#_|生产效率|init
+		#_clear
+		clear_variable = TEMP_var_plnt_ultilization
+	}
+	###_[效率溢出]	init/积分基数/积分曲线/clear
+	else_if = { limit = { always = yes }
+		##_[init]
+		set_variable = { which = z_pr_var_plnt_ultilization value = 1 }	#_|生产效率|init
+		subtract_variable = { which = TEMP_var_plnt_ultilization value = 1 }	#_|效率余量|init
+	
+		##_|积分基数|	/通过建筑或者科技树提升,最终提升值≈|基数×10|	/数值越高,人力生产效率曲线越平缓,生产效率积分越多
+		if = {#堕落
+			limit = {
+				exists = owner
+				owner = { OR = { is_country_type = fallen_empire		is_country_type = awakened_fallen_empire } }
+			}
+			set_variable = { which = z_pr_var_plnt_ultilization_cal_base value = 0.1 }
+		}
+		else_if = {#普通
+			limit = { always = yes }
+			set_variable = { which = z_pr_var_plnt_ultilization_cal_base value = 0.05 }
+		}
+		## 科技提升预留
+		
+		##_[积分曲线]	"定积分削减"	init/循环积分/最终余数
+		#_[init]
+		set_variable = { which = TEMP_var_plnt_ultilization_cal_mult value = 0.91 }	#_|累加乘数|init
+		#_[循环积分]
+		while = {
+			limit = {
+				check_variable = { which = TEMP_var_plnt_ultilization value > z_pr_var_plnt_ultilization_cal_base }	#_|效率余量|>|积分基数|
+				check_variable = { which = TEMP_var_plnt_ultilization_cal_mult value > 0.006 }	#_|MIN|	
+			}
+			#_init
+			set_variable = { which = TEMP_var_plnt_ultilization_cal value = z_pr_var_plnt_ultilization_cal_base }	#_|当前积分值|
+			multiply_variable = { which = TEMP_var_plnt_ultilization_cal value = TEMP_var_plnt_ultilization_cal_mult }
+			#_debug
+			subtract_variable = { which = TEMP_var_plnt_ultilization value = z_pr_var_plnt_ultilization_cal_base }	#_|效率余量|debug
+			multiply_variable = { which = TEMP_var_plnt_ultilization_cal_mult value = 0.91 }	#_|累加乘数|debug
+
+			change_variable = { which = z_pr_var_plnt_ultilization value = TEMP_var_plnt_ultilization_cal }			#_|生产效率|debug	
+		}
+		#_[最终余数]
+		if = { limit = { check_variable = { which = TEMP_var_plnt_ultilization value > z_pr_var_plnt_ultilization_cal_base } }	#_|效率余量|>|积分基数|
+			set_variable = { which = TEMP_var_plnt_ultilization_cal value = z_pr_var_plnt_ultilization_cal_base }	#_|当前积分值|=|积分基数|
+		}
+		else_if = { limit = { always = yes }	#_|效率余量|<=|积分基数|
+			set_variable = { which = TEMP_var_plnt_ultilization_cal value = TEMP_var_plnt_ultilization }		#_|当前积分值|=|效率余量|
+		}
+		multiply_variable = { which = TEMP_var_plnt_ultilization_cal value = TEMP_var_plnt_ultilization_cal_mult }	#_|当前积分值|debug
+		
+		change_variable = { which = z_pr_var_plnt_ultilization value = TEMP_var_plnt_ultilization_cal }		#_|生产效率|debug
+
+		#_[clear]
+		clear_variable = TEMP_var_plnt_ultilization
+		clear_variable = TEMP_var_plnt_ultilization_cal_mult
+		clear_variable = TEMP_var_plnt_ultilization_cal
+	}
+	
+	
+	###_[最值限定]
+	if = {#_[基础=15%]
+		limit = { owner = { is_ai = no }
+			OR = {
+				NOT = { is_variable_set = z_pr_var_plnt_ultilization }
+				check_variable = { which = z_pr_var_plnt_ultilization value < 0.15 }
+			}
+		}
+		set_variable = { which = z_pr_var_plnt_ultilization value = 0.15 }
+	}
+	else_if = {#_[AI=45%]
+		limit = { owner = { is_ai = yes }
+			OR = {
+				NOT = { is_variable_set = z_pr_var_plnt_ultilization }
+				check_variable = { which = z_pr_var_plnt_ultilization value < 0.45 }
+			}
+		}
+		set_variable = { which = z_pr_var_plnt_ultilization value = 0.45 }
+	}
+}
+
+
+
+
+
+
+
+
+###_[星球承载debug]	nmr/dnm/人力增长乘数计算/人力转化mod
+z_pr_eft_plnt_man_cap_debug = {
+	
+	##_[nmr]	|分子|=人力+代表
+	set_variable = { which = TEMP_var_plnt_man_growth_nmr value = 10 }	#_[+代表]
+	change_variable = { which = TEMP_var_plnt_man_growth_nmr value = z_pr_var_plnt_man }	#_[+人力]
+
+	##_[dnm]	星球大小/承载基数/计算		|人力承载上限|=TEMP_var_plnt_man_growth_dnm
+	#_|星球大小|
+	if = { limit = { planet_size >= 100 }		set_variable = { which = TEMP_var_plnt_man_cap_mult value = 100 } }
+	else_if = { limit = { planet_size >= 90 }
+		switch = { trigger = planet_size
+			99 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 99 } }
+			98 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 98 } }
+			97 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 97 } }
+			96 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 96 } }
+			95 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 95 } }
+			94 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 94 } }
+			93 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 93 } }
+			92 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 92 } }
+			91 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 91 } }
+			90 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 90 } }
+		}
+	}
+	else_if = { limit = { planet_size >= 80 }
+		switch = { trigger = planet_size
+			89 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 89 } }
+			88 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 88 } }
+			87 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 87 } }
+			86 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 86 } }
+			85 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 85 } }
+			84 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 84 } }
+			83 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 83 } }
+			82 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 82 } }
+			81 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 81 } }
+			80 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 80 } }
+		}
+	}
+	else_if = { limit = { planet_size >= 70 }
+		switch = { trigger = planet_size
+			79 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 79 } }
+			78 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 78 } }
+			77 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 77 } }
+			76 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 76 } }
+			75 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 75 } }
+			74 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 74 } }
+			73 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 73 } }
+			72 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 72 } }
+			71 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 71 } }
+			70 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 70 } }
+		}
+	}
+	else_if = { limit = { planet_size >= 60 }
+		switch = { trigger = planet_size
+			69 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 69 } }
+			68 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 68 } }
+			67 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 67 } }
+			66 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 66 } }
+			65 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 65 } }
+			64 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 64 } }
+			63 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 63 } }
+			62 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 62 } }
+			61 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 61 } }
+			60 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 60 } }
+		}
+	}
+	else_if = { limit = { planet_size >= 50 }
+		switch = { trigger = planet_size
+			59 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 59 } }
+			58 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 58 } }
+			57 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 57 } }
+			56 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 56 } }
+			55 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 55 } }
+			54 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 54 } }
+			53 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 53 } }
+			52 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 52 } }
+			51 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 51 } }
+			50 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 50 } }
+		}
+	}
+	else_if = { limit = { planet_size >= 40 }
+		switch = { trigger = planet_size
+			49 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 49 } }
+			48 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 48 } }
+			47 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 47 } }
+			46 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 46 } }
+			45 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 45 } }
+			44 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 44 } }
+			43 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 43 } }
+			42 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 42 } }
+			41 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 41 } }
+			40 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 40 } }
+		}
+	}
+	else_if = { limit = { planet_size >= 30 }
+		switch = { trigger = planet_size
+			39 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 39 } }
+			38 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 38 } }
+			37 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 37 } }
+			36 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 36 } }
+			35 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 35 } }
+			34 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 34 } }
+			33 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 33 } }
+			32 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 32 } }
+			31 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 31 } }
+			30 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 30 } }
+		}
+	}
+	else_if = { limit = { planet_size >= 20 }
+		switch = { trigger = planet_size
+			29 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 29 } }
+			28 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 28 } }
+			27 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 27 } }
+			26 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 26 } }
+			25 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 25 } }
+			24 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 24 } }
+			23 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 23 } }
+			22 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 22 } }
+			21 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 21 } }
+			20 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 20 } }
+		}
+	}
+	else_if = { limit = { planet_size >= 10 }
+		switch = { trigger = planet_size
+			19 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 19 } }
+			18 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 18 } }
+			17 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 17 } }
+			16 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 16 } }
+			15 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 15 } }
+			14 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 14 } }
+			13 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 13 } }
+			12 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 12 } }
+			11 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 11 } }
+			10 = { set_variable = { which = TEMP_var_plnt_man_cap_mult value = 10 } }
+		}
+	}
+	else_if = { limit = { planet_size < 10 }		set_variable = { which = TEMP_var_plnt_man_cap_mult value = 9 } }
+	#_|承载基数|
+	if = {#_人工世界
+		limit = {
+			OR = {
+				is_planet_class = pc_cybrex
+				is_planet_class = pc_ringworld_habitable
+				is_planet_class = pc_ringworld_tech
+				is_planet_class = pc_ringworld_seam
+			}
+		}
+		set_variable = { which = TEMP_var_plnt_man_cap_base value = 6 }
+	}
+	else_if = {#_高级世界
+		limit = {
+			OR = {
+				is_planet_class = pc_city
+				is_planet_class = pc_hive
+				is_planet_class = pc_machine
+			}
+		}
+		set_variable = { which = TEMP_var_plnt_man_cap_base value = 2.25 }
+	}
+	else_if = { limit = { always = yes }	set_variable = { which = TEMP_var_plnt_man_cap_base value = 2 } }	#_|默认|
+	#_[计算]	|分母|=|星球大小|*|承载基数|+|真实岗位|
+	set_variable = { which = TEMP_var_plnt_man_growth_dnm value = TEMP_var_plnt_man_cap_base }	#_|承载基数|
+	clear_variable = TEMP_var_plnt_man_cap_base
+	multiply_variable = { which = TEMP_var_plnt_man_growth_dnm value = TEMP_var_plnt_man_cap_mult }	#_|星球大小|
+	clear_variable = TEMP_var_plnt_man_cap_mult
+	change_variable = { which = TEMP_var_plnt_man_growth_dnm value = z_pr_var_plnt_job_actual }	#_[+真实岗位]
+	
+	##_[人力增长乘数计算]	人力上限占用率/占用率阈值/人力增长乘数		|z_pr_var_plnt_man_growth_mult|
+	#_|人力上限占用率|
+	set_variable = { which = TEMP_var_plnt_man_cap_ratio value = TEMP_var_plnt_man_growth_nmr }
+	divide_variable = { which = TEMP_var_plnt_man_cap_ratio value = TEMP_var_plnt_man_growth_dnm }
+	clear_variable = TEMP_var_plnt_man_growth_nmr	#_|nmr|清理
+	#_|占用率阈值|
+	set_variable = { which = z_pr_var_plnt_man_growth_threshold value = 1 }	#_|默认|=100%,|最大|=|默认|*2=200%	阈值越大,星球承载的|比人力|越高
+	## 科技提升预留
+	
+	#_|人力增长乘数|
+	divide_variable = { which = TEMP_var_plnt_man_cap_ratio value = z_pr_var_plnt_man_growth_threshold }	#_|承载比|=人力上限占用率/占用率阈值
+	
+	set_variable = { which = z_pr_var_plnt_man_growth_mult value = 2 }	#_init	取常数|2|,然后|2|-cal,以cal大小判断人力增长的|乘数|
+	subtract_variable = { which = z_pr_var_plnt_man_growth_mult value = TEMP_var_plnt_man_cap_ratio }	#_cal条件	|0~1|=最大+33%	|1~2|=衰减	|2+|=减少
+	clear_variable = TEMP_var_plnt_man_cap_ratio
+	#_[增长加成最值]
+	if = { limit = { check_variable = { which = z_pr_var_plnt_man_growth_mult value > 1.33 } }		set_variable = { which = z_pr_var_plnt_man_growth_mult value = 1.33 } }	#_默认+33%
+	## 科技提升预留
+}
+
+
+
+
+
+
+
+
+###_[人力额外产出debug]	init/全人力经济累计/全人力经济结算
+z_pr_eft_plnt_extra_pop_output = {
+	##_[init]		统计用人力DEFAULT/统计用人力MAX		/修正/资源
+	if = { limit = { always = yes }
+	
+		#_|统计用人力DEFAULT|
+		set_variable = { which = z_pr_var_plnt_man_alpha value = z_pr_var_plnt_man }
+	#	change_variable = { which = z_pr_var_plnt_man_alpha value = 9 }	#_|产业代表|算在人口中,这里不计算
+		if = {#_最值限定=100%承载基数
+			limit = { check_variable = { which = z_pr_var_plnt_man_alpha value > TEMP_var_plnt_man_growth_dnm } }
+			set_variable = { which = z_pr_var_plnt_man_alpha value = TEMP_var_plnt_man_growth_dnm }
+		}
+		
+		#_|统计用人力MAX|
+		set_variable = { which = z_pr_var_plnt_man_beta value = z_pr_var_plnt_man }
+	#	change_variable = { which = z_pr_var_plnt_man_beta value = 9 }	#_|产业代表|算在人口中,这里不计算
+		set_variable = { which = z_pr_var_plnt_man_beta_max value = TEMP_var_plnt_man_growth_dnm }	#_|MAX|=|分母|
+		#_|MAX|*200%|阈值|
+		if = { limit = { is_variable_set = z_pr_var_plnt_man_growth_threshold }
+			multiply_variable = { which = z_pr_var_plnt_man_beta_max value = z_pr_var_plnt_man_growth_threshold }
+			multiply_variable = { which = z_pr_var_plnt_man_beta_max value = 2 }
+		}
+		else_if = { limit = { always = yes }	multiply_variable = { which = z_pr_var_plnt_man_beta_max value = 2 } }
+		if = {#_最值限定=300%承载基数
+			limit = { check_variable = { which = z_pr_var_plnt_man_beta value > z_pr_var_plnt_man_beta_max } }
+			set_variable = { which = z_pr_var_plnt_man_beta value = z_pr_var_plnt_man_beta_max }
+		}
+		
+		
+		#_[修正]
+		#_prmt		<MOD>
+		z_pr_eft_plnt_man_mod_add_init = { MOD = trade_value_add }
+	
+		#_|资源|	<OPT/RES>		z_pr_var_man_$RES$_$OPT$_add
+		z_pr_eft_plnt_man_res_add_init = { OPT = upkeep RES = energy }
+		z_pr_eft_plnt_man_res_add_init = { OPT = upkeep RES = minerals }
+		z_pr_eft_plnt_man_res_add_init = { OPT = upkeep RES = food }
+		
+		z_pr_eft_plnt_man_res_add_init = { OPT = upkeep RES = alloys }
+		z_pr_eft_plnt_man_res_add_init = { OPT = upkeep RES = consumer_goods }
+		
+		z_pr_eft_plnt_man_res_add_init = { OPT = upkeep RES = GF_nyto_collapse_liquid }	#|NYTO|
+		
+		z_pr_eft_plnt_man_res_add_init = { OPT = produces RES = energy }
+		z_pr_eft_plnt_man_res_add_init = { OPT = produces RES = minerals }
+		z_pr_eft_plnt_man_res_add_init = { OPT = produces RES = food }
+		
+		z_pr_eft_plnt_man_res_add_init = { OPT = produces RES = alloys }
+		z_pr_eft_plnt_man_res_add_init = { OPT = produces RES = consumer_goods }
+		
+		z_pr_eft_plnt_man_res_add_init = { OPT = produces RES = rare_crystals }
+		z_pr_eft_plnt_man_res_add_init = { OPT = produces RES = exotic_gases }
+		z_pr_eft_plnt_man_res_add_init = { OPT = produces RES = volatile_motes }
+		
+		z_pr_eft_plnt_man_res_add_init = { OPT = produces RES = physics_research }
+		z_pr_eft_plnt_man_res_add_init = { OPT = produces RES = society_research }
+		z_pr_eft_plnt_man_res_add_init = { OPT = produces RES = engineering_research }
+		z_pr_eft_plnt_man_res_add_init = { OPT = produces RES = unity }
+		
+		z_pr_eft_plnt_man_res_add_init = { OPT = produces RES = sr_dark_matter }
+		z_pr_eft_plnt_man_res_add_init = { OPT = produces RES = GF_nyto_dark_star_core }	#|NYTO|
+	}
+	
+	
+	##_[全人力经济累计]	fallen/
+	#_[fallen]
+	if = { limit = { owner = { OR = { is_country_type = fallen_empire		is_country_type = awakened_fallen_empire } } }
+	
+		#_prmt		<MOD>
+	#	z_pr_eft_plnt_man_mod_add_change = { MOD = 修正									WEIGHT = X }
+	
+		#_prmt		<OPT/RES/WEIGHT>
+		z_pr_eft_plnt_man_res_add_change = { OPT = produces RES = energy				WEIGHT = 7 }
+		z_pr_eft_plnt_man_res_add_change = { OPT = produces RES = minerals				WEIGHT = 5 }
+		z_pr_eft_plnt_man_res_add_change = { OPT = produces RES = food					WEIGHT = 4 }
+		
+		z_pr_eft_plnt_man_res_add_change = { OPT = produces RES = alloys				WEIGHT = 7 }
+		if = { limit = { owner = { is_gestalt = no } }
+			z_pr_eft_plnt_man_res_add_change = { OPT = produces RES = consumer_goods		WEIGHT = 4 }
+		}
+		
+		z_pr_eft_plnt_man_res_add_change = { OPT = produces RES = rare_crystals			WEIGHT = 2 }
+		z_pr_eft_plnt_man_res_add_change = { OPT = produces RES = exotic_gases			WEIGHT = 2 }
+		z_pr_eft_plnt_man_res_add_change = { OPT = produces RES = volatile_motes		WEIGHT = 2 }
+		z_pr_eft_plnt_man_res_add_change = { OPT = produces RES = unity					WEIGHT = 3 }
+		z_pr_eft_plnt_man_res_add_change = { OPT = produces RES = sr_dark_matter		WEIGHT = 0.5 }
+	}
+
+
+	##_[全人力经济结算]		修正/资源
+	if = { limit = { always = yes }
+		#_[修正]	<MOD>
+		#_var		|z_pr_var_plnt_man_alpha|统计用人力DEFAULT
+		z_pr_eft_plnt_man_mod_add_tally = { MOD = trade_value_add }
+
+		#_[资源]	<OPT/RES>
+		#_var		|z_pr_var_plnt_man_alpha|统计用人力DEFAULT
+		z_pr_eft_plnt_man_res_add_tally = { OPT = upkeep RES = energy }
+		z_pr_eft_plnt_man_res_add_tally = { OPT = upkeep RES = minerals }
+		z_pr_eft_plnt_man_res_add_tally = { OPT = upkeep RES = food }
+		
+		z_pr_eft_plnt_man_res_add_tally = { OPT = upkeep RES = alloys }
+		z_pr_eft_plnt_man_res_add_tally = { OPT = upkeep RES = consumer_goods }
+		
+		z_pr_eft_plnt_man_res_add_tally = { OPT = upkeep RES = GF_nyto_collapse_liquid }	#|NYTO|
+		
+		z_pr_eft_plnt_man_res_add_tally = { OPT = produces RES = energy }
+		z_pr_eft_plnt_man_res_add_tally = { OPT = produces RES = minerals }
+		z_pr_eft_plnt_man_res_add_tally = { OPT = produces RES = food }
+		
+		z_pr_eft_plnt_man_res_add_tally = { OPT = produces RES = alloys }
+		z_pr_eft_plnt_man_res_add_tally = { OPT = produces RES = consumer_goods }
+		
+		z_pr_eft_plnt_man_res_add_tally = { OPT = produces RES = rare_crystals }
+		z_pr_eft_plnt_man_res_add_tally = { OPT = produces RES = exotic_gases }
+		z_pr_eft_plnt_man_res_add_tally = { OPT = produces RES = volatile_motes }
+		
+		z_pr_eft_plnt_man_res_add_tally = { OPT = produces RES = physics_research }
+		z_pr_eft_plnt_man_res_add_tally = { OPT = produces RES = society_research }
+		z_pr_eft_plnt_man_res_add_tally = { OPT = produces RES = engineering_research }
+		z_pr_eft_plnt_man_res_add_tally = { OPT = produces RES = unity }
+		
+		z_pr_eft_plnt_man_res_add_tally = { OPT = produces RES = sr_dark_matter }
+		z_pr_eft_plnt_man_res_add_tally = { OPT = produces RES = GF_nyto_dark_star_core }	#|NYTO|
+		
+	}
+	
+}
+
+
+
+
+
+
+###_[当前人力]	UI显示/修正显示
+z_pr_eft_plnt_mod_plnt_man_debug = {
+	remove_modifier = z_pr_mod_plnt_man
+	# UI显示
+#	if = { limit = { has_global_flag = z_mui_installed_plnt_ui }	#_|暗蓝星球ui|
+#		OTDT_eft_plnt_var_show_debug_man = yes		#_[UI当前人力]
+#	}
+	# 修正显示
+	else_if = { limit = { check_variable = { which = z_pr_var_plnt_man value > 0 } }
+		add_modifier = { modifier = z_pr_mod_plnt_man days = -1 multiplier = z_pr_var_plnt_man }
+	}
+}
+
+
+###_[产出mod_debug]	产业属性/星球功能/人力消耗/核心产出	####################################
+z_pr_eft_plnt_output_debug = {
+	set_update_modifiers_batch = begin
+	
+	### 触发测试 ###
+#	if = { limit = { owner = { is_ai = no } }		owner = { country_event = { id = pr_test_popup.10 } } }
+	
+
+	##_[产业属性]	真实岗位/当前人力/当前效率
+	#_[真实岗位]	<3.1>之后负岗位不统计
+#	remove_modifier = z_pr_mod_plnt_job_mod
+#	if = { limit = { check_variable = { which = z_pr_var_plnt_job_actual value > 0 } }
+#		add_modifier = { modifier = z_pr_mod_plnt_job_mod days = -1 multiplier = z_pr_var_plnt_job_actual }
+#	}
+	#_[当前人力]
+	z_pr_eft_plnt_mod_plnt_man_debug = yes
+	#_[当前效率]	UI显示/修正显示
+	remove_modifier = z_pr_mod_plnt_bonus
+	# UI显示
+	if = { limit = { has_global_flag = z_mui_installed_plnt_ui }	#_|暗蓝星球ui|
+		z_pr_eft_plnt_var_show_debug_bonus = yes	#_[UI当前效率]
+		z_pr_eft_plnt_var_show_debug_growth = yes	#_[UI当前增长率]
+	}
+	# 修正显示
+	else_if = { limit = { check_variable = { which = z_pr_var_plnt_ultilization value > 0 } }
+		set_variable = {which = FACTOR_var_plnt_mod value = z_pr_var_plnt_ultilization }
+		subtract_variable = {which = FACTOR_var_plnt_mod value = 1 }
+		add_modifier = { modifier = z_pr_mod_plnt_bonus days = -1 multiplier = FACTOR_var_plnt_mod }
+		clear_variable = FACTOR_var_plnt_mod
+	}
+
+
+	##_[星球功能]	贸易/舒适/维护/稳定/犯罪/环境/海军/国家规模		/人口克隆/人口组装
+	#_[贸易]
+	remove_modifier = z_pr_mod_plnt_trade
+	if = { limit = { owner = { is_gestalt = no } }
+		set_variable = { which = FACTOR_var_plnt_mod value = z_pr_var_job_trade_value_add }
+		multiply_variable = { which = FACTOR_var_plnt_mod value = z_pr_var_plnt_ultilization }	#_|效率加成|
+		change_variable = { which = FACTOR_var_plnt_mod value = z_pr_var_man_trade_value_add }	#_|人力经济_额外|
+		round_variable = FACTOR_var_plnt_mod	#_四舍五入
+		add_modifier = { modifier = z_pr_mod_plnt_trade days = -1 multiplier = FACTOR_var_plnt_mod }
+		clear_variable = FACTOR_var_plnt_mod
+	}
+	#_[舒适]
+	remove_modifier = z_pr_mod_plnt_amenities
+	if = { limit = { check_variable = { which = z_pr_var_job_planet_amenities_add value > 0 } }
+		set_variable = { which = FACTOR_var_plnt_mod value = z_pr_var_job_planet_amenities_add }
+		multiply_variable = { which = FACTOR_var_plnt_mod value = z_pr_var_plnt_ultilization }	#_|效率加成|
+		round_variable = FACTOR_var_plnt_mod	#_四舍五入
+		add_modifier = { modifier = z_pr_mod_plnt_amenities days = -1 multiplier = FACTOR_var_plnt_mod }
+		clear_variable = FACTOR_var_plnt_mod
+	}
+	#_[维护]
+	remove_modifier = z_pr_mod_plnt_maintain
+	if = { limit = { check_variable = { which = z_pr_var_job_planet_amenities_no_happiness_add value > 0 } }
+		set_variable = { which = FACTOR_var_plnt_mod value = z_pr_var_job_planet_amenities_no_happiness_add }
+		multiply_variable = { which = FACTOR_var_plnt_mod value = z_pr_var_plnt_ultilization }	#_|效率加成|
+		round_variable = FACTOR_var_plnt_mod	#_四舍五入
+		add_modifier = { modifier = z_pr_mod_plnt_maintain days = -1 multiplier = FACTOR_var_plnt_mod }
+		clear_variable = FACTOR_var_plnt_mod
+	}
+	#_[稳定]	无视效率
+	remove_modifier = z_pr_mod_plnt_stability
+	if = { limit = { check_variable = { which = z_pr_var_job_planet_stability_add value > 0 } }
+		set_variable = { which = FACTOR_var_plnt_mod value = z_pr_var_job_planet_stability_add }
+	#	multiply_variable = { which = FACTOR_var_plnt_mod value = z_pr_var_plnt_ultilization }	#_|效率加成|
+		round_variable = FACTOR_var_plnt_mod	#_四舍五入
+		add_modifier = { modifier = z_pr_mod_plnt_stability days = -1 multiplier = FACTOR_var_plnt_mod }
+		clear_variable = FACTOR_var_plnt_mod
+	}
+	#_[犯罪]
+	remove_modifier = z_pr_mod_plnt_crime
+	if = { limit = { NOT = { check_variable = { which = z_pr_var_job_planet_crime_add value = 0 } } }
+		set_variable = { which = FACTOR_var_plnt_mod value = z_pr_var_job_planet_crime_add }
+	#	multiply_variable = { which = FACTOR_var_plnt_mod value = z_pr_var_plnt_ultilization }	#_|效率加成|
+		round_variable = FACTOR_var_plnt_mod	#_四舍五入
+		add_modifier = { modifier = z_pr_mod_plnt_crime days = -1 multiplier = FACTOR_var_plnt_mod }
+		clear_variable = FACTOR_var_plnt_mod
+	}
+	#_[异常]
+	remove_modifier = z_pr_mod_plnt_deviant
+	if = { limit = { NOT = { check_variable = { which = z_pr_var_job_planet_crime_no_happiness_add value = 0 } } }
+		set_variable = { which = FACTOR_var_plnt_mod value = z_pr_var_job_planet_crime_no_happiness_add }
+	#	multiply_variable = { which = FACTOR_var_plnt_mod value = z_pr_var_plnt_ultilization }	#_|效率加成|
+		round_variable = FACTOR_var_plnt_mod	#_四舍五入
+		add_modifier = { modifier = z_pr_mod_plnt_deviant days = -1 multiplier = FACTOR_var_plnt_mod }
+		clear_variable = FACTOR_var_plnt_mod
+	}
+	#_[环境]
+	remove_modifier = z_pr_mod_plnt_tolerance
+	if = { limit = { check_variable = { which = z_pr_var_job_pop_environment_tolerance value > 0 } }
+		set_variable = { which = FACTOR_var_plnt_mod value = z_pr_var_job_pop_environment_tolerance }
+	#	multiply_variable = { which = FACTOR_var_plnt_mod value = z_pr_var_plnt_ultilization }	#_|效率加成|
+		add_modifier = { modifier = z_pr_mod_plnt_tolerance days = -1 multiplier = FACTOR_var_plnt_mod }
+		clear_variable = FACTOR_var_plnt_mod
+	}
+	
+	#_[海军]	无视效率	|z_pr_var_job_country_naval_cap_add|
+	remove_planet_flag = z_pr_flg_plnt_cntr_navy_1
+	remove_planet_flag = z_pr_flg_plnt_cntr_navy_2
+	remove_planet_flag = z_pr_flg_plnt_cntr_navy_4
+	remove_planet_flag = z_pr_flg_plnt_cntr_navy_8
+	remove_planet_flag = z_pr_flg_plnt_cntr_navy_16
+	remove_planet_flag = z_pr_flg_plnt_cntr_navy_32
+	remove_planet_flag = z_pr_flg_plnt_cntr_navy_64
+	remove_planet_flag = z_pr_flg_plnt_cntr_navy_128
+	remove_planet_flag = z_pr_flg_plnt_cntr_navy_256
+	remove_planet_flag = z_pr_flg_plnt_cntr_navy_512
+	remove_planet_flag = z_pr_flg_plnt_cntr_navy_1024
+	if = { limit = { check_variable = { which = z_pr_var_job_country_naval_cap_add value > 0 } }
+		set_variable = { which = FLAG_var_plnt_mod value = z_pr_var_job_country_naval_cap_add }
+	#	multiply_variable = { which = FLAG_var_plnt_mod value = z_pr_var_plnt_ultilization }	#_|效率加成|
+		ceiling_variable = FLAG_var_plnt_mod	#_向上取整
+		
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 1024 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 1024 }
+			set_planet_flag = z_pr_flg_plnt_cntr_navy_1024
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 512 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 512 }
+			set_planet_flag = z_pr_flg_plnt_cntr_navy_512
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 256 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 256 }
+			set_planet_flag = z_pr_flg_plnt_cntr_navy_256
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 128 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 128 }
+			set_planet_flag = z_pr_flg_plnt_cntr_navy_128
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 64 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 64 }
+			set_planet_flag = z_pr_flg_plnt_cntr_navy_64
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 32 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 32 }
+			set_planet_flag = z_pr_flg_plnt_cntr_navy_32
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 16 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 16 }
+			set_planet_flag = z_pr_flg_plnt_cntr_navy_16
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 8 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 8 }
+			set_planet_flag = z_pr_flg_plnt_cntr_navy_8
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 4 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 4 }
+			set_planet_flag = z_pr_flg_plnt_cntr_navy_4
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 2 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 2 }
+			set_planet_flag = z_pr_flg_plnt_cntr_navy_2
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 1 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 1 }
+			set_planet_flag = z_pr_flg_plnt_cntr_navy_1
+		}
+		
+		clear_variable = FLAG_var_plnt_mod
+	}
+	#_[国家规模]	无视效率	|z_pr_var_job_country_admin_cap_add|
+	remove_planet_flag = z_pr_flg_plnt_cntr_admin_1
+	remove_planet_flag = z_pr_flg_plnt_cntr_admin_2
+	remove_planet_flag = z_pr_flg_plnt_cntr_admin_4
+	remove_planet_flag = z_pr_flg_plnt_cntr_admin_8
+	remove_planet_flag = z_pr_flg_plnt_cntr_admin_16
+	remove_planet_flag = z_pr_flg_plnt_cntr_admin_32
+	remove_planet_flag = z_pr_flg_plnt_cntr_admin_64
+	remove_planet_flag = z_pr_flg_plnt_cntr_admin_128
+	remove_planet_flag = z_pr_flg_plnt_cntr_admin_256
+	remove_planet_flag = z_pr_flg_plnt_cntr_admin_512
+	remove_planet_flag = z_pr_flg_plnt_cntr_admin_1024
+	if = { limit = { check_variable = { which = z_pr_var_job_country_admin_cap_add value > 0 } }
+		set_variable = { which = FLAG_var_plnt_mod value = z_pr_var_job_country_admin_cap_add }
+	#	multiply_variable = { which = FLAG_var_plnt_mod value = z_pr_var_plnt_ultilization }	#_|效率加成|
+		ceiling_variable = FLAG_var_plnt_mod	#_向上取整
+		
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 1024 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 1024 }
+			set_planet_flag = z_pr_flg_plnt_cntr_admin_1024
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 512 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 512 }
+			set_planet_flag = z_pr_flg_plnt_cntr_admin_512
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 256 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 256 }
+			set_planet_flag = z_pr_flg_plnt_cntr_admin_256
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 128 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 128 }
+			set_planet_flag = z_pr_flg_plnt_cntr_admin_128
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 64 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 64 }
+			set_planet_flag = z_pr_flg_plnt_cntr_admin_64
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 32 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 32 }
+			set_planet_flag = z_pr_flg_plnt_cntr_admin_32
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 16 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 16 }
+			set_planet_flag = z_pr_flg_plnt_cntr_admin_16
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 8 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 8 }
+			set_planet_flag = z_pr_flg_plnt_cntr_admin_8
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 4 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 4 }
+			set_planet_flag = z_pr_flg_plnt_cntr_admin_4
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 2 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 2 }
+			set_planet_flag = z_pr_flg_plnt_cntr_admin_2
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 1 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 1 }
+			set_planet_flag = z_pr_flg_plnt_cntr_admin_1
+		}
+		
+		clear_variable = FLAG_var_plnt_mod
+	}
+
+	#_[人口克隆]	无视效率	|z_pr_var_job_planet_pop_assembly_organic_add|
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_0
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_1
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_2
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_4
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_8
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_16
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_32
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_64
+	if = { limit = { check_variable = { which = z_pr_var_job_planet_pop_assembly_organic_add value > 0 } }
+		set_variable = { which = FLAG_var_plnt_mod value = z_pr_var_job_planet_pop_assembly_organic_add }
+	#	multiply_variable = { which = FLAG_var_plnt_mod value = z_pr_var_plnt_ultilization }	#_|效率加成|
+		ceiling_variable = FLAG_var_plnt_mod	#_向上取整
+		
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 64 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 64 }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_64
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 32 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 32 }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_32
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 16 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 16 }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_16
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 8 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 8 }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_8
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 4 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 4 }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_4
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 2 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 2 }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_2
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 1 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 1 }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_1
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value > 0 } }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_organic_add_0
+		}
+		
+		clear_variable = FLAG_var_plnt_mod
+	}
+	#_[人口组装]	无视效率	|z_pr_var_job_planet_pop_assembly_add|
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_add_0
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_add_1
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_add_2
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_add_4
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_add_8
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_add_16
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_add_32
+	remove_planet_flag = z_pr_flg_job_planet_pop_assembly_add_64
+	if = { limit = { check_variable = { which = z_pr_var_job_planet_pop_assembly_add value > 0 } }
+		set_variable = { which = FLAG_var_plnt_mod value = z_pr_var_job_planet_pop_assembly_add }
+	#	multiply_variable = { which = FLAG_var_plnt_mod value = z_pr_var_plnt_ultilization }	#_|效率加成|
+		ceiling_variable = FLAG_var_plnt_mod	#_向上取整
+		
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 64 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 64 }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_add_64
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 32 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 32 }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_add_32
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 16 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 16 }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_add_16
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 8 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 8 }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_add_8
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 4 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 4 }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_add_4
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 2 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 2 }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_add_2
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value >= 1 } }
+			subtract_variable = { which = FLAG_var_plnt_mod value = 1 }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_add_1
+		}
+		if = { limit = { check_variable = { which = FLAG_var_plnt_mod value > 0 } }
+			set_planet_flag = z_pr_flg_job_planet_pop_assembly_add_0
+		}
+		
+		clear_variable = FLAG_var_plnt_mod
+	}
+
+
+	##_[核心产出]
+	#_|pop修正|				设施需求/防卫军
+	#_|vanilla资源|			minerals/minerals/food		/alloys/consumer_goods		/rare_crystals/exotic_gases/volatile_motes		/physics_research/society_research/engineering_research/unity
+	#_|vanilla稀有|			sr_living_metal/sr_zro/sr_dark_matter/nanites		/minor_artifacts/influence
+	#_|碧蓝航线dlc|			azl_mc/azl_spb
+	#_|舰R|					sr_pantsu/sr_neo/sr_alpha/sr_se
+	#_|星舰少女|			sr_kyber_swgs/sr_tibanna_swgs
+	#_|灰烬|				sr_crystal_adf/sr_parts_adf
+	#_|涅托|				GF_nyto_collapse_liquid/GF_nyto_dark_star_core
+	#_|约战|				datealive_crystals
+	#_|苍蓝|				nanomaterial/union_core
+	#_|ACOT|				acot_sr_dark_energy/acot_sr_stellarite
+	#_|Giga|				ehof_sr_sentient_metal
+	random_owned_pop = {
+		limit = { OR = { has_job = z_pr_freeman_core	has_job = z_pr_drone_core } }	#_|核心pop|
+		set_pop_flag = z_pr_flg_pop_core_counted	#_|产业核心debug标签|=若检测到核心pop没有此标签,则触发一次[产出mod_debug]
+
+		### 触发测试 ###
+	#	if = { limit = { owner = { is_ai = no } }		owner = { country_event = { id = pr_test_popup.11 } } }
+		
+
+		##_[设施需求]
+		remove_modifier = z_pr_mod_pop_man_house
+		remove_modifier = z_pr_mod_pop_man_gestalt
+		if = {
+			limit = {
+				prev = { is_variable_set = z_pr_var_plnt_man_beta }	#_|统计用人力MAX|
+				prev.owner = {
+					NOR = {
+						is_country_type = fallen_empire
+						is_country_type = awakened_fallen_empire
+					}
+				}
+			}
+			set_variable = { which = FACTOR_var_pop_mod value = prev.z_pr_var_plnt_man_beta }
+			if = { limit = { prev.owner = { is_gestalt = no } }		add_modifier = { modifier = z_pr_mod_pop_man_house days = -1 multiplier = FACTOR_var_pop_mod } }
+			else = { add_modifier = { modifier = z_pr_mod_pop_man_gestalt days = -1 multiplier = FACTOR_var_pop_mod } }
+			clear_variable = FACTOR_var_pop_mod
+		}
+		
+
+		##_[防卫军]	无视效率
+		remove_modifier = z_pr_mod_pop_plnt_pdf
+		if = { limit = { prev = { check_variable = { which = z_pr_var_job_pop_defense_armies_add value > 0 } } }
+			set_variable = { which = FACTOR_var_pop_mod value = prev.z_pr_var_job_pop_defense_armies_add }
+		#	multiply_variable = { which = FACTOR_var_pop_mod value = prev.z_pr_var_plnt_ultilization }	#_|效率加成|
+			ceiling_variable = FACTOR_var_pop_mod	#_向上取整
+			add_modifier = { modifier = z_pr_mod_pop_plnt_pdf days = -1 multiplier = FACTOR_var_pop_mod }
+			clear_variable = FACTOR_var_pop_mod
+		}
+
+
+		##_|vanilla资源|
+		#_prmt		<RES/OPT>
+		z_pr_eft_plnt_prmt_output_debug = { RES = energy OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = energy OPT = upkeep }
+		z_pr_eft_plnt_prmt_output_debug = { RES = minerals OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = minerals OPT = upkeep }
+		z_pr_eft_plnt_prmt_output_debug = { RES = food OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = food OPT = upkeep }
+
+		z_pr_eft_plnt_prmt_output_debug = { RES = alloys OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = alloys OPT = upkeep }
+		z_pr_eft_plnt_prmt_output_debug = { RES = consumer_goods OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = consumer_goods OPT = upkeep }
+
+		z_pr_eft_plnt_prmt_output_debug = { RES = rare_crystals OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = rare_crystals OPT = upkeep }
+		z_pr_eft_plnt_prmt_output_debug = { RES = exotic_gases OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = exotic_gases OPT = upkeep }
+		z_pr_eft_plnt_prmt_output_debug = { RES = volatile_motes OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = volatile_motes OPT = upkeep }
+		
+		z_pr_eft_plnt_prmt_output_debug = { RES = physics_research OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = engineering_research OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = society_research OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = unity OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = unity OPT = upkeep }
+
+
+		##_|vanilla稀有|
+		z_pr_eft_plnt_prmt_output_debug = { RES = sr_living_metal OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = sr_living_metal OPT = upkeep }
+		z_pr_eft_plnt_prmt_output_debug = { RES = sr_zro OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = sr_zro OPT = upkeep }
+		z_pr_eft_plnt_prmt_output_debug = { RES = sr_dark_matter OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = sr_dark_matter OPT = upkeep }
+		z_pr_eft_plnt_prmt_output_debug = { RES = nanites OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = nanites OPT = upkeep }
+		z_pr_eft_plnt_prmt_output_debug = { RES = minor_artifacts OPT = produces }
+		z_pr_eft_plnt_prmt_output_debug = { RES = influence OPT = produces }
+
+
+		##_|碧蓝航线dlc|		mind_club/azur_shippartbox
+		if = { limit = { has_global_flag = z_pr_patch_installed_mod_azl }
+			z_pr_eft_plnt_prmt_output_debug = { RES = mind_club OPT = produces }
+			z_pr_eft_plnt_prmt_output_debug = { RES = mind_club OPT = upkeep }
+			z_pr_eft_plnt_prmt_output_debug = { RES = azur_shippartbox OPT = produces }
+		}
+		
+		##_|舰R|				sr_pantsu/sr_neo/sr_alpha/sr_se
+		if = { limit = { has_global_flag = z_pr_patch_installed_mod_wsg }
+			z_pr_eft_plnt_prmt_output_debug = { RES = sr_pantsu OPT = produces }
+			z_pr_eft_plnt_prmt_output_debug = { RES = sr_pantsu OPT = upkeep }
+			z_pr_eft_plnt_prmt_output_debug = { RES = sr_neo OPT = produces }
+			z_pr_eft_plnt_prmt_output_debug = { RES = sr_neo OPT = upkeep }
+			z_pr_eft_plnt_prmt_output_debug = { RES = sr_alpha OPT = produces }
+			z_pr_eft_plnt_prmt_output_debug = { RES = sr_alpha OPT = upkeep }
+			z_pr_eft_plnt_prmt_output_debug = { RES = sr_se OPT = produces }
+			z_pr_eft_plnt_prmt_output_debug = { RES = sr_se OPT = upkeep }
+		}
+		
+		##_|星舰少女|		sr_kyber_swgs/sr_tibanna_swgs
+		if = { limit = { has_global_flag = z_pr_patch_installed_mod_SWGS }
+			z_pr_eft_plnt_prmt_output_debug = { RES = sr_kyber_swgs OPT = produces }
+			z_pr_eft_plnt_prmt_output_debug = { RES = sr_tibanna_swgs OPT = produces }
+		}
+
+		##_|灰烬|		sr_crystal_adf/sr_parts_adf
+		if = { limit = { has_global_flag = z_pr_patch_installed_mod_ADF }
+			z_pr_eft_plnt_prmt_output_debug = { RES = sr_crystal_adf OPT = produces }
+			z_pr_eft_plnt_prmt_output_debug = { RES = sr_parts_adf OPT = produces }
+		}
+
+		##_|涅托|		GF_nyto_collapse_liquid/GF_nyto_dark_star_core
+		if = { limit = { has_global_flag = z_pr_patch_installed_mod_NYTO }
+			z_pr_eft_plnt_prmt_output_debug = { RES = GF_nyto_collapse_liquid OPT = produces }
+			z_pr_eft_plnt_prmt_output_debug = { RES = GF_nyto_collapse_liquid OPT = upkeep }
+			z_pr_eft_plnt_prmt_output_debug = { RES = GF_nyto_dark_star_core OPT = produces }
+		}
+
+		##_|约战|		datealive_crystals
+		if = { limit = { has_global_flag = z_pr_patch_installed_mod_DAL }
+			z_pr_eft_plnt_prmt_output_debug = { RES = datealive_crystals OPT = produces }
+			z_pr_eft_plnt_prmt_output_debug = { RES = datealive_crystals OPT = upkeep }
+		}
+
+		##_|苍蓝|		nanomaterial/union_core
+		if = { limit = { has_global_flag = z_pr_patch_installed_mod_ARP }
+			z_pr_eft_plnt_prmt_output_debug = { RES = nanomaterial OPT = produces }
+			z_pr_eft_plnt_prmt_output_debug = { RES = nanomaterial OPT = upkeep }
+			z_pr_eft_plnt_prmt_output_debug = { RES = union_core OPT = produces }
+		}			
+
+		##_|ACOT|		acot_sr_dark_energy/acot_sr_stellarite
+		if = { limit = { has_global_flag = z_pr_patch_installed_mod_ACOT }
+			z_pr_eft_plnt_prmt_output_debug = { RES = acot_sr_dark_energy OPT = produces }
+			z_pr_eft_plnt_prmt_output_debug = { RES = acot_sr_dark_energy OPT = upkeep }
+			z_pr_eft_plnt_prmt_output_debug = { RES = acot_sr_stellarite OPT = produces }
+		}
+
+		#_|Giga|		ehof_sr_sentient_metal
+		if = { limit = { has_global_flag = z_pr_patch_installed_mod_Giga }
+			z_pr_eft_plnt_prmt_output_debug = { RES = ehof_sr_sentient_metal OPT = produces }
+		}
+	}
+	
+	set_update_modifiers_batch = end
+}
+

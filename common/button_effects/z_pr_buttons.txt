@@ -1,0 +1,521 @@
+###_z 产业革命	###########################################################################################
+
+#_[星球面板]	星球忽略	/pop转化/man转化	/人力迁入/人力迁出		/后补岗位/下月刷新		/ERROR提示
+#_[大纲视图]	pop_转化全国/pr国家人力迁入/pr国家下月刷新
+#_[top_bar]		pr国家人力
+#_[指南]
+#_[飞升]
+
+
+
+
+###_[星球面板]	####################################
+#_[星球忽略]	z禁用
+z_pr_btn_plnt_ignore_switch = {
+	potential = {
+		is_scope_type = planet
+		is_colony = yes
+		is_under_colonization = no
+		exists = owner
+		owner = { is_ai = no }
+	}
+	allow = {
+		custom_tooltip = {
+			hidden_trigger = {
+				exists = owner
+				owner = { has_country_flag = z_pr_flg_cntr_reg }
+			}
+            fail_text = z_pr_tips_btn_pr_reg_no
+		}
+	}
+	effect = {
+		custom_tooltip = z_pr_option_plnt_ignore_on
+		custom_tooltip = z_pr_option_plnt_ignore_off
+		custom_tooltip = z_pr_option_plnt_ignore
+		hidden_effect = {
+			if = { limit = { has_planet_flag = z_pr_flg_plnt_ignore }		remove_planet_flag = z_pr_flg_plnt_ignore }
+			else = { set_planet_flag = z_pr_flg_plnt_ignore }
+		}
+	}
+}
+
+#_[pop转化]
+z_pr_btn_plnt_pop_cnvt = {
+	potential = {
+		is_scope_type = planet
+		is_colony = yes
+		is_under_colonization = no
+		exists = owner
+		owner = { is_ai = no }
+	}
+	allow = {
+		custom_tooltip = {
+			hidden_trigger = {
+				exists = owner
+				owner = { has_country_flag = z_pr_flg_cntr_reg }
+			}
+            fail_text = z_pr_tips_btn_pr_reg_no
+		}
+	}
+	effect = {
+		custom_tooltip = z_pr_option_plnt_pop_cnvt_25
+		custom_tooltip = z_pr_tips_plnt_pop_cnvt
+		hidden_effect = {
+			z_pr_eft_plnt_pop_cnvt_25 = yes
+		}
+	}
+}
+#_[man转化]
+z_pr_btn_plnt_man_cnvt = {
+	potential = {
+		is_scope_type = planet
+		is_colony = yes
+		is_under_colonization = no
+		exists = owner
+		owner = { is_ai = no }
+	}
+	allow = {
+		custom_tooltip = {#_革命完成
+			hidden_trigger = {
+				exists = owner
+				owner = { has_country_flag = z_pr_flg_cntr_reg }
+			}
+            fail_text = z_pr_tips_btn_pr_reg_no
+		}
+		custom_tooltip = {#_|人力足够|
+			hidden_trigger = { is_variable_set = z_pr_var_plnt_man		check_variable = { which = z_pr_var_plnt_man value > 0 } }
+			fail_text = z_pr_tips_plnt_has_man
+		}
+	}
+	effect = {
+		custom_tooltip = z_pr_btn_plnt_man_cnvt_completion
+		custom_tooltip = z_pr_tips_plnt_man_cnvt_completion
+		hidden_effect = {
+		
+			#_[man转化循环]
+			z_pr_eft_plnt_core_man_cnvt_cycle = yes
+			
+			#_[当前人力]
+			z_pr_eft_plnt_mod_plnt_man_debug = yes
+		}
+	}
+}
+
+#_[人力迁入]	人力迁入_满/人力迁入5/无符合条件的星球	z待定
+z_pr_btn_plnt_man_immig = {
+	potential = {
+		is_scope_type = planet
+		is_colony = yes
+		is_under_colonization = no
+		exists = owner
+		owner = { is_ai = no }
+	}
+	allow = {
+		custom_tooltip = {
+			hidden_trigger = {
+				exists = owner
+				owner = { has_country_flag = z_pr_flg_cntr_reg }
+				is_variable_set = z_pr_var_plnt_man	#_|存在人力|
+			}
+            fail_text = z_pr_tips_btn_pr_reg_no
+		}
+	}
+	
+	effect = {
+		custom_tooltip = z_pr_tips_btn_plnt_man_immig
+		hidden_effect = {
+			#_[人力迁入_满]
+			if = {
+				limit = {
+					is_variable_set = z_pr_var_plnt_man_QTNT
+					check_variable = { which = z_pr_var_plnt_man_QTNT value < 1 }
+				}
+				z_pr_eft_plnt_man_immig_full = yes
+			}
+			#_[人力迁入5]
+			else = {
+				z_pr_eft_plnt_man_immig_5 = yes
+			}
+		}
+	}
+}
+#_[人力迁出]	人力迁出5/无符合条件的星球	z待定
+z_pr_btn_plnt_man_mig = {
+	potential = {
+		is_scope_type = planet
+		is_colony = yes
+		is_under_colonization = no
+		exists = owner
+		owner = { is_ai = no }
+	}
+	allow = {
+		custom_tooltip = {
+			hidden_trigger = {
+				exists = owner
+				owner = { has_country_flag = z_pr_flg_cntr_reg }
+			}
+            fail_text = z_pr_tips_btn_pr_reg_no
+		}
+		custom_tooltip = {
+			hidden_trigger = {
+				is_variable_set = z_pr_var_plnt_man
+				check_variable = { which = z_pr_var_plnt_man value > 5 }
+			}
+            fail_text = z_pr_tips_btn_pr_mig_no
+		}
+	}
+	
+	effect = {
+		custom_tooltip = z_pr_tips_btn_plnt_man_mig
+		hidden_effect = {
+			z_pr_eft_plnt_man_mig_5 = yes	#_[人力迁出5]
+		}
+	}
+}
+
+#_[后补岗位]
+z_pr_btn_plnt_ui_tb_reserved_job_switch = {
+	potential = {
+		is_scope_type = planet
+		is_colony = yes
+		is_under_colonization = no
+		exists = owner
+		owner = { is_ai = no }
+	}
+	allow = {
+		custom_tooltip = {
+			hidden_trigger = {
+				exists = owner
+				owner = { has_country_flag = z_pr_flg_cntr_reg }
+			}
+            fail_text = z_pr_tips_btn_pr_reg_no
+		}
+		custom_tooltip = {
+			hidden_trigger = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore } }
+            fail_text = z_pr_tips_btn_pr_plnt_ignore
+		}
+	}
+	effect = {
+		custom_tooltip = z_pr_tips_btn_plnt_reserved_job_switch
+		hidden_effect = {
+			z_pr_eft_plnt_reserved_job_switch = yes	#_[后补岗位]
+		}
+	}
+}
+
+#_[下月刷新]
+z_pr_btn_plnt_ui_tb_debug = {
+	potential = {
+		is_scope_type = planet
+		is_colony = yes
+		is_under_colonization = no
+		exists = owner
+		owner = { is_ai = no }
+	}
+	allow = {
+		custom_tooltip = {
+			hidden_trigger = {
+				exists = owner
+				owner = { has_country_flag = z_pr_flg_cntr_reg }
+			}
+            fail_text = z_pr_tips_btn_pr_reg_no
+		}
+		custom_tooltip = {
+			hidden_trigger = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore } }
+            fail_text = z_pr_tips_btn_pr_plnt_ignore
+		}
+	}
+	effect = {
+		custom_tooltip = z_pr_tips_btn_plnt_debug_check
+		hidden_effect = {
+			planet_event = { id = z_pr_core.13 }	###_[星球变动]
+		}
+	}
+}
+
+
+#_[ERROR提示]
+z_pr_btn_plnt_ui_tb_ERROR = {
+	potential = { has_global_flag = z_pr_flg_glbl_job_ERROR }
+	allow = { always = yes }
+	effect = { custom_tooltip = z_pr_tips_btn_job_ERROR }
+}
+
+
+
+
+###_[大纲视图]	####################################
+#_[pop_转化全国]
+z_pr_btn_cntr_pop_cnvt = {
+	potential = {
+		is_scope_type = country
+		has_country_flag = z_pr_flg_cntr_reg
+	}
+	allow = { always = yes }
+	effect = {
+		custom_tooltip = z_pr_opt_cntr_pop_cnvt
+		custom_tooltip = z_pr_tips_cntr_pop_cnvt
+		hidden_effect = {
+			z_pr_eft_cntr_pop_cnvt = yes
+		}
+		
+	}
+}
+#_[pr国家人力迁入]
+z_pr_btn_cntr_man_mig = {
+	potential = {
+		is_scope_type = country
+		has_country_flag = z_pr_flg_cntr_reg
+	}
+	allow = { always = yes }
+	effect = {
+		custom_tooltip = z_pr_opt_cntr_man_mig
+		custom_tooltip = z_pr_tips_cntr_man_mig
+		hidden_effect = {
+			z_pr_eft_cntr_man_mig = yes
+		}
+	}
+}
+
+#_[pr国家下月刷新]
+z_pr_btn_cntr_debug = {
+	potential = {
+		is_scope_type = country
+		has_country_flag = z_pr_flg_cntr_reg
+	}
+	allow = { always = yes }
+	effect = {
+		custom_tooltip = z_pr_tips_btn_plnt_debug_check_cntr
+		hidden_effect = {
+			every_owned_planet = { planet_event = { id = z_pr_core.13 } }	###_[星球变动]
+		}
+	}
+}
+
+
+
+
+###_[top_bar]	####################################
+z_pr_btn_topbar_cntr_man = {
+	potential = {
+		is_scope_type = country
+		is_ai = no
+		is_variable_set = z_pr_var_cntr_man
+	}
+	allow = { always = yes }
+	effect = {
+		custom_tooltip = PR_topbar_btn_var_cntr_man_tips
+		hidden_effect = {
+			country_event = { id = z_modmenu.1 }
+			z_mm_lock_setting_panel = yes		#_[锁定面板]
+			z_mm_eft_expanded_sub_ui_open = yes	#_[拓展UI开启]
+			z_pr_eft_cntr_setting = yes			#_[数据检测]
+		}
+	}
+}
+z_pr_btn_topbar_cntr_man_other_ui = {
+	potential = {
+		NOT = { is_scope_type = country }
+		exists = owner
+		owner = {
+			is_ai = no
+			is_variable_set = z_pr_var_cntr_man
+		}
+	}
+	allow = { always = yes }
+	effect = {
+		custom_tooltip = PR_topbar_btn_var_cntr_man_tips
+		hidden_effect = {
+			owner = {
+				country_event = { id = z_modmenu.1 }
+				z_mm_lock_setting_panel = yes		#_[锁定面板]
+				z_mm_eft_expanded_sub_ui_open = yes	#_[拓展UI开启]
+				z_pr_eft_cntr_setting = yes			#_[数据检测]
+			}
+		}
+	}
+}
+z_pr_btn_topbar_cntr_man_modmenu = {
+	potential = { always = yes }
+	allow = { always = yes }
+	effect = {
+		custom_tooltip = PR_topbar_btn_var_cntr_man_tips
+		hidden_effect = {
+			if = {
+				limit = {
+					is_scope_type = country
+					is_ai = no
+				}
+				country_event = { id = z_modmenu.1 }
+				z_mm_lock_setting_panel = yes		#_[锁定面板]
+				z_mm_eft_expanded_sub_ui_open = yes	#_[拓展UI开启]
+				z_pr_eft_cntr_setting = yes
+			
+			}
+			else_if = {
+				limit = {
+					NOT = { is_scope_type = country }
+					exists = owner
+					owner = { is_ai = no }
+				}
+				owner = {
+					country_event = { id = z_modmenu.1 }
+					z_mm_lock_setting_panel = yes		#_[锁定面板]
+					z_mm_eft_expanded_sub_ui_open = yes	#_[拓展UI开启]
+					z_pr_eft_cntr_setting = yes			#_[数据检测]
+				}
+			}
+		}
+	}
+}
+
+
+
+
+###_[指南]	####################################
+z_pr_btn_guide_misc = {
+	potential = { always = yes }
+	allow = { always = yes }
+	
+	effect = {
+		custom_tooltip = z_pr_tips_btn_guide_misc
+	}
+}
+z_pr_btn_guide_manpower = {
+	potential = { always = yes }
+	allow = { always = yes }
+	
+	effect = {
+		custom_tooltip = z_pr_tips_btn_guide_manpower
+	}
+}
+z_pr_btn_guide_jobs = {
+	potential = { always = yes }
+	allow = { always = yes }
+	
+	effect = {
+		custom_tooltip = z_pr_tips_btn_guide_jobs
+	}
+}
+z_pr_btn_guide_growth = {
+	potential = { always = yes }
+	allow = { always = yes }
+	
+	effect = {
+		custom_tooltip = z_pr_tips_btn_guide_growth
+	}
+}
+
+
+
+
+###_[飞升]	第一次产业革命/扩大化/集成化	####################################
+#_[第一次产业革命]
+z_pr_btn_ap_1 = {
+	potential = { is_scope_type = country }
+	allow = {
+		custom_tooltip = {
+			hidden_trigger = {
+				OR = {
+					has_country_flag = z_pr_flg_cntr_reg
+					has_country_flag = z_pr_flg_cntr_reg_ready
+				}
+			}
+            fail_text = z_pr_tips_btn_ap1_locked
+		}
+	}
+	effect = {
+		custom_tooltip = z_pr_tips_btn_ap1
+	}
+}
+z_pr_btn_ap_1_take = {
+	potential = {
+		is_scope_type = country
+		has_country_flag = z_pr_flg_cntr_reg_ready
+	}
+	allow = { always = yes }
+	effect = {
+		custom_tooltip = z_pr_tips_btn_ap1
+		custom_tooltip = z_pr_tips_btn_ap1_take
+		hidden_effect = {
+			set_country_flag = z_pr_flg_cntr_reg
+			remove_country_flag = z_pr_flg_cntr_reg_ready
+			z_pr_eft_cntr_execute_revolution = yes	#_[pr执行革命]
+		}
+	}
+}
+
+#_[扩大化]
+z_pr_btn_ap_2_expansion = {
+	potential = {
+		is_scope_type = country
+		has_country_flag = z_pr_flg_cntr_reg_ready
+	}
+	allow = {
+		custom_tooltip = {
+			hidden_trigger = { NOT = { has_country_flag = z_pr_flg_cntr_2_integrated } }
+            fail_text = z_pr_tips_btn_ap2_another_way
+		}
+		custom_tooltip = {
+			hidden_trigger = {
+				OR = {
+					has_country_flag = z_pr_flg_cntr_2_expanded
+					has_country_flag = z_pr_flg_cntr_2_integrated	#_
+					has_country_flag = z_pr_flg_ap_2_ready
+				}
+			}
+            fail_text = z_pr_tips_btn_ap2_locked
+		}
+	}
+	effect = {
+		custom_tooltip = z_pr_tips_btn_ap2_expansion
+	}
+}
+z_pr_btn_ap_2_expansion_take = {
+	potential = { has_country_flag = z_pr_flg_ap_2_ready }
+	allow = { always = yes }
+	effect = {
+		custom_tooltip = z_pr_tips_btn_ap2_expansion
+		custom_tooltip = z_pr_tips_btn_ap2_take
+		hidden_effect = {
+			set_country_flag = z_pr_flg_cntr_2_expanded
+			remove_country_flag = z_pr_flg_ap_2_ready
+		}
+	}
+}
+
+#_[集成化]
+z_pr_btn_ap_2_integration = {
+	potential = { always = yes }
+	allow = {
+		custom_tooltip = {
+			hidden_trigger = { NOT = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+            fail_text = z_pr_tips_btn_ap2_another_way
+		}
+		custom_tooltip = {
+			hidden_trigger = {
+				OR = {
+					has_country_flag = z_pr_flg_cntr_2_expanded	#_
+					has_country_flag = z_pr_flg_cntr_2_integrated
+					has_country_flag = z_pr_flg_ap_2_ready
+				}
+			}
+            fail_text = z_pr_tips_btn_ap2_locked
+		}
+	}
+	effect = {
+		custom_tooltip = z_pr_tips_btn_ap2_integration
+	}
+}
+z_pr_btn_ap_2_integration_take = {
+	potential = { has_country_flag = z_pr_flg_ap_2_ready }
+	allow = { always = yes }
+	effect = {
+		custom_tooltip = z_pr_tips_btn_ap2_integration
+		custom_tooltip = z_pr_tips_btn_ap2_take
+		hidden_effect = {
+			set_country_flag = z_pr_flg_cntr_2_integrated
+			remove_country_flag = z_pr_flg_ap_2_ready
+		}
+	}
+}

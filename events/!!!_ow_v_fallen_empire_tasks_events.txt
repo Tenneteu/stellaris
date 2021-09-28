@@ -1,0 +1,256 @@
+###_\fallen_empire_tasks_events.txt
+#_|产业革命/涅槃|
+
+
+# Xenophile Fallen Empire asks for a pop
+country_event = {
+	id = fallen_empires_tasks.3
+	title = OK
+	desc = OK
+	
+	hide_window = yes
+	
+	mean_time_to_happen = {
+		years = 20
+		modifier = {
+			factor = 1.2
+			OR = {
+				num_pops >= 100
+				AND = {#_|产业革命|
+					is_variable_set = z_pr_var_plnt_pop_man
+					check_variable = {
+						which = z_pr_var_plnt_pop_man 
+						value >= 100
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 1.2
+			OR = {
+				num_pops >= 80
+				AND = {#_|产业革命|
+					is_variable_set = z_pr_var_plnt_pop_man
+					check_variable = {
+						which = z_pr_var_plnt_pop_man 
+						value >= 80
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 1.2
+			OR = {
+				num_pops >= 60
+				AND = {#_|产业革命|
+					is_variable_set = z_pr_var_plnt_pop_man
+					check_variable = {
+						which = z_pr_var_plnt_pop_man 
+						value >= 60
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 1.2
+			OR = {
+				num_pops >= 40
+				AND = {#_|产业革命|
+					is_variable_set = z_pr_var_plnt_pop_man
+					check_variable = {
+						which = z_pr_var_plnt_pop_man 
+						value >= 40
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 0.5
+			OR = {
+				num_pops < 30
+				AND = {#_|产业革命|
+					is_variable_set = z_pr_var_plnt_pop_man
+					check_variable = {
+						which = z_pr_var_plnt_pop_man 
+						value < 15
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 0.5
+			OR = {
+				num_pops < 20
+				AND = {#_|产业革命|
+					is_variable_set = z_pr_var_plnt_pop_man
+					check_variable = {
+						which = z_pr_var_plnt_pop_man 
+						value < 20
+					}
+				}
+			}
+		}
+	}
+	
+	trigger = {
+		OR = {
+			num_pops >= 10
+			AND = {#_|产业革命|
+				is_variable_set = z_pr_var_plnt_pop_man
+				check_variable = {
+					which = z_pr_var_plnt_pop_man 
+					value >= 10
+				}
+			}
+		}
+		is_gestalt = no
+		is_mechanical_empire = no
+		is_country_type = default
+		NOR = {
+			has_valid_civic = civic_machine_terminator
+			has_valid_civic = civic_fanatic_purifiers
+			has_valid_civic = civic_nirvana_empire_dragon	#_|涅槃|
+			has_valid_civic = civic_nirvana_empire_council
+		}
+		NOT = { has_country_flag = fe_xenophile_asked_pop }
+		is_at_war = no
+		
+		any_owned_planet = {
+			num_pops > 1
+			any_owned_pop = {
+				is_same_species = root
+			}
+		}
+		
+		any_country = {
+			is_valid_fallen_empire_for_task = yes
+			has_ethic = ethic_fanatic_xenophile
+			OR = {
+				is_patronizing_to = root
+				is_dismissive_to = root
+			}
+			has_communications = root
+			any_owned_planet = {
+				has_planet_flag = fe_the_preserve
+				free_housing > 0
+			}
+		}
+	}
+	
+	immediate = {
+		set_country_flag = fe_xenophile_asked_pop
+	
+		random_owned_planet = {
+			limit = {
+				num_pops > 1
+				any_owned_pop = {
+					is_same_species = root
+				}
+			}
+			save_event_target_as = FallenEmpireTaskPlanet
+		}
+	
+		random_country = {
+			limit = {
+				is_valid_fallen_empire_for_task = yes
+				has_ethic = ethic_fanatic_xenophile
+				OR = {
+					is_patronizing_to = root
+					is_dismissive_to = root
+				}
+				has_communications = root
+				any_owned_planet = {
+					has_planet_flag = fe_the_preserve
+					free_housing > 0
+				}
+			}
+			
+			save_event_target_as = FallenEmpireTaskOrigin
+			root = { country_event = { id = fallen_empires_tasks.4 } }
+		}
+	}
+}
+
+# Materialist Fallen Empire asks for scientist
+country_event = {
+	id = fallen_empires_tasks.21
+	title = OK
+	desc = OK
+	
+	hide_window = yes
+	
+	mean_time_to_happen = {
+		years = 50
+	}
+	
+	trigger = {	
+		is_ai = no
+		OR = {
+			num_pops >= 10
+			AND = {#_|产业革命|
+				is_variable_set = z_pr_var_plnt_pop_man
+				check_variable = {
+					which = z_pr_var_plnt_pop_man 
+					value >= 10
+				}
+			}
+		}
+		is_country_type = default
+		NOT = { has_authority = auth_machine_intelligence }
+		NOR = {
+			has_valid_civic = civic_machine_terminator
+			has_valid_civic = civic_hive_devouring_swarm
+			has_valid_civic = civic_fanatic_purifiers
+			has_valid_civic = civic_nirvana_empire_dragon	#_|涅槃|
+			has_valid_civic = civic_nirvana_empire_council
+		}
+		NOT = { has_country_flag = fe_materialist_asked_scientist }
+		is_at_war = no
+		
+		any_owned_leader = {
+			leader_class = scientist
+			has_skill > 4
+		}
+		
+		any_country = {
+			is_valid_fallen_empire_for_task = yes
+			has_ethic = ethic_fanatic_materialist
+			OR = {
+				is_patronizing_to = root
+				is_dismissive_to = root
+			}
+			has_communications = root
+		}
+	}
+	
+	immediate = {
+		set_country_flag = fe_materialist_asked_scientist
+	
+		random_owned_leader ={
+			limit = {
+				leader_class = scientist
+				has_skill > 4
+				NOR = {#_|涅槃|
+					has_trait = leader_trait_scientist_space_controller
+					has_trait = leader_trait_scientist_dimension_walker
+				}
+			}
+			save_event_target_as = FallenEmpireScientistTarget
+		}
+	
+		random_country = {
+			limit = {
+				is_valid_fallen_empire_for_task = yes
+				has_ethic = ethic_fanatic_materialist
+				OR = {
+					is_patronizing_to = root
+					is_dismissive_to = root
+				}
+				has_communications = root
+			}
+			
+			save_event_target_as = FallenEmpireTaskOrigin
+			root = { country_event = { id = fallen_empires_tasks.22 } }
+		}
+	}
+}

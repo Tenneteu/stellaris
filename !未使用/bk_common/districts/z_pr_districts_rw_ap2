@@ -1,0 +1,358 @@
+###_z pr 区划	###################################################################################
+@rw_cost = 2000
+@rw_cost_sr = 100
+@rw_cost_alloys = 200
+@rw_maintenance = 10
+@rw_maintenance_sr = 2
+@rw_maintenance_alloys = 4
+@rw_district_buildtime = 600
+
+#_[高级城市区段]
+#_[高级工业区段/高级锻造区段]
+
+
+
+
+###_[高级城市区段]
+z_pr_dstr_ap2_rw_city = {
+	base_buildtime = @rw_district_buildtime
+	is_capped_by_modifier = no
+
+	show_on_uncolonized = {
+		uses_district_set = ring_world
+		from = { z_pr_trgr_cntr_pr_2nd = yes }	#_[二段飞升]
+	}
+	potential = {
+		uses_district_set = ring_world
+		exists = owner
+		owner = { z_pr_trgr_cntr_pr_2nd = yes }	#_[二段飞升]
+	}
+	allow = {
+		exists = owner
+		NAND = {
+			owner = { is_ai = yes }
+			free_housing > 3
+			free_amenities > 3
+		}
+	}
+
+	conversion_ratio = 1
+	convert_to = {
+		district_rw_city
+		district_rw_hive
+		district_rw_nexus
+	#	z_pr_dstr_ap2_rw_city
+	}
+	
+	
+	###_[产业革命]	########################################################
+	#_[clerk]		[planet_amenities_add=2][trade_value_add=2]
+	#_[maintenance_drone]		[planet_amenities_no_happiness_add=4][{has_valid_civic}civic_machine_maintenance_protocols=unity=1]
+	
+	planet_modifier = {
+		planet_housing_add = 75
+		planet_crime_add = -25
+		z_pr_post_z_pr_res_guard_produces_add = 2	#_[行星防卫军]
+		z_pr_production_unity_produces_add = 1		#_[10%]
+	}
+	triggered_planet_modifier = {#_[传统]
+		potential = {#_[tr_prosperity_optimized_nexus/tr_prosperity_extended_hives]
+			exists = owner
+			owner = { has_tradition = tr_prosperity_public_works }
+		}
+		modifier = {
+			planet_housing_add = 15
+		}
+	}
+	#_[regular]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_regular_empire = yes }
+		}
+		planet_amenities_add = 50
+		trade_value_add = 25
+		planet_crime_add = -35
+		z_pr_post_z_pr_res_guard_produces_add = 3	#_[行星防卫军]
+	}
+	triggered_planet_modifier = {#_[传统]
+		potential = {
+			exists = owner
+			owner = { has_non_swapped_tradition = tr_prosperity_interstellar_franchising }
+		}
+		planet_amenities_add = 25
+		trade_value_add = 25
+	}
+	#_[格式塔]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_gestalt = yes }
+		}
+		modifier = {
+			planet_amenities_no_happiness_add = 100
+		}
+	}
+	#_[hive]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_hive_empire = yes }
+		}
+		modifier = {
+			planet_housing_add = 25
+			planet_amenities_no_happiness_add = 50
+		}
+	}
+	#_[machine]
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_machine_empire = yes }
+		}
+		modifier = {
+			planet_amenities_no_happiness_add = 25
+			z_pr_production_energy_produces_add = 10		#_[10%]
+		}
+	}
+	triggered_planet_modifier = {#_[国策]
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_machine_maintenance_protocols }
+		}
+		modifier = {
+			z_pr_production_unity_produces_add = 5		#_[10%]
+		}
+	}
+
+
+	###_[vanilla]	########################################################
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @rw_cost
+		}
+		upkeep = {
+			energy = @rw_maintenance
+		}
+	}
+}
+
+
+
+
+
+###_[高级工业区段]	产业革命/生产基数/z_pr_flg_cntr_reg
+z_pr_dstr_ap2_rw_industrial = {
+	base_buildtime = @rw_district_buildtime
+	is_capped_by_modifier = no
+	
+	show_on_uncolonized = {
+		uses_district_set = ring_world
+		exists = from
+		from = {
+			OR = {
+				is_regular_empire = yes
+				has_valid_civic = civic_machine_servitor
+			}
+			z_pr_trgr_cntr_pr_2nd = yes	#_[二段飞升]
+		}
+	}
+	potential = {
+		uses_district_set = ring_world
+		exists = owner
+		owner = {
+			OR = {
+				is_regular_empire = yes
+				has_valid_civic = civic_machine_servitor
+			}
+			z_pr_trgr_cntr_pr_2nd = yes	#_[二段飞升]
+		}
+	}
+
+	conversion_ratio = 1
+	convert_to = {
+		z_pr_dstr_rw_industrial
+	#	z_pr_dstr_ap2_rw_industrial
+		z_pr_dstr_rw_forge
+		z_pr_dstr_ap2_rw_forge
+	}
+	
+	
+	###_[产业革命]	岗位产出	########################################################
+	#_地块						[z_pr_d_production]=合金/消费品 产出+20%	[33%产出/33%维护]
+	#_[artisan]					consumer_goods_6/minerals_6
+	#_[artisan_drone]1.33		consumer_goods_8/minerals_8
+	
+	#_[ai辅助]
+	triggered_planet_modifier = {
+		potential = {
+			NOT = { has_planet_flag = z_pr_flg_plnt_manpower_debug }
+			exists = owner
+			owner = {
+				is_ai = yes
+				has_country_flag = z_pr_flg_cntr_reg
+			}
+		}
+		modifier = {
+			job_z_pr_ai_dummy_consumer_goods_add = 1
+		}
+	}
+	#_[消费品_regular]	####################################
+	planet_modifier = {
+		planet_housing_add = 25
+		z_pr_post_z_pr_res_post_produces_add = 25	#_[生产基数]
+		z_pr_production_consumer_goods_produces_add = 20		#_[10%]
+		z_pr_production_minerals_upkeep_add = 20		#_[10%]
+		z_pr_production_volatile_motes_produces_add = 0.5		#_[10%]
+		z_pr_production_exotic_gases_produces_add = 0.5		#_[10%]
+		z_pr_production_rare_crystals_produces_add = 0.5		#_[10%]
+	}
+
+	
+	###_[vanilla]	z_pr_flg_cntr_reg	########################################################
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @rw_cost
+			alloys = @rw_cost_alloys
+		}
+		upkeep = {
+			energy = @rw_maintenance
+			alloys = @rw_maintenance_alloys
+		}
+	}
+	
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 500
+			owner = {
+				country_uses_consumer_goods = yes	#_需要2c
+				has_monthly_income = {
+					resource = consumer_goods
+					value < 100
+				}
+				OR = {
+					country_uses_food = no
+					has_monthly_income = {
+						resource = food
+						value >= 0
+					}
+					has_resource = {
+						type = food
+						amount > 0
+					}
+				}#_消费品短缺不能是因为食物短缺导致
+				has_monthly_income = {
+					resource = minerals
+					value > 120	#_矿不能赤字
+				}
+			}
+		}
+	}
+	ai_resource_production = {
+		consumer_goods = 20
+		volatile_motes = 0.5
+		exotic_gases = 0.5
+		rare_crystals = 0.5
+		trigger = { always = yes }
+	}
+}
+
+###_[高级锻造区段]	产业革命/生产基数/z_pr_flg_cntr_reg
+z_pr_dstr_ap2_rw_forge = {
+	base_buildtime = @rw_district_buildtime
+	is_capped_by_modifier = no
+	
+	show_on_uncolonized = {
+		uses_district_set = ring_world
+		exists = from
+		from = { z_pr_trgr_cntr_pr_2nd = yes }	#_[二段飞升]
+	}
+	potential = {
+		uses_district_set = ring_world
+		exists = owner
+		owner = { z_pr_trgr_cntr_pr_2nd = yes }	#_[二段飞升]
+	}
+
+	conversion_ratio = 1
+	convert_to = {
+		z_pr_dstr_rw_industrial
+		z_pr_dstr_ap2_rw_industrial
+		z_pr_dstr_rw_forge
+	#	z_pr_dstr_ap2_rw_forge
+	}
+	
+	
+	###_[产业革命]	岗位产出	########################################################
+	#_地块						[z_pr_d_production]=合金/消费品 产出+20%	[33%产出/33%维护]
+	#_[alloy_drone/foundry]		alloys_3/minerals_6
+	#_[fabricator]1.33			alloys_4/minerals_8
+	
+	#_[ai辅助]
+	triggered_planet_modifier = {
+		potential = {
+			NOT = { has_planet_flag = z_pr_flg_plnt_manpower_debug }
+			exists = owner
+			owner = {
+				is_ai = yes
+				has_country_flag = z_pr_flg_cntr_reg
+			}
+		}
+		modifier = {
+			job_z_pr_ai_dummy_alloys_add = 1
+		}
+	}
+	#_[产出]
+	planet_modifier = {
+		planet_housing_add = 25
+		z_pr_post_z_pr_res_post_produces_add = 25	#_[生产基数]
+		z_pr_production_alloys_produces_add = 10		#_[10%]
+		z_pr_production_minerals_upkeep_add = 20		#_[10%]
+		z_pr_production_volatile_motes_produces_add = 0.5		#_[10%]
+		z_pr_production_exotic_gases_produces_add = 0.5		#_[10%]
+		z_pr_production_rare_crystals_produces_add = 0.5		#_[10%]
+	}
+
+	
+	###_[vanilla]	z_pr_flg_cntr_reg	########################################################
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @rw_cost
+			alloys = @rw_cost_alloys
+		}
+		upkeep = {
+			energy = @rw_maintenance
+			alloys = @rw_maintenance_alloys
+		}
+	}
+	
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 500
+			owner = {#_帝国
+				has_monthly_income = {
+					resource = alloys
+					value < 200
+				}
+				has_monthly_income = {
+					resource = minerals
+					value > 120	#_矿不能赤字
+				}
+			}
+		}
+	}
+	
+	ai_resource_production = {
+		alloys = 10
+		volatile_motes = 0.5
+		exotic_gases = 0.5
+		rare_crystals = 0.5
+		trigger = { always = yes }
+	}
+}

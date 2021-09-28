@@ -1,0 +1,195 @@
+#_|产业革命|
+#_ACOT	/acot_00_standard_jobs.txt
+
+
+################# UNEMPLOYER #################
+
+acot_free_foodman = {
+	category = worker
+	building_icon = building_dm_ancient_palace
+	clothes_texture_index = 1
+	icon = artisan
+	is_capped_by_modifier = no
+	
+	possible_pre_triggers = {
+		has_owner = yes
+	}
+
+	possible = {
+		planet = {
+			has_modifier = acot_modifier_free_foodman
+			#_|产业革命|
+			exists = owner
+			owner = { NOT = { has_country_flag = z_pr_flg_cntr_reg } }
+		}
+	}
+
+	resources = {
+		category = planet_jobs
+		produces = {
+			food = 1
+			minerals = 1
+			energy = 1
+		}
+		upkeep = {
+			consumer_goods = 2
+		}
+	}	
+
+	planet_modifier = {
+		planet_amenities_add = 1
+	}
+
+	weight = {
+		weight = 1000
+		modifier = {
+			factor = 0
+			NOT = {
+				is_unemployed = yes				
+			}
+		}
+		modifier = {
+			factor = 0
+			planet = {
+				free_jobs >= 1
+			}
+		}
+		# crisis purge
+		modifier = {
+			factor = 0.01
+			planet.controller = {
+				OR = {
+					is_country_type = swarm
+					is_country_type = ai_empire
+				}
+			}
+		}
+	}
+}
+
+acot_free_thinker = {
+	category = worker
+	building_icon = building_dm_ancient_palace
+	clothes_texture_index = 1
+	icon = researcher
+	is_capped_by_modifier = no
+	
+	possible_pre_triggers = {
+		has_owner = yes
+	}
+
+	possible = {
+		planet = {
+			has_modifier = acot_modifier_free_thinker
+			#_|产业革命|
+			exists = owner
+			owner = { NOT = { has_country_flag = z_pr_flg_cntr_reg } }			
+		}
+	}
+
+	planet_modifier = {
+	}
+
+	country_modifier = {
+	}
+
+	resources = {
+		category = planet_jobs
+		produces = {
+			society_research = 1
+			engineering_research = 1
+			physics_research = 1
+		}
+		upkeep = {
+			consumer_goods = 2
+		}
+	}	
+	
+	weight = {
+		weight = 100
+		modifier = {
+			factor = 0
+			NOT = {
+				is_unemployed = yes				
+			}
+		}
+		modifier = {
+			factor = 0
+			planet = {
+				free_jobs >= 1
+			}
+		}
+		# crisis purge
+		modifier = {
+			factor = 0.01
+			planet.controller = {
+				OR = {
+					is_country_type = swarm
+					is_country_type = ai_empire
+				}
+			}
+		}
+	}
+}
+
+acot_free_reserve_drone = {
+	category = simple_drone
+	building_icon = building_fe_stronghold
+	clothes_texture_index = 1
+	icon = maintenance_drone
+	is_capped_by_modifier = no
+	
+	possible_pre_triggers = {
+		has_owner = yes
+	}
+
+	possible = {
+		planet = {
+			has_modifier = acot_modifier_free_stasis
+			#_|产业革命|
+			exists = owner
+			owner = { NOT = { has_country_flag = z_pr_flg_cntr_reg } }			
+		}
+	}
+
+	planet_modifier = {
+		planet_amenities_no_happiness_add = 1
+	}
+
+	country_modifier = {
+	}
+
+	resources = {
+		category = planet_jobs
+		produces = {
+		}
+		upkeep = {
+		}
+	}	
+	
+	weight = {
+		weight = 1000
+		modifier = {
+			factor = 0
+			NOT = {
+				is_unemployed = yes				
+			}
+		}
+		modifier = {
+			factor = 0
+			planet = {
+				free_jobs >= 1
+			}
+		}
+		# crisis purge
+		modifier = {
+			factor = 0.01
+			planet.controller = {
+				OR = {
+					is_country_type = swarm
+					is_country_type = ai_empire
+				}
+			}
+		}
+	}
+}

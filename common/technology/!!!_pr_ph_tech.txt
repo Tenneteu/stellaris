@@ -1,0 +1,16 @@
+#_[wsg]
+
+
+
+
+###_[wsg]	/wsg_resources_tech.txt	###############################################################
+tech_wsg_toy = {
+	icon = tech_z_dummy
+	area = physics
+	cost = 0
+	tier = 6
+	category = { particles }
+	weight = 0
+	potential = { always = no }
+	ai_weight = { weight = 0 }
+}

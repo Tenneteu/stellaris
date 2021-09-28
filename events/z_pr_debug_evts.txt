@@ -1,0 +1,549 @@
+###_	production_revolution debug	####################################################################
+namespace = z_pr_debug
+
+#_[pr国家debug]
+#_[pr殖民地debug/殖民地功能debug]
+#_[man增长率debug]
+#_[pr星球初始设置/pr星球玩家占据/星球改造/旧参数传递]
+#_[pr星球清理]
+
+
+
+
+###_[pr国家debug]id=1	<pr月度debug>	殖民地月检/国家季检		#############################################################################
+country_event = {
+	id = z_pr_debug.1
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_global_flag = z_pr_flg_glbl_test_stop } }	#_|调试状态|
+	
+	immediate = {
+		### 触发测试 ###
+	#	if = { limit = { is_ai = no }		country_event = { id = pr_test_popup.15 } }
+
+
+		#_[殖民地月检]
+		every_owned_planet = {
+			planet_event = { id = z_pr_debug.10 days = 1 }	#_[pr殖民地debug]
+		}
+		
+		#_[国家季检]
+		if = {
+			limit = {
+				NOT = { has_country_flag = z_pr_flg_cntr_auto_mig_disabled }	#_|禁用自动人力迁移|
+				has_country_flag = z_pr_flg_cntr_reg
+				exists = event_target:z_fw_tgt_global_event		#_|npc0存在|
+				event_target:z_fw_tgt_global_event = {
+					is_variable_set = z_fw_var_glbl_month
+					OR = {
+						check_variable = { which = z_fw_var_glbl_month value = 2 }
+						check_variable = { which = z_fw_var_glbl_month value = 8 }
+					}
+				}
+			}
+			z_pr_eft_cntr_man_mig = yes		#_[pr国家人力迁入]
+			z_pr_eft_cntr_var_debug = yes		#_[pr国家总参数检测]
+		}
+	}
+}
+
+
+
+
+###_[pr殖民地debug]		<pr国家debug>
+#_list		年度ai辅助/人力异常/季度/半年/产业核心debug/殖民地功能debug
+planet_event = {
+	id = z_pr_debug.10
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_colony = yes
+		is_under_colonization = no
+		exists = event_target:z_fw_tgt_global_event		#_|npc0存在|
+		NOT = { has_global_flag = z_pr_flg_glbl_test_stop }	#_|调试状态|
+	}
+	
+	immediate = {
+		### 触发测试 ###
+	#	if = { limit = { owner = { is_ai = no } }		owner = { country_event = { id = pr_test_popup.14 } } }
+		
+		
+		##_[年度ai辅助]		ai自动建设/ai经济辅助
+		if = {
+			limit = {
+				owner = {
+					is_ai = yes
+					has_country_flag = z_pr_flg_cntr_reg
+				}
+				event_target:z_fw_tgt_global_event = {
+					is_variable_set = z_fw_var_glbl_month
+					check_variable = { which = z_fw_var_glbl_month value = 2 }
+				}
+			}
+			z_pr_eft_plnt_ai_auto_bldn = yes	#_[ai自动建设]
+			set_planet_flag = z_pr_flg_plnt_ai_economic_assist_ready	#_[ai经济辅助]
+		}
+		
+		#_[人力异常]
+		z_pr_eft_plnt_man_debug = yes
+		
+		##_[季度]	殖民地基础debug/产出DB
+		if = {
+			limit = {
+				event_target:z_fw_tgt_global_event = {
+					is_variable_set = z_fw_var_glbl_month
+					OR = {
+						check_variable = { which = z_fw_var_glbl_month value = 2 }
+						check_variable = { which = z_fw_var_glbl_month value = 5 }
+						check_variable = { which = z_fw_var_glbl_month value = 8 }
+						check_variable = { which = z_fw_var_glbl_month value = 11 }
+					}
+				}
+			}
+			##_[殖民地基础debug]
+			z_pr_eft_plnt_basic_debug = yes
+			##_[产出DB]	存在追加则先清除追加,等到下次再添加日常
+			if = { limit = { has_planet_flag = z_pr_flg_plnt_output_debug_add }
+				remove_planet_flag = z_pr_flg_plnt_output_debug_add
+			}
+			else = { set_planet_flag = z_pr_flg_plnt_output_debug_ready }
+		}
+		
+		##_[半年]	ai自动建设/岗位DB/加成DB/产出DB
+		if = {
+			limit = {
+				event_target:z_fw_tgt_global_event = {
+					is_variable_set = z_fw_var_glbl_month
+					OR = {
+						check_variable = { which = z_fw_var_glbl_month value = 2 }
+						check_variable = { which = z_fw_var_glbl_month value = 8 }
+					}
+				}
+			}
+			##_[加成DB]	存在追加则先清除追加,等到下次再添加日常
+			if = { limit = { has_planet_flag = z_pr_flg_plnt_bonus_debug_add }
+				remove_planet_flag = z_pr_flg_plnt_bonus_debug_add
+			}
+			else_if = { limit = { always = yes }	set_planet_flag = z_pr_flg_plnt_bonus_debug_ready }
+			##_[岗位DB]	存在追加则先清除追加,等到下次再添加日常
+			if = { limit = { has_planet_flag = z_pr_flg_plnt_job_debug_add }
+				remove_planet_flag = z_pr_flg_plnt_job_debug_add
+			}
+			else_if = { limit = { always = yes }	set_planet_flag = z_pr_flg_plnt_job_debug_ready }
+			##_[产出DB]	存在追加则先清除追加,等到下次再添加日常
+			if = { limit = { has_planet_flag = z_pr_flg_plnt_output_debug_add }
+				remove_planet_flag = z_pr_flg_plnt_output_debug_add
+			}
+			else_if = { limit = { always = yes }	set_planet_flag = z_pr_flg_plnt_output_debug_ready }
+		}
+		
+		##_[产业核心debug]缺失mod则立刻添加
+		if = {
+			limit = {
+			#	always = no
+				any_owned_pop = {
+					OR = {
+						has_job = z_pr_freeman_core
+						has_job = z_pr_drone_core
+					}
+					NOT = { has_pop_flag = z_pr_flg_pop_core_counted }	#_|产业核心debug标签|
+				}
+			}
+			set_planet_flag = z_pr_flg_plnt_output_debug_ready	#_|产出DB|
+		}
+		
+		##_[殖民地功能debug]
+		planet_event = { id = z_pr_debug.100 days = 1 random = 6 }
+	}
+}
+
+
+###_[殖民地功能debug]	<z_pr_debug.10>		刷新mod/man增长率init/man增长缓存debug/加成DB/岗位DB/产出DB
+planet_event = {
+	id = z_pr_debug.100
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = owner
+		has_deposit = z_pr_d_core		#_|核心地块|不存在则岗位爆炸
+		NOT = { has_planet_flag = z_pr_flg_plnt_ignore }	#_|pr忽略|
+		owner = { has_country_flag = z_pr_flg_cntr_reg }	#_|pr革命完成|
+		NOT = { has_global_flag = z_pr_flg_glbl_test_stop }	#_|调试状态|
+	}
+	
+	immediate = {
+		### 触发测试 ###
+	#	if = { limit = { owner = { is_ai = no } }		owner = { country_event = { id = pr_test_popup.13 } } }
+	
+	
+		##_[刷新mod]应该可以防止出现岗位爆炸
+		calculate_modifier = yes
+		
+		###_[ai经济辅助]
+		if = { limit = { has_planet_flag = z_pr_flg_plnt_ai_economic_assist_ready }
+			remove_planet_flag = z_pr_flg_plnt_ai_economic_assist_ready
+			z_pr_eft_plnt_ai_economic_assist = yes
+		}
+	
+		##_[总人力init]确保总人力绝对精准
+		if = {
+			limit = {
+				OR = {
+					has_planet_flag = z_pr_flg_plnt_man_growth_ready
+				#	has_planet_flag = z_pr_flg_plnt_bonus_debug_ready
+					has_planet_flag = z_pr_flg_plnt_job_debug_ready
+					has_planet_flag = z_pr_flg_plnt_output_debug_ready
+				}
+			}
+			z_pr_eft_plnt_pop_man_debug = yes	#_[总人力debug]=|z_pr_var_plnt_pop_man|
+		}
+		
+		##_[man增长率init]
+		if = { limit = { has_planet_flag = z_pr_flg_plnt_man_growth_ready }	#_|增长率debug准备|
+			z_pr_eft_plnt_man_growth_init = yes
+		}
+
+		##_[man增长缓存debug]
+		if = { limit = { is_variable_set = z_pr_var_plnt_man_growth }
+			z_pr_eft_plnt_man_growth_cache_debug = yes
+		}
+			
+		##_[加成DB]
+		if = { limit = { has_planet_flag = z_pr_flg_plnt_bonus_debug_ready }
+			remove_planet_flag = z_pr_flg_plnt_bonus_debug_ready
+			##_[加成均值debug]
+			z_pr_eft_plnt_res_bonus_avg = yes
+		}
+			
+		##_[岗位DB]
+		if = { limit = { has_planet_flag = z_pr_flg_plnt_job_debug_ready }
+			remove_planet_flag = z_pr_flg_plnt_job_debug_ready
+			#_[vanilla岗位debug]	包含产出与星球功能初始化
+			z_pr_eft_plnt_job_debug_vanilla = yes
+			#_[产业革命岗位debug]
+			z_pr_eft_plnt_job_debug_pr = yes
+			
+			#_[mod岗位debug]		面向所有mod新增岗位的兼容支持
+			z_pr_eft_plnt_job_debug_mod_azl_dlc = yes					#_[碧蓝航线dlc岗位debug]
+			z_pr_eft_plnt_job_debug_mod_wsg = yes						#_[舰R岗位debug]
+			z_pr_eft_plnt_job_debug_mod_CG = yes						#_[CG岗位debug]
+			z_pr_eft_plnt_job_debug_mod_SWGS = yes						#_[星舰少女岗位debug]
+			z_pr_eft_plnt_job_debug_mod_adf = yes						#_[灰烬战线岗位debug]
+			z_pr_eft_plnt_job_debug_mod_AG = yes						#_[古代帝国岗位debug]
+			z_pr_eft_plnt_job_debug_mod_NE = yes						#_[涅槃岗位debug]
+			z_pr_eft_plnt_job_debug_mod_ULT = yes						#_[终极科技岗位debug]
+			z_pr_eft_plnt_job_debug_mod_NYTO = yes						#_[涅托岗位debug]
+			z_pr_eft_plnt_job_debug_mod_DAL = yes						#_[约战岗位debug]
+			z_pr_eft_plnt_job_debug_mod_ARP = yes						#_[苍蓝岗位debug]
+
+			z_pr_eft_plnt_job_debug_mod_Acot = yes						#_[ACOT岗位debug]
+			z_pr_eft_plnt_job_debug_mod_Giga = yes						#_[Giga岗位debug]
+			
+			#_[岗位传递参数清理]
+			z_pr_eft_plnt_job_debug_clear = yes
+		}
+	
+		##_[产出DB]
+		if = {#_[正常执行]	
+			limit = {
+				has_planet_flag = z_pr_flg_plnt_output_debug_ready	#_|产出DB|
+				is_variable_set = z_pr_var_plnt_man				#_|存在人力|
+				check_variable = { which = z_pr_var_plnt_man value >= 0 }	#_|人力下限|必须>=0
+				is_variable_set = z_pr_var_plnt_workshop
+				check_variable = { which = z_pr_var_plnt_workshop value >= 0 }	#_|岗位下限|必须>=0
+				check_variable = { which = z_pr_var_plnt_workshop value < 2500000 }	#_|岗位溢出|缺失<核心地块>
+			}
+			set_planet_flag = z_pr_flg_plnt_man_growth_ready	#_|增长率debug准备|
+			remove_planet_flag = z_pr_flg_plnt_output_debug_ready
+			
+			### 触发测试 ###
+		#	if = { limit = { owner = { is_ai = no } }		owner = { country_event = { id = pr_test_popup.12 } } }
+			
+			##_[生产效率DB]
+			z_pr_eft_plnt_man_bonus = yes
+			##_[星球承载debug]
+			z_pr_eft_plnt_man_cap_debug = yes
+			##_[人力额外产出debug]
+			z_pr_eft_plnt_extra_pop_output = yes
+			##_[产出mod_debug]
+			z_pr_eft_plnt_output_debug = yes
+		}
+		else_if = {#_[参数异常]	重新进行DB链
+			limit = { has_planet_flag = z_pr_flg_plnt_output_debug_ready }	#_|产出DB|没有正确执行
+			remove_planet_flag = z_pr_flg_plnt_output_debug_ready
+			
+			##_[加成DB追加]
+			set_planet_flag = z_pr_flg_plnt_bonus_debug_ready
+			set_planet_flag = z_pr_flg_plnt_bonus_debug_add
+			##_[岗位DB追加]
+			set_planet_flag = z_pr_flg_plnt_job_debug_ready
+			set_planet_flag = z_pr_flg_plnt_job_debug_add
+			##_[产出DB追加]
+			set_planet_flag = z_pr_flg_plnt_output_debug_ready
+			set_planet_flag = z_pr_flg_plnt_output_debug_add
+		}
+	}
+}
+
+
+
+
+
+
+
+
+###_[man增长率debug]id=11		转化mod/月增长率debug		#############################################################################
+#_<z_pr_eft_plnt_man_growth_init>	|季度|
+planet_event = {
+	id = z_pr_debug.11
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_global_flag = z_pr_flg_glbl_test_stop } }	#_|调试状态|
+	
+	immediate = {
+	
+		###_[转化mod]	增长/克隆add/克隆mult/组装add/组装mult
+		
+		#_[增长]
+		export_modifier_to_variable = { modifier = pop_growth_speed variable = z_pr_var_plnt_base_growth }	#_|总增长|
+		export_modifier_to_variable = { modifier = pop_growth_speed_reduction variable = z_pr_var_plnt_base_decline }	#_|总减少|
+		subtract_variable = { which = z_pr_var_plnt_base_growth value = z_pr_var_plnt_base_decline }	#_|净增长|
+		clear_variable = z_pr_var_plnt_base_decline
+		if = { limit = { check_variable = { which = z_pr_var_plnt_base_growth value > 0 } }
+			add_modifier = { modifier = z_pr_mod_plnt_growth_cnvt days = 97 multiplier = z_pr_var_plnt_base_growth }
+		}
+		
+		#_[克隆add]		超过1克隆debug
+		export_modifier_to_variable = { modifier = planet_pop_assembly_organic_add variable = z_pr_var_plnt_base_asbl_o_add }
+		subtract_variable = { which = z_pr_var_plnt_base_asbl_o_add value = 1 }	#_|超过1克隆debug|
+		if = { limit = { check_variable = { which = z_pr_var_plnt_base_asbl_o_add value > 0 } }
+			add_modifier = { modifier = z_pr_mod_plnt_asbl_o_cnvt days = 97 multiplier = z_pr_var_plnt_base_asbl_o_add }	#_[保持1克隆add]
+		}
+		#_[克隆mult]	岗位克隆mult
+		export_modifier_to_variable = { modifier = planet_pop_assembly_organic_mult variable = z_pr_var_plnt_base_asbl_o_mult }
+		if = { limit = { is_variable_set = z_pr_var_job_planet_pop_assembly_organic_mult }		change_variable = { which = z_pr_var_plnt_base_asbl_o_mult value = z_pr_var_job_planet_pop_assembly_organic_mult } }	#_|岗位克隆mult|
+		if = { limit = { check_variable = { which = z_pr_var_plnt_base_asbl_o_mult value > 0 } }
+			add_modifier = { modifier = z_pr_mod_plnt_asbl_o_mult days = 97 multiplier = z_pr_var_plnt_base_asbl_o_mult }	#_[保持0克隆mult]
+		}
+		
+		#_[组装add]		超过1组装debug
+		export_modifier_to_variable = { modifier = planet_pop_assembly_add variable = z_pr_var_plnt_base_asbl_r_add }
+		subtract_variable = { which = z_pr_var_plnt_base_asbl_r_add value = 1 }	#_|超过1组装debug|
+		if = { limit = { check_variable = { which = z_pr_var_plnt_base_asbl_r_add value > 0 } }
+			add_modifier = { modifier = z_pr_mod_plnt_asbl_r_cnvt days = 97 multiplier = z_pr_var_plnt_base_asbl_r_add }	#_[保持1组装add]
+		}
+		#_[组装mult]	岗位组装mult
+		export_modifier_to_variable = { modifier = planet_pop_assembly_mult variable = z_pr_var_plnt_base_asbl_r_mult }
+		if = { limit = { is_variable_set = z_pr_var_job_planet_pop_assembly_mult }		change_variable = { which = z_pr_var_plnt_base_asbl_r_mult value = z_pr_var_job_planet_pop_assembly_mult } }	#_|岗位组装mult|
+		if = { limit = { check_variable = { which = z_pr_var_plnt_base_asbl_r_mult value > 0 } }
+			add_modifier = { modifier = z_pr_mod_plnt_asbl_r_mult days = 97 multiplier = z_pr_var_plnt_base_asbl_r_mult }	#_[保持0组装mult]
+		}
+		
+		
+		
+		
+		###_[月增长率debug]	增长/克隆/组装/增长率/最值限定
+		set_variable = { which = z_pr_var_plnt_man_growth value = 0 }	#_|man月增长率|
+		
+		#_[增长]	3x(星球自然增长+岗位人口增长)
+		if = { limit = { check_variable = { which = z_pr_var_plnt_base_growth value < 0 } }		set_variable = { which = z_pr_var_plnt_base_growth value = 0 } }	#_|星球增长|
+		if = { limit = { check_variable = { which = z_pr_var_job_pop_growth_speed value > 0 } }		change_variable = { which = z_pr_var_plnt_base_growth value = z_pr_var_job_pop_growth_speed } }	#_|岗位人口增长|
+		multiply_variable = { which = z_pr_var_plnt_base_growth value = 3 }		###_|月自然增长值|
+		multiply_variable = { which = z_pr_var_plnt_base_growth value = 0.01 }	###_|常数化|
+		change_variable = { which = z_pr_var_plnt_man_growth value = z_pr_var_plnt_base_growth }	#_[var累计]
+		
+		#_[克隆]	(超过1的克隆)x(星球克隆mult+岗位克隆mult)
+		if = { limit = { check_variable = { which = z_pr_var_plnt_base_asbl_o_add value < 0 } }		set_variable = { which = z_pr_var_plnt_base_asbl_o_add value = 0 } }	#_|超过1的克隆|
+		if = { limit = { check_variable = { which = z_pr_var_plnt_base_asbl_o_mult value < 0 } }	set_variable = { which = z_pr_var_plnt_base_asbl_o_mult value = 0 } }	#_|星球克隆mult|
+		change_variable = { which = z_pr_var_plnt_base_asbl_o_mult value = 1 }	#_|mult+1|
+		if = { limit = { check_variable = { which = z_pr_var_job_planet_pop_assembly_organic_mult value > 0 } }		change_variable = { which = z_pr_var_plnt_base_asbl_o_mult value = z_pr_var_job_planet_pop_assembly_organic_mult } }	#_|岗位克隆mult|
+		multiply_variable = { which = z_pr_var_plnt_base_asbl_o_add value = z_pr_var_plnt_base_asbl_o_mult }		###_|月克隆值|
+		multiply_variable = { which = z_pr_var_plnt_base_asbl_o_add value = 0.01 }		###_|常数化|
+		clear_variable = z_pr_var_plnt_base_asbl_o_mult
+		change_variable = { which = z_pr_var_plnt_man_growth value = z_pr_var_plnt_base_asbl_o_add }	#_[var累计]
+		
+		#_[组装]	(超过1的组装)x(星球组装mult+岗位组装mult)
+		if = { limit = { check_variable = { which = z_pr_var_plnt_base_asbl_r_add value < 0 } }		set_variable = { which = z_pr_var_plnt_base_asbl_r_add value = 0 } }	#_|超过1的组装|
+		if = { limit = { check_variable = { which = z_pr_var_plnt_base_asbl_r_mult value < 0 } }	set_variable = { which = z_pr_var_plnt_base_asbl_r_mult value = 0 } }	#_|星球组装mult|
+		change_variable = { which = z_pr_var_plnt_base_asbl_r_mult value = 1 }	#_|mult+1|
+		if = { limit = { check_variable = { which = z_pr_var_job_planet_pop_assembly_mult value > 0 } }		change_variable = { which = z_pr_var_plnt_base_asbl_r_mult value = z_pr_var_job_planet_pop_assembly_mult } }	#_|岗位组装mult|
+		multiply_variable = { which = z_pr_var_plnt_base_asbl_r_add value = z_pr_var_plnt_base_asbl_r_mult }		###_|月组装值|
+		multiply_variable = { which = z_pr_var_plnt_base_asbl_r_add value = 0.01 }	###_|常数化|
+		clear_variable = z_pr_var_plnt_base_asbl_r_mult
+		change_variable = { which = z_pr_var_plnt_man_growth value = z_pr_var_plnt_base_asbl_r_add }	#_[var累计]
+		
+		#_[增长率]
+		multiply_variable = { which = z_pr_var_plnt_man_growth value = z_pr_var_plnt_man_growth_mult }	#_|人力增长乘数|
+
+		#[最值限定]
+		if = { limit = { check_variable = { which = z_pr_var_plnt_man_growth value < -30 } }		set_variable = { which = z_pr_var_plnt_man_growth value = -30 } }
+		else_if = { limit = { check_variable = { which = z_pr_var_plnt_man_growth value > 30 } }	set_variable = { which = z_pr_var_plnt_man_growth value = 30 } }
+	}
+}
+
+
+
+
+
+
+
+
+###_[pr星球初始设置]id=2	出厂设置/ai默认/核心地块/兼容地块DB	#############################################################################
+#_<on_colonized/on_colony_destroyed/on_planet_ownerless/on_planet_transfer>
+planet_event = {
+	id = z_pr_debug.2
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		##_[出厂设置]
+	#	azl_pr_eft_plnt_assimilation_debug = yes		#_[azl同化清理]
+	
+		##_[ai默认]
+		if = {
+			limit = {
+				OR = {
+					NOT = { exists = owner }
+					owner = { is_ai = yes }
+				}
+			}
+			remove_planet_flag = z_pr_flg_plnt_ignore	#_|pr忽略|
+			remove_planet_flag = z_pr_flg_plnt_cliquy	#_|pr物种控制|
+			remove_planet_flag = z_pr_flg_plnt_pure
+			
+			remove_modifier = z_pr_mod_plnt_reserved_job_regular_10	#_|后补岗位|
+			remove_modifier = z_pr_mod_plnt_reserved_job_regular_25
+			remove_modifier = z_pr_mod_plnt_reserved_job_regular_50
+			remove_modifier = z_pr_mod_plnt_reserved_job_regular_100
+			remove_modifier = z_pr_mod_plnt_reserved_job_gestalt_10
+			remove_modifier = z_pr_mod_plnt_reserved_job_gestalt_25
+			remove_modifier = z_pr_mod_plnt_reserved_job_gestalt_50
+			remove_modifier = z_pr_mod_plnt_reserved_job_gestalt_100
+		}
+		
+		##_[核心地块]
+		if = { limit = { NOT = { has_deposit = z_pr_d_core } }		add_deposit = z_pr_d_core }
+	
+		##_[兼容地块DB]
+		if = { limit = { NOT = { has_global_flag = z_pr_patch_installed_mod_Giga }		has_deposit = z_pr_d_Giga }		remove_deposit = z_pr_d_Giga }	#_|Giga|
+	}
+}
+
+
+###_[pr星球玩家占据]
+#_<on_colonized/on_planet_transfer>
+planet_event = {
+	id = z_pr_debug.20
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		#_[底层物种调整前置]=|未执行过|清除
+		remove_planet_flag = z_pr_flg_plnt_spcs_changed
+	}
+}
+
+
+
+
+###_[星球改造]id=21/22
+#_<on_terraforming_begun>	地改开始
+planet_event = {
+	id = z_pr_debug.21
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		z_pr_eft_plnt_debug_terraforming_begun = yes
+		
+		#_[旧参数传递]
+		set_planet_flag = z_pr_flg_plnt_var_transfer	#_|参数传递中|init
+		planet_event = { id = z_pr_debug.23 }
+	}
+}
+#_<on_terraforming_complete>	地改完成/pr星球初始设置/DB追加
+planet_event = {
+	id = z_pr_debug.22
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		z_pr_eft_plnt_debug_terraforming_complete = yes	#_[地改完成]
+		planet_event = { id = z_pr_debug.2 }	#_[pr星球初始设置]
+		
+		##_[加成DB追加]
+		set_planet_flag = z_pr_flg_plnt_bonus_debug_ready
+		set_planet_flag = z_pr_flg_plnt_bonus_debug_add
+		##_[岗位DB追加]
+		set_planet_flag = z_pr_flg_plnt_job_debug_ready
+		set_planet_flag = z_pr_flg_plnt_job_debug_add
+		##_[产出DB追加]
+		set_planet_flag = z_pr_flg_plnt_output_debug_ready
+		set_planet_flag = z_pr_flg_plnt_output_debug_add
+	}
+}
+
+
+
+
+###_[旧参数传递]id=23		init/改造中/改造完成/自循环		----对于有人力的|无人星球|无效
+#_<on_terraforming_begun>
+planet_event = {
+	id = z_pr_debug.23
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { has_planet_flag = z_pr_flg_plnt_var_transfer }	#_|参数传递中|
+	
+	immediate = {
+		##_[init]
+		remove_planet_flag = z_pr_flg_plnt_var_transfer
+		
+		##_[改造中]
+		if = { limit = { is_terraforming = yes }
+			random_owned_pop = { limit = { is_variable_set = z_pr_var_pop_plnt_man_temp }	#_|传递参数暂存|
+				set_variable = { which = z_pr_var_pop_plnt_man_temp value = root.z_pr_var_plnt_man }	#_|人力|
+			#	set_variable = { which = z_pr_var_pop_plnt_感染_temp value = root.z_pr_var_plnt_感染_temp }	#_|感染|
+				root = { set_planet_flag = z_pr_flg_plnt_var_transfer }	#_|参数传递中|
+			}
+			if = {
+				limit = { NOT = { has_planet_flag = z_pr_flg_plnt_var_transfer } }	#_|参数传递中|检测是否有pop作为var储存者
+				random_owned_pop = {
+					set_variable = { which = z_pr_var_pop_plnt_man_temp value = root.z_pr_var_plnt_man }	#_|人力|
+				#	set_variable = { which = z_pr_var_pop_plnt_感染_temp value = root.z_pr_var_plnt_感染_temp }	#_|感染|
+					root = { set_planet_flag = z_pr_flg_plnt_var_transfer }	#_|参数传递中|
+				}
+			}
+		}
+		##_[改造完成]
+		else = {
+			random_owned_pop = { limit = { is_variable_set = z_pr_var_pop_plnt_man_temp }	#_|传递参数暂存|
+				root = { set_variable = { which = z_pr_var_plnt_man value = prev.z_pr_var_pop_plnt_man_temp } }	#_|人力|
+			#	root = { set_variable = { which = z_pr_var_plnt_感染 value = prev.z_pr_var_pop_plnt_感染_temp } }	#_|感染|
+				#_[clear]
+				clear_variable = z_pr_var_pop_plnt_man_temp
+			#	clear_variable = z_pr_var_pop_plnt_感染_temp
+			}
+		}
+		
+		##_[自循环]
+		planet_event = { id = z_pr_debug.23 days = 29 random = 3 }
+	}
+}
+
+
+
+
+
+
+
+
+###_[pr星球清理]id=3	#################################################################
+planet_event = {
+	id = z_pr_debug.3
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		z_pr_eft_plnt_mod_clear = yes		#_[星球mod清理]
+		z_pr_eft_plnt_admin_clear = yes		#_[产业核心debug]
+	}
+}

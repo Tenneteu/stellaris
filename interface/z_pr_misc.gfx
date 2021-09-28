@@ -1,0 +1,174 @@
+###_无尽群星 framework-MISC	##############################################################
+
+#_[指南]
+#_[AI建筑槽]
+#_[UI]
+#_[飞升]
+
+
+
+
+spriteTypes = {
+
+	###_[指南]	####################################################
+	SpriteType = {
+		name = "GFX_z_pr_btn_guide_misc"
+		texturefile = "gfx/interface/z_modmenu/z_pr_btn_guide_misc.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		noOfFrames = 3
+		animation = {
+			animationmaskfile = "gfx/interface/z_modmenu/z_mm_fx_button_sort_mask_no_click.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+			animationframes = { 1 2 3 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_btn_guide_manpower"
+		texturefile = "gfx/interface/z_modmenu/z_pr_btn_guide_manpower.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		noOfFrames = 3
+		animation = {
+			animationmaskfile = "gfx/interface/z_modmenu/z_mm_fx_button_sort_mask_no_click.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+			animationframes = { 1 2 3 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_btn_guide_jobs"
+		texturefile = "gfx/interface/z_modmenu/z_pr_btn_guide_jobs.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		noOfFrames = 3
+		animation = {
+			animationmaskfile = "gfx/interface/z_modmenu/z_mm_fx_button_sort_mask_no_click.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+			animationframes = { 1 2 3 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_btn_guide_growth"
+		texturefile = "gfx/interface/z_modmenu/z_pr_btn_guide_growth.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		noOfFrames = 3
+		animation = {
+			animationmaskfile = "gfx/interface/z_modmenu/z_mm_fx_button_sort_mask_no_click.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+			animationframes = { 1 2 3 }
+		}
+	}
+
+
+
+
+	###_[AI建筑槽]	####################################################
+	spriteType = {
+		name = "GFX_z_pr_misc"
+		textureFile = "gfx/interface/icons/modifiers/z_pr_mod_misc.dds"
+	}
+	
+	###_[UI]	base_bg/title/check_exit
+	#_[base_bg]
+	spriteType = {
+		name = "GFX_z_modmenu_window_frame_pr"
+		textureFile = "gfx/interface/z_modmenu/z_modmenu_window_frame_pr.dds"
+	}
+	#_[title]
+	spriteType = {
+		name = "GFX_z_pr_ui_title"
+		textureFile = "gfx/interface/z_modmenu/z_pr_title.dds"
+	}
+	spriteType = {
+		name = "GFX_z_pr_ui_evt_img_small"
+		textureFile = "gfx/interface/z_modmenu/z_pr_evt_img_small.dds"
+	}
+	#_[check_exit]
+	spriteType = {
+		name = "GFX_z_pr_ui_evt_check_exit"
+		textureFile = "gfx/interface/z_modmenu/z_pr_evt_check_exit.dds"
+	}
+	
+	###_[飞升]
+	spriteType = {
+		name = "GFX_z_pr_ap_1"
+		textureFile = "gfx/interface/z_pr/z_pr_ap_1.dds"
+		effectFile = "gfx/FX/buttonstate.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_modmenu/z_fw_ap_fx_mask.dds"
+			animationtexturefile = "gfx/interface/z_modmenu/z_lctr_ai_assist_fx.dds"
+			animationrotation = 0.0		# -90 clockwise 90 counterclockwise(by default)
+			animationlooping = yes			# yes or no ;)
+			animationtime = 3				# in seconds
+			animationdelay = 0				# in seconds
+			animationblendmode = "add"      #add, multiply, overlay
+			animationtype = "scrolling"     #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	spriteType = {
+		name = "GFX_z_pr_ap_2_expansion"
+		textureFile = "gfx/interface/z_pr/z_pr_ap_2_expansion.dds"
+		effectFile = "gfx/FX/buttonstate.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_modmenu/z_fw_ap_fx_mask.dds"
+			animationtexturefile = "gfx/interface/z_modmenu/z_lctr_ai_assist_fx.dds"
+			animationrotation = 0.0		# -90 clockwise 90 counterclockwise(by default)
+			animationlooping = yes			# yes or no ;)
+			animationtime = 3				# in seconds
+			animationdelay = 0				# in seconds
+			animationblendmode = "add"      #add, multiply, overlay
+			animationtype = "scrolling"     #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	spriteType = {
+		name = "GFX_z_pr_ap_2_integration"
+		textureFile = "gfx/interface/z_pr/z_pr_ap_2_integration.dds"
+		effectFile = "gfx/FX/buttonstate.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_modmenu/z_fw_ap_fx_mask.dds"
+			animationtexturefile = "gfx/interface/z_modmenu/z_lctr_ai_assist_fx.dds"
+			animationrotation = 0.0		# -90 clockwise 90 counterclockwise(by default)
+			animationlooping = yes			# yes or no ;)
+			animationtime = 3				# in seconds
+			animationdelay = 0				# in seconds
+			animationblendmode = "add"      #add, multiply, overlay
+			animationtype = "scrolling"     #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	
+}

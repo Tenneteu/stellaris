@@ -1,0 +1,488 @@
+###_	production_revolution config	###########################################################
+
+#_[pr星球设置完成debug]
+#_[延时job检测]
+#_[p_pop转化5/p_pop转化25/pop_转化全国]
+#_[p_man转化公民/p_man转化居留/p_man转化奴隶/p_man转化机仆/p_man转化活体陈设]
+#_[p_随机转奴隶/p_随机转机仆/p_随机转公民]
+#_[pr放弃殖民地]
+
+
+
+
+###_[pr星球设置完成debug]	DB追加/pr星球清理/殖民地基础debug	###########################################################
+z_pr_eft_plnt_setting_complete = {
+	##_[岗位DB追加]
+	set_planet_flag = z_pr_flg_plnt_job_debug_ready
+	set_planet_flag = z_pr_flg_plnt_job_debug_add
+	##_[加成DB追加]
+	set_planet_flag = z_pr_flg_plnt_bonus_debug_ready
+	set_planet_flag = z_pr_flg_plnt_bonus_debug_add
+	##_[产出DB追加]
+	set_planet_flag = z_pr_flg_plnt_output_debug_ready
+	set_planet_flag = z_pr_flg_plnt_output_debug_add
+
+	##_[pr星球清理]
+	planet_event = { id = z_pr_debug.3 }
+	
+	##_[殖民地基础debug]
+	z_pr_eft_plnt_basic_debug = yes
+}
+
+
+
+
+###_[延时job检测]
+z_pr_eft_plnt_job_check_delay = {
+	if = { limit = { exists = owner		owner = { NOT = { has_country_flag = z_pr_flg_cntr_job_ckeck_delay } } }
+		planet_event = { id = z_pr_setting.3 days = 1 }
+		owner = { set_timed_country_flag = { flag = z_pr_flg_cntr_job_ckeck_delay days = 2 } }
+	}
+}
+
+
+
+
+###_[p_pop转化5]		pop转化初始化/转化执行/转化完毕/当前人力
+z_pr_eft_plnt_pop_cnvt_5 = {
+	check_planet_employment = yes	#_[就业检测]
+	set_update_modifiers_batch = begin
+	
+	##_[pop转化初始化]
+	set_planet_flag = z_pr_flg_plnt_apmc_counted	#_|殖民地apmc执行过|
+	set_variable = { which = TEMP_var_plnt_pop value = 0 }		#_[剩余人口]
+	every_owned_pop = { prev = { change_variable = { which = TEMP_var_plnt_pop value = 1 } } }
+	set_variable = { which = z_pr_var_plnt_pop_cnvt_left value = 5 }	#_|pop转化余量|---------核心var
+	
+	##_[转化执行]
+	remove_planet_flag = z_pr_flg_plnt_spcs_changed	#_[底层物种调整前置]=|未执行过|清除
+	every_owned_pop = { limit = { z_pr_trgr_pop_clean = yes }	#_|多余人口|
+		if = {
+			limit = {
+				prev = {
+					check_variable = { which = TEMP_var_plnt_pop value > 1 }	#_|剩余人口|
+					check_variable = { which = z_pr_var_plnt_pop_cnvt_left value > 0 }	#_|pop转化余量|---------核心var
+				}
+			}
+			z_pr_eft_pop_lower_spcs_change = yes	#_[底层物种调整]
+			kill_pop = yes
+			prev = {
+				z_pr_prmt_eft_plnt_var_man_debug = { VALUE = 1 }	#_[人力变动参数debug]
+				subtract_variable = { which = TEMP_var_plnt_pop value = 1 }	#_|剩余人口|
+				subtract_variable = { which = z_pr_var_plnt_pop_cnvt_left value = 1 }	#_|pop转化余量|
+			}
+		}
+	}
+	
+	##_[转化完毕]
+	clear_variable = TEMP_var_plnt_pop			#_|剩余人口|
+	clear_variable = z_pr_var_plnt_pop_cnvt_left	#_|pop转化余量|
+	
+	##_[当前人力]
+	z_pr_eft_plnt_mod_plnt_man_debug = yes
+	
+	set_update_modifiers_batch = end
+}
+###_[p_pop转化25]		pop转化初始化/转化执行/转化完毕/当前人力
+z_pr_eft_plnt_pop_cnvt_25 = {
+	check_planet_employment = yes	#_[就业检测]
+	set_update_modifiers_batch = begin
+	
+	##_[pop转化初始化]
+	set_planet_flag = z_pr_flg_plnt_apmc_counted	#_|殖民地apmc执行过|
+	set_variable = { which = TEMP_var_plnt_pop value = 0 }	#_[剩余人口]
+	every_owned_pop = { prev = { change_variable = { which = TEMP_var_plnt_pop value = 1 } } }
+	set_variable = { which = z_pr_var_plnt_pop_cnvt_left value = 25 }	#_|pop转化余量|---------核心var
+	
+	##_[转化执行]
+	remove_planet_flag = z_pr_flg_plnt_spcs_changed	#_[底层物种调整前置]=|未执行过|清除
+	every_owned_pop = { limit = { z_pr_trgr_pop_clean = yes }	#_|多余人口|
+		if = {
+			limit = {
+				prev = {
+					check_variable = { which = TEMP_var_plnt_pop value > 1 }	#_|剩余人口|
+					check_variable = { which = z_pr_var_plnt_pop_cnvt_left value > 0 }	#_|pop转化余量|---------核心var
+				}
+			}
+			z_pr_eft_pop_lower_spcs_change = yes	#_[底层物种调整]
+			kill_pop = yes
+			prev = {
+				z_pr_prmt_eft_plnt_var_man_debug = { VALUE = 1 }	#_[人力变动参数debug]
+				subtract_variable = { which = TEMP_var_plnt_pop value = 1 }	#_|剩余人口|
+				subtract_variable = { which = z_pr_var_plnt_pop_cnvt_left value = 1 }	#_|pop转化余量|
+			}
+		}
+	}
+	
+	##_[转化完毕]
+	clear_variable = TEMP_var_plnt_pop			#_|剩余人口|
+	clear_variable = z_pr_var_plnt_pop_cnvt_left	#_|pop转化余量|
+	
+	##_[当前人力]
+	z_pr_eft_plnt_mod_plnt_man_debug = yes
+	
+	set_update_modifiers_batch = end
+}
+###_[pop_转化全国]	pr星球忽略?
+z_pr_eft_cntr_pop_cnvt = {
+	every_owned_planet = {
+		limit = { any_owned_pop = { is_unemployed = yes } }
+		z_pr_eft_plnt_pop_cnvt_25 = yes	#_[p_pop转化25]
+	}
+}
+
+
+
+
+###_[p_man转化公民]
+z_pr_eft_plnt_man_cnvt_full = {
+	owner = {#_<星球所有者>
+		random_owned_pop_species = {
+			limit = {
+				OR = {
+					has_citizenship_type = { country = prev type = citizenship_full }
+					has_citizenship_type = { country = prev type = citizenship_full_machine }
+				}
+			}
+			while = { count = 5
+				limit = { prevprev = { check_variable = { which = z_pr_var_plnt_man value > 0 } } }
+				#_[创建人口]
+				prevprev = {#_<当前星球>
+					z_pr_prmt_eft_plnt_var_man_debug = { VALUE = -1 }	#_[人力变动参数debug]
+					create_pop = {
+						species = prev
+						ethos = prevprev	#_<owner>
+					}
+				}
+			}
+		}
+	}
+	##_[当前人力]
+	z_pr_eft_plnt_mod_plnt_man_debug = yes
+}
+###_[p_man转化居留]
+z_pr_eft_plnt_man_cnvt_limited = {
+	owner = {#_<星球所有者>
+		random_owned_pop_species = {
+			limit = {
+				has_citizenship_type = { country = prev type = citizenship_limited }
+			}
+			while = { count = 5
+				limit = { prevprev = { check_variable = { which = z_pr_var_plnt_man value > 0 } } }
+				#_[创建人口]
+				prevprev = {#_<当前星球>
+					z_pr_prmt_eft_plnt_var_man_debug = { VALUE = -1 }	#_[人力变动参数debug]
+					create_pop = {
+						species = prev
+						ethos = prevprev	#_<owner>
+					}
+				}
+			}
+		}
+	}
+	##_[当前人力]
+	z_pr_eft_plnt_mod_plnt_man_debug = yes
+}
+###_[p_man转化奴隶]
+z_pr_eft_plnt_man_cnvt_slavery = {
+	owner = {#_<星球所有者>
+		random_owned_pop_species = {
+			limit = {
+				has_citizenship_type = { country = prev type = citizenship_slavery }
+			}
+			while = { count = 5
+				limit = { prevprev = { check_variable = { which = z_pr_var_plnt_man value > 0 } } }
+				#_[创建人口]
+				prevprev = {#_<当前星球>
+					z_pr_prmt_eft_plnt_var_man_debug = { VALUE = -1 }	#_[人力变动参数debug]
+					create_pop = {
+						species = prev
+						ethos = prevprev	#_<owner>
+					}
+				}
+			}
+		}
+	}
+	##_[当前人力]
+	z_pr_eft_plnt_mod_plnt_man_debug = yes
+}
+###_[p_man转化机仆]
+z_pr_eft_plnt_man_cnvt_servitude = {
+	owner = {#_<星球所有者>
+		random_owned_pop_species = {
+			limit = {
+				has_citizenship_type = { country = prev type = citizenship_robot_servitude }
+			}
+			while = { count = 5
+				limit = { prevprev = { check_variable = { which = z_pr_var_plnt_man value > 0 } } }
+				#_[创建人口]
+				prevprev = {#_<当前星球>
+					z_pr_prmt_eft_plnt_var_man_debug = { VALUE = -1 }	#_[人力变动参数debug]
+					create_pop = {
+						species = prev
+						ethos = prevprev	#_<owner>
+					}
+				}
+			}
+		}
+	}
+	##_[当前人力]
+	z_pr_eft_plnt_mod_plnt_man_debug = yes
+}
+###_[p_man转化活体陈设]
+z_pr_eft_plnt_man_cnvt_trophy = {
+	owner = {#_<星球所有者>
+		random_owned_pop_species = {
+			limit = {
+				has_citizenship_type = { country = prev type = citizenship_organic_trophy }
+			}
+			while = { count = 1
+				limit = { prevprev = { check_variable = { which = z_pr_var_plnt_man value > 0 } } }
+				#_[创建人口]
+				prevprev = {#_<当前星球>
+					z_pr_prmt_eft_plnt_var_man_debug = { VALUE = -1 }	#_[人力变动参数debug]
+					create_pop = {
+						species = prev
+						ethos = prevprev	#_<owner>
+					}
+				}
+			}
+		}
+	}
+	##_[当前人力]
+	z_pr_eft_plnt_mod_plnt_man_debug = yes
+}
+
+
+
+
+###_[p_随机转奴隶]
+z_pr_eft_plnt_representative_random_to_slavery = {
+	owner = {#_<星球所有者>
+		random_owned_pop_species = {
+			limit = { has_citizenship_type = { country = prev type = citizenship_slavery } }
+			prevprev = {#_<plnt>
+				random_owned_pop = {
+					limit = {
+						OR = {
+							has_job = z_pr_freeman_specialist
+							has_job = z_pr_freeman_worker
+							has_job = z_pr_drone_adv
+							has_job = z_pr_drone_normal
+						}
+						NOT = { has_citizenship_type = { country = prev type = citizenship_slavery } }
+					}
+					weights = {
+						base = 1
+						modifier = {#_[居留]
+							factor = 5
+							has_citizenship_type = { country = prev type = citizenship_limited }
+						}
+						modifier = {#_[机械奴工]
+							factor = 2
+							has_citizenship_type = { country = prev type = citizenship_robot_servitude }
+						}
+					}
+					
+					change_species = prevprev
+				}
+			}
+		}
+	}
+}
+###_[p_随机转机仆]
+z_pr_eft_plnt_representative_random_to_servitude = {
+	owner = {#_<星球所有者>
+		random_owned_pop_species = {
+			limit = { has_citizenship_type = { country = prev type = citizenship_robot_servitude } }
+			prevprev = {#_<plnt>
+				random_owned_pop = {
+					limit = {
+						OR = {
+							has_job = z_pr_freeman_specialist
+							has_job = z_pr_freeman_worker
+							has_job = z_pr_drone_adv
+							has_job = z_pr_drone_normal
+						}
+						NOT = { has_citizenship_type = { country = prev type = citizenship_robot_servitude } }
+					}
+					weights = {
+						base = 1
+						modifier = {#_[奴隶]
+							factor = 5
+							has_citizenship_type = { country = prev type = citizenship_slavery }
+						}
+						modifier = {#_[居留]
+							factor = 2
+							has_citizenship_type = { country = prev type = citizenship_limited }
+						}
+					}
+					
+					change_species = prevprev
+				}
+			}
+		}
+	}
+}
+###_[p_随机转公民]
+z_pr_eft_plnt_representative_random_to_full = {
+	owner = {#_<星球所有者>
+		random_owned_pop_species = {
+			limit = {
+				OR = {
+					has_citizenship_type = { country = prev type = citizenship_full }
+					has_citizenship_type = { country = prev type = citizenship_full_machine }
+				}
+			}
+			prevprev = {#_<plnt>
+				random_owned_pop = {
+					limit = {
+						OR = {
+							has_job = z_pr_freeman_specialist
+							has_job = z_pr_freeman_worker
+							has_job = z_pr_drone_adv
+							has_job = z_pr_drone_normal
+						}
+						NOR = {
+							has_citizenship_type = { country = prev type = citizenship_full }
+							has_citizenship_type = { country = prev type = citizenship_full_machine }
+						}
+					}
+					weights = {
+						base = 1
+						modifier = {#_[奴隶]
+							factor = 5
+							has_citizenship_type = { country = prev type = citizenship_slavery }
+						}
+						modifier = {#_[机械奴工]
+							factor = 4
+							has_citizenship_type = { country = prev type = citizenship_robot_servitude }
+						}
+						modifier = {#_[居留]
+							factor = 2
+							has_citizenship_type = { country = prev type = citizenship_limited }
+						}
+					}
+					
+					change_species = prevprev
+				}
+			}
+		}
+	}
+}
+
+
+
+
+###_[pr放弃殖民地]	有迁入星球/无迁入星球/全殖民地debug
+z_pr_eft_plnt_abandon = {
+	set_update_modifiers_batch = begin
+	
+	###_|有迁入星球|	init/pop转化/man转移/摧毁殖民地/清理mod
+	if = {
+		limit = {
+			owner = {
+				any_owned_planet = {
+					NOT = { has_planet_flag = z_pr_flg_plnt_just_abandoned }	#_|新废弃星球|
+					is_colony = yes
+					is_under_colonization = no
+					NOT = { is_same_value = prevprev }	#_|不是当前星球|
+					is_variable_set = z_pr_var_plnt_man
+					is_variable_set = z_pr_var_plnt_workshop
+					is_variable_set = z_pr_var_plnt_man_QTNT
+				}
+			}
+		}
+	
+		##_[init]
+		set_timed_planet_flag = { flag = z_pr_flg_plnt_just_abandoned days = 1 }	#_|新废弃星球|
+		set_variable = { which = TEMP_var_plnt_pop value = 0 }	#_|剩余人口|
+		every_owned_pop = { prev = { change_variable = { which = TEMP_var_plnt_pop value = 1 } } }
+		
+		##_[pop转化]
+		every_owned_pop = { limit = { check_variable = { which = TEMP_var_plnt_pop value > 1 } }	#_留最后一个
+			kill_pop = yes
+			prev = {
+				z_pr_prmt_eft_plnt_var_man_debug = { VALUE = 1 }	#_[人力变动参数debug]
+				subtract_variable = { which = TEMP_var_plnt_pop value = 1 }	#_|剩余人口|
+			}
+		}
+		#_[最后一人]
+		z_pr_prmt_eft_plnt_var_man_debug = { VALUE = 1 }	#_[人力变动参数debug]
+		
+		##_[man转移]
+		while = {
+			limit = { check_variable = { which = z_pr_var_plnt_man value > 0 } }
+			
+			z_pr_prmt_eft_plnt_var_man_debug = { VALUE = -1 }	#_[人力变动参数debug]
+			owner = {
+				random_owned_planet = {
+					limit = {
+						NOT = { has_planet_flag = z_pr_flg_plnt_just_abandoned }	#_|新废弃星球|
+						is_colony = yes
+						is_under_colonization = no
+						NOT = { is_same_value = prevprev }	#_|不是当前星球|
+						is_variable_set = z_pr_var_plnt_man
+						is_variable_set = z_pr_var_plnt_workshop
+						is_variable_set = z_pr_var_plnt_man_QTNT
+					}
+					weights = {
+						base = 5
+						modifier = {#_|人力不满|
+							factor = 5
+							check_variable = { which = z_pr_var_plnt_man_QTNT value < 1 }
+						}
+						modifier = {#_|人力过剩|
+							factor = 0.5
+							check_variable = { which = z_pr_var_plnt_man_QTNT value > 2 }
+						}
+						modifier = {#_|人力过剩|
+							factor = 0.2
+							check_variable = { which = z_pr_var_plnt_man_QTNT value > 3 }
+						}
+						modifier = {#_|人力过剩|
+							factor = 0.1
+							check_variable = { which = z_pr_var_plnt_man_QTNT value > 4 }
+						}
+					}
+					z_pr_prmt_eft_plnt_var_man_debug = { VALUE = 1 }	#_[人力变动参数debug]
+					
+					z_pr_eft_plnt_man_mig_done_debug = yes	#_[迁移完成debug]=|z_pr_var_plnt_man_QTNT|
+				}
+			}
+		}
+		
+		##_[摧毁殖民地]
+		every_owned_pop = { kill_pop = yes }
+		
+		##_[清理mod]
+		set_planet_flag = z_pr_flg_plnt_ignore	#_[星球mod清理]前置
+		z_pr_eft_plnt_mod_clear = yes	#_[星球mod清理]
+		remove_planet_flag = z_pr_flg_plnt_ignore
+	}
+	###_[无迁入星球]
+	
+	###[全殖民地debug]	当前人力/DB
+	every_owned_planet = {
+		limit = {
+			is_colony = yes
+			is_under_colonization = no
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }	#_|pr忽略|
+		}
+		##_[当前人力]
+		z_pr_eft_plnt_mod_plnt_man_debug = yes
+		
+		##_[加成DB追加]
+		set_planet_flag = z_pr_flg_plnt_bonus_debug_ready
+		set_planet_flag = z_pr_flg_plnt_bonus_debug_add
+		##_[岗位DB追加]
+		set_planet_flag = z_pr_flg_plnt_job_debug_ready
+		set_planet_flag = z_pr_flg_plnt_job_debug_add
+		##_[产出DB追加]
+		set_planet_flag = z_pr_flg_plnt_output_debug_ready
+		set_planet_flag = z_pr_flg_plnt_output_debug_add
+	}
+	
+	set_update_modifiers_batch = end
+}
+

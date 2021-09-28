@@ -1,0 +1,36 @@
+###_	production_revolution triggers	###########################################################
+
+#_[sai管理]
+#_[pf]
+
+
+
+
+###_[sai管理]	#################################################################################
+everything_is_fine_normal = {
+    free_amenities > 2
+    owner = {
+        resource_income_compare = {
+            resource = consumer_goods
+            value > 5
+        }
+        resource_income_compare = {
+            resource = alloys
+            value > 40
+        }
+        used_naval_capacity_percent > 0.95
+    }
+}
+
+
+
+
+
+
+
+
+###_[pf]	迁出条件/迁入条件	#################################################################################
+#_[迁出条件]	自动迁移non<z_pf_flg_plnt_migration_ignore>
+z_pf_trgr_plnt_manpower_migration = { always = no }
+#_[迁入条件]	自动迁移non<z_pf_flg_plnt_immigration_ignore>
+z_pf_trgr_plnt_manpower_immigration = { always = no }

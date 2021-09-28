@@ -1,0 +1,13 @@
+#_[岗位统计条件]
+
+
+
+
+###_[岗位统计条件]
+#_prmt	|JOB/VALUE|
+z_pr_trgr_plnt_job_db = {
+	OR = {
+		[[VALUE]	check_modifier_value = { modifier = job_$JOB$_add value > -$VALUE$ }]
+		check_modifier_value = { modifier = job_$JOB$_per_pop value > 0 }
+	}
+}

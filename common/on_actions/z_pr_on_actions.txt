@@ -1,0 +1,276 @@
+###_	z_pr	核心功能触发器	##############################################################################################
+
+#_[game_start]			初始化
+#_[global_pulse]		pr月度debug/年度debug/pr五年debug
+#_[country_pulse]
+#_[tech]
+#_[planet/建筑变动]		pr星球初始设置/星球变动/地改开始/地改完成
+#_[planet_pop]			增长debug
+
+
+
+
+
+###_[game_start]	#######################################################
+on_game_start = {
+	events = {
+		z_pr_core.1					#_[初始化]
+	}
+}
+
+
+
+
+#_[global_pulse]	#######################################################
+on_monthly_pulse = {
+	events = {
+		z_pr_core.11				#_[pr月度debug]
+	}
+}
+
+on_yearly_pulse = {
+	events = {
+		z_pr_core.12				#_[年度debug]	同步改革/飞升检测
+	}
+}
+
+on_five_year_pulse = {
+	events = {
+		z_pr_core.120				#_[pr五年debug]
+	}
+}
+
+# No scope, like on_game_start
+on_mid_game_pulse = {
+	events = {
+	}
+}
+
+
+
+
+###_[country_pulse]	#####################################################
+on_monthly_pulse_country = {
+	events = {
+	}
+}
+
+on_yearly_pulse_country = {
+	events = {
+	}
+}
+
+
+
+
+#_[tech]	#######################################################
+on_tech_increased = {
+	events = {
+	}
+}
+
+
+
+
+###_[planet]	#####################################################
+# A planet has been colonized.
+# Scope = Planet
+on_colonized = {
+	events = {
+		z_pr_debug.2			#_[pr星球初始设置]
+		z_pr_core.13			#_[星球变动]
+		z_pr_debug.20			#_[pr星球玩家占据]
+	}
+}
+
+# A colony has been destroyed. Called just before owner and controller is cleared
+# Scope = Planet
+on_colony_destroyed = {
+	events = {
+		z_pr_debug.2			#_[pr星球初始设置]
+	}
+}
+
+# A planets controller becomes a country not the same as the owner.
+# Root = Planet
+# From = Planet Owner
+# FromFrom = Planet Controller (the one occupying)
+on_planet_occupied = {
+	events = {
+		z_pr_core.13			#_[星球变动]
+	}
+}
+
+#From = Country scope
+#This = Planet scope
+on_planet_ownerless = {
+	events = {
+		z_pr_debug.2			#_[pr星球初始设置]
+	}
+}
+
+#Fired whenever a new owner is set for a planet,
+#be it after a war or through a trade
+#From = Country scope (new owner)
+#This = Planet scope
+on_planet_transfer = {
+	events = {
+		z_pr_debug.2			#_[pr星球初始设置]
+		z_pr_core.13			#_[星球变动]
+		z_pr_debug.20			#_[pr星球玩家占据]
+	}
+}
+
+
+# Planets starts being terraformed
+# This = Planet
+# From = Terraforming country
+on_terraforming_begun = {
+	events = {
+		z_pr_debug.21			#_[地改开始]
+	}
+}
+
+# Planet has been terraformed
+# This = Planet
+# From = Terraforming country
+on_terraforming_complete = {
+	events = {
+		z_pr_debug.22			#_[地改完成]
+	}
+}
+
+
+
+
+###_[planet_pop]	#####################################################
+
+# Pop is abducted by raiding stance
+# This = Pop scope
+# From = planet abducted from
+on_pop_abducted  = {
+	events = {
+		z_pr_core.250		#_[绑架debug]
+	}
+}
+
+# Executed just after country has established communications with another country
+# This = Planet where the pop was bombed to death
+# From = Country which is raining down fire and brimstone
+on_pop_bombed_to_death = {
+	events = {
+		z_pr_core.25		#_[削减debug]
+	}
+}
+
+# A pop has been added to the planet
+# Root = pop
+# From = planet
+on_pop_added = {
+	events = {
+	#	z_pr_core.241		#_[添加debug]	这玩意有问题,一触发就跳出,可能是触发过于集中?每个增加人口都触发?
+	}
+}
+
+# A pop has finished growing
+# This = Planet scope
+# From = Country
+# FromFrom = Pop
+on_pop_grown = {
+	events = {
+		z_pr_core.24		#_[增长debug]
+	}
+}
+
+# A pop has finished assembling
+# This = Planet scope
+# From = Country
+# FromFrom = Pop
+on_pop_assembled = {
+	events = {
+		z_pr_core.24		#_[增长debug]
+	}
+}
+
+# A pop has finished purging
+# This = Planet scope
+# From = Country
+# FromFrom = Pop
+on_pop_purged = {
+	events = {
+	}
+}
+
+# A pop has finished declining (while not being purged)
+# This = Planet scope
+# From = Country
+# FromFrom = Pop
+on_pop_declined = {
+	events = {
+		z_pr_core.25		#_[削减debug]
+	}
+}
+
+# A pop has been displaced
+# This = Planet scope
+# From = Country
+# FromFrom = Pop
+on_pop_displaced = {
+	events = {
+		z_pr_core.25		#_[削减debug]
+	}
+}
+
+
+
+
+###_[建筑变动]	#####################################################
+
+#A district construction has been completed.
+# This = Planet
+on_district_complete = {
+	events = {
+		z_pr_core.13			#_[星球变动]
+	}
+}
+
+# A district construction has demolished.
+# This = Planet
+on_district_demolished = {
+	events = {
+		z_pr_core.13			#_[星球变动]
+	}
+}
+
+# A building construction has finished, replacing another building.
+# This = Planet
+on_building_replaced = {
+	events = {
+		z_pr_core.13			#_[星球变动]
+	}
+}
+
+#A building construction has been completed.
+# This = Planet
+on_building_complete = {
+	events = {
+		z_pr_core.13			#_[星球变动]
+	}
+}
+
+# A building construction has been completed, which is an upgrade of previous building.
+# This = Planet
+on_building_upgraded = {
+	events = {
+		z_pr_core.13			#_[星球变动]
+	}
+}
+
+# A building construction has demolished.
+# This = Planet
+on_building_demolished = {
+	events = {
+		z_pr_core.13			#_[星球变动]
+	}
+}
+

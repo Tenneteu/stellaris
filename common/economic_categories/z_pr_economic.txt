@@ -1,0 +1,28 @@
+###_产业革命	新增modifier类型
+#_	FIOS
+
+
+#_人力产出
+z_pr_production = {
+	icon = "job_z_pr_freeman_core"
+#	use_for_ai_budget = yes
+#	parent = planet_jobs
+	generate_add_modifiers = {
+		produces
+		upkeep
+	}
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+}
+
+#_post
+z_pr_post = {
+	generate_add_modifiers = {
+		produces
+	}
+	generate_mult_modifiers = {
+		produces
+	}
+}

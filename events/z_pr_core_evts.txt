@@ -1,0 +1,899 @@
+###_	production_revolution 核心	####################################################################
+namespace = z_pr_core
+
+#_[初始化/万用初始化]
+#_[版本更迭]
+#_[pr月度debug]
+#_[pr年度debug]
+#_[pr五年debug]
+#_[星球变动]
+#_[全局转化循环/自动pop转化]
+#_[man转化1st_旧/man转化cycle_旧]
+#_[增长debug/削减debug]
+#_[初始debug]
+#_[pc革命检测/pc飞升检测]
+
+
+
+
+###_[初始化] [id=1]	#############################################################################
+#_<on_game_start>
+#_list		安装检视/建筑槽max检测
+event = {
+	id = z_pr_core.1
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		#_[安装检视]
+		if = {
+			limit = { NOT = { has_global_flag = z_pr_installed } }
+			set_global_flag = z_pr_installed
+		}
+		#_[建筑槽max检测]	event_target:z_fw_tgt_global_event
+		random_country = {
+			limit = {
+				is_ai = yes
+				is_country_type = default
+			}
+			country_event = { id = z_pr_core.101 days = 3 }
+		}
+	}
+}
+###_[万用初始化]	|不用于多人游戏|		安装检视/建筑槽max检测
+country_event = {
+	id = z_pr_core.10
+	hide_window = yes
+	fire_only_once = yes
+	trigger = { is_ai = no }
+	mean_time_to_happen = { days = 13 }
+
+	immediate = {
+		if = {
+			limit = {
+				is_multiplayer = no
+				NOT = { has_global_flag = z_pr_installed }
+			}
+			#_[安装]
+			set_global_flag = z_pr_installed
+			#_[建筑槽max检测]	event_target:z_fw_tgt_global_event
+			random_country = {
+				limit = {
+					is_ai = yes
+					is_country_type = default
+				}
+				country_event = { id = z_pr_core.101 days = 3 }
+			}
+		}
+	}
+}
+
+
+
+
+###_[版本更迭]	[id=1030~1039]循环
+country_event = {
+	id = z_pr_core.1030
+	hide_window = yes
+	fire_only_once = yes
+	mean_time_to_happen = { days = 1 }
+	trigger = { is_ai = no }
+	
+	immediate = {
+		#_[init]
+		every_galaxy_planet = {
+			limit = {
+				OR = {
+					has_modifier = z_pr_mod_plnt_asbl_o_add
+					has_modifier = z_pr_mod_plnt_asbl_r_add
+				}
+			}
+			remove_modifier = z_pr_mod_plnt_asbl_o_add
+			remove_modifier = z_pr_mod_plnt_asbl_r_add
+		}
+	}
+}
+
+
+
+
+
+
+
+
+###_[pr月度debug] [id=11]	mod刷新debug/pr国家debug	#############################################################
+event = {
+	id = z_pr_core.11
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		##_[mod刷新debug]
+		set_update_modifiers_batch = begin
+		set_update_modifiers_batch = end
+
+		##_[pr国家debug]
+		every_country = { limit = { z_pr_trgr_cntr_valid = yes }	#_|pr生效国家|
+			country_event = { id = z_pr_debug.1 }
+		}
+	}
+}
+
+
+
+
+###_[pr年度debug] [id=12]	pr年度转化debug/同步改革/pc阶段检测
+#_<on_yearly_pulse>
+event = {
+	id = z_pr_core.12
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_global_flag = z_pr_flg_glbl_test_stop } }	#_|调试状态|
+
+	immediate = {
+		##_[pr年度转化debug]	殖民地初始化/全局转化循环init
+		#_[殖民地初始化]
+		every_galaxy_planet = {
+			limit = {
+				is_colony = yes
+				is_under_colonization = no
+			}
+			#_[出厂设置]
+			if = { limit = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore } }
+				remove_planet_flag = z_pr_flg_plnt_apmc_counted	#_|殖民地apmc执行过|
+			}
+			#_[pr星球清理]
+			planet_event = { id = z_pr_debug.3 random = 7 }
+		}
+		#_[全局转化循环init]	殖民地总数debug/转化进行标签/全局转化循环
+		if = { limit = { exists = event_target:z_fw_tgt_global_event }
+			event_target:z_fw_tgt_global_event = {
+				#_[殖民地总数debug]=|执行次数|
+				set_variable = { which = z_pr_npc0_var_pop_convert_repeat value = 0 }
+				every_galaxy_planet = {
+					limit = {
+						is_colony = yes
+						is_under_colonization = no
+						NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+					}
+					prev = { change_variable = { which = z_pr_npc0_var_pop_convert_repeat value = 1 } }
+				}
+				divide_variable = { which = z_pr_npc0_var_pop_convert_repeat value = 360 }
+				ceiling_variable = z_pr_npc0_var_pop_convert_repeat	#_|向上取整|
+				#_|全局转化进行标签|初始化
+				set_country_flag = z_pr_flg_npc0_pop_cnvt_cycle
+				#_[全局转化循环]
+				country_event = { id = z_pr_core.20 }
+			}
+		}
+	
+	
+		##_[同步改革]	产业革命/产业飞升
+		#_[产业革命]
+		if = {
+			limit = { any_country = { has_country_flag = z_pr_flg_cntr_reg } }
+			every_country = {
+				limit = {
+					z_pr_trgr_cntr_valid = yes	#_|pr生效国家|
+					is_ai = yes
+					NOT = { has_country_flag = z_pr_flg_cntr_reg }
+				}
+				z_pr_eft_cntr_revolution = yes	#_[pr完成革命]
+			}
+		}
+		#_[产业飞升]	z待定
+		if = {
+			limit = {
+				any_country = {
+					OR = {
+						has_country_flag = z_pr_flg_cntr_2_integrated
+						has_country_flag = z_pr_flg_cntr_2_expanded
+					}
+				}
+			}
+			every_country = {
+				limit = {
+					z_pr_trgr_cntr_valid = yes	#_|pr生效国家|
+					is_ai = yes
+					has_country_flag = z_pr_flg_cntr_reg
+					NOR = {
+						has_country_flag = z_pr_flg_cntr_2_integrated
+						has_country_flag = z_pr_flg_cntr_2_expanded
+					}
+				}
+				random_list = {
+					1 = { set_country_flag = z_pr_flg_cntr_2_integrated }
+					1 = { set_country_flag = z_pr_flg_cntr_2_expanded }
+					1 = {}
+				}
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = z_pr_flg_cntr_2_integrated
+							has_country_flag = z_pr_flg_cntr_2_expanded
+						}
+					}
+					z_pr_eft_cntr_colony_structure_debug = yes	#_[国家区划刷新]
+				}
+			}
+		}
+		
+		
+		##_[pc阶段检测]
+		every_country = {
+			limit = { is_ai = no }
+			#_[pc革命检测]
+			if = {
+				limit = { NOT = { has_country_flag = z_pr_flg_cntr_reg } }
+				country_event = { id = z_pr_core.50 }
+			}
+			#_[pc飞升检测]
+			else_if = {
+				limit = {
+					NOT = { has_global_flag = z_pr_flg_glbl_ap_adv_disabled }	#_[禁用高级飞升]
+					has_country_flag = z_pr_flg_cntr_reg
+					NOR = {
+						has_country_flag = z_pr_flg_cntr_2_integrated
+						has_country_flag = z_pr_flg_cntr_2_expanded
+					}
+				}
+				country_event = { id = z_pr_core.51 }
+			}
+		}
+	}
+}
+
+
+###_[pr五年debug]		国家区划刷新
+#_<on_five_year_pulse>
+event = {
+	id = z_pr_core.120
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		every_country = {
+			limit = { z_pr_trgr_cntr_valid = yes }
+			#_[国家区划刷新]
+			z_pr_eft_cntr_colony_structure_debug = yes	
+		}
+	}
+}
+
+
+
+
+###_[星球变动]
+planet_event = {
+	id = z_pr_core.13
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		owner = { has_country_flag = z_pr_flg_cntr_reg }	#_|pr革命完成|
+		NOT = { has_planet_flag = z_pr_flg_plnt_ignore }	#_|pr忽略|
+	}
+	immediate = {
+		##_[岗位DB追加]
+		set_planet_flag = z_pr_flg_plnt_job_debug_ready
+		set_planet_flag = z_pr_flg_plnt_job_debug_add
+		##_[加成DB追加]
+		set_planet_flag = z_pr_flg_plnt_bonus_debug_ready
+		set_planet_flag = z_pr_flg_plnt_bonus_debug_add
+		##_[产出DB追加]
+		set_planet_flag = z_pr_flg_plnt_output_debug_ready
+		set_planet_flag = z_pr_flg_plnt_output_debug_add
+	}
+}
+
+
+
+
+
+
+
+
+###_[全局转化循环] [id=20]	init/自循环/殖民地转化开始	####################################################################
+#_<pr年度debug>
+country_event = {
+	id = z_pr_core.20
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = z_pr_flg_npc0_pop_cnvt_cycle		#_|全局转化进行标签|
+		NOT = { has_global_flag = z_pr_flg_glbl_test_stop }	#_|调试状态|
+	}
+	
+	immediate = {
+		##_[init]
+		remove_country_flag = z_pr_flg_npc0_pop_cnvt_cycle	#_|全局转化进行标签|
+		
+		##_[自循环]
+		country_event = { id = z_pr_core.20 days = 1 }
+		
+		##_[殖民地转化开始]	重复1/重复2/重复3/重复4
+		#_[重复1]
+		if = { limit = { check_variable = { which = z_pr_npc0_var_pop_convert_repeat value = 1 } }	#_|执行次数|
+			random_galaxy_planet = {
+				limit = { z_pr_trgr_plnt_apmc_valid = yes }	#_|自动转化殖民地|
+				#_[pop转化初始化]
+				set_planet_flag = z_pr_flg_plnt_apmc_counted	#_|殖民地apmc执行过|
+				#_[全局转化进行标签]
+				prev = { set_country_flag = z_pr_flg_npc0_pop_cnvt_cycle }
+				#_[自动pop转化]
+				check_planet_employment = yes	#_[就业检测]
+				planet_event = { id = z_pr_core.21 days = 1 }
+			}
+		}
+		#_[重复2]
+		else_if = { limit = { check_variable = { which = z_pr_npc0_var_pop_convert_repeat value = 2 } }	#_|执行次数|
+			while = { count = 2
+				random_galaxy_planet = {
+					limit = { z_pr_trgr_plnt_apmc_valid = yes }	#_|自动转化殖民地|
+					#_[pop转化初始化]
+					set_planet_flag = z_pr_flg_plnt_apmc_counted	#_|殖民地apmc执行过|
+					#_[全局转化进行标签]
+					prev = { set_country_flag = z_pr_flg_npc0_pop_cnvt_cycle }
+					#_[自动pop转化]
+					check_planet_employment = yes	#_[就业检测]
+					planet_event = { id = z_pr_core.21 days = 1 }
+				}
+			}
+		}
+		#_[重复3]
+		else_if = { limit = { check_variable = { which = z_pr_npc0_var_pop_convert_repeat value = 3 } }	#_|执行次数|
+			while = { count = 3
+				random_galaxy_planet = {
+					limit = { z_pr_trgr_plnt_apmc_valid = yes }	#_|自动转化殖民地|
+					#_[pop转化初始化]
+					set_planet_flag = z_pr_flg_plnt_apmc_counted	#_|殖民地apmc执行过|
+					#_[全局转化进行标签]
+					prev = { set_country_flag = z_pr_flg_npc0_pop_cnvt_cycle }
+					#_[自动pop转化]
+					check_planet_employment = yes	#_[就业检测]
+					planet_event = { id = z_pr_core.21 days = 1 }
+				}
+			}
+		}
+		#_[重复4]
+		else_if = { limit = { check_variable = { which = z_pr_npc0_var_pop_convert_repeat value >= 4 } }	#_|执行次数|
+			while = { count = 4
+				random_galaxy_planet = {
+					limit = { z_pr_trgr_plnt_apmc_valid = yes }	#_|自动转化殖民地|
+					#_[pop转化初始化]
+					set_planet_flag = z_pr_flg_plnt_apmc_counted	#_|殖民地apmc执行过|
+					#_[全局转化进行标签]
+					prev = { set_country_flag = z_pr_flg_npc0_pop_cnvt_cycle }
+					#_[自动pop转化]
+					check_planet_employment = yes	#_[就业检测]
+					planet_event = { id = z_pr_core.21 days = 1 }
+				}
+			}
+		}
+	}
+}
+
+###_[自动pop转化]	init/AI建设预留/最值限定/转化执行/clear		/man转化
+planet_event = {
+	id = z_pr_core.21
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_global_flag = z_pr_flg_glbl_test_stop } }	#_|调试状态|
+	
+	immediate = {
+		set_update_modifiers_batch = begin
+		
+		##_[init]
+		set_variable = { which = TEMP_var_plnt_pop value = 0 }
+		set_variable = { which = z_pr_var_plnt_pop_cnvt_left value = 0 }
+		every_owned_pop = {
+			#_|剩余人口|
+			prev = { change_variable = { which = TEMP_var_plnt_pop value = 1 } }
+			#_|pop转化余量|
+			if = { limit = { z_pr_trgr_pop_uep = yes }	#_|失业人口|
+				prev = { change_variable = { which = z_pr_var_plnt_pop_cnvt_left value = 1 } }
+			}
+		}
+		
+		##_[AI建设预留]AI建设用
+		if = {
+			limit = {#_|存在可建设空间|
+				exists = owner
+				owner = { is_ai = yes }
+				OR = {
+					free_district_slots > 0
+					free_building_slots > 0
+				}
+			}
+			subtract_variable = { which = z_pr_var_plnt_pop_cnvt_left value = 1 }
+		}
+		
+		##_[最值限定]|max|=25
+		if = { limit = { check_variable = { which = z_pr_var_plnt_pop_cnvt_left value > 25 } }		set_variable = { which = z_pr_var_plnt_pop_cnvt_left value = 25 } }
+		
+		##_[转化执行]
+		every_owned_pop = { limit = { z_pr_trgr_pop_clean = yes }	#_|多余人口|
+			if = {
+				limit = {
+					prev = {#_<planet>
+						check_variable = { which = TEMP_var_plnt_pop value > 9 }	#_|剩余人口|产业代表就是9个
+						check_variable = { which = z_pr_var_plnt_pop_cnvt_left value > 0 }	#_|pop转化余量|
+					}
+				}
+				#_[人力var_debug]
+				prev = {#_<planet>
+					z_pr_prmt_eft_plnt_var_man_debug = { VALUE = 1 }	#_[人力变动参数debug]
+					subtract_variable = { which = TEMP_var_plnt_pop value = 1 }		#_|剩余人口|
+				}
+				#_[uep清理var_debug]
+				if = { limit = { z_pr_trgr_pop_uep = yes }	#_|失业人口|
+					prev = {
+						set_planet_flag = TEMP_flg_plnt_uep_cnvt_executed	#_|发生过uep转化|
+						subtract_variable = { which = z_pr_var_plnt_pop_cnvt_left value = 1 }	#_|pop转化余量|
+					}
+				}
+				#_[clear]
+				z_pr_eft_pop_lower_spcs_change = yes	#_[底层物种调整]
+				kill_pop = yes
+			}
+		}
+		
+		##_[clear]
+		clear_variable = TEMP_var_plnt_pop			#_|剩余人口|
+		clear_variable = z_pr_var_plnt_pop_cnvt_left	#_|pop转化余量|
+		
+		
+		##_[man转化]	
+		if = { limit = { has_planet_flag = TEMP_flg_plnt_uep_cnvt_executed }	#_|发生过uep转化|证明没有空岗位接受这些uep,所以无需[man转化]
+			remove_planet_flag = TEMP_flg_plnt_uep_cnvt_executed
+		}
+		else = { z_pr_eft_plnt_core_man_cnvt_cycle = yes }
+		
+		set_update_modifiers_batch = end
+	}
+}
+
+
+###_[man转化1st_旧]	<自动pop转化>	初体验/1st入职检测init		---z禁用
+#_	|z_pr_var_plnt_man/TEMP_var_plnt_free_jobs|
+#_	首先转化1st人口，并赋予转化隔离flg。因为created_pop必然触发工作检测，因此1日后检测其是否入职。
+#_	若没入职，证明没有有效的岗位（岗位缓存移除之类），清理|空岗位|并停止转化。
+#_	反之，证明存在有效岗位，进行[转化循环]。
+planet_event = {
+	id = z_pr_core.22
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		##_[初体验]
+		if = {
+			limit = {
+				check_variable = { which = z_pr_var_plnt_man value > 0 }
+				check_variable = { which = TEMP_var_plnt_free_jobs value > 0 }	#_|岗位充足|
+			}
+			#_[apmc转化为人口]
+			z_pr_eft_plnt_man_cnvt_apmc = yes
+			#_[参数修正]
+			z_pr_prmt_eft_plnt_var_man_debug = { VALUE = -1 }	#_[人力变动参数debug]
+			subtract_variable = { which = TEMP_var_plnt_free_jobs value = 1 }
+			
+			##_[1st入职检测init]
+			if = { limit = { exists = last_created_pop }
+				last_created_pop = {
+					set_timed_pop_flag = { flag = z_pr_flg_pop_cnvt_ignore days = 2 }	#_|转化隔离|
+					pop_event = { id = z_pr_core.23 days = 1 }
+				}
+			}
+		}
+		else = {
+			##_[clear]
+			clear_variable = TEMP_var_plnt_free_jobs
+		}
+	}
+}
+###_[man转化cycle_旧]<man转化1st>	无有效岗位/存在有效岗位/当前人力		---z禁用
+pop_event = {
+	id = z_pr_core.23
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_global_flag = z_pr_flg_glbl_test_stop } }	#_|调试状态|
+
+	immediate = {
+		set_update_modifiers_batch = begin
+		
+		##_|无有效岗位|
+		if = {
+			limit = { is_unemployed = yes }
+			#_[人力var_debug]
+			planet = {
+				z_pr_prmt_eft_plnt_var_man_debug = { VALUE = 1 }	#_[人力变动参数debug]
+				##_[clear]
+				clear_variable = TEMP_var_plnt_free_jobs
+			}
+			
+			#_[clear]
+			kill_pop = yes
+		}
+		##_|存在有效岗位|
+		else = {
+			remove_pop_flag = z_pr_flg_pop_cnvt_ignore
+	
+			##_[转化执行]	转化循环/clear
+			planet = {
+				# 转化循环
+				while = {
+					limit = {
+						check_variable = { which = z_pr_var_plnt_man value > 0 }
+						check_variable = { which = TEMP_var_plnt_free_jobs value > 0 }	#_|岗位充足|
+					}
+					#_[apmc转化为人口]
+					z_pr_eft_plnt_man_cnvt_apmc = yes
+					#_[参数修正]
+					z_pr_prmt_eft_plnt_var_man_debug = { VALUE = -1 }	#_[人力变动参数debug]
+					subtract_variable = { which = TEMP_var_plnt_free_jobs value = 1 }
+				}
+			
+				# clear
+				clear_variable = TEMP_var_plnt_free_jobs
+			}
+		}
+	
+		##_[当前人力]
+		#_[已验证]=如果不加<planet>会导致ctd,是因为modifier里含有pop所没有的e_cat?
+		planet = { z_pr_eft_plnt_mod_plnt_man_debug = yes }
+		
+		set_update_modifiers_batch = end
+	}
+}
+
+
+
+
+
+
+
+
+###_[增长debug]id=24
+#_<on_pop_grown/on_pop_assembled>
+planet_event = {
+	id = z_pr_core.24
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = owner
+		NOT = { has_planet_flag = z_pr_flg_plnt_ignore }	#_|pr忽略|
+		owner = { has_country_flag = z_pr_flg_cntr_reg }	#_|pr革命完成|
+		NOT = { has_global_flag = z_pr_flg_glbl_test_stop }	#_|调试状态|
+	}
+	immediate = {
+		fromfrom = {
+			set_timed_pop_flag = { flag = z_pr_flg_pop_cnvt_ignore days = 2 }	#_|转化隔离|
+			pop_event = { id = z_pr_core.240 days = 1 }
+		}
+	}
+}
+###_[添加debug]id=241
+#_<on_pop_added>
+pop_event = {
+	id = z_pr_core.241
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		from = {
+			exists = owner
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }	#_|pr忽略|
+			owner = { has_country_flag = z_pr_flg_cntr_reg }	#_|pr革命完成|
+		}
+		NOT = { has_global_flag = z_pr_flg_glbl_test_stop }	#_|调试状态|
+	}
+	immediate = {
+		set_timed_pop_flag = { flag = z_pr_flg_pop_cnvt_ignore days = 2 }	#_|转化隔离|
+		pop_event = { id = z_pr_core.240 days = 1 }
+	}
+}
+
+
+###_[增长debug转化]<增长debug>	未入职/入职/当前人力
+pop_event = {
+	id = z_pr_core.240
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_global_flag = z_pr_flg_glbl_test_stop } }	#_|调试状态|
+		
+	immediate = {
+	
+		##_|未入职|
+		if = {
+			limit = {
+				is_unemployed = yes
+				planet = {#_|AI建设预留|
+					owner = { is_ai = yes }
+					OR = {
+						free_district_slots > 0
+						free_building_slots > 0
+					}
+					num_unemployed > 1
+				}
+			}
+			#_[人力var_debug]
+			planet = {
+				z_pr_prmt_eft_plnt_var_man_debug = { VALUE = 1 }	#_[人力变动参数debug]
+			}
+			
+			#_[clear]
+			kill_pop = yes
+		}
+		##_|入职|
+		else = {
+			remove_pop_flag = z_pr_flg_pop_cnvt_ignore		#_|转化隔离|clear
+		}
+	
+		##_[当前人力]
+		planet = { z_pr_eft_plnt_mod_plnt_man_debug = yes }
+	
+	}
+}
+
+
+
+
+###_[削减debug]id=25
+#_<on_pop_bombed_to_death(无fromfrom)/on_pop_declined/on_pop_displaced>
+# This = Planet scope
+# From = Country
+# FromFrom = Pop
+planet_event = {
+	id = z_pr_core.25
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = owner
+		is_variable_set = z_pr_var_plnt_man
+		NOT = { has_planet_flag = z_pr_flg_plnt_ignore }	#_|pr忽略|
+		owner = { has_country_flag = z_pr_flg_cntr_reg }	#_|pr革命完成|
+		NOT = { has_global_flag = z_pr_flg_glbl_test_stop }	#_|调试状态|
+	}
+	
+	immediate = {
+		set_update_modifiers_batch = begin
+		
+		##_[立刻补充]
+		if = { limit = { check_variable = { which = z_pr_var_plnt_man value > 0 } }
+			z_pr_prmt_eft_plnt_var_man_debug = { VALUE = -1 }	#_[人力变动参数debug]
+			z_pr_eft_plnt_man_cnvt_apmc = yes
+		}
+		
+		set_update_modifiers_batch = end
+	}
+}
+###_[绑架debug]
+#_<on_pop_abducted>
+pop_event = {
+	id = z_pr_core.250
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		from = {
+			exists = owner
+			is_variable_set = z_pr_var_plnt_man
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }	#_|pr忽略|
+			owner = { has_country_flag = z_pr_flg_cntr_reg }	#_|pr革命完成|
+		}
+		NOT = { has_global_flag = z_pr_flg_glbl_test_stop }	#_|调试状态|
+	}
+	
+	immediate = {
+		from = { planet_event = { id = z_pr_core.25 } }		#_[削减debug]
+	}
+}
+
+
+
+
+
+
+
+
+###_[初始debug]id=3		殖民地基础debug/DB追加/pop转化初始化	######################################################
+country_event = {
+	id = z_pr_core.3
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_owned_planet = {
+			limit = { is_colony = yes	is_under_colonization = no }
+			##_[殖民地基础debug]
+			z_pr_eft_plnt_basic_debug = yes
+			
+			##_[加成DB追加]
+			set_planet_flag = z_pr_flg_plnt_bonus_debug_ready
+			set_planet_flag = z_pr_flg_plnt_bonus_debug_add
+			##_[岗位DB追加]
+			set_planet_flag = z_pr_flg_plnt_job_debug_ready
+			set_planet_flag = z_pr_flg_plnt_job_debug_add
+			##_[产出DB追加]
+			set_planet_flag = z_pr_flg_plnt_output_debug_ready
+			set_planet_flag = z_pr_flg_plnt_output_debug_add
+			
+			##_[pop转化初始化]
+			set_planet_flag = z_pr_flg_plnt_apmc_counted	#_|殖民地apmc执行过|
+
+			planet_event = { id = z_pr_core.30 days = 3 }	#_[初始就业检测]
+			planet_event = { id = z_pr_core.21 days = 4 }	#_[pop转化]
+			planet_event = { id = z_pr_debug.10 days = 6 }	#_[pr殖民地debug]
+			
+			planet_event = { id = z_pr_core.30 days = 30 }	#_[初始就业检测]
+			planet_event = { id = z_pr_core.31 days = 31 }	#_[参数重调]
+			planet_event = { id = z_pr_core.21 days = 32 }	#_[pop转化]			确保初始人口转化
+			planet_event = { id = z_pr_debug.10 days = 33 }	#_[pr殖民地debug]	初始经济debug
+		}
+	}
+}
+###_[初始就业检测]
+planet_event = {
+	id = z_pr_core.30
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		check_planet_employment = yes	
+	}
+}
+###_[参数重调]
+planet_event = {
+	id = z_pr_core.31
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		##_[加成DB追加]
+		set_planet_flag = z_pr_flg_plnt_bonus_debug_ready
+		set_planet_flag = z_pr_flg_plnt_bonus_debug_add
+		##_[岗位DB追加]
+		set_planet_flag = z_pr_flg_plnt_job_debug_ready
+		set_planet_flag = z_pr_flg_plnt_job_debug_add
+		##_[产出DB追加]
+		set_planet_flag = z_pr_flg_plnt_output_debug_ready
+		set_planet_flag = z_pr_flg_plnt_output_debug_add
+	}
+}
+
+
+
+
+
+
+
+
+###_[pc革命检测] [id=5]	#########################################################################
+#_[z_pr_core.12]
+country_event = {
+	id = z_pr_core.50
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_technology = tech_self_aware_logic	#_[2-2]
+		calc_true_if = {
+			amount >= 6
+			has_technology = tech_mining_2		#_[2-1]
+			has_technology = tech_mineral_purification_2	#_[2-3]
+			has_technology = tech_alloys_2		#_[3-1]
+			has_technology = tech_luxuries_2	#_[3-1]
+			has_technology = tech_power_plant_3	#_[2-1]
+			has_technology = tech_power_hub_2	#_[2-3]
+			has_technology = tech_volatile_motes	#_[2-1]
+			has_technology = tech_exotic_gases	#_[2-1]
+			has_technology = tech_rare_crystals	#_[2-1]
+		}
+	}
+
+	immediate = {
+		set_country_flag = z_pr_flg_cntr_reg_ready
+		country_event = { id = z_pr_core.501 }
+	}
+}
+#_[z_pr_core.50]	通知
+country_event = {
+	id = z_pr_core.501
+	title = z_pr_evt_ap_1
+	desc = z_pr_tips_btn_ap1
+	picture = GFX_evt_megastructure_construction
+	is_triggered_only = yes
+	
+	diplomatic = yes
+	custom_gui = "z_mm_gui_evt_620_620_text"
+	picture_event_data = {
+		room = z_pr_evt_ap_room
+	}
+
+	#_[直接采纳]
+	option = {
+		name = z_pr_evt_ap_1_take
+		custom_tooltip = z_pr_tips_btn_ap1_take
+		custom_gui = "z_mm_button_evt_option_blue"
+		hidden_effect = {
+			set_country_flag = z_pr_flg_cntr_reg
+			remove_country_flag = z_pr_flg_cntr_reg_ready
+			z_pr_eft_cntr_execute_revolution = yes	#_[pr执行革命]
+		}
+	}
+	#_[不采纳]
+	option = {
+		name = z_pr_evt_ap_1_non
+		custom_tooltip = z_pr_tips_ap1_non
+		custom_gui = "z_mm_button_evt_option_orange"
+	}
+}
+
+
+
+##_[pc飞升检测]
+#_[z_pr_core.12]
+country_event = {
+	id = z_pr_core.51
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		always = no	#_[z待定]
+		calc_true_if = {
+			amount > 6
+			has_technology = tech_physics_3		#_[4-2]
+			has_technology = tech_zero_point_power	#_[4-2]
+
+			has_technology = tech_society_3	#_[4-2]
+			has_technology = tech_colonization_5	#_[4-3]
+			has_technology = tech_manifest_destiny	#_[4-2]
+
+			has_technology = tech_sapient_ai		#_[4-1]
+			has_technology = tech_battleship_build_speed	#_[4-2]
+			has_technology = tech_starbase_5	#_[4-2]
+			has_technology = tech_ship_armor_5	#_[4-2]
+			has_technology = tech_advanced_metallurgy_2	#_[4-1]
+			has_technology = tech_engineering_3	#_[4-2]
+			has_technology = tech_synthetic_workers	#_[4-2]
+		}
+	}
+
+	immediate = {
+		set_country_flag = z_pr_flg_ap_2_ready
+		country_event = { id = z_pr_core.511 }
+	}
+}
+#_[z_pr_core.51]	通知
+country_event = {
+	id = z_pr_core.511
+	title = z_pr_evt_ap_2
+	desc = z_pr_tips_btn_ap2
+	picture = GFX_evt_megastructure_construction
+	is_triggered_only = yes
+	
+	diplomatic = yes
+	custom_gui = "z_mm_gui_evt_620_620_text"
+	picture_event_data = {
+		room = z_pr_evt_ap_room
+	}
+
+	#_[集成化]
+	option = {
+		name = z_pr_evt_ap_2_integration
+		custom_tooltip = z_pr_tips_btn_ap2_integration
+		custom_gui = "z_mm_button_evt_option_blue"
+		hidden_effect = {
+			set_country_flag = z_pr_flg_cntr_2_integrated
+			remove_country_flag = z_pr_flg_ap_2_ready
+			z_pr_eft_cntr_colony_structure_debug = yes	#_[国家区划刷新]
+		}
+	}
+	#_[扩大化]
+	option = {
+		name = z_pr_evt_ap_2_expansion
+		custom_tooltip = z_pr_tips_btn_ap2_expansion
+		custom_gui = "z_mm_button_evt_option_blue"
+		hidden_effect = {
+			set_country_flag = z_pr_flg_cntr_2_expanded
+			remove_country_flag = z_pr_flg_ap_2_ready
+			z_pr_eft_cntr_colony_structure_debug = yes	#_[国家区划刷新]
+		}
+	}
+	#_[不采纳]
+	option = {
+		name = z_pr_evt_ap_2_non
+		custom_tooltip = z_pr_tips_ap2_non
+		custom_gui = "z_mm_button_evt_option_orange"
+	}
+}

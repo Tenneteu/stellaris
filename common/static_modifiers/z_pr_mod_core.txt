@@ -1,0 +1,70 @@
+#_[建筑槽max检测/空闲区划槽位]
+#_[建筑槽/分公司]
+#_[普通后补/蜂群后补]
+
+
+
+
+###_[建筑槽max检测]	##############################################################################
+z_pr_mod_bldn_max_checker = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_plnt_mod_misc.dds"
+	planet_max_buildings_add = 777
+}
+
+###_[空闲区划槽位]
+z_pr_mod_pop_checker = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_plnt_mod_misc.dds"
+	planet_max_districts_add = 1
+}
+
+
+
+
+###_[建筑槽]	##############################################################################
+z_pr_mod_plnt_slot_bldn = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_slot_bldn.dds"
+	planet_max_buildings_add = 1
+}
+###_[分公司]
+z_pr_mod_plnt_slot_corp = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_slot_corp.dds"
+	planet_max_branch_office_buildings_add = 1
+}
+
+
+
+
+###_[普通后补]	##############################################################################
+z_pr_mod_plnt_reserved_job_regular_10 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_reserved_job.dds"
+	job_z_pr_freelancer_add = 10
+}
+z_pr_mod_plnt_reserved_job_regular_25 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_reserved_job.dds"
+	job_z_pr_freelancer_add = 25
+}
+z_pr_mod_plnt_reserved_job_regular_50 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_reserved_job.dds"
+	job_z_pr_freelancer_add = 50
+}
+z_pr_mod_plnt_reserved_job_regular_100 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_reserved_job.dds"
+	job_z_pr_freelancer_add = 100
+}
+###_[蜂群后补]
+z_pr_mod_plnt_reserved_job_gestalt_10 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_reserved_job.dds"
+	job_z_pr_free_drone_add = 10
+}
+z_pr_mod_plnt_reserved_job_gestalt_25 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_reserved_job.dds"
+	job_z_pr_free_drone_add = 25
+}
+z_pr_mod_plnt_reserved_job_gestalt_50 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_reserved_job.dds"
+	job_z_pr_free_drone_add = 50
+}
+z_pr_mod_plnt_reserved_job_gestalt_100 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_reserved_job.dds"
+	job_z_pr_free_drone_add = 100
+}

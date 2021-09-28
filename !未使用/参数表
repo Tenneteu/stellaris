@@ -1,0 +1,172 @@
+#_目录	比例对照表/资源对照表/修正对照表/阶级对照表/行业对照表
+
+
+
+
+###_[比例对照表]	################################################################
+#_格式	z_pr_var_plnt_$RATIO$_ratio
+
+原版 = {
+	spcs_v_organic
+	spcs_v_lithoid
+	spcs_v_robotic
+	spcs_v_slave
+	
+	trait_v_amenities
+	trait_v_repugnant
+	trait_v_thrifty
+	trait_v_nuumismatic
+	spcs_v_organic
+	spcs_v_organic
+	spcs_v_organic
+	spcs_v_organic
+	spcs_v_organic
+	
+	ls_v_utopian
+}
+mod = {
+	trait_mod_azl_weakup
+	
+	trait_mod_wsg_senergy
+	trait_mod_wsg_knowledgeable2
+}
+
+
+
+
+###_[资源表]	带#则仅有产出统计
+resources = {
+	#_香草1产
+	energy
+	minerals
+	food
+	#_香草2产
+	alloys
+	consumer_goods
+	#_香草高级
+	rare_crystals
+	exotic_gases
+	volatile_motes
+	#_科研|仅产出|
+	physics_research
+	engineering_research
+	society_research
+	#_凝聚
+	unity
+	#_香草其他
+	sr_living_metal
+	sr_zro
+	sr_dark_matter
+	nanites
+	minor_artifacts
+	
+	#_舰b
+	mind_club
+	azur_shippartbox	#
+	#_舰r
+	sr_pantsu
+	sr_neo
+	sr_alpha
+	sr_se
+	#_星舰少女
+	sr_kyber_swgs		#
+	sr_tibanna_swgs		#
+	#_灰烬
+	sr_crystal_adf		#
+	sr_parts_adf		#
+	#涅托
+	GF_nyto_collapse_liquid	#
+	#_ACOT
+	acot_sr_dark_energy
+	acot_sr_stellarite	#
+	#_Giga
+	ehof_sr_sentient_metal	#
+}
+
+
+
+
+###_[修正对照表]=pop_modifier/country_modifier/planet_modifier	################################################################
+pop_modifier = {
+	pop_defense_armies_add	#_防卫军
+}
+
+country_modifier = {
+	country_naval_cap_add	#_海军
+	country_admin_cap_add	#_规模
+}
+
+planet_modifier = {
+	trade_value_add	#_贸易
+	planet_amenities_add	#_舒适
+	planet_amenities_no_happiness_add	#_舒适蜂群
+	planet_stability_add	#_稳定
+	planet_crime_add	#_犯罪
+	planet_crime_no_happiness_add	#_犯罪蜂群
+	pop_environment_tolerance	#_宜居度
+
+##_人口
+	pop_growth_speed	#_自然增长
+	planet_pop_assembly_add	#_组装
+	planet_pop_assembly_mult	#_组装加成
+	planet_pop_assembly_organic_add	#_克隆
+	planet_pop_assembly_organic_mult	#_克隆加成
+	
+##_产出修正
+	planet_jobs_produces_mult	#_全产出
+	planet_jobs_alloys_produces_mult	#_合金产出
+	planet_jobs_upkeep_mult	#_全维护
+	planet_jobs_worker_produces_mult	#_工人产出
+	planet_jobs_complex_drone_produces_mult	#_复杂蜂产出
+	planet_jobs_simple_drone_produces_mult	#_简单蜂产出
+}
+
+
+
+
+###_[阶级对照表]=category	################################################################
+CAT = {
+	ruler
+	specialist
+	worker
+	complex_drone
+	simple_drone
+}
+
+
+
+
+###_[行业对照表]=resources/category	################################################################
+IDS = {
+	planet_technician
+	planet_technician_energy	#_|produces+planet_technician+energy|
+	
+	planet_miners
+	planet_miners_minerals	#_|produces+planet_miners+_minerals|
+	
+	planet_farmers
+	planet_farmers_food	#_|produces+planet_farmers+food|
+	
+	planet_metallurgists
+	planet_artisans
+	
+	planet_researchers
+	planet_researchers_physics_research	#_|produces+planet_researchers+physics_research|
+	planet_researchers_engineering_research	#_|produces+planet_researchers+engineering_research|
+	planet_researchers_society_research	#_|produces+planet_researchers+society_research|
+	
+	planet_priests
+	planet_culture_workers
+	planet_managers
+	
+	planet_pop_assemblers
+	planet_bureaucrats
+
+	planet_refiners
+	planet_translucers
+	planet_chemists
+	
+	planet_synapse_drones_unity	#_|produces+planet_synapse_drones+unity|
+	planet_evaluators_unity	#_|produces+planet_evaluators+unity|
+}
+

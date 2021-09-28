@@ -1,0 +1,21 @@
+z_pr_trait_core_species = {
+	cost = 0
+	potential_crossbreeding_chance = 0
+	initial = no
+	randomized = no
+
+	allowed_archetypes = {
+		BIOLOGICAL
+		ROBOT
+		MACHINE
+		LITHOID
+		WARSHIPGIRL	#_wsg
+		SHENHAI
+		STARSHIPGIRLS
+		DEITY	#_acot
+	}
+
+	modifier = { pop_government_ethic_attraction = 0.25 }
+	slave_cost = { energy = 100 }
+	ai_weight = { factor = 0 }
+}

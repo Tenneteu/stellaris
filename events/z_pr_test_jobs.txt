@@ -1,0 +1,147 @@
+###_	production_revolution	####################################################################
+namespace = z_pr_test_jobs
+#_[vanilla_pr]
+#_[碧蓝航线]
+#_[舰R]
+#_[PR_PATCH]	约战/苍蓝
+#_[ACOT/Giga]
+
+
+
+
+###_[vanilla_pr]id=10
+country_event = {
+	id = z_pr_test_jobs.10
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = {
+			if = { limit = { has_deposit = z_pr_d_test_香草 }
+				remove_deposit = z_pr_d_test_香草
+			}
+			else = { add_deposit = z_pr_d_test_香草 }
+		}
+	}
+}
+
+
+
+
+###_[碧蓝航线]id=1
+#_[前置清理]
+country_event = {
+	id = z_pr_test_jobs.1
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = {
+			remove_all_districts = yes
+		}
+	}
+}
+#_[科研]
+country_event = {
+	id = z_pr_test_jobs.11
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = {
+			if = { limit = { has_deposit = z_pr_d_test_碧蓝科研 }
+				remove_deposit = z_pr_d_test_碧蓝科研
+			}
+			else = { add_deposit = z_pr_d_test_碧蓝科研 }
+		}
+	}
+}
+#_[组装]
+country_event = {
+	id = z_pr_test_jobs.12
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = {
+			if = { limit = { has_deposit = z_pr_d_test_碧蓝组装 }
+				remove_deposit = z_pr_d_test_碧蓝组装
+			}
+			else = { add_deposit = z_pr_d_test_碧蓝组装 }
+		}
+	}
+}
+#_[科研]
+country_event = {
+	id = z_pr_test_jobs.13
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = {
+			if = { limit = { has_deposit = z_pr_d_test_碧蓝其他 }
+				remove_deposit = z_pr_d_test_碧蓝其他
+			}
+			else = { add_deposit = z_pr_d_test_碧蓝其他 }
+		}
+	}
+}
+
+
+###_[舰R]id=20
+country_event = {
+	id = z_pr_test_jobs.20
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = {
+			if = { limit = { has_deposit = z_pr_d_test_舰R }
+				remove_deposit = z_pr_d_test_舰R
+			}
+			else = { add_deposit = z_pr_d_test_舰R }
+		}
+	}
+}
+
+
+###_[PR_PATCH]id=30
+country_event = {
+	id = z_pr_test_jobs.30
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = {
+			if = { limit = { has_deposit = z_pr_d_test_PR_PATCH }
+				remove_deposit = z_pr_d_test_PR_PATCH
+			}
+			else = { add_deposit = z_pr_d_test_PR_PATCH }
+		}
+	}
+}
+
+
+###_[ACOT]id=40
+country_event = {
+	id = z_pr_test_jobs.40
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = {
+			if = { limit = { has_deposit = z_pr_d_test_ACOT }
+				remove_deposit = z_pr_d_test_ACOT
+			}
+			else = { add_deposit = z_pr_d_test_ACOT }
+		}
+	}
+}
+
+
+###_[Giga]id=41
+country_event = {
+	id = z_pr_test_jobs.41
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		capital_scope = {
+			if = { limit = { has_deposit = z_pr_d_test_Giga }
+				remove_deposit = z_pr_d_test_Giga
+			}
+			else = { add_deposit = z_pr_d_test_Giga }
+		}
+	}
+}

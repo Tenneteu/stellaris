@@ -1,0 +1,203 @@
+#_[plnt人力估算]
+#_[plnt效率加成提示]
+#_[plnt_co_debug]
+#_[AI建筑槽]
+#_[泛用修正]
+#_[热忱]	禁用放弃殖民地
+
+
+
+###_[plnt人力估算]
+z_pr_mod_plnt_manpower_few = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_few.dds"
+}
+z_pr_mod_plnt_manpower_15 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_15.dds"
+}
+z_pr_mod_plnt_manpower_30 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_30.dds"
+}
+z_pr_mod_plnt_manpower_45 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_45.dds"
+}
+z_pr_mod_plnt_manpower_60 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_60.dds"
+}
+z_pr_mod_plnt_manpower_75 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_75.dds"
+}
+z_pr_mod_plnt_manpower_100 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_100.dds"
+}
+z_pr_mod_plnt_manpower_125 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_125.dds"
+}
+z_pr_mod_plnt_manpower_150 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_150.dds"
+}
+z_pr_mod_plnt_manpower_200 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_200.dds"
+}
+z_pr_mod_plnt_manpower_250 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_250.dds"
+}
+z_pr_mod_plnt_manpower_300 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_300.dds"
+}
+z_pr_mod_plnt_manpower_400 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_400.dds"
+}
+z_pr_mod_plnt_manpower_500 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_500.dds"
+}
+z_pr_mod_plnt_manpower_750 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_750.dds"
+}
+z_pr_mod_plnt_manpower_1000 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_1000.dds"
+}
+z_pr_mod_plnt_manpower_1500 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_1500.dds"
+}
+z_pr_mod_plnt_manpower_2000 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_2000.dds"
+}
+z_pr_mod_plnt_manpower_3000 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_3000.dds"
+}
+z_pr_mod_plnt_manpower_4000 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_4000.dds"
+}
+
+
+
+###_[plnt效率加成提示]
+z_pr_mod_plnt_manpower_bonus_25 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_bonus_25.dds"
+}
+z_pr_mod_plnt_manpower_bonus_35 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_bonus_35.dds"
+}
+z_pr_mod_plnt_manpower_bonus_45 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_bonus_45.dds"
+}
+z_pr_mod_plnt_manpower_bonus_60 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_bonus_60.dds"
+}
+z_pr_mod_plnt_manpower_bonus_75 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_bonus_75.dds"
+}
+z_pr_mod_plnt_manpower_bonus_100 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_bonus_100.dds"
+}
+z_pr_mod_plnt_manpower_bonus_125 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_bonus_125.dds"
+}
+z_pr_mod_plnt_manpower_bonus_150 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_bonus_150.dds"
+}
+z_pr_mod_plnt_manpower_bonus_200 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_bonus_200.dds"
+}
+z_pr_mod_plnt_manpower_bonus_250 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_bonus_250.dds"
+}
+z_pr_mod_plnt_manpower_bonus_300 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_bonus_300.dds"
+}
+z_pr_mod_plnt_manpower_bonus_400 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_bonus_400.dds"
+}
+z_pr_mod_plnt_manpower_bonus_500 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_manpower_bonus_500.dds"
+}
+
+
+
+
+###_[plnt_co_debug]
+z_pr_mod_plnt_co_1 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_co.dds"
+	z_pr_post_z_pr_res_co_produces_add = -1
+}
+z_pr_mod_plnt_co_2 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_co.dds"
+	z_pr_post_z_pr_res_co_produces_add = -2
+}
+z_pr_mod_plnt_co_3 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_co.dds"
+	z_pr_post_z_pr_res_co_produces_add = -3
+}
+z_pr_mod_plnt_co_4 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_co.dds"
+	z_pr_post_z_pr_res_co_produces_add = -4
+}
+z_pr_mod_plnt_co_5 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_co.dds"
+	z_pr_post_z_pr_res_co_produces_add = -5
+}
+z_pr_mod_plnt_co_6 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_co.dds"
+	z_pr_post_z_pr_res_co_produces_add = -6
+}
+z_pr_mod_plnt_co_7 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_co.dds"
+	z_pr_post_z_pr_res_co_produces_add = -7
+}
+z_pr_mod_plnt_co_8 = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_co.dds"
+	z_pr_post_z_pr_res_co_produces_add = -8
+}
+
+
+
+
+###_[AI建筑槽]
+z_pr_mod_cntr_building_slot_6 {
+	icon = GFX_z_pr_misc	
+	planet_max_buildings_add = 6
+}
+z_pr_mod_cntr_building_slot_12 {
+	icon = GFX_z_pr_misc
+	planet_max_buildings_add = 12
+}
+z_pr_mod_cntr_building_slot_18 {
+	icon = GFX_z_pr_misc
+	planet_max_buildings_add = 18
+}
+z_pr_mod_cntr_building_slot_24 {
+	icon = GFX_z_pr_misc
+	planet_max_buildings_add = 24
+}
+z_pr_mod_cntr_building_slot_36 {
+	icon = GFX_z_pr_misc
+	planet_max_buildings_add = 36
+}
+
+
+
+
+###_[泛用修正]
+z_pr_mod_cntr_building_slot_start {
+	icon = GFX_z_pr_misc
+	planet_max_buildings_add = 36
+}
+z_pr_mod_cntr_manpower_buffer_5 {
+	icon = GFX_z_pr_misc
+	job_z_pr_uep_add = 5
+}
+z_pr_mod_cntr_manpower_buffer_10 {
+	icon = GFX_z_pr_misc
+	job_z_pr_uep_add = 10
+}
+
+
+
+
+###_[热忱]
+z_pr_mod_plnt_colony = {
+	icon = "gfx/interface/icons/planet_modifiers/z_pr_mod_plnt_colony.dds"
+	pop_growth_speed = 0.15			#_[organic]
+	planet_pop_assembly_add = 0.5	#_[machine]
+}
+

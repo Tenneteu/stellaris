@@ -1,0 +1,96 @@
+###_	碧蓝航线+pr effect	###########################################################
+#	碧蓝系统会将开启[碧蓝同化]的星球上所有[非碧蓝物种]转化为[心智机器人/心智能量], 因此在<apmc转化为人口>中, 碧蓝星球禁止将人力转化为[非碧蓝物种]
+#	另一方面可以通过<星球细节设置>将人力转化为[心智机器人/心智能量]
+
+#_[azl同化清理]
+#_[唯物同化/唯心同化]
+
+
+
+
+###_[azl同化清理]		z禁用
+#_<z_pr_debug.2>
+azl_pr_eft_plnt_assimilation_debug = {
+	if = {
+		limit = {
+			OR = {
+				has_global_flag = azurlane_KuRUMiiii
+				has_global_flag = azur_awakened_activated
+			}
+		}
+		remove_modifier = azur_assimilation_materialist
+		remove_modifier = azur_assimilation_spiritualist
+	}
+}
+
+
+
+
+###_[唯物同化]	心智机器人DB/劳务委员机械化
+#转化一个[心智机器人]物种
+#条件	check_variable = { which = z_pr_var_plnt_man value > 0 }	#_|存在人力|
+azl_pr_eft_plnt_assimilation_materialist = {
+	if = {
+		limit = {
+			OR = {#_|碧蓝航线安装|
+				has_global_flag = azurlane_KuRUMiiii
+				has_global_flag = azur_awakened_activated
+			}
+		}
+		
+		owner = {
+			##_[心智机器人DB]
+			if = {
+				limit = { NOT = { exists = event_target:azur_relic_core_robot } }	#_|无心智机器人|
+				create_species = {
+					name = "NAME_relic_core_robot"
+					class = ROBOT
+					effect = {
+						save_global_event_target_as = azur_relic_core_robot
+					}
+				}
+				modify_species = {
+					species = last_created_species
+					add_trait = trait_mechanical
+				}
+				modify_species = {
+					species = last_created_species
+					add_trait = trait_robot_mind_relic_core
+				}
+			}
+			
+			
+			##_[花费]	转化10%的人力为[心智机器人],同时每人力消耗40电10合金
+			set_variable = { which = TEMP_res_mult value = prev.z_pr_var_plnt_man }
+			divide_variable = { which = TEMP_res_mult value = 10 }
+			add_resource = {
+				energy = -40
+				alloys = -10
+				
+				mult = TEMP_res_mult
+			}
+			clear_variable = TEMP_res_mult
+		}
+		
+		##_[劳务委员机械化]
+		random_owned_pop = {
+			limit = { has_job = z_pr_freeman_worker }
+			
+			change_species = event_target:azur_relic_core_robot
+		}
+	}
+}
+
+
+###_[唯心同化]	人力-/矩阵+
+#条件	owner = { is_variable_set = azur_assimilation_pop_country }
+azl_pr_eft_plnt_assimilation_spiritualist = {
+	if = {
+		limit = { check_variable = { which = z_pr_var_plnt_man value >= 5 } }
+		
+		subtract_variable = { which = z_pr_var_plnt_man value = 5 }
+		owner = { change_variable = { which = azur_assimilation_pop_country value = 5 } }	#_|心智同化人口|
+	}
+
+}
+

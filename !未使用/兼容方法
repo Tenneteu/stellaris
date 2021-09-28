@@ -1,0 +1,95 @@
+扫文本
+|GF_nyto_collapse_liquid|		#FW/PR.txt/yml				新增资源
+|z_pr_patch_installed_mod_NYTO|	#FW/PR/PATCH.txt			安装flg
+
+
+
+
+###_[激活标签]
+原mod = 
+兼容mod = z_pr_patch_installed_mod_xxx
+
+
+
+
+###_[人口条件]	搜索	"num_pops/count_owned_pop"
+在所有"num_pops"条件中加入并列的"z_pr_var_plnt_pop_man",使条件同时判断总人力
+在所有"count_owned_pop"条件中加入并列的"z_pr_var_plnt_pop_man",使条件同时判断总人力,具体情况具体分析,这个相对于上面那个会更复杂
+
+
+
+
+###_[岗位]	搜索"per_pop"
+
+#_[模板_核心地块修正添加]	z_pr_d_core
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+		owner = { has_country_flag = z_pr_flg_cntr_reg }
+		#_|mod检测标签|	如global_flag/国家条件/星球条件
+		has_global_flag = z_pr_patch_installed_mod_swg
+	}
+	
+	#_<swgs_specialist_jobs>
+	job_z_pr_crct_add = 7500
+	
+	job_swgs_kyber_add = -1500
+	job_swgs_tibanna_add = -1500
+	job_swgs_foundry_add = -2500
+	job_swgs_hq_researcher_add = -1000
+	job_swgs_artisan_add = -1000
+}
+
+
+#_[岗位兼容方法]
+"岗位类型" = {#_原岗位
+	category = "阶层"	#_用于CAT	查阅[阶级对照表]
+
+	resources = {
+		category = "行业"	#_用于IDS	查阅[行业对照表]
+		"产出_维护" = {
+			"资源类型" = "资源值"
+		}
+		"产出_维护" = {#_含条件产出
+			trigger = { "pop条件" }
+			"资源类型" = "资源值"
+		}	
+	}
+	
+	planet_modifier = { "修正类型" = "修正值" }
+	triggered_planet_modifier = {
+		potential = { "pop条件" }
+		modifier = { "修正类型" = "修正值" }	#_假设和修正5不是同一类修正,有的时候可能是同一类
+	}
+}
+
+
+##_[岗位类型]			|阶层/行业|
+		if = { limit = { z_pr_trgr_plnt_job_db = { JOB = 岗位类型 VALUE = 岗位数 } }	#_|岗位统计条件|
+			z_pr_eft_plnt_prmt_job_add = { JOB = 岗位类型 VALUE = 岗位数 }	#_[add岗位统计]
+			z_pr_eft_plnt_prmt_job_per_pop = { JOB = 岗位类型 }	#_[per_pop岗位统计]	---只有存在"job_$岗位类型$_per_pop"的时候才加这个
+			
+			##_[修正统计]
+			pr_job_modifier_basic = { MOD = 修正类型 VALUE = 修正值 }
+			if = {
+				limit = { pop条件转planet条件 }
+				pr_job_modifier_triggered = { MOD = 修正类型 VALUE = 修正值 }
+			}
+			pr_job_modifier_tally = { MOD = 修正类型 }
+			
+			##_[资源统计]	资源类型
+			#_[资源类型]
+			pr_job_resources_basic = { OPT = 产出_维护 RES = 资源类型 }
+			if = {
+				limit = { pop条件转planet条件 }
+				pr_job_resources_trigger = { OPT = 产出_维护 RES = 资源类型 VALUE = 资源值 }
+			}
+			pr_job_resources_ids_cat = {#_[资源阶层行业]
+				OPT=产出_维护
+				RES=资源类型
+				CAT=阶层
+				IDS=行业	#_参考"参数表"中的"行业对照表"
+			}
+			pr_job_resources_tally = { OPT = 产出_维护 RES = 资源类型 }
+		}

@@ -1,0 +1,497 @@
+###_	production revolution deposits	#################################################################
+
+#_[地缘优势]
+#_[本地产业]
+
+
+
+
+###_[地缘优势]	5lv	#####################################################################################
+z_pr_d_dstr_exp_1 = {
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		z_pr_dstr_exp_solar_max = 2
+		z_pr_dstr_exp_solar_adv_max = 2
+		z_pr_dstr_exp_astronomy_max = 1
+	}
+	triggered_planet_modifier = {#_扩大化+2
+		potential = { exists = owner	owner = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+		z_pr_dstr_exp_solar_max = 2
+		z_pr_dstr_exp_solar_adv_max = 2
+		z_pr_dstr_exp_astronomy_max = 1
+	}
+}
+z_pr_d_dstr_exp_2 = {
+	icon = z_pr_d_dstr_exp_1
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		z_pr_dstr_exp_solar_max = 3
+		z_pr_dstr_exp_solar_adv_max = 3
+		z_pr_dstr_exp_astronomy_max = 2
+	}
+	triggered_planet_modifier = {#_扩大化+2
+		potential = { exists = owner	owner = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+		z_pr_dstr_exp_solar_max = 2
+		z_pr_dstr_exp_solar_adv_max = 2
+		z_pr_dstr_exp_astronomy_max = 1
+	}
+}
+z_pr_d_dstr_exp_3 = {
+	icon = z_pr_d_dstr_exp_1
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		z_pr_dstr_exp_solar_max = 5
+		z_pr_dstr_exp_solar_adv_max = 5
+		z_pr_dstr_exp_astronomy_max = 3
+	}
+	triggered_planet_modifier = {#_扩大化+2
+		potential = { exists = owner	owner = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+		z_pr_dstr_exp_solar_max = 2
+		z_pr_dstr_exp_solar_adv_max = 2
+		z_pr_dstr_exp_astronomy_max = 1
+	}
+}
+z_pr_d_dstr_exp_4 = {
+	icon = z_pr_d_dstr_exp_1
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		z_pr_dstr_exp_solar_max = 6
+		z_pr_dstr_exp_solar_adv_max = 6
+		z_pr_dstr_exp_astronomy_max = 4
+	}
+	triggered_planet_modifier = {#_扩大化+2
+		potential = { exists = owner	owner = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+		z_pr_dstr_exp_solar_max = 3
+		z_pr_dstr_exp_solar_adv_max = 3
+		z_pr_dstr_exp_astronomy_max = 2
+	}
+}
+z_pr_d_dstr_exp_5 = {
+	icon = z_pr_d_dstr_exp_1
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		z_pr_dstr_exp_solar_max = 8
+		z_pr_dstr_exp_solar_adv_max = 8
+		z_pr_dstr_exp_astronomy_max = 5
+	}
+	triggered_planet_modifier = {#_扩大化+2
+		potential = { exists = owner	owner = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+		z_pr_dstr_exp_solar_max = 3
+		z_pr_dstr_exp_solar_adv_max = 3
+		z_pr_dstr_exp_astronomy_max = 2
+	}
+}
+
+
+
+
+###_[本地产业]	5lv	#####################################################################################
+z_pr_d_dstr_div_1 = {
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		z_pr_dstr_div_desert_max = 1
+		z_pr_dstr_div_arid_max = 1
+		z_pr_dstr_div_savannah_max = 1
+		z_pr_dstr_div_tropical_max = 1
+		z_pr_dstr_div_continent_max = 1
+		z_pr_dstr_div_ocean_max = 1
+		z_pr_dstr_div_tundra_max = 1
+		z_pr_dstr_div_arctic_max = 1
+		z_pr_dstr_div_alpine_max = 1
+		z_pr_dstr_div_nuked_max	= 1
+		z_pr_dstr_div_gaia_max = 1
+		z_pr_dstr_div_sp_max = 1
+		z_pr_dstr_div_resort_max = 1
+	}
+	triggered_planet_modifier = {#_扩大化
+		potential = { exists = owner	owner = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+		z_pr_dstr_div_desert_max = 2
+		z_pr_dstr_div_arid_max = 2
+		z_pr_dstr_div_savannah_max = 2
+		z_pr_dstr_div_tropical_max = 2
+		z_pr_dstr_div_continent_max = 2
+		z_pr_dstr_div_ocean_max = 2
+		z_pr_dstr_div_tundra_max = 2
+		z_pr_dstr_div_arctic_max = 2
+		z_pr_dstr_div_alpine_max = 2
+		z_pr_dstr_div_nuked_max	= 2
+		z_pr_dstr_div_gaia_max = 2
+		z_pr_dstr_div_sp_max = 2
+		z_pr_dstr_div_resort_max = 2
+	}
+}
+z_pr_d_dstr_div_2 = {
+	icon = z_pr_d_dstr_div_1
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		z_pr_dstr_div_desert_max = 2
+		z_pr_dstr_div_arid_max = 2
+		z_pr_dstr_div_savannah_max = 2
+		z_pr_dstr_div_tropical_max = 2
+		z_pr_dstr_div_continent_max = 2
+		z_pr_dstr_div_ocean_max = 2
+		z_pr_dstr_div_tundra_max = 2
+		z_pr_dstr_div_arctic_max = 2
+		z_pr_dstr_div_alpine_max = 2
+		z_pr_dstr_div_nuked_max	= 2
+		z_pr_dstr_div_gaia_max = 2
+		z_pr_dstr_div_sp_max = 2
+		z_pr_dstr_div_resort_max = 2
+	}
+	triggered_planet_modifier = {#_扩大化
+		potential = { exists = owner	owner = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+		z_pr_dstr_div_desert_max = 2
+		z_pr_dstr_div_arid_max = 2
+		z_pr_dstr_div_savannah_max = 2
+		z_pr_dstr_div_tropical_max = 2
+		z_pr_dstr_div_continent_max = 2
+		z_pr_dstr_div_ocean_max = 2
+		z_pr_dstr_div_tundra_max = 2
+		z_pr_dstr_div_arctic_max = 2
+		z_pr_dstr_div_alpine_max = 2
+		z_pr_dstr_div_nuked_max	= 2
+		z_pr_dstr_div_gaia_max = 2
+		z_pr_dstr_div_sp_max = 2
+		z_pr_dstr_div_resort_max = 2
+	}
+}
+z_pr_d_dstr_div_3 = {
+	icon = z_pr_d_dstr_div_1
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		z_pr_dstr_div_desert_max = 3
+		z_pr_dstr_div_arid_max = 3
+		z_pr_dstr_div_savannah_max = 3
+		z_pr_dstr_div_tropical_max = 3
+		z_pr_dstr_div_continent_max = 3
+		z_pr_dstr_div_ocean_max = 3
+		z_pr_dstr_div_tundra_max = 3
+		z_pr_dstr_div_arctic_max = 3
+		z_pr_dstr_div_alpine_max = 3
+		z_pr_dstr_div_nuked_max	= 3
+		z_pr_dstr_div_gaia_max = 3
+		z_pr_dstr_div_sp_max = 3
+		z_pr_dstr_div_resort_max = 3
+	}
+	triggered_planet_modifier = {#_扩大化
+		potential = { exists = owner	owner = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+		z_pr_dstr_div_desert_max = 2
+		z_pr_dstr_div_arid_max = 2
+		z_pr_dstr_div_savannah_max = 2
+		z_pr_dstr_div_tropical_max = 2
+		z_pr_dstr_div_continent_max = 2
+		z_pr_dstr_div_ocean_max = 2
+		z_pr_dstr_div_tundra_max = 2
+		z_pr_dstr_div_arctic_max = 2
+		z_pr_dstr_div_alpine_max = 2
+		z_pr_dstr_div_nuked_max	= 2
+		z_pr_dstr_div_gaia_max = 2
+		z_pr_dstr_div_sp_max = 2
+		z_pr_dstr_div_resort_max = 2
+	}
+}
+z_pr_d_dstr_div_4 = {
+	icon = z_pr_d_dstr_div_1
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		z_pr_dstr_div_desert_max = 4
+		z_pr_dstr_div_arid_max = 4
+		z_pr_dstr_div_savannah_max = 4
+		z_pr_dstr_div_tropical_max = 4
+		z_pr_dstr_div_continent_max = 4
+		z_pr_dstr_div_ocean_max = 4
+		z_pr_dstr_div_tundra_max = 4
+		z_pr_dstr_div_arctic_max = 4
+		z_pr_dstr_div_alpine_max = 4
+		z_pr_dstr_div_nuked_max	= 4
+		z_pr_dstr_div_gaia_max = 4
+		z_pr_dstr_div_sp_max = 4
+		z_pr_dstr_div_resort_max = 4
+	}
+	triggered_planet_modifier = {#_扩大化
+		potential = { exists = owner	owner = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+		z_pr_dstr_div_desert_max = 2
+		z_pr_dstr_div_arid_max = 2
+		z_pr_dstr_div_savannah_max = 2
+		z_pr_dstr_div_tropical_max = 2
+		z_pr_dstr_div_continent_max = 2
+		z_pr_dstr_div_ocean_max = 2
+		z_pr_dstr_div_tundra_max = 2
+		z_pr_dstr_div_arctic_max = 2
+		z_pr_dstr_div_alpine_max = 2
+		z_pr_dstr_div_nuked_max	= 2
+		z_pr_dstr_div_gaia_max = 2
+		z_pr_dstr_div_sp_max = 2
+		z_pr_dstr_div_resort_max = 2
+	}
+}
+z_pr_d_dstr_div_5 = {
+	icon = z_pr_d_dstr_div_1
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		z_pr_dstr_div_desert_max = 5
+		z_pr_dstr_div_arid_max = 5
+		z_pr_dstr_div_savannah_max = 5
+		z_pr_dstr_div_tropical_max = 5
+		z_pr_dstr_div_continent_max = 5
+		z_pr_dstr_div_ocean_max = 5
+		z_pr_dstr_div_tundra_max = 5
+		z_pr_dstr_div_arctic_max = 5
+		z_pr_dstr_div_alpine_max = 5
+		z_pr_dstr_div_nuked_max	= 5
+		z_pr_dstr_div_gaia_max = 5
+		z_pr_dstr_div_sp_max = 5
+		z_pr_dstr_div_resort_max = 5
+	}
+	triggered_planet_modifier = {#_扩大化
+		potential = { exists = owner	owner = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+		z_pr_dstr_div_desert_max = 2
+		z_pr_dstr_div_arid_max = 2
+		z_pr_dstr_div_savannah_max = 2
+		z_pr_dstr_div_tropical_max = 2
+		z_pr_dstr_div_continent_max = 2
+		z_pr_dstr_div_ocean_max = 2
+		z_pr_dstr_div_tundra_max = 2
+		z_pr_dstr_div_arctic_max = 2
+		z_pr_dstr_div_alpine_max = 2
+		z_pr_dstr_div_nuked_max	= 2
+		z_pr_dstr_div_gaia_max = 2
+		z_pr_dstr_div_sp_max = 2
+		z_pr_dstr_div_resort_max = 2
+	}
+}
+z_pr_d_dstr_div_6 = {
+	icon = z_pr_d_dstr_div_1
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		z_pr_dstr_div_desert_max = 6
+		z_pr_dstr_div_arid_max = 6
+		z_pr_dstr_div_savannah_max = 6
+		z_pr_dstr_div_tropical_max = 6
+		z_pr_dstr_div_continent_max = 6
+		z_pr_dstr_div_ocean_max = 6
+		z_pr_dstr_div_tundra_max = 6
+		z_pr_dstr_div_arctic_max = 6
+		z_pr_dstr_div_alpine_max = 6
+		z_pr_dstr_div_nuked_max	= 6
+		z_pr_dstr_div_gaia_max = 6
+		z_pr_dstr_div_sp_max = 6
+		z_pr_dstr_div_resort_max = 6
+	}
+	triggered_planet_modifier = {#_扩大化
+		potential = { exists = owner	owner = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+		z_pr_dstr_div_desert_max = 2
+		z_pr_dstr_div_arid_max = 2
+		z_pr_dstr_div_savannah_max = 2
+		z_pr_dstr_div_tropical_max = 2
+		z_pr_dstr_div_continent_max = 2
+		z_pr_dstr_div_ocean_max = 2
+		z_pr_dstr_div_tundra_max = 2
+		z_pr_dstr_div_arctic_max = 2
+		z_pr_dstr_div_alpine_max = 2
+		z_pr_dstr_div_nuked_max	= 2
+		z_pr_dstr_div_gaia_max = 2
+		z_pr_dstr_div_sp_max = 2
+		z_pr_dstr_div_resort_max = 2
+	}
+}
+z_pr_d_dstr_div_7 = {
+	icon = z_pr_d_dstr_div_1
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		z_pr_dstr_div_desert_max = 7
+		z_pr_dstr_div_arid_max = 7
+		z_pr_dstr_div_savannah_max = 7
+		z_pr_dstr_div_tropical_max = 7
+		z_pr_dstr_div_continent_max = 7
+		z_pr_dstr_div_ocean_max = 7
+		z_pr_dstr_div_tundra_max = 7
+		z_pr_dstr_div_arctic_max = 7
+		z_pr_dstr_div_alpine_max = 7
+		z_pr_dstr_div_nuked_max	= 7
+		z_pr_dstr_div_gaia_max = 7
+		z_pr_dstr_div_sp_max = 7
+		z_pr_dstr_div_resort_max = 7
+	}
+	triggered_planet_modifier = {#_扩大化
+		potential = { exists = owner	owner = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+		z_pr_dstr_div_desert_max = 3
+		z_pr_dstr_div_arid_max = 3
+		z_pr_dstr_div_savannah_max = 3
+		z_pr_dstr_div_tropical_max = 3
+		z_pr_dstr_div_continent_max = 3
+		z_pr_dstr_div_ocean_max = 3
+		z_pr_dstr_div_tundra_max = 3
+		z_pr_dstr_div_arctic_max = 3
+		z_pr_dstr_div_alpine_max = 3
+		z_pr_dstr_div_nuked_max	= 3
+		z_pr_dstr_div_gaia_max = 3
+		z_pr_dstr_div_sp_max = 3
+		z_pr_dstr_div_resort_max = 3
+	}
+}
+z_pr_d_dstr_div_8 = {
+	icon = z_pr_d_dstr_div_1
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		z_pr_dstr_div_desert_max = 8
+		z_pr_dstr_div_arid_max = 8
+		z_pr_dstr_div_savannah_max = 8
+		z_pr_dstr_div_tropical_max = 8
+		z_pr_dstr_div_continent_max = 8
+		z_pr_dstr_div_ocean_max = 8
+		z_pr_dstr_div_tundra_max = 8
+		z_pr_dstr_div_arctic_max = 8
+		z_pr_dstr_div_alpine_max = 8
+		z_pr_dstr_div_nuked_max	= 8
+		z_pr_dstr_div_gaia_max = 8
+		z_pr_dstr_div_sp_max = 8
+		z_pr_dstr_div_resort_max = 8
+	}
+	triggered_planet_modifier = {#_扩大化
+		potential = { exists = owner	owner = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+		z_pr_dstr_div_desert_max = 3
+		z_pr_dstr_div_arid_max = 3
+		z_pr_dstr_div_savannah_max = 3
+		z_pr_dstr_div_tropical_max = 3
+		z_pr_dstr_div_continent_max = 3
+		z_pr_dstr_div_ocean_max = 3
+		z_pr_dstr_div_tundra_max = 3
+		z_pr_dstr_div_arctic_max = 3
+		z_pr_dstr_div_alpine_max = 3
+		z_pr_dstr_div_nuked_max	= 3
+		z_pr_dstr_div_gaia_max = 3
+		z_pr_dstr_div_sp_max = 3
+		z_pr_dstr_div_resort_max = 3
+	}
+}
+z_pr_d_dstr_div_10 = {
+	icon = z_pr_d_dstr_div_1
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		z_pr_dstr_div_desert_max = 10
+		z_pr_dstr_div_arid_max = 10
+		z_pr_dstr_div_savannah_max = 10
+		z_pr_dstr_div_tropical_max = 10
+		z_pr_dstr_div_continent_max = 10
+		z_pr_dstr_div_ocean_max = 10
+		z_pr_dstr_div_tundra_max = 10
+		z_pr_dstr_div_arctic_max = 10
+		z_pr_dstr_div_alpine_max = 10
+		z_pr_dstr_div_nuked_max	= 10
+		z_pr_dstr_div_gaia_max = 10
+		z_pr_dstr_div_sp_max = 10
+		z_pr_dstr_div_resort_max = 10
+	}
+	triggered_planet_modifier = {#_扩大化
+		potential = { exists = owner	owner = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+		z_pr_dstr_div_desert_max = 3
+		z_pr_dstr_div_arid_max = 3
+		z_pr_dstr_div_savannah_max = 3
+		z_pr_dstr_div_tropical_max = 3
+		z_pr_dstr_div_continent_max = 3
+		z_pr_dstr_div_ocean_max = 3
+		z_pr_dstr_div_tundra_max = 3
+		z_pr_dstr_div_arctic_max = 3
+		z_pr_dstr_div_alpine_max = 3
+		z_pr_dstr_div_nuked_max	= 3
+		z_pr_dstr_div_gaia_max = 3
+		z_pr_dstr_div_sp_max = 3
+		z_pr_dstr_div_resort_max = 3
+	}
+}
+z_pr_d_dstr_div_12 = {
+	icon = z_pr_d_dstr_div_1
+	is_for_colonizable = yes
+	category = deposit_cat_rare
+	should_swap_deposit_on_terraforming = no
+	drop_weight = { weight = 0 }
+	
+	planet_modifier = {
+		z_pr_dstr_div_desert_max = 12
+		z_pr_dstr_div_arid_max = 12
+		z_pr_dstr_div_savannah_max = 12
+		z_pr_dstr_div_tropical_max = 12
+		z_pr_dstr_div_continent_max = 12
+		z_pr_dstr_div_ocean_max = 12
+		z_pr_dstr_div_tundra_max = 12
+		z_pr_dstr_div_arctic_max = 12
+		z_pr_dstr_div_alpine_max = 12
+		z_pr_dstr_div_nuked_max	= 12
+		z_pr_dstr_div_gaia_max = 12
+		z_pr_dstr_div_sp_max = 12
+		z_pr_dstr_div_resort_max = 12
+	}
+	triggered_planet_modifier = {#_扩大化
+		potential = { exists = owner	owner = { has_country_flag = z_pr_flg_cntr_2_expanded } }
+		z_pr_dstr_div_desert_max = 3
+		z_pr_dstr_div_arid_max = 3
+		z_pr_dstr_div_savannah_max = 3
+		z_pr_dstr_div_tropical_max = 3
+		z_pr_dstr_div_continent_max = 3
+		z_pr_dstr_div_ocean_max = 3
+		z_pr_dstr_div_tundra_max = 3
+		z_pr_dstr_div_arctic_max = 3
+		z_pr_dstr_div_alpine_max = 3
+		z_pr_dstr_div_nuked_max	= 3
+		z_pr_dstr_div_gaia_max = 3
+		z_pr_dstr_div_sp_max = 3
+		z_pr_dstr_div_resort_max = 3
+	}
+}

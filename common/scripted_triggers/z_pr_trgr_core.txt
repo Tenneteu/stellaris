@@ -1,0 +1,187 @@
+###_	production_revolution triggers	###########################################################
+
+#_[自动转化殖民地]
+#_[总人力]
+#_[job_trgr]		核心锁定
+#_[pop条件]			失业人口/多余人口/产业代表/公民物种/奴隶物种
+#_[cntr条件]		pr生效国家/第二次产业革命
+#_[plnt条件]		满建筑槽/无建筑槽
+
+
+
+
+###_[自动转化殖民地]	###########################################################
+z_pr_trgr_plnt_apmc_valid = {
+	is_colony = yes
+	is_under_colonization = no
+	NOT = { has_planet_flag = z_pr_flg_plnt_ignore }	#_|pr忽略|
+	NOT = { has_planet_flag = z_pr_flg_plnt_apmc_counted }	#_|殖民地apmc执行过|
+	owner = { has_country_flag = z_pr_flg_cntr_reg }	#_|pr革命完成|
+}
+
+
+
+
+###_[总人力]	###########################################################
+#_prmt		METHOD/VALUE
+z_pr_trgr_plnt_prmt_num_pops = {
+	OR = {
+		num_pops $METHOD$ $VALUE$
+		AND = {
+			is_variable_set = z_pr_var_plnt_pop_man
+			check_variable = { which = z_pr_var_plnt_pop_man value $METHOD$ $VALUE$ }
+		}
+	}
+}
+#_|vv总人力|
+z_mod_num_pop_trigger = {
+	OR = {
+		num_pops $OPERATOR$ $NUM$
+		AND = {
+			is_variable_set = z_pr_var_plnt_pop_man
+			check_variable = { which = z_pr_var_plnt_pop_man value $OPERATOR$ $NUM$ }
+		}
+	}
+}
+
+
+
+				
+###_[job_trgr]	###########################################################
+#_[核心锁定]
+z_pr_trgr_job_core = {
+	NAND = {
+		planet = {#_星球存在[全权人口]占据[核心岗位]
+			any_owned_pop = {
+				OR = {
+					has_job = z_pr_freeman_core
+					has_job = z_pr_drone_core
+				}
+				z_pr_trgr_pop_right_full = yes	#_|公民物种|
+			#	has_pop_flag = z_pr_flg_pop_core_counted
+			}
+		}
+		NOR = {#_[当前pop]不是[核心岗位]
+			has_job = z_pr_freeman_core
+			has_job = z_pr_drone_core
+		}
+	}
+}
+
+
+
+				
+###_[pop条件]	###########################################################
+#_[失业人口]
+z_pr_trgr_pop_uep = {
+	is_being_purged = no
+	is_being_assimilated = no
+	is_unemployed = yes
+}
+#_[多余人口]
+z_pr_trgr_pop_clean = {
+	NOT = { has_pop_flag = z_pr_flg_pop_cnvt_ignore }	#_|转化隔离|
+	OR = {
+		is_unemployed = yes
+	#	is_being_assimilated = yes	#_|同化中|
+		is_pop_category = assimilation	#_|同化中|
+		is_sapient = no
+	#	is_pop_category = z_pr_cat_uep	#_|人力缓存|
+		
+		has_job = servant
+		has_job = slave_toiler
+		has_job = fe_hedonist
+		has_job = fe_acolyte_artisan
+		has_job = fe_maintenance_bot
+	}
+}
+#_[产业代表]
+z_pr_trgr_pop_freeman = {
+	is_sapient = yes
+	OR = {
+		is_unemployed = yes
+		has_job = servant
+		has_job = slave_toiler
+		has_job = fe_hedonist
+		has_job = fe_acolyte_artisan
+		has_job = fe_maintenance_bot
+	}
+}
+
+
+###_|公民物种|	<pop/spcs>
+z_pr_trgr_pop_right_full = {
+	#_vanilla全权+居留
+	OR = {
+		has_citizenship_type = { country = planet.owner type = citizenship_full }
+		has_citizenship_type = { country = planet.owner type = citizenship_full_machine }
+	}
+}
+###_|奴隶物种|	<pop/spcs>
+z_pr_trgr_pop_right_slaved = {
+	#_vanilla奴隶
+	OR = {
+		has_citizenship_type = { country = planet.owner type = citizenship_slavery }
+		has_citizenship_type = { country = planet.owner type = citizenship_robot_servitude }
+	}
+}
+
+
+
+
+###_[cntr条件]	###########################################################
+#_[pr生效国家]
+z_pr_trgr_cntr_valid = {
+	OR = {
+		is_country_type = default
+		is_country_type = prikki
+		is_country_type = ascended_empire	#_ZOFE
+		is_country_type = lost_empire		#_ZOFE
+		is_country_type = default_ev
+		#_[堕落]
+		is_country_type = fallen_empire
+		is_country_type = awakened_fallen_empire
+	}
+}
+
+#_[第二次产业革命]
+z_pr_trgr_cntr_pr_2nd = {
+	OR = {
+		has_country_flag = z_pr_flg_cntr_2_integrated
+		has_country_flag = z_pr_flg_cntr_2_expanded
+	}
+}
+
+
+
+
+###_[plnt条件]	###########################################################
+#_[满建筑槽]	vanilla/wsg
+z_pr_trgr_plnt_full_bldn = {
+	OR = {
+		uses_district_set = ring_world	#_[pc_cybrex/pc_ringworld_habitable]
+		is_planet_class = pc_ringworld_tech
+		is_planet_class = pc_ringworld_seam
+		uses_district_set = city_world	#_[pc_city]
+	#	is_planet_class = pc_hive
+	#	is_planet_class = pc_machine
+		#_[wsg]
+		uses_district_set = rw_port_world
+		uses_district_set = rw_sh_world
+		#_[giga]
+		uses_district_set = giga_planet
+		uses_district_set = penrose_ring
+		uses_district_set = interstellar_ring
+		uses_district_set = giga_habitat
+		uses_district_set = giga_birch
+		uses_district_set = giga_alderson
+	#	uses_district_set = ring_world
+	}
+}
+#_[无建筑槽]
+z_pr_trgr_plnt_no_bldn = {
+	OR = {
+		is_planet_class = pc_habitat
+	}
+}
+

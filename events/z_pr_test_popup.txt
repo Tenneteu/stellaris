@@ -1,0 +1,81 @@
+namespace = pr_test_popup
+
+
+###_[测试弹窗]
+country_event = {#产出mod_debug
+	id = pr_test_popup.10
+	title = 测试
+	desc =  产出mod_debug
+	picture = GFX_evt_z_performance_misc
+	is_triggered_only = yes
+	
+	option = { name = OK }
+}
+country_event = {#产出mod_pop
+	id = pr_test_popup.11
+	title = 测试
+	desc =  产出mod_pop
+	picture = GFX_evt_z_performance_misc
+	is_triggered_only = yes
+	
+	option = { name = OK }
+}
+country_event = {#产出DB
+	id = pr_test_popup.12
+	title = 测试
+	desc =  产出DB
+	picture = GFX_evt_z_performance_misc
+	is_triggered_only = yes
+	
+	option = { name = OK }
+}
+country_event = {#殖民地功能debug
+	id = pr_test_popup.13
+	title = 测试
+	desc =  殖民地功能debug
+	picture = GFX_evt_z_performance_misc
+	is_triggered_only = yes
+	
+	option = { name = OK }
+}
+country_event = {#pr殖民地debug
+	id = pr_test_popup.14
+	title = 测试
+	desc =  pr殖民地debug
+	picture = GFX_evt_z_performance_misc
+	is_triggered_only = yes
+	
+	option = { name = OK }
+}
+country_event = {#pr国家debug
+	id = pr_test_popup.15
+	title = 测试
+	desc =  pr国家debug
+	picture = GFX_evt_z_performance_misc
+	is_triggered_only = yes
+	
+	option = { name = OK }
+}
+
+country_event = {#建筑槽var
+	id = pr_test_popup.16
+	title = 测试
+	desc =  建筑槽var
+	picture = GFX_evt_z_performance_misc
+	is_triggered_only = yes
+	
+	option = { name = OK }
+}
+
+country_event = {#空岗位
+	id = pr_test_popup.17
+	title = 测试
+	desc =  TEST_tips_free_jobs	# TEMP_var_plnt_free_jobs
+	picture = GFX_evt_z_performance_misc
+	is_triggered_only = yes
+	
+	option = {
+		name = OK
+		hidden_effect = { clear_variable = TEMP_var_free_jobs }
+	}
+}

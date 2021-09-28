@@ -1,0 +1,608 @@
+###_	production_revolution	####################################################################
+namespace = z_pr_setting
+
+#_[核心设置]
+#_[兼容状态]
+#_[延时job检测事件]
+
+
+
+
+###_[核心设置] [id=1]	#############################################################################
+#_set		星球忽略/国家自动人力迁移/AI建设辅助		/国家物种控制
+#_功能		pr国家人力迁入/pop_转化全国/调试状态
+country_event = {
+	id = z_pr_setting.1
+	title = z_pr_evt_setting
+	desc = z_pr_evt_setting_desc
+	is_triggered_only = yes
+	force_open = yes
+	
+	diplomatic = yes
+	custom_gui = "z_mm_pr_setting_window"
+	
+	
+	#_关闭
+	option = {
+		name = z_modmenu_return
+		custom_tooltip = z_modmenu_return_desc
+        custom_gui = "z_mm_button_evt_option_red"
+		hidden_effect = {
+			z_mm_unlock_setting_panel = yes			#_[解锁面板]
+			z_mm_eft_expanded_sub_ui_exit = yes		#_[拓展UI关闭]
+			z_pr_eft_cntr_setting_sts_clear = yes	#_[setting_统计_归零]
+		}
+	}
+	#_[兼容状态]
+	option = {
+		name = z_pr_comp
+		custom_tooltip = z_pr_comp_desc
+        custom_gui = "z_mm_button_evt_option_orange"
+		hidden_effect = {
+			country_event = { id = z_pr_setting.2 }
+		}
+	}
+
+
+	#_[星球忽略]
+	option = {#_全忽略
+		name = z_pr_option_setting_ignore_all_on
+		custom_tooltip = z_pr_tips_setting_ignore_all
+        custom_gui = "z_mm_button_evt_option_normal"
+		trigger = { always = yes }
+		allow = { hidden_trigger = { has_country_flag = z_pr_flg_cntr_reg } }
+		hidden_effect = {
+			every_owned_planet = { limit = { is_colony = yes }		set_planet_flag = z_pr_flg_plnt_ignore }
+			country_event = { id = z_pr_setting.1 }
+		}
+	}
+	option = {#_全允许
+		name = z_pr_option_setting_ignore_all_off
+		custom_tooltip = z_pr_tips_setting_ignore_all
+        custom_gui = "z_mm_button_evt_option_normal"
+		trigger = { always = yes }
+		allow = { hidden_trigger = { has_country_flag = z_pr_flg_cntr_reg } }
+		hidden_effect = {
+			every_owned_planet = { limit = { is_colony = yes }		remove_planet_flag = z_pr_flg_plnt_ignore }
+			country_event = { id = z_pr_setting.1 }
+		}
+	}
+
+	#_[国家自动人力迁移]
+	option = {#_开
+		name = z_pr_opt_setting_cntr_auto_mig_on
+		custom_tooltip = z_pr_opt_setting_cntr_auto_mig
+        custom_gui = "z_mm_button_evt_option_normal"
+		trigger = { NOT = { has_country_flag = z_pr_flg_cntr_auto_mig_disabled } }	#_|禁用自动人力迁移|
+		hidden_effect = {
+			set_country_flag = z_pr_flg_cntr_auto_mig_disabled
+			country_event = { id = z_pr_setting.1 }
+		}
+	}
+	option = {#_关
+		name = z_pr_opt_setting_cntr_auto_mig_off
+		custom_tooltip = z_pr_opt_setting_cntr_auto_mig
+        custom_gui = "z_mm_button_evt_option_normal"
+		trigger = { has_country_flag = z_pr_flg_cntr_auto_mig_disabled }	#_|禁用自动人力迁移|
+		hidden_effect = {
+			remove_country_flag = z_pr_flg_cntr_auto_mig_disabled
+			country_event = { id = z_pr_setting.1 }
+		}
+	}
+
+	#_[AI建设辅助]	z禁用
+	option = {#_开
+		name = z_pr_option_setting_ai_construction_on
+		custom_tooltip = z_pr_tips_setting_ai_construction
+        custom_gui = "z_mm_button_evt_option_normal"
+		trigger = { always = no
+			NOT = { has_global_flag = z_pr_flg_glbl_automation_disabled }
+		}
+		allow = {
+			custom_tooltip = {#_非主机
+				hidden_trigger = { z_fw_trgr_cntr_core_mp_host = yes }
+				fail_text = z_mm_tips_mp_not_host
+			}
+		}
+		hidden_effect = {
+			set_global_flag = z_pr_flg_glbl_automation_disabled
+			country_event = { id = z_pr_setting.1 }
+		}
+	}
+	option = {#_关
+		name = z_pr_option_setting_ai_construction_off
+		custom_tooltip = z_pr_tips_setting_ai_construction
+        custom_gui = "z_mm_button_evt_option_normal"
+		trigger = { always = no
+			has_global_flag = z_pr_flg_glbl_automation_disabled
+		}
+		allow = {
+			custom_tooltip = {#_非主机
+				hidden_trigger = { z_fw_trgr_cntr_core_mp_host = yes }
+				fail_text = z_mm_tips_mp_not_host
+			}
+		}
+		hidden_effect = {
+			remove_global_flag = z_pr_flg_glbl_automation_disabled
+			country_event = { id = z_pr_setting.1 }
+		}
+	}
+
+
+	##_[国家物种控制]
+	option = {# 普通
+		name = z_pr_option_setting_spcs_normal
+		custom_tooltip = z_pr_option_setting_spcs
+        custom_gui = "z_mm_button_evt_option_green"
+		trigger = { always = yes }
+		allow = {
+			custom_tooltip = {
+				hidden_trigger = {
+					has_country_flag = z_pr_flg_cntr_reg
+				#	NOT = { has_country_flag = z_pr_flg_cntr_job_ckeck_delay }
+				}
+				fail_text = z_pr_tips_spcs_cd
+			}
+		}
+		hidden_effect = {
+			every_owned_planet = { limit = { is_colony = yes }
+				remove_planet_flag = z_pr_flg_plnt_cliquy	#_|pr物种控制|
+				remove_planet_flag = z_pr_flg_plnt_pure
+				z_pr_eft_plnt_job_check_delay = yes		#_[延迟job检测]
+			}
+			country_event = { id = z_pr_setting.1 }
+		}
+	}
+	option = {# 排外
+		name = z_pr_option_setting_spcs_cliquy
+		custom_tooltip = z_pr_option_setting_spcs
+        custom_gui = "z_mm_button_evt_option_green"
+		trigger = { always = yes }
+		allow = {
+			custom_tooltip = {
+				hidden_trigger = {
+					has_country_flag = z_pr_flg_cntr_reg
+				#	NOT = { has_country_flag = z_pr_flg_cntr_job_ckeck_delay }
+				}
+				fail_text = z_pr_tips_spcs_cd
+			}
+		}
+		hidden_effect = {
+			every_owned_planet = { limit = { is_colony = yes }
+				set_planet_flag = z_pr_flg_plnt_cliquy		#_|pr物种控制|
+				remove_planet_flag = z_pr_flg_plnt_pure
+				z_pr_eft_plnt_job_check_delay = yes		#_[延迟job检测]
+			}
+			country_event = { id = z_pr_setting.1 }
+		}
+	}
+	option = {# 纯血
+		name = z_pr_option_setting_spcs_pure
+		custom_tooltip = z_pr_option_setting_spcs
+        custom_gui = "z_mm_button_evt_option_green"
+		trigger = { always = yes }
+		allow = {
+			custom_tooltip = {
+				hidden_trigger = {
+					has_country_flag = z_pr_flg_cntr_reg
+				#	NOT = { has_country_flag = z_pr_flg_cntr_job_ckeck_delay }
+				}
+				fail_text = z_pr_tips_spcs_cd
+			}
+		}
+		hidden_effect = {
+			every_owned_planet = { limit = { is_colony = yes }
+				remove_planet_flag = z_pr_flg_plnt_cliquy	#_|pr物种控制|
+				set_planet_flag = z_pr_flg_plnt_pure
+				z_pr_eft_plnt_job_check_delay = yes		#_[延迟job检测]
+			}
+			country_event = { id = z_pr_setting.1 }
+		}
+	}
+
+	#_[pop_转化全国]
+	option = {
+		name = z_pr_opt_cntr_pop_cnvt
+		custom_tooltip = z_pr_tips_cntr_pop_cnvt
+        custom_gui = "z_mm_button_evt_option_blue"
+		allow = { hidden_trigger = { has_country_flag = z_pr_flg_cntr_reg } }
+		hidden_effect = {
+			z_pr_eft_cntr_pop_cnvt = yes
+			country_event = { id = z_pr_setting.1 }
+		}
+	}
+	#_[pr国家人力迁入]
+	option = {
+		name = z_pr_opt_cntr_man_mig
+		custom_tooltip = z_pr_tips_cntr_man_mig
+        custom_gui = "z_mm_button_evt_option_blue"
+		allow = { hidden_trigger = { has_country_flag = z_pr_flg_cntr_reg } }
+		hidden_effect = {
+			z_pr_eft_cntr_man_mig = yes
+			country_event = { id = z_pr_setting.1 }
+		}
+	}
+	
+	#_[调试状态]
+	option = {
+		name = z_pr_opt_test_stop
+		custom_tooltip = z_pr_opt_test
+        custom_gui = "z_mm_button_evt_option_orange"
+		trigger = { has_global_flag = z_pr_flg_glbl_test_stop }
+		allow = {
+			custom_tooltip = {#_非主机
+				hidden_trigger = { z_fw_trgr_cntr_core_mp_host = yes }
+				fail_text = z_mm_tips_mp_not_host
+			}
+		}
+		
+		hidden_effect = {
+			remove_global_flag = z_pr_flg_glbl_test_stop
+			#_[全局debug]重启
+			every_country = { limit = { z_pr_trgr_cntr_valid = yes }
+				every_owned_planet = {
+					limit = {
+						is_colony = yes
+						is_under_colonization = no
+					}
+					#_[星球忽略]
+					remove_planet_flag = z_pr_flg_plnt_ignore
+					
+					##_[岗位DB追加]
+					set_planet_flag = z_pr_flg_plnt_job_debug_ready
+					set_planet_flag = z_pr_flg_plnt_job_debug_add
+					##_[加成DB追加]
+					set_planet_flag = z_pr_flg_plnt_bonus_debug_ready
+					set_planet_flag = z_pr_flg_plnt_bonus_debug_add
+					##_[产出DB追加]
+					set_planet_flag = z_pr_flg_plnt_output_debug_ready
+					set_planet_flag = z_pr_flg_plnt_output_debug_add
+
+					##_[pr星球清理]
+					planet_event = { id = z_pr_debug.3 }
+					
+					##_[殖民地基础debug]
+					z_pr_eft_plnt_basic_debug = yes
+				}
+			}
+			
+			country_event = { id = z_pr_setting.1 }
+		}
+	}
+	option = {
+		name = z_pr_opt_test_ongo
+		custom_tooltip = z_pr_opt_test
+        custom_gui = "z_mm_button_evt_option_orange"
+		trigger = { NOT = { has_global_flag = z_pr_flg_glbl_test_stop } }
+		allow = {
+			custom_tooltip = {#_非主机
+				hidden_trigger = { z_fw_trgr_cntr_core_mp_host = yes }
+				fail_text = z_mm_tips_mp_not_host
+			}
+		}
+		
+		hidden_effect = {
+			set_global_flag = z_pr_flg_glbl_test_stop
+			#_[全局debug]停用
+			every_country = { limit = { z_pr_trgr_cntr_valid = yes }
+				every_owned_planet = {
+					limit = {
+						is_colony = yes
+						is_under_colonization = no
+					}
+					#_[星球忽略]
+					set_planet_flag = z_pr_flg_plnt_ignore
+					##_[pr星球清理]
+					planet_event = { id = z_pr_debug.3 }
+				}
+			}
+			
+			country_event = { id = z_pr_setting.1 }
+		}
+	}
+
+}
+
+
+
+
+###_[兼容状态] [id=2]	#############################################################################
+#_list	泛用兼容补丁	/碧蓝航线/舰R	/星舰少女/灰烬	/古代帝国/涅槃/终极科技/涅托/约战/苍蓝	/ACOT/Giga
+country_event = {
+	id = z_pr_setting.2
+	title = z_pr_comp
+	desc = z_pr_comp_desc
+	is_triggered_only = yes
+	
+	diplomatic = yes
+	custom_gui = "z_mm_pr_setting_window"
+	
+	immediate = {#_参考<z_fw_core.12>
+		z_fw_eft_mod_installed_pr_azl = yes		#_[pr_azl安装自检]
+		z_fw_eft_mod_installed_pr_wsg = yes		#_[pr_wsg安装自检]
+		z_fw_eft_mod_installed_pr_ACOT = yes	#_[pr_ACOT安装自检]
+		z_fw_eft_mod_installed_pr_Giga = yes	#_[pr_Giga安装自检]
+		
+		z_fw_eft_mod_installed_pr_patch = yes	#_[pr_patch安装自检]
+		z_fw_eft_glbl_PR_PATCH_installed_debug = yes	#_[PR_patch安装自检]
+	}
+	
+	
+	#_关闭
+	option = {
+		name = z_modmenu_return
+		custom_tooltip = z_modmenu_return_desc
+        custom_gui = "z_mm_button_evt_option_blue"
+		hidden_effect = {
+			country_event = { id = z_pr_setting.1 }
+		}
+	}
+	#_|pr_关闭自检|
+	option = {
+		name = {#_自动
+			text = z_pr_mod_installed_automatic_on
+			trigger = { NOT = { has_global_flag = pr_mod_comp_auto_check_off } }
+		}
+		name = {#_手动
+			text = z_pr_mod_installed_automatic_off
+			trigger = { has_global_flag = pr_mod_comp_auto_check_off }
+		}
+		custom_tooltip = z_pr_mod_installed_automatic_switch
+        custom_gui = "z_mm_button_evt_option_blue"
+		hidden_effect = {
+			if = { limit = { has_global_flag = pr_mod_comp_auto_check_off }			remove_global_flag = pr_mod_comp_auto_check_off }
+			else = { set_global_flag = pr_mod_comp_auto_check_off }
+			country_event = { id = z_pr_setting.2 }
+		}
+	}
+
+
+	#_|泛用兼容补丁|
+	option = {
+		name = {#_启用
+			text = z_pr_patch_on
+			trigger = { has_global_flag = pr_patch_installed }
+		}
+		name = {#_未启用
+			text = z_pr_patch_off
+			trigger = { NOT = { has_global_flag = pr_patch_installed } }
+		}
+		custom_tooltip = z_pr_mod_installed_switch_no
+        custom_gui = "z_mm_button_evt_option_orange"
+		hidden_effect = {
+			country_event = { id = z_pr_setting.2 }
+		}
+	}
+	#_|碧蓝航线|
+	option = {
+		name = {#_启用
+			text = z_pr_mod_installed_azl_on
+			trigger = { has_global_flag = z_pr_patch_installed_mod_azl }
+		}
+		name = {#_未启用
+			text = z_pr_mod_installed_azl_off
+			trigger = { NOT = { has_global_flag = z_pr_patch_installed_mod_azl } }
+		}
+		custom_tooltip = z_pr_mod_installed_switch
+        custom_gui = "z_mm_button_evt_option_green"
+		hidden_effect = {
+			if = { limit = { has_global_flag = z_pr_patch_installed_mod_azl }		remove_global_flag = z_pr_patch_installed_mod_azl }
+			else = { set_global_flag = z_pr_patch_installed_mod_azl }
+			country_event = { id = z_pr_setting.2 }
+		}
+	}
+	#_|舰R|
+	option = {
+		name = {#_启用
+			text = z_pr_mod_installed_wsg_on
+			trigger = { has_global_flag = z_pr_patch_installed_mod_wsg }
+		}
+		name = {#_未启用
+			text = z_pr_mod_installed_wsg_off
+			trigger = { NOT = { has_global_flag = z_pr_patch_installed_mod_wsg } }
+		}
+		custom_tooltip = z_pr_mod_installed_switch
+        custom_gui = "z_mm_button_evt_option_green"
+		hidden_effect = {
+			if = { limit = { has_global_flag = z_pr_patch_installed_mod_wsg }		remove_global_flag = z_pr_patch_installed_mod_wsg }
+			else = { set_global_flag = z_pr_patch_installed_mod_wsg }
+			country_event = { id = z_pr_setting.2 }
+		}
+	}
+	#_|星舰少女|
+	option = {
+		name = {#_启用
+			text = z_pr_mod_installed_swg_on
+			trigger = { has_global_flag = z_pr_patch_installed_mod_SWGS }
+		}
+		name = {#_未启用
+			text = z_pr_mod_installed_swg_off
+			trigger = { NOT = { has_global_flag = z_pr_patch_installed_mod_SWGS } }
+		}
+		custom_tooltip = z_pr_mod_installed_switch
+        custom_gui = "z_mm_button_evt_option_green"
+		hidden_effect = {
+			if = { limit = { has_global_flag = z_pr_patch_installed_mod_SWGS }		remove_global_flag = z_pr_patch_installed_mod_SWGS }
+			else = { set_global_flag = z_pr_patch_installed_mod_SWGS }
+			country_event = { id = z_pr_setting.2 }
+		}
+	}
+	#_|灰烬|
+	option = {
+		name = {#_启用
+			text = z_pr_mod_installed_adf_on
+			trigger = { has_global_flag = z_pr_patch_installed_mod_ADF }
+		}
+		name = {#_未启用
+			text = z_pr_mod_installed_adf_off
+			trigger = { NOT = { has_global_flag = z_pr_patch_installed_mod_ADF } }
+		}
+		custom_tooltip = z_pr_mod_installed_switch
+        custom_gui = "z_mm_button_evt_option_green"
+		hidden_effect = {
+			if = { limit = { has_global_flag = z_pr_patch_installed_mod_ADF }		remove_global_flag = z_pr_patch_installed_mod_ADF }
+			else = { set_global_flag = z_pr_patch_installed_mod_ADF }
+			country_event = { id = z_pr_setting.2 }
+		}
+	}
+	#_|古代帝国|
+	option = {
+		name = {#_启用
+			text = z_pr_mod_installed_AG_on
+			trigger = { has_global_flag = z_pr_patch_installed_mod_AG }
+		}
+		name = {#_未启用
+			text = z_pr_mod_installed_AG_off
+			trigger = { NOT = { has_global_flag = z_pr_patch_installed_mod_AG } }
+		}
+		custom_tooltip = z_pr_mod_installed_switch
+        custom_gui = "z_mm_button_evt_option_green"
+		hidden_effect = {
+			if = { limit = { has_global_flag = z_pr_patch_installed_mod_AG }		remove_global_flag = z_pr_patch_installed_mod_AG }
+			else = { set_global_flag = z_pr_patch_installed_mod_AG }
+			country_event = { id = z_pr_setting.2 }
+		}
+	}
+	#_|涅槃|
+	option = {
+		name = {#_启用
+			text = z_pr_mod_installed_NE_on
+			trigger = { has_global_flag = z_pr_patch_installed_mod_Nirvana }
+		}
+		name = {#_未启用
+			text = z_pr_mod_installed_NE_off
+			trigger = { NOT = { has_global_flag = z_pr_patch_installed_mod_Nirvana } }
+		}
+		custom_tooltip = z_pr_mod_installed_switch
+        custom_gui = "z_mm_button_evt_option_green"
+		hidden_effect = {
+			if = { limit = { has_global_flag = z_pr_patch_installed_mod_Nirvana }		remove_global_flag = z_pr_patch_installed_mod_Nirvana }
+			else = { set_global_flag = z_pr_patch_installed_mod_Nirvana }
+			country_event = { id = z_pr_setting.2 }
+		}
+	}
+	#_|终极科技|
+	option = {
+		name = {#_启用
+			text = z_pr_mod_installed_ULT_on
+			trigger = { has_global_flag = z_pr_patch_installed_mod_ULT }
+		}
+		name = {#_未启用
+			text = z_pr_mod_installed_ULT_off
+			trigger = { NOT = { has_global_flag = z_pr_patch_installed_mod_ULT } }
+		}
+		custom_tooltip = z_pr_mod_installed_switch_manual
+        custom_gui = "z_mm_button_evt_option_green"
+		hidden_effect = {
+			if = { limit = { has_global_flag = z_pr_patch_installed_mod_ULT }		remove_global_flag = z_pr_patch_installed_mod_ULT }
+			else = { set_global_flag = z_pr_patch_installed_mod_ULT }
+			country_event = { id = z_pr_setting.2 }
+		}
+	}
+	#_|涅托|
+	option = {
+		name = {#_启用
+			text = z_pr_mod_installed_NYTO_on
+			trigger = { has_global_flag = z_pr_patch_installed_mod_NYTO }
+		}
+		name = {#_未启用
+			text = z_pr_mod_installed_NYTO_off
+			trigger = { NOT = { has_global_flag = z_pr_patch_installed_mod_NYTO } }
+		}
+		custom_tooltip = z_pr_mod_installed_switch
+        custom_gui = "z_mm_button_evt_option_green"
+		hidden_effect = {
+			if = { limit = { has_global_flag = z_pr_patch_installed_mod_NYTO }		remove_global_flag = z_pr_patch_installed_mod_NYTO }
+			else = { set_global_flag = z_pr_patch_installed_mod_NYTO }
+			country_event = { id = z_pr_setting.2 }
+		}
+	}
+	#_|约战|
+	option = {
+		name = {#_启用
+			text = z_pr_mod_installed_DAL_on
+			trigger = { has_global_flag = z_pr_patch_installed_mod_DAL }
+		}
+		name = {#_未启用
+			text = z_pr_mod_installed_DAL_off
+			trigger = { NOT = { has_global_flag = z_pr_patch_installed_mod_DAL } }
+		}
+		custom_tooltip = z_pr_mod_installed_switch
+        custom_gui = "z_mm_button_evt_option_green"
+		hidden_effect = {
+			if = { limit = { has_global_flag = z_pr_patch_installed_mod_DAL }		remove_global_flag = z_pr_patch_installed_mod_DAL }
+			else = { set_global_flag = z_pr_patch_installed_mod_DAL }
+			country_event = { id = z_pr_setting.2 }
+		}
+	}
+	#_|苍蓝|
+	option = {
+		name = {#_启用
+			text = z_pr_mod_installed_ARP_on
+			trigger = { has_global_flag = z_pr_patch_installed_mod_ARP }
+		}
+		name = {#_未启用
+			text = z_pr_mod_installed_ARP_off
+			trigger = { NOT = { has_global_flag = z_pr_patch_installed_mod_ARP } }
+		}
+		custom_tooltip = z_pr_mod_installed_switch
+        custom_gui = "z_mm_button_evt_option_green"
+		hidden_effect = {
+			if = { limit = { has_global_flag = z_pr_patch_installed_mod_ARP }		remove_global_flag = z_pr_patch_installed_mod_ARP }
+			else = { set_global_flag = z_pr_patch_installed_mod_ARP }
+			country_event = { id = z_pr_setting.2 }
+		}
+	}
+	
+	#_|ACOT|
+	option = {
+		name = {#_启用
+			text = z_pr_mod_installed_ACOT_on
+			trigger = { has_global_flag = z_pr_patch_installed_mod_ACOT }
+		}
+		name = {#_未启用
+			text = z_pr_mod_installed_ACOT_off
+			trigger = { NOT = { has_global_flag = z_pr_patch_installed_mod_ACOT } }
+		}
+		custom_tooltip = z_pr_mod_installed_switch
+        custom_gui = "z_mm_button_evt_option_green"
+		hidden_effect = {
+			if = { limit = { has_global_flag = z_pr_patch_installed_mod_ACOT }		remove_global_flag = z_pr_patch_installed_mod_ACOT }
+			else = { set_global_flag = z_pr_patch_installed_mod_ACOT }
+			country_event = { id = z_pr_setting.2 }
+		}
+	}
+	#_|Giga|
+	option = {
+		name = {#_启用
+			text = z_pr_mod_installed_GIGA_on
+			trigger = { has_global_flag = z_pr_patch_installed_mod_Giga }
+		}
+		name = {#_未启用
+			text = z_pr_mod_installed_GIGA_off
+			trigger = { NOT = { has_global_flag = z_pr_patch_installed_mod_Giga } }
+		}
+		custom_tooltip = z_pr_mod_installed_switch
+        custom_gui = "z_mm_button_evt_option_green"
+		hidden_effect = {
+			if = { limit = { has_global_flag = z_pr_patch_installed_mod_Giga }		remove_global_flag = z_pr_patch_installed_mod_Giga }
+			else = { set_global_flag = z_pr_patch_installed_mod_Giga }
+			country_event = { id = z_pr_setting.2 }
+		}
+	}
+	
+}
+
+
+
+
+###_[延时job检测事件] [id=3]	#############################################################################
+planet_event = {
+	id = z_pr_setting.3
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		check_planet_employment = yes
+	}
+}
