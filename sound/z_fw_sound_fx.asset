@@ -1,0 +1,86 @@
+#_[star_exp]
+#_[闪电emp]
+
+
+
+
+###_[star_exp]
+sound = {#_[爆炸]
+	name = "z_fw_sfx_fx_star_exp"
+	file = "ambient/z_fx_star_exp.wav"
+	volume = 1.0
+	#_always_load = no
+}
+soundeffect = {
+	name = z_fw_sfx_fx_star_exp
+	sounds = {
+		sound = z_fw_sfx_fx_star_exp
+	}
+	volume = 1.6
+	falloff = "falloff_weapons_distance"	#_20000
+	is3d = yes
+#	loop = yes
+}
+
+sound = {#_[充能]
+	name = "z_fw_sfx_fx_star_exp_charge"
+	file = "ambient/z_fx_star_exp_charge.wav"
+	volume = 1.0
+}
+soundeffect = {
+	name = z_fw_sfx_fx_star_exp_charge
+	sounds = {
+		sound = z_fw_sfx_fx_star_exp_charge
+	}
+	volume = 0.65
+	falloff = "falloff_400"	#_8000
+	is3d = yes
+#	loop = yes
+}
+
+sound = {#_[充能爆破]
+	name = "z_fw_sfx_fx_star_exp_charge_done"
+	file = "ambient/z_fx_star_exp_charge_done.wav"
+	volume = 1.0
+}
+soundeffect = {
+	name = z_fw_sfx_fx_star_exp_charge_done
+	sounds = {
+		sound = z_fw_sfx_fx_star_exp_charge_done
+	}
+	volume = 1.05
+	falloff = "falloff_400"	#_8000
+	is3d = yes
+#	loop = yes
+}
+
+
+
+
+###_[闪电emp]
+sound = {
+	name = "z_fw_sfx_fx_ltn_emp"
+	file = "ambient/z_fx_ltn_emp.wav"
+	volume = 1.0
+}
+soundeffect = {
+	name = z_fw_sfx_fx_ltn_emp_near
+	sounds = { sound = z_fw_sfx_fx_ltn_emp }
+	volume = 0.9
+	falloff = "falloff_weapons_xl"	#_4000
+	is3d = yes
+}
+soundeffect = {
+	name = z_fw_sfx_fx_ltn_emp_mid
+	sounds = { sound = z_fw_sfx_fx_ltn_emp }
+	volume = 0.9
+	falloff = "falloff_400"	#_8000
+	is3d = yes
+}
+soundeffect = {
+	name = z_fw_sfx_fx_ltn_emp_far
+	sounds = { sound = z_fw_sfx_fx_ltn_emp }
+	volume = 1.0
+	falloff = "falloff_weapons_distance"	#_20000
+	is3d = yes
+}

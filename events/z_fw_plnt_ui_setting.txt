@@ -1,0 +1,828 @@
+namespace = z_fw_plnt_ui_setting
+#_[星球设置UI]	UIdebug		/扫文本=[eft占位符]
+
+
+
+
+#_[星球设置UI]	伞の优化/产业革命
+planet_event = {
+    id = z_fw_plnt_ui_setting.1
+	title = z_fw_plnt_ui_setting.name
+	desc = z_fw_plnt_ui_setting.desc
+	picture = GFX_evt_z_fw_relic_war
+	is_triggered_only = yes
+	location = this
+	force_open = yes
+	
+	diplomatic = yes
+	custom_gui = "z_fw_gui_plnt_ui_setting"
+	
+	immediate = {
+		#_未完成[产业革命]国家菜单debug
+		if = {
+			limit = { NOT = { owner = { has_country_flag = z_pr_flg_cntr_reg } } }
+			remove_planet_flag = z_pr_flg_plnt_man_mig_show		#_禁止显示人力迁移细节
+		}
+	}
+	
+
+	#_[关闭]
+	option = {
+		name = OK
+		custom_gui = "z_mm_button_evt_option_red"
+		hidden_effect = {
+			#_|UIdebug|
+			remove_planet_flag = z_fw_plnt_ui_setting_open
+			#_[产业革命]
+			z_pr_eft_plnt_setting_complete = yes	#_[pr星球设置完成debug]
+		}
+	}
+	#_[数据检视]
+	option = {
+		name = z_fw_plnt_ui_setting.check.name
+		custom_gui = "z_mm_button_evt_option_red"
+		trigger = {
+			OR = {
+				has_global_flag = z_pf2_installed
+			}
+		}
+		hidden_effect = { planet_event = { id = z_fw_plnt_ui_setting.2 } }
+	}
+	
+	
+	
+	
+	###_[伞の优化]	信息/自动迁入/全部星球_自动迁入/全部星球_迁出设置/自动降级	#################################
+	#_[空格]
+	option = {#_开启
+		name = z_fw_tips_empty
+		custom_gui = "z_mm_button_evt_option_empty"
+		hidden_effect = {}
+	}
+	#_[信息]
+	option = {#_标题
+		name = z_performance2_title
+		custom_gui = "z_mm_button_evt_option_name"
+		trigger = { has_global_flag = z_pf2_installed }
+		hidden_effect = {}
+	}
+	option = {#_国家人口上限
+		name = z_pf2_var_cntr_pop_cap_final
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { owner = { is_variable_set = z_pf2_var_cntr_pop_cap_final } }
+		hidden_effect = {}
+	}
+	option = {#_人口增长效率
+		name = z_pf2_var_cntr_pop_increase_bonus
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { owner = { is_variable_set = z_pf2_var_cntr_pop_increase_bonus } }
+		hidden_effect = {}
+	}
+	#_[自动迁入]
+	option = {#_开启
+		name = z_pf2_dec_plnt_auto_mig_on
+		custom_gui = "z_mm_button_evt_option_blue"
+		custom_tooltip = z_pf2_tips_auto_mig_toggle
+		trigger = {
+			has_global_flag = z_pf2_installed
+			has_planet_flag = z_pf2_flg_plnt_auto_immig
+		}
+		hidden_effect = {
+			z_pf2_eft_plnt_auto_immig_toggle = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_关闭
+		name = z_pf2_dec_plnt_auto_mig_off
+		custom_gui = "z_mm_button_evt_option_blue"
+		custom_tooltip = z_pf2_tips_auto_mig_toggle
+		trigger = {
+			has_global_flag = z_pf2_installed
+			NOT = { has_planet_flag = z_pf2_flg_plnt_auto_immig }
+		}
+		hidden_effect = {
+			z_pf2_eft_plnt_auto_immig_toggle = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	#_[全部星球_自动迁入]
+	option = {#_[开启]
+		name = z_pf2.pop_management_auto_immig_on
+		custom_tooltip = z_pf2.pop_management_auto_immig_tips
+        custom_gui = "z_mm_button_evt_option_orange"
+		trigger = { has_global_flag = z_pf2_installed }
+		hidden_effect = {
+			owner = { z_pf2_eft_cntr_auto_immig_enable = yes }
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_[关闭]
+		name = z_pf2.pop_management_auto_immig_off
+		custom_tooltip = z_pf2.pop_management_auto_immig_tips
+        custom_gui = "z_mm_button_evt_option_orange"
+		trigger = { has_global_flag = z_pf2_installed }
+		hidden_effect = {
+			owner = { z_pf2_eft_cntr_auto_immig_disable = yes }
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	#_[自动降级]
+	option = {#_开启
+		name = z_pf2_dec_plnt_auto_demote_on
+		custom_gui = "z_mm_button_evt_option_blue"
+		custom_tooltip = z_pf2_tips_auto_demote_toggle
+		trigger = {
+			has_global_flag = z_pf2_installed
+			has_planet_flag = z_pf2_flg_plnt_auto_demote
+		}
+		hidden_effect = {
+			z_pf2_eft_plnt_auto_demote_toggle = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_关闭
+		name = z_pf2_dec_plnt_auto_demote_off
+		custom_gui = "z_mm_button_evt_option_blue"
+		custom_tooltip = z_pf2_tips_auto_demote_toggle
+		trigger = {
+			has_global_flag = z_pf2_installed
+			NOT = { has_planet_flag = z_pf2_flg_plnt_auto_demote }
+		}
+		hidden_effect = {
+			z_pf2_eft_plnt_auto_demote_toggle = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	#_[全部星球_迁出设置]
+	option = {#_[禁止迁出]
+		name = z_pf2.pop_management_mig_ignore
+		custom_tooltip = z_pf2.pop_management_mig_cntr
+        custom_gui = "z_mm_button_evt_option_orange"
+		trigger = { has_global_flag = z_pf2_installed }
+		hidden_effect = {
+			owner = { z_pf_eft_cntr_heup_mig_ignore = yes }
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_[恢复默认]
+		name = z_pf2.pop_management_mig_default
+		custom_tooltip = z_pf2.pop_management_mig_cntr
+        custom_gui = "z_mm_button_evt_option_orange"
+		trigger = { has_global_flag = z_pf2_installed }
+		hidden_effect = {
+			owner = { z_pf_eft_cntr_heup_mig_default = yes }
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+
+
+
+
+
+
+	###_[产业革命]	#################################
+	#_	信息/测试数据		/pr忽略/pop转化/man转化		/后补岗位/物种构成		/pr放弃殖民地/人力迁移
+	#_	碧蓝同化
+	
+	##_[空格]
+	option = {#_开启
+		name = z_fw_tips_empty
+		custom_gui = "z_mm_button_evt_option_empty"
+		hidden_effect = {}
+	}
+	
+	##_[信息]	标题/兼容/指南/人力/人力增长/总加成
+	option = {#_[标题]
+		name = z_pr_title
+		custom_gui = "z_mm_button_evt_option_name"
+		trigger = { has_global_flag = z_pr_installed }
+		hidden_effect = {}
+	}
+	#_[兼容]
+	option = {#_[舰B]
+		name = z_pr_tips_comp_azl
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	has_global_flag = z_pr_patch_installed_mod_azl }
+		hidden_effect = {}
+	}
+	option = {#_[舰R]
+		name = z_pr_tips_comp_wsg
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	has_global_flag = z_pr_patch_installed_mod_wsg }
+		hidden_effect = {}
+	}
+
+
+	option = {#_[指南]
+		name = z_pr_tips_var_plnt_guide
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed }
+		hidden_effect = {}
+	}
+	option = {#_[人力]
+		name = z_pr_tips_var_plnt_pop_man
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man }
+		hidden_effect = {}
+	}
+	option = {
+		name = z_pr_tips_var_cntr_man
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man }
+		hidden_effect = {}
+	}
+	option = {
+		name = z_pr_tips_var_plnt_man
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man }
+		hidden_effect = {}
+	}
+	option = {
+		name = z_pr_tips_var_plnt_man_desc
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man }
+		hidden_effect = {}
+	}
+	option = {#_[人力增长]
+		name = z_pr_tips_var_plnt_man_cap
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man	is_variable_set = z_pr_var_plnt_man_beta }
+		hidden_effect = {}
+	}
+	option = {
+		name = z_pr_tips_var_plnt_man_cap_desc
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man	is_variable_set = z_pr_var_plnt_man_beta }
+		hidden_effect = {}
+	}
+	option = {
+		name = z_pr_tips_var_plnt_man_growth
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man	is_variable_set = z_pr_var_plnt_man_beta		is_variable_set = z_pr_var_plnt_man_growth }
+		hidden_effect = {}
+	}
+	option = {
+		name = z_pr_tips_var_plnt_man_growth_desc
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man	is_variable_set = z_pr_var_plnt_man_beta		is_variable_set = z_pr_var_plnt_man_growth }
+		hidden_effect = {}
+	}
+	
+	option = {#_[总加成]
+		name = z_pr_tips_var_plnt_res_all_mult
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed }
+		hidden_effect = {}
+	}
+	
+	##_[测试数据]
+	option = {#_开启
+		name = z_pr_opt_test
+		custom_gui = "z_mm_button_evt_option_pink"
+		trigger = {
+			has_global_flag = z_pr_installed
+			owner = { has_country_flag = z_mm_flg_cntr_test }
+		}
+		hidden_effect = {
+			remove_planet_flag = z_fw_plnt_ui_setting_open	#_|UIdebug|
+			z_pr_eft_plnt_test_check = yes
+		}
+	}
+	
+	##_[pr忽略]
+	option = {#_开启
+		name = z_pr_option_plnt_ignore_on
+		custom_gui = "z_mm_button_evt_option_normal"
+		custom_tooltip = z_pr_option_plnt_ignore
+		trigger = {
+			has_global_flag = z_pr_installed
+			has_planet_flag = z_pr_flg_plnt_ignore
+		}
+		hidden_effect = {
+			remove_planet_flag = z_pr_flg_plnt_ignore
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_关闭
+		name = z_pr_option_plnt_ignore_off
+		custom_gui = "z_mm_button_evt_option_normal"
+		custom_tooltip = z_pr_option_plnt_ignore
+		trigger = {
+			has_global_flag = z_pr_installed
+			NOT = { has_planet_flag = z_pr_flg_plnt_ignore }
+		}
+		hidden_effect = {
+			set_planet_flag = z_pr_flg_plnt_ignore
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	
+	##_[pop转化]
+	option = {
+		name = z_pr_option_plnt_pop_cnvt_5
+		custom_gui = "z_mm_button_evt_option_blue"
+		custom_tooltip = z_pr_tips_plnt_pop_cnvt
+		trigger = {
+			has_global_flag = z_pr_installed
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+			count_owned_pop = { limit = { is_unemployed = yes } count > 0 }
+		}
+		allow = {
+			custom_tooltip = {#_星球忽略
+				hidden_trigger = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore } }
+				fail_text = z_pr_tips_plnt_ignore
+			}
+		}
+		hidden_effect = {
+			z_pr_eft_plnt_pop_cnvt_5 = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {
+		name = z_pr_option_plnt_pop_cnvt_25
+		custom_gui = "z_mm_button_evt_option_blue"
+		custom_tooltip = z_pr_tips_plnt_pop_cnvt
+		trigger = {
+			has_global_flag = z_pr_installed
+			owner = { has_country_flag = z_pr_flg_cntr_reg }
+			count_owned_pop = { limit = { is_unemployed = yes } count > 0 }
+		}
+		allow = {
+			custom_tooltip = {#_星球忽略
+				hidden_trigger = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore } }
+				fail_text = z_pr_tips_plnt_ignore
+			}
+		}
+		hidden_effect = {
+			z_pr_eft_plnt_pop_cnvt_25 = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	##_[man转化]
+	option = {#_公民
+		name = z_pr_option_plnt_man_cnvt_full
+		custom_gui = "z_mm_button_evt_option_green"
+		custom_tooltip = z_pr_tips_plnt_man_cnvt
+		trigger = {
+			has_global_flag = z_pr_installed
+			owner = {
+				any_owned_pop_species = { 
+					OR = {
+						has_citizenship_type = { country = prev type = citizenship_full }
+						has_citizenship_type = { country = prev type = citizenship_full_machine }
+					}
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {#_子菜单开启
+				hidden_trigger = { is_variable_set = z_pr_var_plnt_man		check_variable = { which = z_pr_var_plnt_man value > 0 } }
+				fail_text = z_pr_tips_plnt_has_man
+			}
+		}
+		hidden_effect = {
+			z_pr_eft_plnt_man_cnvt_full = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_居留
+		name = z_pr_option_plnt_man_cnvt_limited
+		custom_gui = "z_mm_button_evt_option_green"
+		custom_tooltip = z_pr_tips_plnt_man_cnvt
+		trigger = {
+			has_global_flag = z_pr_installed
+			owner = { any_owned_pop_species = { has_citizenship_type = { country = prev type = citizenship_limited } } }
+		}
+		allow = {
+			custom_tooltip = {#_子菜单开启
+				hidden_trigger = { is_variable_set = z_pr_var_plnt_man		check_variable = { which = z_pr_var_plnt_man value > 0 } }
+				fail_text = z_pr_tips_plnt_has_man
+			}
+		}
+		hidden_effect = {
+			z_pr_eft_plnt_man_cnvt_limited = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_奴隶
+		name = z_pr_option_plnt_man_cnvt_slavery
+		custom_gui = "z_mm_button_evt_option_green"
+		custom_tooltip = z_pr_tips_plnt_man_cnvt
+		trigger = {
+			has_global_flag = z_pr_installed
+			owner = { any_owned_pop_species = { has_citizenship_type = { country = prev type = citizenship_slavery } } }
+		}
+		allow = {
+			custom_tooltip = {#_子菜单开启
+				hidden_trigger = { is_variable_set = z_pr_var_plnt_man		check_variable = { which = z_pr_var_plnt_man value > 0 } }
+				fail_text = z_pr_tips_plnt_has_man
+			}
+		}
+		hidden_effect = {
+			z_pr_eft_plnt_man_cnvt_slavery = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_机仆
+		name = z_pr_option_plnt_man_cnvt_servitude
+		custom_gui = "z_mm_button_evt_option_green"
+		custom_tooltip = z_pr_tips_plnt_man_cnvt
+		trigger = {
+			has_global_flag = z_pr_installed
+			owner = { any_owned_pop_species = { has_citizenship_type = { country = prev type = citizenship_robot_servitude } } }
+		}
+		allow = {
+			custom_tooltip = {#_子菜单开启
+				hidden_trigger = { is_variable_set = z_pr_var_plnt_man		check_variable = { which = z_pr_var_plnt_man value > 0 } }
+				fail_text = z_pr_tips_plnt_has_man
+			}
+		}
+		hidden_effect = {
+			z_pr_eft_plnt_man_cnvt_servitude = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_活体陈设
+		name = z_pr_option_plnt_man_cnvt_trophy
+		custom_gui = "z_mm_button_evt_option_green"
+		custom_tooltip = z_pr_tips_plnt_man_cnvt
+		trigger = {
+			has_global_flag = z_pr_installed
+			has_available_jobs = z_pr_bio_trophy
+			owner = { any_owned_pop_species = { has_citizenship_type = { country = prev type = citizenship_organic_trophy } } }
+		}
+		allow = {
+			custom_tooltip = {#_子菜单开启
+				hidden_trigger = { is_variable_set = z_pr_var_plnt_man		check_variable = { which = z_pr_var_plnt_man value > 0 } }
+				fail_text = z_pr_tips_plnt_has_man
+			}
+		}
+		hidden_effect = {
+			z_pr_eft_plnt_man_cnvt_trophy = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	
+	##_[后补岗位]
+	option = {
+		name = {#_无
+			text = z_pr_opt_reserved_job_non
+			trigger = {
+				NOR = {
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_10
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_25
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_50
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_100
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_10
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_25
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_50
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_100
+				}
+			}
+		}
+		name = {#_10
+			text = z_pr_opt_reserved_job_10
+			trigger = {
+				OR = {
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_10
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_10
+				}
+			}
+		}
+		name = {#_25
+			text = z_pr_opt_reserved_job_25
+			trigger = {
+				OR = {
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_25
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_25
+				}
+			}
+		}
+		name = {#_50
+			text = z_pr_opt_reserved_job_50
+			trigger = {
+				OR = {
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_50
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_50
+				}
+			}
+		}
+		name = {#_100
+			text = z_pr_opt_reserved_job_100
+			trigger = {
+				OR = {
+					has_modifier = z_pr_mod_plnt_reserved_job_gestalt_100
+					has_modifier = z_pr_mod_plnt_reserved_job_regular_100
+				}
+			}
+		}
+		custom_tooltip = z_pr_tips_reserved_job
+        custom_gui = "z_mm_button_evt_option_orange"
+		
+		trigger = { has_global_flag = z_pr_installed }
+		allow = {
+			hidden_trigger = { owner = { has_country_flag = z_pr_flg_cntr_reg } }
+			custom_tooltip = {#_星球忽略
+				hidden_trigger = { NOT = { has_planet_flag = z_pr_flg_plnt_ignore } }
+				fail_text = z_pr_tips_plnt_ignore
+			}
+		}
+		
+		hidden_effect = {
+			z_pr_eft_plnt_reserved_job_switch = yes	#_[后补岗位]
+
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	
+	##_[物种构成]
+	option = {
+		name = {#默认
+			text = z_pr_option_plnt_spcs_normal
+			trigger = {
+				NOR = {
+					has_planet_flag = z_pr_flg_plnt_cliquy
+					has_planet_flag = z_pr_flg_plnt_pure
+				}
+			}
+		}
+		name = {#排外
+			text = z_pr_option_plnt_spcs_cliquy
+			trigger = { has_planet_flag = z_pr_flg_plnt_cliquy }
+		}
+		name = {#纯血
+			text = z_pr_option_plnt_spcs_pure
+			trigger = { has_planet_flag = z_pr_flg_plnt_pure }
+		}
+		custom_tooltip = z_pr_option_plnt_spcs
+		custom_gui = "z_mm_button_evt_option_green"
+		trigger = { has_global_flag = z_pr_installed }
+		allow = {
+			custom_tooltip = {
+				hidden_trigger = {
+					owner = {
+						has_country_flag = z_pr_flg_cntr_reg
+					#	NOT = { has_country_flag = z_pr_flg_cntr_job_ckeck_delay }
+					}
+				}
+				fail_text = z_pr_tips_spcs_cd
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					NOR = {
+						has_planet_flag = z_pr_flg_plnt_cliquy
+						has_planet_flag = z_pr_flg_plnt_pure
+					}
+				}
+				set_planet_flag = z_pr_flg_plnt_cliquy
+			}
+			else_if = { limit = { has_planet_flag = z_pr_flg_plnt_cliquy }
+				remove_planet_flag = z_pr_flg_plnt_cliquy
+				set_planet_flag = z_pr_flg_plnt_pure
+			}
+			else_if = { limit = { has_planet_flag = z_pr_flg_plnt_pure }
+				remove_planet_flag = z_pr_flg_plnt_pure
+			}
+			z_pr_eft_plnt_job_check_delay = yes		#_[延迟job检测]
+			
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	
+	
+	##_[pr放弃殖民地]
+	option = {
+		name = z_pr_opt_plnt_abandon
+		custom_tooltip = z_pr_tips_plnt_abandon
+		custom_gui = "z_mm_button_evt_option_red"
+		trigger = { has_global_flag = z_pr_installed }
+		allow = { is_capital = no		hidden_trigger = { owner = { has_country_flag = z_pr_flg_cntr_reg } } }
+		hidden_effect = {
+			remove_planet_flag = z_fw_plnt_ui_setting_open	#_|UIdebug|
+			z_pr_eft_plnt_abandon = yes
+		}
+	}
+	
+	##_[人力迁移]
+	option = {#_开启
+		name = z_pr_opt_setting_cntr_auto_mig_on
+		custom_tooltip = z_pr_opt_setting_cntr_auto_mig
+		custom_gui = "z_mm_button_evt_option_blue"
+		trigger = {
+			has_global_flag = z_pr_installed
+			owner = { NOT = { has_country_flag = z_pr_flg_cntr_auto_mig_disabled } }
+		}
+		allow = { hidden_trigger = { owner = { has_country_flag = z_pr_flg_cntr_reg } } }
+		hidden_effect = {
+			owner = { set_country_flag = z_pr_flg_cntr_auto_mig_disabled }
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_关闭
+		name = z_pr_opt_setting_cntr_auto_mig_off
+		custom_tooltip = z_pr_opt_setting_cntr_auto_mig
+		custom_gui = "z_mm_button_evt_option_blue"
+		trigger = {
+			has_global_flag = z_pr_installed
+			owner = { has_country_flag = z_pr_flg_cntr_auto_mig_disabled }
+		}
+		allow = { hidden_trigger = { owner = { has_country_flag = z_pr_flg_cntr_reg } } }
+		hidden_effect = {
+			owner = { remove_country_flag = z_pr_flg_cntr_auto_mig_disabled }
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_[国家迁移]
+		name = z_pr_opt_setting_cntr_mig
+		custom_tooltip = z_pr_tips_setting_cntr_mig
+		custom_gui = "z_mm_button_evt_option_blue"
+		trigger = { has_global_flag = z_pr_installed }
+		allow = { hidden_trigger = { owner = { has_country_flag = z_pr_flg_cntr_reg } } }
+		hidden_effect = {
+			owner = { z_pr_eft_cntr_man_mig = yes }
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_[展开细节]
+		name = {#_已展开
+			text = z_pr_opt_plnt_man_mig_show
+			trigger = { has_planet_flag = z_pr_flg_plnt_man_mig_show }
+		}
+		name = {#_已收起
+			text = z_pr_opt_plnt_man_mig_hide
+			trigger = { NOT = { has_planet_flag = z_pr_flg_plnt_man_mig_show } }
+		}
+		custom_tooltip = z_pr_opt_plnt_man_mig_show_hide
+        custom_gui = "z_mm_button_evt_option_blue"
+		
+		trigger = { has_global_flag = z_pr_installed }
+		allow = {
+			is_colony = yes
+			is_under_colonization = no
+			hidden_trigger = { owner = { has_country_flag = z_pr_flg_cntr_reg } }
+		}
+		
+		hidden_effect = {
+			if = { limit = { has_planet_flag = z_pr_flg_plnt_man_mig_show }		remove_planet_flag = z_pr_flg_plnt_man_mig_show }
+			else_if = { limit = { NOT = { has_planet_flag = z_pr_flg_plnt_man_mig_show } }		set_planet_flag = z_pr_flg_plnt_man_mig_show }
+
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_[人力迁出5]
+		name = z_pr_opt_plnt_man_mig_5
+		custom_tooltip = z_pr_tips_plnt_man_mig
+		custom_gui = "z_mm_button_evt_sub_blue"
+		trigger = { has_planet_flag = z_pr_flg_plnt_man_mig_show }
+		allow = {
+			is_colony = yes
+			is_under_colonization = no
+			hidden_trigger = {
+				owner = { has_country_flag = z_pr_flg_cntr_reg }
+				is_variable_set = z_pr_var_plnt_man
+				check_variable = { which = z_pr_var_plnt_man value > 10 }
+				is_variable_set = z_pr_var_plnt_man_ratio
+				check_variable = { which = z_pr_var_plnt_man_ratio value > 1.19 }
+			}
+		}
+		hidden_effect = {
+			z_pr_eft_plnt_man_mig_5 = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_[人力迁出25]
+		name = z_pr_opt_plnt_man_mig_25
+		custom_tooltip = z_pr_tips_plnt_man_mig
+		custom_gui = "z_mm_button_evt_sub_blue"
+		trigger = { has_planet_flag = z_pr_flg_plnt_man_mig_show }
+		allow = {
+			is_colony = yes
+			is_under_colonization = no
+			hidden_trigger = {
+				owner = { has_country_flag = z_pr_flg_cntr_reg }
+				is_variable_set = z_pr_var_plnt_man
+				check_variable = { which = z_pr_var_plnt_man value > 30 }
+				is_variable_set = z_pr_var_plnt_man_ratio
+				check_variable = { which = z_pr_var_plnt_man_ratio value > 1.19 }
+			}
+		}
+		hidden_effect = {
+			z_pr_eft_plnt_man_mig_25 = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_[人力迁入5]
+		name = z_pr_opt_plnt_man_immig_5
+		custom_tooltip = z_pr_tips_plnt_man_immig
+		custom_gui = "z_mm_button_evt_sub_blue"
+		trigger = { has_planet_flag = z_pr_flg_plnt_man_mig_show }
+		allow = {
+			is_colony = yes
+			is_under_colonization = no
+			hidden_trigger = {
+				owner = { has_country_flag = z_pr_flg_cntr_reg }
+				is_variable_set = z_pr_var_plnt_man
+			}
+		}
+		hidden_effect = {
+			z_pr_eft_plnt_man_immig_5 = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_[人力迁入25]
+		name = z_pr_opt_plnt_man_immig_25
+		custom_tooltip = z_pr_tips_plnt_man_immig
+		custom_gui = "z_mm_button_evt_sub_blue"
+		trigger = { has_planet_flag = z_pr_flg_plnt_man_mig_show }
+		allow = {
+			is_colony = yes
+			is_under_colonization = no
+			hidden_trigger = {
+				owner = { has_country_flag = z_pr_flg_cntr_reg }
+				is_variable_set = z_pr_var_plnt_man
+			}
+		}
+		hidden_effect = {
+			z_pr_eft_plnt_man_immig_25 = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_[人力迁入_满]
+		name = z_pr_opt_plnt_man_immig_full
+		custom_tooltip = z_pr_tips_plnt_man_immig_full
+		custom_gui = "z_mm_button_evt_sub_blue"
+		trigger = { has_planet_flag = z_pr_flg_plnt_man_mig_show }
+		allow = {
+			is_colony = yes
+			is_under_colonization = no
+			hidden_trigger = {
+				owner = { has_country_flag = z_pr_flg_cntr_reg }
+				is_variable_set = z_pr_var_plnt_man
+				is_variable_set = z_pr_var_plnt_man_ratio
+				check_variable = { which = z_pr_var_plnt_man_ratio value < 1 }
+			}
+		}
+		hidden_effect = {
+			z_pr_eft_plnt_man_immig_full = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+
+
+
+
+	option = {#_mod联动功能
+		name = mod_pr_linkage
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = {
+			OR = {
+			#	has_global_flag = z_pr_patch_installed_mod_azl
+				has_global_flag = azurlane_KuRUMiiii
+				has_global_flag = azur_awakened_activated
+			}
+		}
+		hidden_effect = {}
+	}
+	#_[碧蓝同化]
+	option = {#_唯物
+		name = azl_pr_opt_assimilation_materialist
+		custom_tooltip = azl_pr_opt_assimilation_materialist_desc
+		custom_gui = "z_mm_button_evt_option_blue"
+		trigger = { has_modifier = azur_assimilation_materialist }	#_|plnt_mod|
+		allow = {
+			hidden_trigger = {
+				owner = { has_country_flag = z_pr_flg_cntr_reg }
+				is_variable_set = z_pr_var_plnt_man
+				check_variable = { which = z_pr_var_plnt_man value >= 1 }
+			}
+		}
+		hidden_effect = {
+			azl_pr_eft_plnt_assimilation_materialist = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	option = {#_唯心
+		name = azl_pr_opt_assimilation_spiritualist
+		custom_tooltip = azl_pr_opt_assimilation_spiritualist_desc
+		custom_gui = "z_mm_button_evt_option_blue"
+		trigger = { has_modifier = azur_assimilation_spiritualist }	#_|plnt_mod|
+		allow = {
+			hidden_trigger = {
+				owner = {
+					has_country_flag = z_pr_flg_cntr_reg
+					is_variable_set = azur_assimilation_pop_country
+				}
+				is_variable_set = z_pr_var_plnt_man
+				check_variable = { which = z_pr_var_plnt_man value >= 5 }
+			}
+		}
+		hidden_effect = {
+			azl_pr_eft_plnt_assimilation_spiritualist = yes
+			planet_event = { id = z_fw_plnt_ui_setting.1 }
+		}
+	}
+	
+}
+

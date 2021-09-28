@@ -1,0 +1,1736 @@
+###_infinite stellaris core-接战	####################################################################
+namespace = z_fw_core_battle
+
+#_[核心_接战框架]
+#_[核心_星系战斗循环]
+#_[核心_舰队自检]
+
+#_[核心_接战]
+#_[核心_flt胜利/核心_星系胜利]
+#_[核心_flt失败/核心_flt失败脱战]
+#_[核心_ship失效/核心_ship激活]
+
+#_[动态难度_all]
+
+
+
+
+###_[核心_接战框架]	[id=1]	############################################################################
+#_fromfrom		旧接战初始化/战斗状态init/数值限制
+#_<on_entering_battle>
+#_触发3sp		[sp修正]
+country_event = {
+	id = z_fw_core_battle.1
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = fromfrom
+		fromfrom = {
+			z_fw_trgr_flt_battle_vl_battle = yes
+			NOT = { has_fleet_flag = z_fw_flg_flt_vl_encounter }
+		}
+	}
+	
+	immediate = {
+		fromfrom = {
+			set_timed_fleet_flag = { flag = z_fw_flg_flt_vl_encounter days = 1 }	#_多支舰队交战,只触发一次
+		
+			###_[旧接战初始化]
+			z_fw_eft_flt_core_battle_mod_init = yes
+			
+			###_[战斗状态init]
+			set_fleet_flag = z_fw_flg_fleet_combat_state	#_|战斗状态|添加
+			
+			###_[数值限制]
+			#_[vl_精确修正_init]
+			fleet_event = { id = z_fw_core_battle_vl.3 }
+			#_[vl_cd清零]
+			remove_fleet_flag = z_fw_flg_fleet_debug_cd
+			#_[vl_精确修正_订正]
+			fleet_event = { id = z_fw_core_battle_vl.30 days = 1 }
+		}
+		
+		###_[接战]---特殊敌人
+		if = {
+			limit = {
+				has_global_flag = z_framework_activated		#_框架启用
+				NOR = {
+					is_ai = no	#_|玩家|
+					z_fw_trgr_cntr_core_vanilla = yes
+					is_country_type = ascended_empire	#_ZOFE
+					is_country_type = lost_empire
+					is_country_type = default_ev	#_肾虚
+				}
+			}
+			#_[sp enemy nerf]
+			fromfrom = { add_modifier = { modifier = z_fw_mod_ship_battle_nerf days = -1 } }
+			#_[mist mum]
+			if = {
+				limit = {
+					has_global_flag = z_fw_core_battle_dd_fleet_power	#_DD-战力强化
+					has_modifier = uf_hidden_buff
+				}
+				fromfrom = { add_modifier = { modifier = z_fw_mod_ship_battle_nerf_mist days = -1 } }
+			}
+		}
+	}
+}
+
+
+
+
+###_[核心_星系战斗循环]	########################################	z禁用
+#_|战斗状态|	自循环
+#_|战斗结束|	vl_舰队debug
+system_event = {
+	id = z_fw_core_battle.10
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		##_|战斗状态|	自循环
+		if = {
+			limit = {
+				has_star_flag = z_fw_flg_star_core_battle_ongoing		#_|战斗进行中|
+				any_fleet_in_system = { is_in_combat = yes }		#_|存在战斗|
+			}
+			#_[自循环]
+			system_event = { id = z_fw_core_battle.10 days = 5 }
+		}
+		
+		##_|战斗结束|	clear/vl_舰队debug
+		else = {
+			#_[clear]
+			remove_star_flag = z_fw_flg_star_core_battle_ongoing
+			
+			#_[vl_舰队debug]
+		#	if = {
+		#		limit = { NOT = { has_fleet_flag = z_fw_flg_flt_battle_vl_counted }		z_fw_trgr_glbl_battle_vl_more = yes }	#_|vl_进阶trgr|
+		#		fleet_event = { id = z_fw_core_battle_vl.2 }
+		#	}
+			
+			
+		}
+	}
+}
+
+
+
+
+###_[核心_舰队自检]	[id=11]	#########################################
+#_[战斗状态debug/vl自检debug]
+fleet_event = {
+	id = z_fw_core_battle.11
+	hide_window = yes
+	mean_time_to_happen = {
+		days = 15
+		modifier = { factor = 0.2	is_in_combat = yes }
+	}
+	immediate = {
+		#_[战斗状态debug]	战斗中/非战斗
+		if = {
+			limit = { has_fleet_flag = z_fw_flg_fleet_combat_state }	#_|战斗状态|
+			
+			#_|战斗中|
+			if = { limit = { is_in_combat = yes }
+			}
+			#_|非战斗|	脱离战斗状态/去除vl_舰队CD
+			else = {
+				#_[脱离战斗状态]
+				remove_fleet_flag = z_fw_flg_fleet_combat_state		#_|战斗状态|
+				#_[去除vl_舰队CD]	提前一次[vl自检debug]
+				remove_fleet_flag = z_fw_flg_fleet_debug_cd
+				
+				#_[旧接战初始化]
+				z_fw_eft_flt_core_battle_mod_init = yes
+			}
+		}
+		
+		#_[vl自检debug]		战斗中/非战斗
+		if = {
+			limit = { NOT = { has_fleet_flag = z_fw_flg_fleet_debug_cd } }		#_|vl_舰队CD|无
+
+			#_|战斗中|
+			if = { limit = { is_in_combat = yes }	fleet_event = { id = z_fw_core_battle_vl.3 } }	#_[vl_精确修正_init]
+			#_|非战斗|
+			else = { fleet_event = { id = z_fw_core_battle_vl.2 } }	#_[vl_舰队修正_init]
+		}
+	}
+}
+
+
+
+
+
+
+
+
+#_[核心_接战]	MISC	########################################################
+
+#_[on_entering_battle]	debug-清理溢出	[id=12]	z禁用
+country_event = {
+	id = z_fw_core_battle.12
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		has_global_flag = z_fw_core_battle_fp_debug_on
+		OR = {
+			z_fw_trgr_cntr_core_pc_current = yes
+			z_fw_trgr_cntr_core_vanilla = no
+		}
+		exists = fromfrom
+		fromfrom = {
+			OR = {
+				is_ship_class = shipclass_military
+				#_is_ship_class = shipclass_military_special	#_巨神兵
+				is_ship_class = shipclass_military_station
+				is_ship_class = shipclass_starbase
+			}
+			fleet_power < 2
+		}
+	}
+	
+	immediate = {
+		fromfrom = {
+			destroy_fleet = {
+				target = this
+				kill_leader = yes
+				destroy_template = yes
+			}
+		}
+	}
+}
+
+
+
+
+###_[核心_flt胜利]	脱离战斗	########################################################
+#_<on_space_battle_won>
+#_<胜利舰队>		星系胜利check
+country_event = {
+	id = z_fw_core_battle.13
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		#_<胜利舰队>
+		fromfrom = {
+			#_[星系胜利check]
+			solar_system = { system_event = { id = z_fw_core_battle.130 days = 1 } }
+		}
+	}
+}
+#_[核心_星系胜利]	单次指定/胜利舰队
+system_event = {
+	id = z_fw_core_battle.130
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_star_flag = temp_vl_flg_sstm_won_check } }	#_||单次指定||
+	immediate = {
+		every_fleet_in_system = {#_|战斗状态|却|无战斗|的舰队应当[脱离战斗]
+			limit = {
+				has_fleet_flag = z_fw_flg_fleet_combat_state	#_|战斗状态|
+				is_in_combat = no	#_|无战斗|
+			}
+			
+			#_|单次指定|添加到星系
+			prev = { set_timed_star_flag = { flag = temp_vl_flg_sstm_won_check days = 1 } }
+			
+			#_[脱离战斗]
+			fleet_event = { id = z_fw_core_battle_vl.2 }		#_[vl_舰队修正_init]
+			remove_fleet_flag = z_fw_flg_fleet_combat_state		#_|战斗状态|
+			
+			z_fw_eft_flt_core_battle_mod_init = yes		#_[旧接战初始化]
+		}
+	}
+}
+
+
+###_[核心_flt失败]	脱离战斗	##################################
+#_<on_space_battle_lost>
+#_<失败舰队>		核心_flt失败脱战
+country_event = {
+	id = z_fw_core_battle.14
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		#_<失败舰队>
+		fromfrom = {
+			if = { limit = { num_ships >= 1 }	#_|幸存者|
+				#_[核心_flt失败脱战]	滞后1日
+				fleet_event = { id = z_fw_core_battle.140 days = 1 }
+			}
+		}
+	}
+}
+#_[核心_flt失败脱战]
+fleet_event = {
+	id = z_fw_core_battle.140
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { is_in_combat = no }	#_|脱战|
+	immediate = {
+		#_[脱战debug]
+		if = { limit = { has_fleet_flag = z_fw_flg_fleet_combat_state }
+			
+			fleet_event = { id = z_fw_core_battle_vl.2 }		#_[vl_舰队修正_init]
+			remove_fleet_flag = z_fw_flg_fleet_combat_state		#_|战斗状态|
+			
+			z_fw_eft_flt_core_battle_mod_init = yes		#_[旧接战初始化]
+		}
+	}
+}
+
+
+
+
+###_[核心_ship失效]		vl_船只初始化		########################################################
+#_<on_ship_disabled>
+ship_event = {
+	id = z_fw_core_battle.15
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		#_[vl_船只初始化]
+		z_fw_eft_ship_vl_init = yes
+		kuat_eft_flt_vl_init = yes	#_[阿夸]
+	}
+}
+
+###_[核心_ship激活]		vl_船只初始化/vl_舰船修正_debug		##################################
+#_<on_ship_enabled>
+ship_event = {
+	id = z_fw_core_battle.16
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+	
+		#_[vl_船只初始化]
+		z_fw_eft_ship_vl_init = yes
+		kuat_eft_flt_vl_init = yes	#_[阿夸]
+		#_[vl_舰船修正_debug]
+		z_fw_eft_flt_vl_debug = yes
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+###_[动态难度_all]	[id=2]	########################################################################
+
+###_[动态难度-Fleet Power Level]	####################################
+
+#_triggers		[z_fw_trgr_cntr_core_normal_no_afe]			普通AI<file=z_fw1_triggers>
+#_global_tgt	[z_fw_tgt_global_event]				执行npc---z全局事件
+#_eft			[z_fw_eft_core_battle_dd_ai_effect]	执行upgrade
+#_var			[z_fw_core_battle_dd_execute_var]	各AI强化参数
+#_var			[z_fw_var_core_battle_dd_pc_fp]		maxPC舰队规模参数
+#_global_tgt	[z_fw_tgt_core_country_max_pc]		maxPC对象
+#_global_flag	[z_fw_core_battle_dd_fp_adpt_hard][z_fw_core_battle_dd_fp_adpt_standard][z_fw_core_battle_dd_fp_adpt_easy]
+
+#_target		[z_fw_tgt_core_country_max_pc]		最强PC
+#_var			[z_fw_core_battle_dd_var]			核心-全局强化参数
+#_var			[z_fw_core_dd_ai_threat_var][z_fw_core_dd_ai_rival_var][z_fw_core_dd_ai_weak_var]	普通ai_var
+#_var			[z_fw_core_dd_ai_supreme_var][z_fw_core_dd_ai_powerful_var][z_fw_core_dd_ai_decline_var]
+#_country_flag	[z_fw_core_dd_upgrade_normal][z_fw_core_dd_upgrade_fast][z_fw_core_dd_upgrade_deadly]
+#_country_flag	[z_fw_core_battle_dd_fp_cd]			自适应检测CD
+
+
+#_[z_fw_core.13]	战力强化-<自适应检测_core>	[id=2]
+#_<仅对于非附庸的AI星际帝国生效>
+#_npc=<global_tgt:z_fw_tgt_global_event>
+country_event = {
+	id = z_fw_core_battle.2
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_country_flag = z_fw_core_battle_dd_fp_cd } }
+	
+	immediate = {
+		#_初始化
+		remove_country_flag = z_fw_core_dd_upgrade_normal		#_d难度提升+1
+		remove_country_flag = z_fw_core_dd_upgrade_fast		#_d难度提升+3
+		remove_country_flag = z_fw_core_dd_upgrade_deadly		#_d难度提升+5
+		set_variable = { which = z_fw_core_dd_ai_threat_var value = 0 }		#_普AI威胁 var归零
+		set_variable = { which = z_fw_core_dd_ai_rival_var value = 0 }		#_普AI对手 var归零
+		set_variable = { which = z_fw_core_dd_ai_weak_var value = 0 }		#_普AI对手 var归零
+	#	set_variable = { which = z_fw_core_dd_ai_supreme_var value = 0 }	#_强AI超级 var归零
+	#	set_variable = { which = z_fw_core_dd_ai_powerful_var value = 0 }	#_强AI强力 var归零
+	#	set_variable = { which = z_fw_core_dd_ai_decline_var value = 0 }	#_强AI衰落 var归零
+		#_全局强化参数 debug
+		if = {
+			limit = {
+				OR = {
+					NOT = { is_variable_set = z_fw_core_battle_dd_var }
+					check_variable = { which = z_fw_core_battle_dd_var value < 0 }
+				}
+			}
+			set_variable = { which = z_fw_core_battle_dd_var value = 0 }
+		}
+		
+		#_拥有合格PC---执行舰队强化参数检测
+		if = {
+			limit = { check_variable = { which = z_fw_var_core_battle_dd_pc_fp value > 1 } }
+			###_normal_empire检测
+			if = {
+				limit = {
+					count_country = {#_存在普通国家
+						limit = { z_fw_core_dd_is_common_ai = yes }
+						count > 0
+					}
+				}
+				##_强化等级+5
+				#_威胁
+				if = {
+					limit = {
+						NOT = {
+							any_country = {
+								z_fw_core_dd_is_common_ai = yes
+								z_fw_core_dd_is_valid_ai_threat = yes
+								z_fw_core_dd_is_fp_ai_threat = yes
+								relative_power = {
+									who = event_target:z_fw_tgt_core_country_max_pc
+									category = fleet
+									value >= inferior
+								}
+							}
+						}
+					}
+					set_country_flag = z_fw_core_dd_upgrade_deadly
+				}
+				##_强化等级+3
+				#_威胁---至少一个威胁
+				else_if = {
+					limit = {
+						NOT = {
+							any_country = {
+								z_fw_core_dd_is_common_ai = yes
+								z_fw_core_dd_is_valid_ai_threat = yes
+								z_fw_core_dd_is_fp_ai_threat = yes
+								relative_power = {
+									who = event_target:z_fw_tgt_core_country_max_pc
+									category = fleet
+									value >= equivalent
+								}
+							}
+						}
+					}
+					set_country_flag = z_fw_core_dd_upgrade_fast
+				}
+				#_对手
+				else_if = {
+					limit = {
+						NOT = {
+							any_country = {
+								z_fw_core_dd_is_common_ai = yes
+								z_fw_core_dd_is_valid_ai_rival = yes
+								z_fw_core_dd_is_fp_ai_rival = yes
+								relative_power = {
+									who = event_target:z_fw_tgt_core_country_max_pc
+									category = fleet
+									value >= inferior
+								}
+							}
+						}
+					}
+					set_country_flag = z_fw_core_dd_upgrade_fast
+				}
+				##_强化等级+1
+				else_if = {
+					limit = {
+						NOT = {
+							any_country = {
+								z_fw_core_dd_is_common_ai = yes
+								z_fw_core_dd_is_valid_ai_threat = yes
+								z_fw_core_dd_is_fp_ai_threat = yes
+								relative_power = {
+									who = event_target:z_fw_tgt_core_country_max_pc
+									category = fleet
+									value >= superior
+								}
+							}
+						}
+					}
+					set_country_flag = z_fw_core_dd_upgrade_normal
+				}
+				#_对手
+				else_if = {
+					limit = {
+						NOT = {
+							any_country = {
+								z_fw_core_dd_is_common_ai = yes
+								z_fw_core_dd_is_valid_ai_rival = yes
+								z_fw_core_dd_is_fp_ai_rival = yes
+								relative_power = {
+									who = event_target:z_fw_tgt_core_country_max_pc
+									category = fleet
+									value >= equivalent
+								}
+							}
+						}
+					}
+					set_country_flag = z_fw_core_dd_upgrade_normal
+				}
+				#_弱者
+				else_if = {
+					limit = {
+						NOT = {
+							any_country = {
+								z_fw_core_dd_is_common_ai = yes
+								z_fw_core_dd_is_valid_ai_weak = yes
+								z_fw_core_dd_is_fp_ai_weak = yes
+								relative_power = {
+									who = event_target:z_fw_tgt_core_country_max_pc
+									category = fleet
+									value >= inferior
+								}
+							}
+						}
+					}
+					set_country_flag = z_fw_core_dd_upgrade_normal
+				}
+				#_计数 强化等级+1
+				else = {
+					#_普通AI-威胁计数
+					every_country = {
+						limit = {
+							z_fw_core_dd_is_common_ai = yes
+							z_fw_core_dd_is_valid_ai_threat = yes
+							z_fw_core_dd_is_fp_ai_threat = yes
+							relative_power = {
+								who = event_target:z_fw_tgt_core_country_max_pc
+								category = fleet
+								value >= superior	#_略强 > 1.5
+							}
+						}
+						root = { change_variable = { which = z_fw_core_dd_ai_threat_var value = 1 } }
+					}
+					#_强化条件检测 33%
+					if = {#_18+=7
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_threat = yes
+									z_fw_core_dd_is_fp_ai_threat = yes
+								}
+								count > 18
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_threat_var value < 7 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_18=6
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_threat = yes
+									z_fw_core_dd_is_fp_ai_threat = yes
+								}
+								count > 15
+								count <= 18
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_threat_var value < 6 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_15=5
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_threat = yes
+									z_fw_core_dd_is_fp_ai_threat = yes
+								}
+								count > 12
+								count <= 15
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_threat_var value < 5 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_12=4
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_threat = yes
+									z_fw_core_dd_is_fp_ai_threat = yes
+								}
+								count > 9
+								count <= 12
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_threat_var value < 4 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_9=3
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_threat = yes
+									z_fw_core_dd_is_fp_ai_threat = yes
+								}
+								count > 6
+								count <= 9
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_threat_var value < 3 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_6=2
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_threat = yes
+									z_fw_core_dd_is_fp_ai_threat = yes
+								}
+								count > 3
+								count <= 6
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_threat_var value < 2 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					
+					#_普通AI-对手计数
+					every_country = {
+						limit = {
+							z_fw_core_dd_is_common_ai = yes
+							z_fw_core_dd_is_valid_ai_rival = yes
+							z_fw_core_dd_is_fp_ai_rival = yes
+							relative_power = {
+								who = event_target:z_fw_tgt_core_country_max_pc
+								category = fleet
+								value >= equivalent	#_对等 0.66~1.5
+							}
+						}
+						root = { change_variable = { which = z_fw_core_dd_ai_rival_var value = 1 } }
+					}
+					#_强化条件检测 50%
+					if = {#_20+=11
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_rival = yes
+									z_fw_core_dd_is_fp_ai_rival = yes
+								}
+								count > 20
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_rival_var value < 11 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_20=10
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_rival = yes
+									z_fw_core_dd_is_fp_ai_rival = yes
+								}
+								count > 18
+								count <= 20
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_rival_var value < 10 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_18=9
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_rival = yes
+									z_fw_core_dd_is_fp_ai_rival = yes
+								}
+								count > 16
+								count <= 18
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_rival_var value < 9 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_16=8
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_rival = yes
+									z_fw_core_dd_is_fp_ai_rival = yes
+								}
+								count > 14
+								count <= 16
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_rival_var value < 8 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_14=7
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_rival = yes
+									z_fw_core_dd_is_fp_ai_rival = yes
+								}
+								count > 12
+								count <= 14
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_rival_var value < 7 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_12=6
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_rival = yes
+									z_fw_core_dd_is_fp_ai_rival = yes
+								}
+								count > 10
+								count <= 12
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_rival_var value < 6 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_10=5
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_rival = yes
+									z_fw_core_dd_is_fp_ai_rival = yes
+								}
+								count > 8
+								count <= 10
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_rival_var value < 5 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_8=4
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_rival = yes
+									z_fw_core_dd_is_fp_ai_rival = yes
+								}
+								count > 6
+								count <= 8
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_rival_var value < 4 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_6=3
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_rival = yes
+									z_fw_core_dd_is_fp_ai_rival = yes
+								}
+								count > 4
+								count <= 6
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_rival_var value < 3 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_4=2
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_rival = yes
+									z_fw_core_dd_is_fp_ai_rival = yes
+								}
+								count > 2
+								count <= 4
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_rival_var value < 2 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					
+					#_普通AI-弱者计数
+					every_country = {
+						limit = {
+							z_fw_core_dd_is_common_ai = yes
+							z_fw_core_dd_is_valid_ai_weak = yes
+							z_fw_core_dd_is_fp_ai_weak = yes
+							relative_power = {
+								who = event_target:z_fw_tgt_core_country_max_pc
+								category = fleet
+								value >= inferior	#_对等 0.66~1.5
+							}
+						}
+						root = { change_variable = { which = z_fw_core_dd_ai_weak_var value = 1 } }
+					}
+					#_强化条件检测 25%
+					if = {#_	21+=8
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_weak = yes
+									z_fw_core_dd_is_fp_ai_weak = yes
+								}
+								count > 21
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_weak_var value < 8 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_	21=7
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_weak = yes
+									z_fw_core_dd_is_fp_ai_weak = yes
+								}
+								count > 18
+								count <= 21
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_weak_var value < 7 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_	18=6
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_weak = yes
+									z_fw_core_dd_is_fp_ai_weak = yes
+								}
+								count > 15
+								count <= 18
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_weak_var value < 6 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_	15=5
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_weak = yes
+									z_fw_core_dd_is_fp_ai_weak = yes
+								}
+								count > 12
+								count <= 15
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_weak_var value < 5 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_	12=4
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_weak = yes
+									z_fw_core_dd_is_fp_ai_weak = yes
+								}
+								count > 9
+								count <= 12
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_weak_var value < 4 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_	9=3
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_weak = yes
+									z_fw_core_dd_is_fp_ai_weak = yes
+								}
+								count > 6
+								count <= 9
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_weak_var value < 3 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+					else_if = {#_	6=2
+						limit = {
+							count_country = {
+								limit = {
+									z_fw_core_dd_is_common_ai = yes
+									z_fw_core_dd_is_valid_ai_weak = yes
+									z_fw_core_dd_is_fp_ai_weak = yes
+								}
+								count > 3
+								count <= 6
+							}
+						}
+						if = {
+							limit = { check_variable = { which = z_fw_core_dd_ai_weak_var value < 2 } }
+							set_country_flag = z_fw_core_dd_upgrade_normal
+						}
+					}
+				}
+			}
+			###_powerful_empire检测	<如果没有普通国家>
+			else_if = {
+				limit = {
+					count_country = {#_存在觉醒
+						limit = { z_fw_core_dd_is_powerful_ai = yes }
+						count > 0
+					}
+				}
+				
+				##_强化等级+5
+				#_高级威胁
+				if = {
+					limit = {
+						NOT = {
+							any_country = {
+								z_fw_core_dd_is_powerful_ai = yes
+								z_fw_core_dd_is_valid_ai_threat = yes
+								z_fw_core_dd_is_fp_ai_threat = yes
+								relative_power = {
+									who = event_target:z_fw_tgt_core_country_max_pc
+									category = fleet
+									value >= equivalent	#_对等
+								}
+							}
+						}
+					}
+					set_country_flag = z_fw_core_dd_upgrade_deadly
+				}
+				#_高级对手
+				else_if = {
+					limit = {
+						NOT = {
+							any_country = {
+								z_fw_core_dd_is_powerful_ai = yes
+								z_fw_core_dd_is_valid_ai_rival = yes
+								z_fw_core_dd_is_fp_ai_rival = yes
+								relative_power = {
+									who = event_target:z_fw_tgt_core_country_max_pc
+									category = fleet
+									value >= inferior	#_0.66
+								}
+							}
+						}
+					}
+					set_country_flag = z_fw_core_dd_upgrade_deadly
+				}
+				
+				##_强化等级+3
+				#_高级威胁
+				else_if = {
+					limit = {
+						NOT = {
+							any_country = {
+								z_fw_core_dd_is_powerful_ai = yes
+								z_fw_core_dd_is_valid_ai_threat = yes
+								z_fw_core_dd_is_fp_ai_threat = yes
+								relative_power = {
+									who = event_target:z_fw_tgt_core_country_max_pc
+									category = fleet
+									value >= superior
+								}
+							}
+						}
+					}
+					set_country_flag = z_fw_core_dd_upgrade_fast
+				}
+				#_高级对手
+				else_if = {
+					limit = {
+						NOT = {
+							any_country = {
+								z_fw_core_dd_is_powerful_ai = yes
+								z_fw_core_dd_is_valid_ai_rival = yes
+								z_fw_core_dd_is_fp_ai_rival = yes
+								relative_power = {
+									who = event_target:z_fw_tgt_core_country_max_pc
+									category = fleet
+									value >= equivalent
+								}
+							}
+						}
+					}
+					set_country_flag = z_fw_core_dd_upgrade_fast
+				}
+				#_高级弱小
+				else_if = {
+					limit = {
+						NOT = {
+							any_country = {
+								z_fw_core_dd_is_powerful_ai = yes
+								z_fw_core_dd_is_valid_ai_weak = yes
+								z_fw_core_dd_is_fp_ai_weak = yes
+								relative_power = {
+									who = event_target:z_fw_tgt_core_country_max_pc
+									category = fleet
+									value >= inferior
+								}
+							}
+						}
+					}
+					set_country_flag = z_fw_core_dd_upgrade_fast
+				}
+				
+				##_强化等级+1
+				#_高级威胁
+				else_if = {
+					limit = {
+						NOT = {
+							any_country = {
+								z_fw_core_dd_is_powerful_ai = yes
+								z_fw_core_dd_is_valid_ai_threat = yes
+								z_fw_core_dd_is_fp_ai_threat = yes
+								relative_power = {
+									who = event_target:z_fw_tgt_core_country_max_pc
+									category = fleet
+									value >= overwhelming
+								}
+							}
+						}
+					}
+					set_country_flag = z_fw_core_dd_upgrade_normal
+				}
+				#_高级对手
+				else_if = {
+					limit = {
+						NOT = {
+							any_country = {
+								z_fw_core_dd_is_powerful_ai = yes
+								z_fw_core_dd_is_valid_ai_rival = yes
+								z_fw_core_dd_is_fp_ai_rival = yes
+								relative_power = {
+									who = event_target:z_fw_tgt_core_country_max_pc
+									category = fleet
+									value >= superior
+								}
+							}
+						}
+					}
+					set_country_flag = z_fw_core_dd_upgrade_normal
+				}
+				#_高级弱小
+				else_if = {
+					limit = {
+						NOT = {
+							any_country = {
+								z_fw_core_dd_is_powerful_ai = yes
+								z_fw_core_dd_is_valid_ai_weak = yes
+								z_fw_core_dd_is_fp_ai_weak = yes
+								relative_power = {
+									who = event_target:z_fw_tgt_core_country_max_pc
+									category = fleet
+									value >= equivalent
+								}
+							}
+						}
+					}
+					set_country_flag = z_fw_core_dd_upgrade_normal
+				}
+			}
+		}
+		
+		###_[执行强化]
+		#_设置全局强化参数
+		if = {
+			limit = {
+				OR = {
+					has_country_flag = z_fw_core_dd_upgrade_deadly
+					has_country_flag = z_fw_core_dd_upgrade_fast
+					has_country_flag = z_fw_core_dd_upgrade_normal
+				}
+			}
+			change_variable = { which = z_fw_core_battle_dd_var value = 1 }
+		}
+		#_强化上限---2500
+		if = {
+			limit = { check_variable = { which = z_fw_core_battle_dd_var value > 2500 } }
+			set_variable = { which = z_fw_core_battle_dd_var value = 2500 }
+		}
+		#_各npc执行
+		if = {
+			limit = {#_有参数提升flag
+				OR = {
+					has_country_flag = z_fw_core_dd_upgrade_normal
+					has_country_flag = z_fw_core_dd_upgrade_fast
+					has_country_flag = z_fw_core_dd_upgrade_deadly
+				}
+			}
+			#_全AI强化参数设置
+			z_fw_eft_core_battle_dd_ai_effect = yes
+			#_全AI添加强化
+			every_country = {
+				limit = { z_fw_core_dd_is_ignored_type = no }
+				country_event = { id = z_fw_core_battle.20 days = 4 random = 3 }
+			}
+		}
+		#_设定CD
+		if = {#_1	没有长CD设置+末期后+有deadly
+			limit = {
+				NOT = { has_global_flag = z_fw_core_battle_dd_fp_adpt_easy }
+				end_game_years_passed > 0	#_末期以后
+				has_country_flag = z_fw_core_dd_upgrade_deadly
+			}
+		}
+		else_if = {#_2	有短CD/ 中期以后有deadly/ 中期后+没有长CD设置+有fast
+			limit = {
+				OR = {
+					has_global_flag = z_fw_core_battle_dd_fp_adpt_hard
+					AND = {
+						mid_game_years_passed > 0	#_中期以后
+						OR = {
+							AND = {
+								has_country_flag = z_fw_core_dd_upgrade_fast
+								NOT = { has_global_flag = z_fw_core_battle_dd_fp_adpt_easy }
+							}
+							has_country_flag = z_fw_core_dd_upgrade_deadly
+						}
+					}
+				}
+			}
+			set_timed_country_flag = { flag = z_fw_core_battle_dd_fp_cd days = 363 }
+		}
+		else_if = {#_4	标准CD/ 有fast/ 有deadly
+			limit = {
+				OR = {
+					has_global_flag = z_fw_core_battle_dd_fp_adpt_standard
+					has_country_flag = z_fw_core_dd_upgrade_fast
+					has_country_flag = z_fw_core_dd_upgrade_deadly
+				}
+			}
+			set_timed_country_flag = { flag = z_fw_core_battle_dd_fp_cd days = 1083 }
+		}
+		else_if = {#_8	长CD+前面都不满足
+			limit = { has_global_flag = z_fw_core_battle_dd_fp_adpt_easy }
+			set_timed_country_flag = { flag = z_fw_core_battle_dd_fp_cd days = 2523 }
+		}
+		#_清理flag
+		remove_country_flag = z_fw_core_dd_upgrade_normal		#_正常
+		remove_country_flag = z_fw_core_dd_upgrade_fast			#_频率加快
+		remove_country_flag = z_fw_core_dd_upgrade_deadly		#_频率极快
+	}
+}
+
+#_战力强化-添加buff	[id=20]
+#_滞后effect事件,仅被其他事件呼出
+#_var		[z_fw_core_battle_dd_execute_var]各AI强化参数
+country_event = {
+	id = z_fw_core_battle.20
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		###_[上古势力]
+		if = {
+			limit = {
+				OR = {
+					is_country_type = fallen_empire
+					is_country_type = awakened_fallen_empire
+				}
+			}
+			#_初始化
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_1
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_2
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_3
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_4
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_5
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_10
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_15
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_20
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_25
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_50
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_75
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_100
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_125
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_250
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_375
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_500
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_625
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_1250
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_1875
+			remove_modifier = z_fw_mod_core_dd_fp_fallen_2500
+			#_根据var添加buff
+			if = {
+				limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 2500 } }
+				add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_2500 days = -1 }
+				set_variable = { which = z_fw_core_battle_dd_execute_var value = 0 }	#_归零
+			}
+			else_if = {
+				limit = { is_variable_set = z_fw_core_battle_dd_execute_var		check_variable = { which = z_fw_core_battle_dd_execute_var value > 0 } }
+				#_625+
+				if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 1875 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_1875 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -1875 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 1250 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_1250 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -1250 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 625 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_625 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -625 }
+				}
+				#_125+
+				if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 500 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_500 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -500 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 375 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_375 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -375 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 250 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_250 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -250 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 125 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_125 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -125 }
+				}
+				#_25+
+				if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 100 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_100 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -100 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 75 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_75 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -75 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 50 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_50 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -50 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 25 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_25 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -25 }
+				}
+				#_5+
+				if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 20 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_20 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -20 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 15 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_15 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -15 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 10 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_10 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -10 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 5 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_5 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -5 }
+				}
+				#_1~4
+				if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value = 4 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_4 days = -1 }
+					set_variable = { which = z_fw_core_battle_dd_execute_var value = 0 }	#_归零
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value = 3 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_3 days = -1 }
+					set_variable = { which = z_fw_core_battle_dd_execute_var value = 0 }	#_归零
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value = 2 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_2 days = -1 }
+					set_variable = { which = z_fw_core_battle_dd_execute_var value = 0 }	#_归零
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value = 1 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_fallen_1 days = -1 }
+					set_variable = { which = z_fw_core_battle_dd_execute_var value = 0 }	#_归零
+				}
+			}
+		}
+		###_[末日势力]
+		else_if = {
+			limit = {
+				OR = {
+					#_vanilla
+					is_country_type = swarm
+					is_country_type = extradimensional
+					is_country_type = extradimensional_2
+					is_country_type = extradimensional_3
+					is_country_type = ai_empire
+					#_LEX-需要lex增强mod
+					is_country_type = bwm_ancient_drone_guardian
+					is_country_type = bwm_ragnarok_guardian
+					is_country_type = bwm_shroud_guardian
+					is_country_type = bwm_ring_guardian
+					is_country_type = bwm_ring_guardian_passive
+					is_country_type = bwm_grave_guardian
+					is_country_type = bwm_grave_guardian_passive
+					is_country_type = bwm_conduit_guardian
+					is_country_type = bwm_ancestor_guardian
+					is_country_type = bwm_prison_passive
+					is_country_type = bwm_gate_guardian
+					#_中期威胁
+					is_country_type = awakened_marauders		#_游牧部落
+					is_country_type = gray_goo					#_灰风
+					#_其他中立
+					is_country_type = enclave					#_飞地
+					is_country_type = cybrex_empire				#_天灾友好
+					is_country_type = sentinels					#_天灾友好
+					#_MEM
+					is_country_type = mem_vazurans				#_瓦祖兰
+					is_country_type = mem_blacksite_faction
+					is_country_type = mem_dread_pirate_country
+					is_country_type = mem_dread_pirate_final_boss_country
+					is_country_type = mem_station_smasher
+					is_country_type = mem_everything_smasher
+					is_country_type = mem_azran
+					is_country_type = mem_surveyor_country_red	#_同类其他国家暂时不涉及
+					is_country_type = mem_wpdr_country
+				}
+			}
+			#_初始化
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_1
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_2
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_3
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_4
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_5
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_10
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_15
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_20
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_25
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_50
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_75
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_100
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_125
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_250
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_375
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_500
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_625
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_1250
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_1875
+			remove_modifier = z_fw_mod_core_dd_fp_crisis_2500
+			#_根据var添加buff
+			if = {
+				limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 2500 } }
+				add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_2500 days = -1 }
+				set_variable = { which = z_fw_core_battle_dd_execute_var value = 0 }	#_归零
+			}
+			else_if = {
+				limit = { is_variable_set = z_fw_core_battle_dd_execute_var		 check_variable = { which = z_fw_core_battle_dd_execute_var value > 0 } }
+				#_625+
+				if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 1875 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_1875 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -1875 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 1250 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_1250 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -1250 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 625 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_625 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -625 }
+				}
+				#_125+
+				if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 500 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_500 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -500 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 375 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_375 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -375 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 250 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_250 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -250 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 125 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_125 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -125 }
+				}
+				#_25+
+				if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 100 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_100 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -100 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 75 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_75 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -75 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 50 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_50 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -50 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 25 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_25 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -25 }
+				}
+				#_5+
+				if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 20 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_20 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -20 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 15 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_15 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -15 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 10 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_10 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -10 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 5 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_5 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -5 }
+				}
+				#_1~4
+				if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value = 4 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_4 days = -1 }
+					set_variable = { which = z_fw_core_battle_dd_execute_var value = 0 }	#_归零
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value = 3 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_3 days = -1 }
+					set_variable = { which = z_fw_core_battle_dd_execute_var value = 0 }	#_归零
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value = 2 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_2 days = -1 }
+					set_variable = { which = z_fw_core_battle_dd_execute_var value = 0 }	#_归零
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value = 1 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_crisis_1 days = -1 }
+					set_variable = { which = z_fw_core_battle_dd_execute_var value = 0 }	#_归零
+				}
+			}
+		}
+		###_[其他势力]
+		else = {
+			#_初始化
+			remove_modifier = z_fw_mod_core_dd_fp_1
+			remove_modifier = z_fw_mod_core_dd_fp_2
+			remove_modifier = z_fw_mod_core_dd_fp_3
+			remove_modifier = z_fw_mod_core_dd_fp_4
+			remove_modifier = z_fw_mod_core_dd_fp_5
+			remove_modifier = z_fw_mod_core_dd_fp_10
+			remove_modifier = z_fw_mod_core_dd_fp_15
+			remove_modifier = z_fw_mod_core_dd_fp_20
+			remove_modifier = z_fw_mod_core_dd_fp_25
+			remove_modifier = z_fw_mod_core_dd_fp_50
+			remove_modifier = z_fw_mod_core_dd_fp_75
+			remove_modifier = z_fw_mod_core_dd_fp_100
+			remove_modifier = z_fw_mod_core_dd_fp_125
+			remove_modifier = z_fw_mod_core_dd_fp_250
+			remove_modifier = z_fw_mod_core_dd_fp_375
+			remove_modifier = z_fw_mod_core_dd_fp_500
+			remove_modifier = z_fw_mod_core_dd_fp_625
+			remove_modifier = z_fw_mod_core_dd_fp_1250
+			remove_modifier = z_fw_mod_core_dd_fp_1875
+			remove_modifier = z_fw_mod_core_dd_fp_2500
+			#_根据var添加buff
+			if = {
+				limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 2500 } }
+				add_modifier = { modifier = z_fw_mod_core_dd_fp_2500 days = -1 }
+				set_variable = { which = z_fw_core_battle_dd_execute_var value = 0 }	#_归零
+			}
+			else_if = {
+				limit = { is_variable_set = z_fw_core_battle_dd_execute_var		 check_variable = { which = z_fw_core_battle_dd_execute_var value > 0 } }
+				#_125+
+				if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 1875 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_1875 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -1875 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 1250 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_1250 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -1250 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 625 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_625 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -625 }
+				}
+				#_125+
+				if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 500 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_500 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -500 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 375 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_375 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -375 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 250 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_250 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -250 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 125 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_125 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -125 }
+				}
+				#_25+
+				if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 100 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_100 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -100 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 75 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_75 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -75 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 50 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_50 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -50 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 25 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_25 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -25 }
+				}
+				#_5+
+				if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 20 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_20 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -20 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 15 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_15 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -15 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 10 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_10 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -10 }
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value >= 5 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_5 days = -1 }
+					change_variable = { which = z_fw_core_battle_dd_execute_var value = -5 }
+				}
+				#_1~4
+				if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value = 4 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_4 days = -1 }
+					set_variable = { which = z_fw_core_battle_dd_execute_var value = 0 }	#_归零
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value = 3 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_3 days = -1 }
+					set_variable = { which = z_fw_core_battle_dd_execute_var value = 0 }	#_归零
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value = 2 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_2 days = -1 }
+					set_variable = { which = z_fw_core_battle_dd_execute_var value = 0 }	#_归零
+				}
+				else_if = {
+					limit = { check_variable = { which = z_fw_core_battle_dd_execute_var value = 1 } }
+					add_modifier = { modifier = z_fw_mod_core_dd_fp_1 days = -1 }
+					set_variable = { which = z_fw_core_battle_dd_execute_var value = 0 }	#_归零
+				}
+			}
+		}
+	}
+}
+
+
+
+
+###_[阶段强化]	####################################
+
+##_[z_fw_core.12]	月度资源补助/3months [id=21]
+country_event = {
+	id = z_fw_core_battle.21
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		NAND = {
+			is_subject = yes
+			any_country = {
+				z_fw_trgr_cntr_core_pc_current = yes
+				is_overlord_to = root
+			}
+		}
+	}
+	
+	immediate = {
+		#_黄金时代
+		if = {
+			limit = {
+				years_passed > 35
+				mid_game_years_passed < 0
+			}
+			z_fw_eft_core_battle_dd_wr_early = yes
+		}
+		#_纷争时代
+		else_if = {
+			limit = {
+				mid_game_years_passed >= 0
+				end_game_years_passed < 0 
+			}
+			z_fw_eft_core_battle_dd_wr_mid = yes
+		}
+		#_黑暗时代
+		else_if = {
+			limit = {
+				end_game_years_passed >= 0
+				end_game_years_passed < 50
+			}
+			z_fw_eft_core_battle_dd_wr_end = yes
+		}
+		#_末日时代
+		else_if = {
+			limit = { end_game_years_passed >= 50 }
+			z_fw_eft_core_battle_dd_wr_end = yes
+		}
+	}
+}
+
+
+##_阶段性加成/2years	[id=22]	<global_event=z_fw_core.12>
+country_event = {
+	id = z_fw_core_battle.22
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		NAND = {
+			is_subject = yes
+			any_country = {
+				z_fw_trgr_cntr_core_pc_current = yes
+				is_overlord_to = root
+			}
+		}
+	}
+	
+	immediate = {
+		#_黄金时代
+		if = {
+			limit = {
+				years_passed > 35
+				mid_game_years_passed < 0
+			}
+			z_fw_eft_core_battle_dd_wr_early = yes
+		}
+		#_纷争时代
+		else_if = {
+			limit = {
+				mid_game_years_passed >= 0
+				end_game_years_passed < 0 
+			}
+			z_fw_eft_core_battle_dd_wr_mid = yes
+		}
+		#_黑暗时代
+		else_if = {
+			limit = {
+				end_game_years_passed >= 0
+				end_game_years_passed < 50
+			}
+			z_fw_eft_core_battle_dd_wr_end = yes
+		}
+		#_末日时代
+		else_if = {
+			limit = { end_game_years_passed >= 50 }
+			z_fw_eft_core_battle_dd_wr_end = yes
+		}
+	}
+}
+

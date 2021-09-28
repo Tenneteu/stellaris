@@ -1,0 +1,756 @@
+###_z fw modifiers 同步竞争	################################################################################
+
+
+
+
+###_[country]	DD-战力强化-普通	################################################
+z_fw_mod_core_dd_fp_1 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 5
+	ship_hull_add = 5
+	ship_shield_add = 5
+	ship_hull_mult = 0.35
+	ship_armor_mult = 0.25
+	ship_shield_mult = 0.25
+	ship_weapon_damage = 0.5
+}
+z_fw_mod_core_dd_fp_2 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 10
+	ship_hull_add = 10
+	ship_shield_add = 10
+	ship_hull_mult = 0.7
+	ship_armor_mult = 0.5
+	ship_shield_mult = 0.5
+	ship_weapon_damage = 1.0
+
+}
+z_fw_mod_core_dd_fp_3 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 15
+	ship_hull_add = 15
+	ship_shield_add = 15
+	ship_hull_mult = 1.05
+	ship_armor_mult = 0.75
+	ship_shield_mult = 0.75
+	ship_weapon_damage = 1.5
+}
+z_fw_mod_core_dd_fp_4 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 20
+	ship_hull_add = 20
+	ship_shield_add = 20
+	ship_hull_mult = 1.4
+	ship_armor_mult = 1.0
+	ship_shield_mult = 1.0
+	ship_weapon_damage = 2.0
+}
+
+z_fw_mod_core_dd_fp_5 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 25
+	ship_hull_add = 25
+	ship_shield_add = 25
+	ship_hull_mult = 1.75
+	ship_armor_mult = 1.25
+	ship_shield_mult = 1.25
+	ship_weapon_damage = 2.5
+}
+z_fw_mod_core_dd_fp_10 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 50
+	ship_hull_add = 50
+	ship_shield_add = 50
+	ship_hull_mult = 3.5
+	ship_armor_mult = 2.5
+	ship_shield_mult = 2.5
+	ship_weapon_damage = 5.0
+}
+z_fw_mod_core_dd_fp_15 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 75
+	ship_hull_add = 75
+	ship_shield_add = 75
+	ship_hull_mult = 5.25
+	ship_armor_mult = 3.75
+	ship_shield_mult = 3.75
+	ship_weapon_damage = 7.5
+}
+z_fw_mod_core_dd_fp_20 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 100
+	ship_hull_add = 100
+	ship_shield_add = 100
+	ship_hull_mult = 7.0
+	ship_armor_mult = 5.0
+	ship_shield_mult = 5.0
+	ship_weapon_damage = 10.0
+}
+
+z_fw_mod_core_dd_fp_25 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 125
+	ship_hull_add = 125
+	ship_shield_add = 125
+	ship_hull_mult = 8.75
+	ship_armor_mult = 6.25
+	ship_shield_mult = 6.25
+	ship_weapon_damage = 12.5
+}
+z_fw_mod_core_dd_fp_50 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 250
+	ship_hull_add = 250
+	ship_shield_add = 250
+	ship_hull_mult = 18.2
+	ship_armor_mult = 13.0
+	ship_shield_mult = 13.0
+	ship_weapon_damage = 26.0
+}
+z_fw_mod_core_dd_fp_75 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 375
+	ship_hull_add = 375
+	ship_shield_add = 375
+	ship_hull_mult = 26.95
+	ship_armor_mult = 19.25
+	ship_shield_mult = 19.25
+	ship_weapon_damage = 38.5
+
+}
+z_fw_mod_core_dd_fp_100 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 500
+	ship_hull_add = 500
+	ship_shield_add = 500
+	ship_hull_mult = 36.4
+	ship_armor_mult = 26.0
+	ship_shield_mult = 26.0
+	ship_weapon_damage = 52.0
+}
+
+z_fw_mod_core_dd_fp_125 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 625
+	ship_hull_add = 625
+	ship_shield_add = 625
+	ship_hull_mult = 43.75
+	ship_armor_mult = 31.25
+	ship_shield_mult = 31.25
+	ship_weapon_damage = 62.5
+}
+z_fw_mod_core_dd_fp_250 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 1250
+	ship_hull_add = 1250
+	ship_shield_add = 1250
+	ship_hull_mult = 87.5
+	ship_armor_mult = 62.5
+	ship_shield_mult = 62.5
+	ship_weapon_damage = 125
+}
+z_fw_mod_core_dd_fp_375 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 1875
+	ship_hull_add = 1875
+	ship_shield_add = 1875
+	ship_hull_mult = 131.25
+	ship_armor_mult = 93.75
+	ship_shield_mult = 93.75
+	ship_weapon_damage = 187.5
+}
+z_fw_mod_core_dd_fp_500 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 2500
+	ship_hull_add = 2500
+	ship_shield_add = 2500
+	ship_hull_mult = 175.0
+	ship_armor_mult = 125.0
+	ship_shield_mult = 125.0
+	ship_weapon_damage = 250.0
+}
+
+z_fw_mod_core_dd_fp_625 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 2500
+	ship_hull_add = 2500
+	ship_shield_add = 2500
+	ship_hull_mult = 218.75
+	ship_armor_mult = 156.25
+	ship_shield_mult = 156.25
+	ship_weapon_damage = 312.5
+}
+z_fw_mod_core_dd_fp_1250 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 2500
+	ship_hull_add = 2500
+	ship_shield_add = 2500
+	ship_hull_mult = 437.5
+	ship_armor_mult = 312.5
+	ship_shield_mult = 312.5
+	ship_weapon_damage = 625.0
+}
+z_fw_mod_core_dd_fp_1875 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 2500
+	ship_hull_add = 2500
+	ship_shield_add = 2500
+	ship_hull_mult = 656.25
+	ship_armor_mult = 468.75
+	ship_shield_mult = 468.75
+	ship_weapon_damage = 937.5
+}
+z_fw_mod_core_dd_fp_2500 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 2500
+	ship_hull_add = 2500
+	ship_shield_add = 2500
+	ship_hull_mult = 875.0
+	ship_armor_mult = 625.0
+	ship_shield_mult = 625.0
+	ship_weapon_damage = 1250.0
+}
+
+
+
+
+###_[country]	DD-战力强化-堕落	################################################
+z_fw_mod_core_dd_fp_fallen_1 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 5
+	ship_hull_add = 10
+	ship_shield_add = 10
+	ship_hull_mult = 0.42
+	ship_armor_mult = 0.3
+	ship_shield_mult = 0.3
+	ship_weapon_damage = 0.6
+	ship_fire_rate_mult = 0.05
+	force_disparity_fire_rate_mult = 0.1
+	ship_tracking_add = 2
+}
+z_fw_mod_core_dd_fp_fallen_2 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 10
+	ship_hull_add = 20
+	ship_shield_add = 20
+	ship_hull_mult = 0.84
+	ship_armor_mult = 0.6
+	ship_shield_mult = 0.6
+	ship_weapon_damage = 1.2
+	ship_fire_rate_mult = 0.1
+	force_disparity_fire_rate_mult = 0.2
+	ship_tracking_add = 4
+
+}
+z_fw_mod_core_dd_fp_fallen_3 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 15
+	ship_hull_add = 30
+	ship_shield_add = 30
+	ship_hull_mult = 1.26
+	ship_armor_mult = 0.9
+	ship_shield_mult = 0.9
+	ship_weapon_damage = 1.8
+	ship_fire_rate_mult = 0.15
+	force_disparity_fire_rate_mult = 0.3
+	ship_tracking_add = 6
+}
+z_fw_mod_core_dd_fp_fallen_4 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 20
+	ship_hull_add = 40
+	ship_shield_add = 40
+	ship_hull_mult = 1.68
+	ship_armor_mult = 1.2
+	ship_shield_mult = 1.2
+	ship_weapon_damage = 2.4
+	ship_fire_rate_mult = 0.2
+	force_disparity_fire_rate_mult = 0.4
+	ship_tracking_add = 8
+}
+
+z_fw_mod_core_dd_fp_fallen_5 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 25
+	ship_hull_add = 50
+	ship_shield_add = 50
+	ship_hull_mult = 2.1
+	ship_armor_mult = 1.5
+	ship_shield_mult = 1.5
+	ship_weapon_damage = 3.0
+	ship_fire_rate_mult = 0.25
+	force_disparity_fire_rate_mult = 0.5
+	ship_tracking_add = 10
+}
+z_fw_mod_core_dd_fp_fallen_10 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 50
+	ship_hull_add = 100
+	ship_shield_add = 100
+	ship_hull_mult = 4.2
+	ship_armor_mult = 3.0
+	ship_shield_mult = 3.0
+	ship_weapon_damage = 6.0
+	ship_fire_rate_mult = 0.5
+	force_disparity_fire_rate_mult = 1.0
+	ship_tracking_add = 20
+}
+z_fw_mod_core_dd_fp_fallen_15 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 75
+	ship_hull_add = 150
+	ship_shield_add = 150
+	ship_hull_mult = 6.3
+	ship_armor_mult = 4.5
+	ship_shield_mult = 4.5
+	ship_weapon_damage = 9.0
+	ship_fire_rate_mult = 0.75
+	force_disparity_fire_rate_mult = 1.5
+	ship_tracking_add = 30
+}
+z_fw_mod_core_dd_fp_fallen_20 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 100
+	ship_hull_add = 200
+	ship_shield_add = 200
+	ship_hull_mult = 8.4
+	ship_armor_mult = 6.0
+	ship_shield_mult = 6.0
+	ship_weapon_damage = 12.0
+	ship_fire_rate_mult = 1.0
+	force_disparity_fire_rate_mult = 2.0
+	ship_tracking_add = 40
+}
+
+z_fw_mod_core_dd_fp_fallen_25 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 125
+	ship_hull_add = 250
+	ship_shield_add = 250
+	ship_hull_mult = 10.5
+	ship_armor_mult = 7.5
+	ship_shield_mult = 7.5
+	ship_weapon_damage = 15.0
+	ship_fire_rate_mult = 1.25
+	force_disparity_fire_rate_mult = 2.5
+	ship_tracking_add = 50
+}
+z_fw_mod_core_dd_fp_fallen_50 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 250
+	ship_hull_add = 500
+	ship_shield_add = 500
+	ship_hull_mult = 21.0
+	ship_armor_mult = 15.0
+	ship_shield_mult = 15.0
+	ship_weapon_damage = 30.0
+	ship_fire_rate_mult = 2.5
+	force_disparity_fire_rate_mult = 2.5
+	ship_tracking_add = 100
+}
+z_fw_mod_core_dd_fp_fallen_75 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 375
+	ship_hull_add = 750
+	ship_shield_add = 750
+	ship_hull_mult = 31.5
+	ship_armor_mult = 22.5
+	ship_shield_mult = 22.5
+	ship_weapon_damage = 45.0
+	ship_fire_rate_mult = 2.5
+	force_disparity_fire_rate_mult = 2.5
+	ship_tracking_add = 150
+}
+z_fw_mod_core_dd_fp_fallen_100 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 500
+	ship_hull_add = 1000
+	ship_shield_add = 1000
+	ship_hull_mult = 42.0
+	ship_armor_mult = 30.0
+	ship_shield_mult = 30.0
+	ship_weapon_damage = 60.0
+	ship_fire_rate_mult = 2.5
+	force_disparity_fire_rate_mult = 2.5
+	ship_tracking_add = 200
+}
+
+z_fw_mod_core_dd_fp_fallen_125 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 625
+	ship_hull_add = 1250
+	ship_shield_add = 1250
+	ship_hull_mult = 52.5
+	ship_armor_mult = 37.5
+	ship_shield_mult = 37.5
+	ship_weapon_damage = 75.0
+	ship_fire_rate_mult = 2.5
+	force_disparity_fire_rate_mult = 2.5
+	ship_tracking_add = 250
+}
+z_fw_mod_core_dd_fp_fallen_250 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 1250
+	ship_hull_add = 2500
+	ship_shield_add = 2500
+	ship_hull_mult = 105.0
+	ship_armor_mult = 75.0
+	ship_shield_mult = 75.0
+	ship_weapon_damage = 150
+	ship_fire_rate_mult = 2.5
+	force_disparity_fire_rate_mult = 2.5
+	ship_tracking_add = 500
+}
+z_fw_mod_core_dd_fp_fallen_375 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 1875
+	ship_hull_add = 3750
+	ship_shield_add = 3750
+	ship_hull_mult = 157.5
+	ship_armor_mult = 112.5
+	ship_shield_mult = 112.5
+	ship_weapon_damage = 225.0
+	ship_fire_rate_mult = 2.5
+	force_disparity_fire_rate_mult = 2.5
+	ship_tracking_add = 500
+}
+z_fw_mod_core_dd_fp_fallen_500 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 2500
+	ship_hull_add = 5000
+	ship_shield_add = 5000
+	ship_hull_mult = 210.0
+	ship_armor_mult = 150.0
+	ship_shield_mult = 150.0
+	ship_weapon_damage = 300.0
+	ship_fire_rate_mult = 2.5
+	force_disparity_fire_rate_mult = 2.5
+	ship_tracking_add = 500
+}
+
+z_fw_mod_core_dd_fp_fallen_625 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 2500
+	ship_hull_add = 5000
+	ship_shield_add = 5000
+	ship_hull_mult = 262.5
+	ship_armor_mult = 187.5
+	ship_shield_mult = 187.5
+	ship_weapon_damage = 375.0
+	ship_fire_rate_mult = 2.5
+	force_disparity_fire_rate_mult = 2.5
+	ship_tracking_add = 500
+}
+z_fw_mod_core_dd_fp_fallen_1250 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 2500
+	ship_hull_add = 5000
+	ship_shield_add = 5000
+	ship_hull_mult = 525.0
+	ship_armor_mult = 375.0
+	ship_shield_mult = 375.0
+	ship_weapon_damage = 750.0
+	ship_fire_rate_mult = 2.5
+	force_disparity_fire_rate_mult = 2.5
+	ship_tracking_add = 500
+}
+z_fw_mod_core_dd_fp_fallen_1875 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 2500
+	ship_hull_add = 5000
+	ship_shield_add = 5000
+	ship_hull_mult = 787.5
+	ship_armor_mult = 562.5
+	ship_shield_mult = 562.5
+	ship_weapon_damage = 1125.0
+	ship_fire_rate_mult = 2.5
+	force_disparity_fire_rate_mult = 2.5
+	ship_tracking_add = 500
+}
+z_fw_mod_core_dd_fp_fallen_2500 = {
+	icon = GFX_z_fw_core_battle
+	ship_armor_add = 2500
+	ship_hull_add = 5000
+	ship_shield_add = 5000
+	ship_hull_mult = 1050.0
+	ship_armor_mult = 750.0
+	ship_shield_mult = 750.0
+	ship_weapon_damage = 1500.0
+	ship_fire_rate_mult = 2.5
+	force_disparity_fire_rate_mult = 2.5
+	ship_tracking_add = 500
+}
+
+
+
+
+###_[country]	DD-战力强化-天灾	################################################
+z_fw_mod_core_dd_fp_crisis_1 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 1
+	ship_armor_add = 10
+	ship_hull_add = 10
+	ship_shield_add = 10
+	ship_hull_mult = 0.48
+	ship_armor_mult = 0.3
+	ship_shield_mult = 0.3
+	ship_weapon_damage = 0.6
+	ship_fire_rate_mult = 0.05
+	ship_tracking_add = 2
+}
+z_fw_mod_core_dd_fp_crisis_2 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 2
+	ship_armor_add = 20
+	ship_hull_add = 20
+	ship_shield_add = 20
+	ship_hull_mult = 0.96
+	ship_armor_mult = 0.6
+	ship_shield_mult = 0.6
+	ship_weapon_damage = 1.2
+	ship_fire_rate_mult = 0.1
+	ship_tracking_add = 4
+
+}
+z_fw_mod_core_dd_fp_crisis_3 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 3
+	ship_armor_add = 30
+	ship_hull_add = 30
+	ship_shield_add = 30
+	ship_hull_mult = 1.44
+	ship_armor_mult = 0.9
+	ship_shield_mult = 0.9
+	ship_weapon_damage = 1.8
+	ship_fire_rate_mult = 0.15
+	ship_tracking_add = 6
+}
+z_fw_mod_core_dd_fp_crisis_4 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 4
+	ship_armor_add = 40
+	ship_hull_add = 40
+	ship_shield_add = 40
+	ship_hull_mult = 1.92
+	ship_armor_mult = 1.2
+	ship_shield_mult = 1.2
+	ship_weapon_damage = 2.4
+	ship_fire_rate_mult = 0.2
+	ship_tracking_add = 8
+}
+
+z_fw_mod_core_dd_fp_crisis_5 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 5
+	ship_armor_add = 50
+	ship_hull_add = 50
+	ship_shield_add = 50
+	ship_hull_mult = 2.4
+	ship_armor_mult = 1.5
+	ship_shield_mult = 1.5
+	ship_weapon_damage = 3.0
+	ship_fire_rate_mult = 0.25
+	ship_tracking_add = 10
+}
+z_fw_mod_core_dd_fp_crisis_10 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 10
+	ship_armor_add = 100
+	ship_hull_add = 100
+	ship_shield_add = 100
+	ship_hull_mult = 4.8
+	ship_armor_mult = 3.0
+	ship_shield_mult = 3.0
+	ship_weapon_damage = 6.0
+	ship_fire_rate_mult = 0.5
+	ship_tracking_add = 20
+}
+z_fw_mod_core_dd_fp_crisis_15 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 15
+	ship_armor_add = 150
+	ship_hull_add = 150
+	ship_shield_add = 150
+	ship_hull_mult = 7.2
+	ship_armor_mult = 4.5
+	ship_shield_mult = 4.5
+	ship_weapon_damage = 9.0
+	ship_fire_rate_mult = 0.75
+	ship_tracking_add = 30
+}
+z_fw_mod_core_dd_fp_crisis_20 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 20
+	ship_armor_add = 200
+	ship_hull_add = 200
+	ship_shield_add = 200
+	ship_hull_mult = 9.6
+	ship_armor_mult = 6.0
+	ship_shield_mult = 6.0
+	ship_weapon_damage = 12.0
+	ship_fire_rate_mult = 1.0
+	ship_tracking_add = 40
+}
+
+z_fw_mod_core_dd_fp_crisis_25 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 25
+	ship_armor_add = 250
+	ship_hull_add = 250
+	ship_shield_add = 250
+	ship_hull_mult = 12.0
+	ship_armor_mult = 7.5
+	ship_shield_mult = 7.5
+	ship_weapon_damage = 15.0
+	ship_fire_rate_mult = 1.25
+	ship_tracking_add = 50
+}
+z_fw_mod_core_dd_fp_crisis_50 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 50
+	ship_armor_add = 500
+	ship_hull_add = 500
+	ship_shield_add = 500
+	ship_hull_mult = 24.0
+	ship_armor_mult = 15.0
+	ship_shield_mult = 15.0
+	ship_weapon_damage = 30.0
+	ship_fire_rate_mult = 2.5
+	ship_tracking_add = 100
+}
+z_fw_mod_core_dd_fp_crisis_75 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 75
+	ship_armor_add = 750
+	ship_hull_add = 750
+	ship_shield_add = 750
+	ship_hull_mult = 36.0
+	ship_armor_mult = 22.5
+	ship_shield_mult = 22.2
+	ship_weapon_damage = 45.0
+	ship_fire_rate_mult = 2.5
+	ship_tracking_add = 150
+
+}
+z_fw_mod_core_dd_fp_crisis_100 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 75
+	ship_armor_add = 1000
+	ship_hull_add = 1000
+	ship_shield_add = 1000
+	ship_hull_mult = 48.0
+	ship_armor_mult = 30.0
+	ship_shield_mult = 30.0
+	ship_weapon_damage = 60.0
+	ship_fire_rate_mult = 2.5
+	ship_tracking_add = 200
+}
+
+z_fw_mod_core_dd_fp_crisis_125 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 75
+	ship_armor_add = 1250
+	ship_hull_add = 1250
+	ship_shield_add = 1250
+	ship_hull_mult = 60.0
+	ship_armor_mult = 37.5
+	ship_shield_mult = 37.5
+	ship_weapon_damage = 75.0
+	ship_fire_rate_mult = 2.5
+	ship_tracking_add = 250
+}
+z_fw_mod_core_dd_fp_crisis_250 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 75
+	ship_armor_add = 2500
+	ship_hull_add = 2500
+	ship_shield_add = 2500
+	ship_hull_mult = 120.0
+	ship_armor_mult = 75.0
+	ship_shield_mult = 75.0
+	ship_weapon_damage = 150.0
+	ship_fire_rate_mult = 2.5
+	ship_tracking_add = 250
+}
+z_fw_mod_core_dd_fp_crisis_375 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 75
+	ship_armor_add = 3750
+	ship_hull_add = 3750
+	ship_shield_add = 3750
+	ship_hull_mult = 180.0
+	ship_armor_mult = 112.5
+	ship_shield_mult = 112.5
+	ship_weapon_damage = 225.0
+	ship_fire_rate_mult = 2.5
+	ship_tracking_add = 250
+}
+z_fw_mod_core_dd_fp_crisis_500 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 75
+	ship_armor_add = 5000
+	ship_hull_add = 5000
+	ship_shield_add = 5000
+	ship_hull_mult = 240.0
+	ship_armor_mult = 150.0
+	ship_shield_mult = 150.0
+	ship_weapon_damage = 300.0
+	ship_fire_rate_mult = 2.5
+	ship_tracking_add = 250
+}
+
+z_fw_mod_core_dd_fp_crisis_625 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 75
+	ship_armor_add = 5000
+	ship_hull_add = 5000
+	ship_shield_add = 5000
+	ship_hull_mult = 300.0
+	ship_armor_mult = 187.5
+	ship_shield_mult = 187.5
+	ship_weapon_damage = 375.0
+	ship_fire_rate_mult = 2.5
+	ship_tracking_add = 250
+}
+z_fw_mod_core_dd_fp_crisis_1250 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 75
+	ship_armor_add = 5000
+	ship_hull_add = 5000
+	ship_shield_add = 5000
+	ship_hull_mult = 600.0
+	ship_armor_mult = 375.0
+	ship_shield_mult = 375.0
+	ship_weapon_damage = 750.0
+	ship_fire_rate_mult = 2.5
+	ship_tracking_add = 250
+}
+z_fw_mod_core_dd_fp_crisis_1875 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 75
+	ship_armor_add = 5000
+	ship_hull_add = 5000
+	ship_shield_add = 5000
+	ship_hull_mult = 900.0
+	ship_armor_mult = 562.5
+	ship_shield_mult = 562.5
+	ship_weapon_damage = 1125.0
+	ship_fire_rate_mult = 2.5
+	ship_tracking_add = 250
+}
+z_fw_mod_core_dd_fp_crisis_2500 = {
+	icon = GFX_z_fw_core_battle
+	ship_evasion_add = 75
+	ship_armor_add = 5000
+	ship_hull_add = 5000
+	ship_shield_add = 5000
+	ship_hull_mult = 1200.0
+	ship_armor_mult = 750.0
+	ship_shield_mult = 750.0
+	ship_weapon_damage = 1500.0
+	ship_fire_rate_mult = 2.5
+	ship_tracking_add = 250
+}
+
+
+

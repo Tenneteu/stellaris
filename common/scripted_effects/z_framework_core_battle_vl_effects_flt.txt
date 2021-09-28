@@ -1,0 +1,1168 @@
+###_[z_fw_core] 战争 数值限制	###########################################################
+
+#_[vl_舰队初始化/vl_船只初始化]
+#_[通用基础mod转化/通用基础mod限制]
+#_[简化基础mod转化]
+#_[vl_舰船变量_初始化/vl_舰船修正_debug]	移速/射程/绝望射速/射速转化
+
+
+
+
+###_[vl_舰队初始化]	清理mod
+z_fw_eft_flt_vl_init = {
+	##_[清理mod]	穿透/移速/射程/射速/伤害	/防御平台伤害/血/甲/盾
+	remove_modifier = vl_mod_ship_shield_penetration	#_[穿透]
+	remove_modifier = vl_mod_ship_armor_penetration
+	
+	remove_modifier = z_fw_mod_flt_vl_speed_reduc		#_[移速]
+	remove_modifier = z_fw_mod_flt_vl_speed_common
+	remove_modifier = z_fw_mod_flt_vl_speed_base
+	remove_modifier = z_fw_mod_flt_vl_range				#_[射程]
+	remove_modifier = z_fw_mod_flt_vl_rate_disp			#_[绝望射速]
+	remove_modifier = z_fw_mod_flt_vl_rate_territory	#_[本土射速]
+	remove_modifier = z_fw_mod_flt_vl_rate_all			#_[射速]
+	remove_modifier = z_fw_mod_flt_vl_rate_g
+	remove_modifier = z_fw_mod_flt_vl_rate_k
+	remove_modifier = z_fw_mod_flt_vl_rate_e
+	remove_modifier = z_fw_mod_flt_vl_rate_h
+	remove_modifier = z_fw_mod_flt_vl_damage_all		#_[伤害]
+	remove_modifier = z_fw_mod_flt_vl_damage_g
+	remove_modifier = z_fw_mod_flt_vl_damage_k
+	remove_modifier = z_fw_mod_flt_vl_damage_e
+	remove_modifier = z_fw_mod_flt_vl_damage_h
+	remove_modifier = z_fw_mod_flt_vl_damage_class_ms	#_[防御平台伤害]
+	
+	remove_modifier = z_fw_mod_flt_vl_hull				#_[血]
+	remove_modifier = z_fw_mod_flt_vl_armor				#_[甲]
+	remove_modifier = z_fw_mod_flt_vl_shield			#_[盾]
+}
+###_[vl_船只初始化]	清理mod
+z_fw_eft_ship_vl_init = {
+	##_[清理mod]	穿透/移速/射程/射速/伤害	/防御平台伤害/血/甲/盾
+	remove_modifier = vl_mod_ship_shield_penetration	#_[穿透]
+	remove_modifier = vl_mod_ship_armor_penetration
+	
+	remove_modifier = z_fw_mod_flt_vl_speed_reduc		#_[移速]
+	remove_modifier = z_fw_mod_flt_vl_speed_common
+	remove_modifier = z_fw_mod_flt_vl_speed_base
+	remove_modifier = z_fw_mod_flt_vl_range				#_[射程]
+	remove_modifier = z_fw_mod_flt_vl_rate_disp			#_[绝望射速]
+#	remove_modifier = z_fw_mod_flt_vl_rate_territory	#_[本土射速]
+	remove_modifier = z_fw_mod_flt_vl_rate_all			#_[射速]
+	remove_modifier = z_fw_mod_flt_vl_rate_g
+	remove_modifier = z_fw_mod_flt_vl_rate_k
+	remove_modifier = z_fw_mod_flt_vl_rate_e
+	remove_modifier = z_fw_mod_flt_vl_rate_h
+	remove_modifier = z_fw_mod_flt_vl_damage_all		#_[伤害]
+	remove_modifier = z_fw_mod_flt_vl_damage_g
+	remove_modifier = z_fw_mod_flt_vl_damage_k
+	remove_modifier = z_fw_mod_flt_vl_damage_e
+	remove_modifier = z_fw_mod_flt_vl_damage_h
+#	remove_modifier = z_fw_mod_flt_vl_damage_class_ms	#_[防御平台伤害]
+
+#	remove_modifier = z_fw_mod_flt_vl_hull				#_[血]
+#	remove_modifier = z_fw_mod_flt_vl_armor				#_[甲]
+#	remove_modifier = z_fw_mod_flt_vl_shield			#_[盾]
+}
+
+
+
+
+
+
+
+
+
+###_[通用基础mod转化]		init/init权重/init积分基数/init最小积分		/mod值转化/原mod值导出/ADD/MINUS/当前mod值导出		/添加修正mod/清理temp		/test
+#_prmt		mod类型=<MOD>/指数曲线=<INDEX>
+#_			<BASE>		|z_fw_var_flt_vl_cal_temp_base|			=积分基数
+#_			<MIN>		|z_fw_var_flt_vl_cal_temp_min|			=最小积分
+#_			<WEIGHT>	|z_fw_var_flt_vl_cal_weight_temp|		=权重修正
+#_[prmt]	原mod值导出=<VAR_ORI>/当前mod值导出=<VAR_CUR>/修正mod=<MODIFIER>
+
+#_引用		前置引用=|z_fw_var_flt_vl_mod_ref_temp|
+z_fw_eft_flt_prmt_vl_mod_transfer = {
+	##_[init]
+	set_variable = { which = z_fw_var_flt_vl_mod_current_temp value = 0 }	#_|新MOD值|init
+
+	##_[init权重]
+	if = { limit = { NOT = { is_variable_set = z_fw_var_flt_vl_cal_weight_temp } }
+		set_variable = { which = z_fw_var_flt_vl_cal_weight_temp value = $WEIGHT|1$ }
+	}
+
+	##_[init积分基数]
+	if = { limit = { NOT = { is_variable_set = z_fw_var_flt_vl_cal_temp_base } }
+		set_variable = { which = z_fw_var_flt_vl_cal_temp_base value = $BASE|0.1$ }
+	}
+
+	##_[init最小积分]
+	if = { limit = { NOT = { is_variable_set = z_fw_var_flt_vl_cal_temp_min } }
+		set_variable = { which = z_fw_var_flt_vl_cal_temp_min value = $MIN|0.01$ }
+	}
+
+
+	##_[mod值转化]	转化/原MOD值/前置引用
+	#_[转化]
+	export_modifier_to_variable = { modifier = $MOD$ variable = z_fw_var_flt_vl_mod_origin_temp }	#_|原MOD值|init
+	#_|原MOD值|
+	set_variable = { which = z_fw_var_flt_vl_mod_factor_temp value = z_fw_var_flt_vl_mod_origin_temp }	#_用于最终factor计算
+	#_|前置引用|
+	if = { limit = { is_variable_set = z_fw_var_flt_vl_mod_ref_temp }		change_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = z_fw_var_flt_vl_mod_ref_temp } }
+
+	
+	##_[原mod值导出]
+	[[VAR_ORI]
+		set_variable = { which = $VAR_ORI$ value = z_fw_var_flt_vl_mod_factor_temp }
+		change_variable = { which = $VAR_ORI$ value = 1 }	#_乘数化
+	]
+
+
+	##_|ADD|	init/原MOD值过小/循环积分
+	if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value > 0 } }	#_|原MOD值|
+	
+		#_[init]
+		set_variable = { which = z_fw_var_flt_vl_mult_temp value = $INDEX|0.91$ }	#_|累加乘数|init
+		set_variable = { which = z_fw_var_flt_vl_cal_temp value = z_fw_var_flt_vl_cal_temp_base }	#_|当前积分|init=|积分基数|
+		
+		#_|基数>0|
+		if = {
+			limit = { check_variable = { which = z_fw_var_flt_vl_cal_temp_base value > 0 } }
+			
+			if = {#_|原MOD值过小|	|原MOD值|<|积分基数|
+				limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value < z_fw_var_flt_vl_cal_temp_base } }
+				multiply_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = z_fw_var_flt_vl_mult_temp }	#_|最终余数|debug
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = z_fw_var_flt_vl_mod_origin_temp }	#_|新MOD值|debug+|最终余数|
+			}
+			else = {#_|循环积分|
+				while = {
+					limit = {
+						check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value >= z_fw_var_flt_vl_cal_temp_base }	#_|原MOD值|>=|积分基数|
+						check_variable = { which = z_fw_var_flt_vl_cal_temp value > z_fw_var_flt_vl_cal_temp_min }	#_|当前积分|>|最小积分|
+					}
+					#_init
+					set_variable = { which = z_fw_var_flt_vl_cal_temp value = z_fw_var_flt_vl_cal_temp_base }	#_|当前积分|=|积分基数|
+					multiply_variable = { which = z_fw_var_flt_vl_cal_temp value = z_fw_var_flt_vl_mult_temp }	#_|当前积分|×|累加乘数|
+					#_debug
+					subtract_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = z_fw_var_flt_vl_cal_temp_base }	#_|原MOD值|余量debug-|积分基数|
+					multiply_variable = { which = z_fw_var_flt_vl_mult_temp value = $INDEX|0.91$ }	#_|累加乘数|debug
+
+					change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = z_fw_var_flt_vl_cal_temp }	#_|新MOD值|debug	
+				}
+				
+				#_[余数]
+			}
+		}
+		
+	}
+	##_|MINUS|	init/原MOD值过小/循环积分
+	else_if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value < 0 } }	#_|原MOD值|
+		multiply_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = -1 }	#_正负转换
+	
+		#_[init]
+		set_variable = { which = z_fw_var_flt_vl_mult_temp value = $INDEX|0.91$ }	#_|累加乘数|init
+		set_variable = { which = z_fw_var_flt_vl_cal_temp value = z_fw_var_flt_vl_cal_temp_base }	#_|当前积分|init=|积分基数|
+		
+		#_|基数>0|
+		if = {
+			limit = { check_variable = { which = z_fw_var_flt_vl_cal_temp_base value > 0 } }
+			
+			if = {#_|原MOD值过小|	|原MOD值|<|积分基数|
+				limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value < z_fw_var_flt_vl_cal_temp_base } }
+				multiply_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = z_fw_var_flt_vl_mult_temp }	#_|最终余数|debug
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = z_fw_var_flt_vl_mod_origin_temp }	#_|新MOD值|debug+|最终余数|
+			}
+			else = {#_|循环积分|
+				while = {
+					limit = {
+						check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value >= z_fw_var_flt_vl_cal_temp_base }	#_|原MOD值|>=|积分基数|
+						check_variable = { which = z_fw_var_flt_vl_cal_temp value > z_fw_var_flt_vl_cal_temp_min }	#_|当前积分|>|最小积分|
+					}
+					#_init
+					set_variable = { which = z_fw_var_flt_vl_cal_temp value = z_fw_var_flt_vl_cal_temp_base }	#_|当前积分|=|积分基数|
+					multiply_variable = { which = z_fw_var_flt_vl_cal_temp value = z_fw_var_flt_vl_mult_temp }	#_|当前积分|×|累加乘数|
+					#_debug
+					subtract_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = z_fw_var_flt_vl_cal_temp_base }	#_|原MOD值|余量debug-|积分基数|
+					multiply_variable = { which = z_fw_var_flt_vl_mult_temp value = $INDEX|0.91$ }	#_|累加乘数|debug
+
+					change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = z_fw_var_flt_vl_cal_temp }	#_|新MOD值|debug
+				}
+			}
+		}
+		
+		multiply_variable = { which = z_fw_var_flt_vl_mod_current_temp value = -1 }	#_正负转换
+	}
+
+
+	##_[当前mod值导出]	计算权重前
+	[[VAR_CUR]
+		set_variable = { which = $VAR_CUR$ value = z_fw_var_flt_vl_mod_current_temp }
+		change_variable = { which = $VAR_CUR$ value = 1 }	#_[乘数化]
+	]
+
+
+	#_[test]	z测试
+#	owner = {
+#		set_variable = { which = test_var_$MOD$_ori value = prev.z_fw_var_flt_vl_mod_factor_temp }
+#		set_variable = { which = test_var_$MOD$_cur value = prev.z_fw_var_flt_vl_mod_current_temp }
+#		if = {
+#			limit = {
+#				is_multiplayer = no
+#				is_ai = no
+#				NOT = { has_country_flag = z_fw_flg_cntr_vl_test }
+#			}
+#			country_event = { id = z_modmenu.1103 days = 1  }
+#		}
+#		set_timed_country_flag = { flag = z_fw_flg_cntr_vl_test days = 1 }
+#	}
+	
+	
+	##_[添加修正mod]
+	[[MODIFIER]
+		if = {
+			limit = {
+				NAND = {
+					check_variable = { which = z_fw_var_flt_vl_mod_factor_temp value = 0 }	#_|MOD计算值|
+					check_variable = { which = z_fw_var_flt_vl_cal_weight_temp value = 1 }	#_|权重|
+				}
+			}
+			#_|z_fw_var_flt_vl_mod_current_temp|*权重
+			change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = 1 }	#_乘数化
+			multiply_variable = { which = z_fw_var_flt_vl_mod_current_temp value = z_fw_var_flt_vl_cal_weight_temp }	#_[权重计算]
+			
+			#_factor=|z_fw_var_flt_vl_mod_current_temp|-|z_fw_var_flt_vl_mod_factor_temp|
+			change_variable = { which = z_fw_var_flt_vl_mod_factor_temp value = 1 }	#_乘数化
+			multiply_variable = { which = z_fw_var_flt_vl_mod_factor_temp value = -1 }	#_转为减数
+			change_variable = { which = z_fw_var_flt_vl_mod_factor_temp value = z_fw_var_flt_vl_mod_current_temp }	#_转为减数
+			
+			#_[添加mod]
+			add_modifier = { modifier = $MODIFIER$ days = -1 multiplier = z_fw_var_flt_vl_mod_factor_temp }
+		}
+	]
+	
+	##_[清理temp]
+	if = { limit = { is_variable_set = z_fw_var_flt_vl_cal_temp_base }			clear_variable = z_fw_var_flt_vl_cal_temp_base }	#_|积分基数|
+	if = { limit = { is_variable_set = z_fw_var_flt_vl_cal_temp_min }			clear_variable = z_fw_var_flt_vl_cal_temp_min }		#_|最小积分|
+	if = { limit = { is_variable_set = z_fw_var_flt_vl_mult_temp }				clear_variable = z_fw_var_flt_vl_mult_temp }		#_|累加乘数|
+	if = { limit = { is_variable_set = z_fw_var_flt_vl_cal_temp }				clear_variable = z_fw_var_flt_vl_cal_temp }			#_|当前积分|
+	if = { limit = { is_variable_set = z_fw_var_flt_vl_mod_ref_temp }			clear_variable = z_fw_var_flt_vl_mod_ref_temp }		#_|前置引用|
+	if = { limit = { is_variable_set = z_fw_var_flt_vl_mod_origin_temp }		clear_variable = z_fw_var_flt_vl_mod_origin_temp }	#_|原MOD值|
+	if = { limit = { is_variable_set = z_fw_var_flt_vl_mod_current_temp }		clear_variable = z_fw_var_flt_vl_mod_current_temp }	#_|新MOD值|
+	if = { limit = { is_variable_set = z_fw_var_flt_vl_mod_factor_temp }		clear_variable = z_fw_var_flt_vl_mod_factor_temp }	#_|MOD计算值|
+	if = { limit = { is_variable_set = z_fw_var_flt_vl_cal_weight_temp }		clear_variable = z_fw_var_flt_vl_cal_weight_temp }	#_|权重|
+	
+}
+
+###_[通用基础mod限制]	仅限制上限
+#_list		mod值转化/原mod值导出/factor计算/添加修正mod	/清理temp
+#_prmt		修正类型=<MOD>	/最大乘数=<MAX>
+#_[prmt]	原mod值导出=<VAR_ORI>	/修正mod=<MODIFIER>
+z_fw_eft_flt_prmt_vl_mod_restrict = {
+	
+	##_[mod值转化]
+	export_modifier_to_variable = { modifier = $MOD$ variable = TEMP_var_flt_vl_mod_origin }	#_|原MOD值|init
+
+
+	##_[原mod值导出]
+	[[VAR_ORI]
+		set_variable = { which = $VAR_ORI$ value = TEMP_var_flt_vl_mod_origin }
+		change_variable = { which = $VAR_ORI$ value = 1 }	#_乘数化
+	]
+	
+	
+	##_[factor计算]		|MOD参量|=|上限|-|原mod值|
+	set_variable = { which = TEMP_var_flt_vl_mod_factor value = $MAX|1$ }
+	subtract_variable = { which = TEMP_var_flt_vl_mod_factor value = 1 }	#_加数化
+	subtract_variable = { which = TEMP_var_flt_vl_mod_factor value = TEMP_var_flt_vl_mod_origin }
+	
+	
+	##_[添加修正mod]
+	[[MODIFIER]
+		if = { limit = { check_variable = { which = TEMP_var_flt_vl_mod_factor value < 0 } }#_削减
+			add_modifier = { modifier = $MODIFIER$ days = -1 multiplier = TEMP_var_flt_vl_mod_factor }
+		}
+	]
+	
+
+	##_[清理temp]
+	if = { limit = { is_variable_set = $MAX$ }								clear_variable = $MAX$ }				#_|上限|
+	if = { limit = { is_variable_set = TEMP_var_flt_vl_mod_origin }			clear_variable = TEMP_var_flt_vl_mod_origin }		#_|原MOD值|
+	if = { limit = { is_variable_set = TEMP_var_flt_vl_mod_factor }			clear_variable = TEMP_var_flt_vl_mod_factor }		#_|MOD参量|
+}
+
+
+###_[简化基础mod转化]		init	/mod值转化/原mod值导出/ADD/MINUS/当前mod值导出		/添加修正mod/清理temp
+#_prmt		<CAT/MOD/MODIFIER>
+#_[prmt]	原mod值导出=<VAR_ORI>/当前mod值导出=<VAR_CUR>
+z_fw_eft_flt_prmt_vl_simp_transfer = {
+	if = { limit = { is_scope_type = fleet }		set_variable = { which = TEMP_var_simp_ratio value = vl_var_set_simp_ratio_$CAT$ } }
+	else_if = { limit = { always = yes }			set_variable = { which = TEMP_var_simp_ratio value = fleet.vl_var_set_simp_ratio_$CAT$ } }
+
+	if = {
+		limit = {
+			OR = {
+				is_variable_set = z_fw_var_flt_vl_mod_ref_temp	#_|前置引用|存在
+				check_variable = { which = TEMP_var_simp_ratio value < 1 }	#_|比率<1|
+			}
+		}
+	
+		##_[init]
+		if = { limit = { is_scope_type = fleet }	#_fleetDB
+			set_variable = { which = TEMP_var_simp_ratio_150		 value = vl_var_set_simp_ratio_$CAT$_150 }
+			set_variable = { which = TEMP_var_simp_ratio_125		 value = vl_var_set_simp_ratio_$CAT$_125 }
+			set_variable = { which = TEMP_var_simp_ratio_100		 value = vl_var_set_simp_ratio_$CAT$_100 }
+			set_variable = { which = TEMP_var_simp_ratio_75			 value = vl_var_set_simp_ratio_$CAT$_75 }
+			set_variable = { which = TEMP_var_simp_ratio_50			 value = vl_var_set_simp_ratio_$CAT$_50 }
+		}
+		else_if = { limit = { always = yes }		#_shipDB
+			set_variable = { which = TEMP_var_simp_ratio_150		 value = fleet.vl_var_set_simp_ratio_$CAT$_150 }
+			set_variable = { which = TEMP_var_simp_ratio_125		 value = fleet.vl_var_set_simp_ratio_$CAT$_125 }
+			set_variable = { which = TEMP_var_simp_ratio_100		 value = fleet.vl_var_set_simp_ratio_$CAT$_100 }
+			set_variable = { which = TEMP_var_simp_ratio_75			 value = fleet.vl_var_set_simp_ratio_$CAT$_75 }
+			set_variable = { which = TEMP_var_simp_ratio_50			 value = fleet.vl_var_set_simp_ratio_$CAT$_50 }
+		}
+		set_variable = { which = z_fw_var_flt_vl_mod_current_temp	 value = 0 }	#_|新MOD值|init
+
+
+		##_[mod值转化]	转化/原MOD值/前置引用
+		#_[转化]
+		export_modifier_to_variable = { modifier = $MOD$ variable = z_fw_var_flt_vl_mod_origin_temp }	#_|原MOD值|init
+		#_|原MOD值|
+		set_variable = { which = z_fw_var_flt_vl_mod_factor_temp value = z_fw_var_flt_vl_mod_origin_temp }	#_用于最终factor计算
+		#_|前置引用|
+		if = { limit = { is_variable_set = z_fw_var_flt_vl_mod_ref_temp }		change_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = z_fw_var_flt_vl_mod_ref_temp } }
+
+		
+		##_[原mod值导出]
+		[[VAR_ORI]
+			set_variable = { which = $VAR_ORI$ value = z_fw_var_flt_vl_mod_factor_temp }
+			change_variable = { which = $VAR_ORI$ value = 1 }	#_乘数化
+		]
+
+
+		##_[ADD]
+		if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value > 0 } }	#_|原MOD值|
+			#_1.75+
+			if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value > 1.75 } }
+				subtract_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = 1.75 }
+				multiply_variable = { which = TEMP_var_simp_ratio value = z_fw_var_flt_vl_mod_origin_temp }	#_1.75
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio }
+				multiply_variable = { which = TEMP_var_simp_ratio_150 value = 0.25 }	#_1.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_150 }
+				multiply_variable = { which = TEMP_var_simp_ratio_125 value = 0.25 }	#_1.25
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_125 }
+				multiply_variable = { which = TEMP_var_simp_ratio_100 value = 0.25 }	#_1.0
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_100 }
+				multiply_variable = { which = TEMP_var_simp_ratio_75 value = 0.25 }	#_0.75
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_75 }
+				multiply_variable = { which = TEMP_var_simp_ratio_50 value = 0.25 }	#_0.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_50 }
+			}
+			#_1.5+
+			else_if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value > 1.5 } }
+				subtract_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = 1.5 }
+				multiply_variable = { which = TEMP_var_simp_ratio_150 value = z_fw_var_flt_vl_mod_origin_temp }	#_1.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_150 }
+				multiply_variable = { which = TEMP_var_simp_ratio_125 value = 0.25 }	#_1.25
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_125 }
+				multiply_variable = { which = TEMP_var_simp_ratio_100 value = 0.25 }	#_1.0
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_100 }
+				multiply_variable = { which = TEMP_var_simp_ratio_75 value = 0.25 }	#_0.75
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_75 }
+				multiply_variable = { which = TEMP_var_simp_ratio_50 value = 0.25 }	#_0.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_50 }
+			}
+			#_1.25+
+			else_if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value > 1.25 } }
+				subtract_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = 1.25 }
+				multiply_variable = { which = TEMP_var_simp_ratio_125 value = z_fw_var_flt_vl_mod_origin_temp }	#_1.25
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_125 }
+				multiply_variable = { which = TEMP_var_simp_ratio_100 value = 0.25 }	#_1.0
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_100 }
+				multiply_variable = { which = TEMP_var_simp_ratio_75 value = 0.25 }	#_0.75
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_75 }
+				multiply_variable = { which = TEMP_var_simp_ratio_50 value = 0.25 }	#_0.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_50 }
+			}
+			#_1.0+
+			else_if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value > 1.0 } }
+				subtract_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = 1.0 }
+				multiply_variable = { which = TEMP_var_simp_ratio_100 value = z_fw_var_flt_vl_mod_origin_temp }	#_1.0
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_100 }
+				multiply_variable = { which = TEMP_var_simp_ratio_75 value = 0.25 }	#_0.75
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_75 }
+				multiply_variable = { which = TEMP_var_simp_ratio_50 value = 0.25 }	#_0.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_50 }
+			}
+			#_0.75+
+			else_if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value > 0.75 } }
+				subtract_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = 0.75 }
+				multiply_variable = { which = TEMP_var_simp_ratio_75 value = z_fw_var_flt_vl_mod_origin_temp }	#_0.75
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_75 }
+				multiply_variable = { which = TEMP_var_simp_ratio_50 value = 0.25 }	#_0.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_50 }
+			}
+			#_0.5+
+			else_if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value > 0.5 } }
+				subtract_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = 0.5 }
+				multiply_variable = { which = TEMP_var_simp_ratio_50 value = z_fw_var_flt_vl_mod_origin_temp }	#_0.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_50 }
+			}
+		}
+		##_[MINUS]
+		else_if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value < 0 } }	#_|原MOD值|
+			multiply_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = -1 }	#_正负转换
+
+			#_1.75+
+			if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value > 1.75 } }
+				subtract_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = 1.75 }
+				multiply_variable = { which = TEMP_var_simp_ratio value = z_fw_var_flt_vl_mod_origin_temp }	#_1.75
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio }
+				multiply_variable = { which = TEMP_var_simp_ratio_150 value = 0.25 }	#_1.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_150 }
+				multiply_variable = { which = TEMP_var_simp_ratio_125 value = 0.25 }	#_1.25
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_125 }
+				multiply_variable = { which = TEMP_var_simp_ratio_100 value = 0.25 }	#_1.0
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_100 }
+				multiply_variable = { which = TEMP_var_simp_ratio_75 value = 0.25 }	#_0.75
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_75 }
+				multiply_variable = { which = TEMP_var_simp_ratio_50 value = 0.25 }	#_0.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_50 }
+			}
+			#_1.5+
+			else_if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value > 1.5 } }
+				subtract_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = 1.5 }
+				multiply_variable = { which = TEMP_var_simp_ratio_150 value = z_fw_var_flt_vl_mod_origin_temp }	#_1.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_150 }
+				multiply_variable = { which = TEMP_var_simp_ratio_125 value = 0.25 }	#_1.25
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_125 }
+				multiply_variable = { which = TEMP_var_simp_ratio_100 value = 0.25 }	#_1.0
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_100 }
+				multiply_variable = { which = TEMP_var_simp_ratio_75 value = 0.25 }	#_0.75
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_75 }
+				multiply_variable = { which = TEMP_var_simp_ratio_50 value = 0.25 }	#_0.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_50 }
+			}
+			#_1.25+
+			else_if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value > 1.25 } }
+				subtract_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = 1.25 }
+				multiply_variable = { which = TEMP_var_simp_ratio_125 value = z_fw_var_flt_vl_mod_origin_temp }	#_1.25
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_125 }
+				multiply_variable = { which = TEMP_var_simp_ratio_100 value = 0.25 }	#_1.0
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_100 }
+				multiply_variable = { which = TEMP_var_simp_ratio_75 value = 0.25 }	#_0.75
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_75 }
+				multiply_variable = { which = TEMP_var_simp_ratio_50 value = 0.25 }	#_0.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_50 }
+			}
+			#_1.0+
+			else_if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value > 1.0 } }
+				subtract_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = 1.0 }
+				multiply_variable = { which = TEMP_var_simp_ratio_100 value = z_fw_var_flt_vl_mod_origin_temp }	#_1.0
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_100 }
+				multiply_variable = { which = TEMP_var_simp_ratio_75 value = 0.25 }	#_0.75
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_75 }
+				multiply_variable = { which = TEMP_var_simp_ratio_50 value = 0.25 }	#_0.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_50 }
+			}
+			#_0.75+
+			else_if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value > 0.75 } }
+				subtract_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = 0.75 }
+				multiply_variable = { which = TEMP_var_simp_ratio_75 value = z_fw_var_flt_vl_mod_origin_temp }	#_0.75
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_75 }
+				multiply_variable = { which = TEMP_var_simp_ratio_50 value = 0.25 }	#_0.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_50 }
+			}
+			#_0.5+
+			else_if = { limit = { check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value > 0.5 } }
+				subtract_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = 0.5 }
+				multiply_variable = { which = TEMP_var_simp_ratio_50 value = z_fw_var_flt_vl_mod_origin_temp }	#_0.5
+				change_variable = { which = z_fw_var_flt_vl_mod_current_temp value = TEMP_var_simp_ratio_50 }
+			}
+			
+			multiply_variable = { which = z_fw_var_flt_vl_mod_current_temp value = -1 }	#_正负转换
+		}
+
+
+		##_[当前mod值导出]	计算权重前
+		[[VAR_CUR]
+			set_variable = { which = $VAR_CUR$ value = z_fw_var_flt_vl_mod_current_temp }
+			change_variable = { which = $VAR_CUR$ value = 1 }	#_[乘数化]
+		]
+		
+		
+		##_[添加修正mod]
+		if = {
+			limit = {
+				NAND = {
+					check_variable = { which = z_fw_var_flt_vl_mod_origin_temp value = 0 }
+					check_variable = { which = z_fw_var_flt_vl_mod_current_temp value = 0 }
+				}
+			}
+			subtract_variable = { which = z_fw_var_flt_vl_mod_current_temp value = z_fw_var_flt_vl_mod_factor_temp }	#_fator=|新mod值|-|原mod值|
+			[[MODIFIER]		add_modifier = { modifier = $MODIFIER$ days = -1 multiplier = z_fw_var_flt_vl_mod_current_temp }]
+		}
+
+
+		##_[清理temp]
+		if = { limit = { is_variable_set = TEMP_var_simp_ratio }					clear_variable = TEMP_var_simp_ratio }				#_|转化比率|
+		if = { limit = { is_variable_set = TEMP_var_simp_ratio_150 }				clear_variable = TEMP_var_simp_ratio_150 }
+		if = { limit = { is_variable_set = TEMP_var_simp_ratio_125 }				clear_variable = TEMP_var_simp_ratio_125 }
+		if = { limit = { is_variable_set = TEMP_var_simp_ratio_100 }				clear_variable = TEMP_var_simp_ratio_100 }
+		if = { limit = { is_variable_set = TEMP_var_simp_ratio_75 }					clear_variable = TEMP_var_simp_ratio_75 }
+		if = { limit = { is_variable_set = TEMP_var_simp_ratio_50 }					clear_variable = TEMP_var_simp_ratio_50 }
+		if = { limit = { is_variable_set = z_fw_var_flt_vl_mod_ref_temp }			clear_variable = z_fw_var_flt_vl_mod_ref_temp }		#_|前置引用|
+		if = { limit = { is_variable_set = z_fw_var_flt_vl_mod_origin_temp }		clear_variable = z_fw_var_flt_vl_mod_origin_temp }	#_|原MOD值|
+		if = { limit = { is_variable_set = z_fw_var_flt_vl_mod_current_temp }		clear_variable = z_fw_var_flt_vl_mod_current_temp }	#_|新MOD值|
+		if = { limit = { is_variable_set = z_fw_var_flt_vl_mod_factor_temp }		clear_variable = z_fw_var_flt_vl_mod_factor_temp }	#_|factor计算|
+	}
+}
+
+
+
+
+###_[vl_舰船变量_初始化]	简化
+z_fw_eft_flt_vl_debug_init = {
+
+	##_|阵营参数|
+	if = {# 天灾
+		limit = { exists = owner		 owner = { z_fw_trgr_cntr_vl_faction_crisis = yes } }
+		set_variable = { which = z_fw_var_set_vl_attrib_weight			 value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_faction_mult_crisis }	#_|阵营权重|
+		set_variable = { which = vl_var_restrict_shield_penetration		 value = 0.7 }	#_|穿盾|
+		set_variable = { which = vl_var_restrict_armor_penetration		 value = 0.7 }	#_|穿甲|
+		set_variable = { which = vl_var_restrict_rate_disp				 value = 1.2 }	#_|绝望射速|
+	}
+	else_if = {# 威胁
+		limit = { exists = owner		 owner = { z_fw_trgr_cntr_vl_faction_threat = yes } }
+		set_variable = { which = z_fw_var_set_vl_attrib_weight			 value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_faction_mult_crisis }	#_|阵营权重|
+		set_variable = { which = vl_var_restrict_shield_penetration		 value = 0.7 }	#_|穿盾|
+		set_variable = { which = vl_var_restrict_armor_penetration		 value = 0.7 }	#_|穿甲|
+		set_variable = { which = vl_var_restrict_rate_disp				 value = 1.2 }	#_|绝望射速|
+	}
+	else_if = {# 利维坦
+		limit = { exists = owner		 owner = { z_fw_trgr_cntr_vl_faction_lev = yes } }
+		set_variable = { which = z_fw_var_set_vl_attrib_weight			 value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_faction_mult_monster }	#_|阵营权重|
+		set_variable = { which = vl_var_restrict_shield_penetration		 value = 0.9 }	#_|穿盾|
+		set_variable = { which = vl_var_restrict_armor_penetration		 value = 0.9 }	#_|穿甲|
+		set_variable = { which = vl_var_restrict_rate_disp				 value = 1.8 }	#_|绝望射速|
+	}
+	else_if = {# 野怪
+		limit = { exists = owner		 owner = { z_fw_trgr_cntr_vl_faction_monster = yes } }
+		set_variable = { which = z_fw_var_set_vl_attrib_weight			 value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_faction_mult_monster }	#_|阵营权重|
+		set_variable = { which = vl_var_restrict_shield_penetration		 value = 0.8 }	#_|穿盾|
+		set_variable = { which = vl_var_restrict_armor_penetration		 value = 0.8 }	#_|穿甲|
+		set_variable = { which = vl_var_restrict_rate_disp				 value = 1.0 }	#_|绝望射速|
+	}
+	else_if = {# 堕落
+		limit = { exists = owner		 owner = { z_fw_trgr_cntr_vl_faction_fallen = yes } }
+		set_variable = { which = z_fw_var_set_vl_attrib_weight			 value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_faction_mult_crisis }	#_|阵营权重|
+		set_variable = { which = vl_var_restrict_shield_penetration		 value = 0.7 }	#_|穿盾|
+		set_variable = { which = vl_var_restrict_armor_penetration		 value = 0.7 }	#_|穿甲|
+		set_variable = { which = vl_var_restrict_rate_disp				 value = 1.4 }	#_|绝望射速|
+	}
+	else_if = {# 普通
+		limit = { exists = owner		 owner = { z_fw_trgr_cntr_vl_faction_ai = yes } }
+		set_variable = { which = z_fw_var_set_vl_attrib_weight			 value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_faction_mult_ai }	#_|阵营权重|
+		set_variable = { which = vl_var_restrict_shield_penetration		 value = 0.5 }	#_|穿盾|
+		set_variable = { which = vl_var_restrict_armor_penetration		 value = 0.5 }	#_|穿甲|
+		set_variable = { which = vl_var_restrict_rate_disp				 value = 0.7 }	#_|绝望射速|
+	}
+	else_if = {# PC
+		limit = { exists = owner 		 owner = { is_ai = no } }
+		set_variable = { which = z_fw_var_set_vl_attrib_weight			 value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_faction_mult_ai }	#_|阵营权重|
+		set_variable = { which = vl_var_restrict_shield_penetration		 value = 0.5 }	#_|穿盾|
+		set_variable = { which = vl_var_restrict_armor_penetration		 value = 0.5 }	#_|穿甲|
+		set_variable = { which = vl_var_restrict_rate_disp				 value = 0.5 }	#_|绝望射速|
+	}
+	else_if = {# 其他
+		limit = { always = yes }
+		set_variable = { which = z_fw_var_set_vl_attrib_weight			 value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_faction_mult_default }	#_|阵营权重|
+		set_variable = { which = vl_var_restrict_shield_penetration		 value = 0.1 }	#_|穿盾|
+		set_variable = { which = vl_var_restrict_armor_penetration		 value = 0.1 }	#_|穿甲|
+		set_variable = { which = vl_var_restrict_rate_disp				 value = 0.5 }	#_|绝望射速|
+	}
+
+
+	##_|射程/移速|
+	set_variable = { which = z_fw_var_set_vl_range_mult 				 value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_range_mult }
+	set_variable = { which = z_fw_var_set_vl_speed_mult 				 value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_speed_mult }
+
+	##_|伤害/血/甲/盾|
+	# 复杂
+	set_variable = { which = z_fw_var_set_vl_damage_mult 				 value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_damage_mult }
+	multiply_variable = { which = z_fw_var_set_vl_damage_mult			 value = z_fw_var_set_vl_attrib_weight }
+	set_variable = { which = z_fw_var_set_vl_hull_mult					 value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_hull_mult }
+	multiply_variable = { which = z_fw_var_set_vl_hull_mult				 value = z_fw_var_set_vl_attrib_weight }
+	set_variable = { which = z_fw_var_set_vl_armor_mult					 value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_armor_mult }
+	multiply_variable = { which = z_fw_var_set_vl_armor_mult			 value = z_fw_var_set_vl_attrib_weight }
+	set_variable = { which = z_fw_var_set_vl_shield_mult				 value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_shield_mult }
+	multiply_variable = { which = z_fw_var_set_vl_shield_mult			 value = z_fw_var_set_vl_attrib_weight }
+	
+	# 简化
+	set_variable = { which = vl_var_set_simp_ratio_damage				 value = event_target:z_fw_tgt_global_event.vl_var_set_simp_ratio_damage }		#_|伤害|
+	set_variable = { which = vl_var_set_simp_ratio_damage_50			 value = event_target:z_fw_tgt_global_event.vl_var_set_simp_ratio_damage_50 }
+	set_variable = { which = vl_var_set_simp_ratio_damage_75			 value = event_target:z_fw_tgt_global_event.vl_var_set_simp_ratio_damage_75 }
+	set_variable = { which = vl_var_set_simp_ratio_damage_100			 value = event_target:z_fw_tgt_global_event.vl_var_set_simp_ratio_damage_100 }
+	set_variable = { which = vl_var_set_simp_ratio_damage_125			 value = event_target:z_fw_tgt_global_event.vl_var_set_simp_ratio_damage_125 }
+	set_variable = { which = vl_var_set_simp_ratio_damage_150			 value = event_target:z_fw_tgt_global_event.vl_var_set_simp_ratio_damage_150 }
+	set_variable = { which = vl_var_set_simp_ratio_attrib				 value = event_target:z_fw_tgt_global_event.vl_var_set_simp_ratio_attrib }		#_|属性|
+	set_variable = { which = vl_var_set_simp_ratio_attrib_50			 value = event_target:z_fw_tgt_global_event.vl_var_set_simp_ratio_attrib_50 }
+	set_variable = { which = vl_var_set_simp_ratio_attrib_75			 value = event_target:z_fw_tgt_global_event.vl_var_set_simp_ratio_attrib_75 }
+	set_variable = { which = vl_var_set_simp_ratio_attrib_100			 value = event_target:z_fw_tgt_global_event.vl_var_set_simp_ratio_attrib_100 }
+	set_variable = { which = vl_var_set_simp_ratio_attrib_125			 value = event_target:z_fw_tgt_global_event.vl_var_set_simp_ratio_attrib_125 }
+	set_variable = { which = vl_var_set_simp_ratio_attrib_150			 value = event_target:z_fw_tgt_global_event.vl_var_set_simp_ratio_attrib_150 }
+	
+}
+
+
+###_[vl_舰船修正_debug]	<ship/flt通用>	vl_舰船变量_初始化		/基础修正/进阶修正/完全修正复杂/完全修正简化		/舰队专有
+z_fw_eft_flt_vl_debug = {
+	#_[vl_舰船变量_初始化]
+	if = { limit = { is_scope_type = fleet }		z_fw_eft_flt_vl_debug_init = yes }
+	else_if = { limit = { is_scope_type = ship }
+		fleet = {
+			if = { limit = { NOT = { has_fleet_flag = temp_vl_debug_init_counted } }
+				set_timed_fleet_flag = { flag = temp_vl_debug_init_counted days = 1 }	#_|检测隔离|
+				z_fw_eft_flt_vl_debug_init = yes
+			}
+		}
+		
+		#_[参数传递]
+		set_variable = { which = vl_var_restrict_shield_penetration		 value = fleet.vl_var_restrict_shield_penetration }
+		set_variable = { which = vl_var_restrict_armor_penetration		 value = fleet.vl_var_restrict_armor_penetration }
+		set_variable = { which = vl_var_restrict_rate_disp				 value = fleet.vl_var_restrict_rate_disp }
+		
+		set_variable = { which = z_fw_var_set_vl_range_mult				 value = fleet.z_fw_var_set_vl_range_mult }
+		set_variable = { which = z_fw_var_set_vl_speed_mult				 value = fleet.z_fw_var_set_vl_speed_mult }
+		
+		set_variable = { which = z_fw_var_set_vl_damage_mult			 value = fleet.z_fw_var_set_vl_damage_mult }
+		set_variable = { which = z_fw_var_set_vl_hull_mult				 value = fleet.z_fw_var_set_vl_hull_mult }
+		set_variable = { which = z_fw_var_set_vl_armor_mult				 value = fleet.z_fw_var_set_vl_armor_mult }
+		set_variable = { which = z_fw_var_set_vl_shield_mult			 value = fleet.z_fw_var_set_vl_shield_mult }
+	}
+
+
+
+
+	###_[基础修正]	rts体系/飞机伤害/飞机射速
+	if = { limit = { z_fw_trgr_glbl_battle_vl_basic = yes }
+		
+		#_|rts体系|	穿透/
+		if = {
+			limit = {
+				is_scope_type = ship
+				z_mm_trgr_glbl_rts = yes
+			}
+				
+			##_[穿盾]
+			z_fw_eft_flt_prmt_vl_mod_restrict = {
+				MOD = ship_shield_penetration_mult
+				MODIFIER = vl_mod_ship_shield_penetration
+				MAX = vl_var_restrict_shield_penetration
+			#	VAR_ORI = 
+			}
+			##_[穿甲]
+			z_fw_eft_flt_prmt_vl_mod_restrict = {
+				MOD = ship_armor_penetration_mult
+				MODIFIER = vl_mod_ship_armor_penetration
+				MAX = vl_var_restrict_armor_penetration
+			#	VAR_ORI = 
+			}
+		}
+	}
+
+
+
+
+	###_[进阶修正]	移速/射程		/绝望射速/本土射速/射速转化
+	if = { limit = { z_fw_trgr_glbl_battle_vl_more = yes }	#_|vl_进阶trgr|
+		###_[移速]	减少/移速buff/引擎	####################################################################################
+		if = {
+			limit = {
+				is_in_combat = yes	#_|战斗中|
+				NOR = {#_|可移动舰队|
+					AND = { is_ship_class = shipclass_starbase NOT = { is_ship_size = juggernaut } }
+					is_ship_class = shipclass_military_station
+				}
+			}
+			
+			##_[减少]	|---30~100+++|=|15~50|	mod值/减数/参量修正/乘数修正/特殊修正基值/mod添加/clear
+			if = { limit = { always = yes }
+				##_[mod值]
+				export_modifier_to_variable = { modifier = ship_speed_reduction variable = z_fw_var_flt_vl_speed_reduc }	#_[mod值]
+				multiply_variable = { which = z_fw_var_flt_vl_speed_reduc value = -1 }	#_正负转换
+				change_variable = { which = z_fw_var_flt_vl_speed_reduc value = 1 }	#_n+1
+				##_[参量修正]	最小值/最大值/普通值
+				if = {#_[最小值]
+					limit = { check_variable = { which = z_fw_var_flt_vl_speed_reduc value < 0.3 } }
+					set_variable = { which = z_fw_var_flt_vl_speed_reduc_factor value = 0.3 }	#_[指定参量] f=30
+				}
+				else_if = {#_[最大值]
+					limit = { check_variable = { which = z_fw_var_flt_vl_speed_reduc value > 1 } }
+					set_variable = { which = z_fw_var_flt_vl_speed_reduc_factor value = 1 }	#_[指定参量] f=100
+				}
+				else_if = {#_[普通值]
+					limit = { always = yes }
+					set_variable = { which = z_fw_var_flt_vl_speed_reduc_factor value = z_fw_var_flt_vl_speed_reduc }	#_[指定参量 f=n
+				}
+				##_[乘数修正]
+				multiply_variable = { which = z_fw_var_flt_vl_speed_reduc_factor value = z_fw_var_set_vl_speed_mult }	#_f*set
+				##_[特殊修正基值]
+				if = { limit = { is_scope_type = ship }
+					set_variable = { which = z_fw_var_flt_vl_speed_reduc_sp_base value = z_fw_var_flt_vl_speed_reduc_factor }	#_f
+				}
+				##_[mod添加]
+				subtract_variable = { which = z_fw_var_flt_vl_speed_reduc_factor value = z_fw_var_flt_vl_speed_reduc }		#_f-n
+				multiply_variable = { which = z_fw_var_flt_vl_speed_reduc_factor value = -1 }		#_正负转换
+				add_modifier = { modifier = z_fw_mod_flt_vl_speed_reduc days = -1 multiplier = z_fw_var_flt_vl_speed_reduc_factor }
+				##_[clear]
+				if = { limit = { is_variable_set = z_fw_var_flt_vl_speed_reduc }			clear_variable = z_fw_var_flt_vl_speed_reduc }
+				if = { limit = { is_variable_set = z_fw_var_flt_vl_speed_reduc_factor }		clear_variable = z_fw_var_flt_vl_speed_reduc_factor }
+			}
+			
+			##_[移速buff]
+			z_fw_eft_flt_prmt_vl_mod_transfer = {
+				BASE = 0.05	#_统计到max_mod=100%,则为0.05
+				MOD = ship_speed_mult
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+				MODIFIER = z_fw_mod_flt_vl_speed_common
+			#	MIN = 		#_存在默认
+			#	INDEX = 	#_存在默认
+			#	WEIGHT = 	#_存在默认
+			}
+			
+			##_[引擎]	|75~150/f+0.25|	mod值/减数/参量修正/mod添加/clear	无法从配件获取基础速度mod	---z禁用
+			if = { limit = { always = no }
+				z_fw_eft_flt_prmt_vl_mod_transfer = {
+					BASE = 0.05	#_统计到max_mod=100%,则为0.05
+					MOD = ship_base_speed_mult
+				#	VAR_ORI = 
+				#	VAR_CUR = 
+					MODIFIER = z_fw_mod_flt_vl_speed_base
+				#	MIN = 		#_存在默认
+				#	INDEX = 	#_存在默认
+				#	WEIGHT = 	#_存在默认
+				}
+			}
+		
+		}
+
+
+
+
+		###_[射程]	|75-150|	预设值/mod转化	####################################################################################
+		if = { limit = { always = yes }
+			#_[预设值]
+			set_variable = { which = z_fw_var_flt_vl_cal_weight_temp value = z_fw_var_set_vl_range_mult }	#_|权重|
+			
+			#_[mod转化]
+			z_fw_eft_flt_prmt_vl_mod_transfer = {
+				BASE = 0.03	#_统计到max_mod=100%,则为0.05
+				MOD = ship_weapon_range_mult
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+				MODIFIER = z_fw_mod_flt_vl_range
+				MIN = 0.003	#_存在默认
+			#	INDEX = 	#_存在默认
+			#	WEIGHT =	#_存在默认
+			}
+		}
+
+
+
+
+		###_[射速]	绝望射速/本土射速/射速转化	####################################################################################
+		##_[绝望射速]	mod值/mod添加/clear		|天灾=1.2/威胁=1.0/利维坦=1.8/野怪=0.8/堕落=1.4/ai=1.0|
+		if = { limit = { always = yes }
+			z_fw_eft_flt_prmt_vl_mod_restrict = {
+				MOD = force_disparity_fire_rate_mult
+				MODIFIER = z_fw_mod_flt_vl_rate_disp
+				MAX = vl_var_restrict_rate_disp
+			#	VAR_ORI = 
+			}
+		}
+		
+		##_[本土射速]	mod值/mod添加/clear		|不大于0.25|
+		if = { limit = { is_scope_type = fleet }
+		
+			z_fw_eft_flt_prmt_vl_mod_restrict = {
+				MOD = ship_home_territory_fire_rate_mult
+				MODIFIER = z_fw_mod_flt_vl_rate_territory
+				MAX = 1.25
+			#	VAR_ORI = 
+			}
+		}
+		
+		
+		##_[射速转化]	全射速/爆炸/动能/能量/飞机/收尾debug		|因为阈值为1,且没有weight调整,所以无需传递变量|
+		if = {
+			limit = {
+				OR = {
+					z_fw_trgr_glbl_battle_vl_all = yes	#_|vl_完全trgr|
+					has_global_flag = z_rtsb_installed	#_|平衡安装|
+				}
+			}
+			
+			##_[全射速]
+			export_modifier_to_variable = { modifier = ship_fire_rate_mult variable = z_fw_var_flt_vl_rate_all }
+			#_[mod添加]
+			if = { limit = { NOT = { check_variable = { which = z_fw_var_flt_vl_rate_all value = 0 } } }
+				#_[伤害补偿]
+				if = { limit = { z_fw_trgr_glbl_battle_vl_all = no }		add_modifier = { modifier = z_fw_mod_flt_vl_damage_all days = -1 multiplier = z_fw_var_flt_vl_rate_all } }
+				#_[射速转化]
+				multiply_variable = { which = z_fw_var_flt_vl_rate_all value = -1 }	#_正负转换
+				add_modifier = { modifier = z_fw_mod_flt_vl_rate_all days = -1 multiplier = z_fw_var_flt_vl_rate_all }
+			}
+			
+			##_[爆炸]
+			export_modifier_to_variable = { modifier = weapon_type_explosive_weapon_fire_rate_mult variable = z_fw_var_flt_vl_rate_g }
+			#_[mod添加]
+			if = { limit = { NOT = { check_variable = { which = z_fw_var_flt_vl_rate_g value = 0 } } }
+				#_[伤害补偿]
+				if = { limit = { z_fw_trgr_glbl_battle_vl_all = no }		add_modifier = { modifier = z_fw_mod_flt_vl_damage_g days = -1 multiplier = z_fw_var_flt_vl_rate_g } }
+				#_[射速转化]
+				multiply_variable = { which = z_fw_var_flt_vl_rate_g value = -1 }	#_正负转换
+				add_modifier = { modifier = z_fw_mod_flt_vl_rate_g days = -1 multiplier = z_fw_var_flt_vl_rate_g }
+			}
+			
+			##_[动能]
+			export_modifier_to_variable = { modifier = weapon_type_kinetic_weapon_fire_rate_mult variable = z_fw_var_flt_vl_rate_k }
+			#_[mod添加]
+			if = { limit = { NOT = { check_variable = { which = z_fw_var_flt_vl_rate_k value = 0 } } }
+				#_[伤害补偿]
+				if = { limit = { z_fw_trgr_glbl_battle_vl_all = no }		add_modifier = { modifier = z_fw_mod_flt_vl_damage_k days = -1 multiplier = z_fw_var_flt_vl_rate_k } }
+				#_[射速转化]
+				multiply_variable = { which = z_fw_var_flt_vl_rate_k value = -1 }	#_正负转换
+				add_modifier = { modifier = z_fw_mod_flt_vl_rate_k days = -1 multiplier = z_fw_var_flt_vl_rate_k }
+			}
+			
+			##_[能量]
+			export_modifier_to_variable = { modifier = weapon_type_energy_weapon_fire_rate_mult variable = z_fw_var_flt_vl_rate_e }
+			#_[mod添加]
+			if = { limit = { NOT = { check_variable = { which = z_fw_var_flt_vl_rate_e value = 0 } } }
+				#_[伤害补偿]
+				if = { limit = { z_fw_trgr_glbl_battle_vl_all = no }		add_modifier = { modifier = z_fw_mod_flt_vl_damage_e days = -1 multiplier = z_fw_var_flt_vl_rate_e } }
+				#_[射速转化]
+				multiply_variable = { which = z_fw_var_flt_vl_rate_e value = -1 }	#_正负转换
+				add_modifier = { modifier = z_fw_mod_flt_vl_rate_e days = -1 multiplier = z_fw_var_flt_vl_rate_e }
+			}
+			
+			##_[飞机]
+			export_modifier_to_variable = { modifier = weapon_type_strike_craft_weapon_fire_rate_mult variable = z_fw_var_flt_vl_rate_h }
+			#_[mod添加]
+			if = { limit = { NOT = { check_variable = { which = z_fw_var_flt_vl_rate_h value = 0 } } }
+				#_[伤害补偿]
+				if = { limit = { z_fw_trgr_glbl_battle_vl_all = no }		add_modifier = { modifier = z_fw_mod_flt_vl_damage_h days = -1 multiplier = z_fw_var_flt_vl_rate_h } }
+				#_[射速转化]
+				multiply_variable = { which = z_fw_var_flt_vl_rate_h value = -1 }	#_正负转换
+				add_modifier = { modifier = z_fw_mod_flt_vl_rate_h days = -1 multiplier = z_fw_var_flt_vl_rate_h }
+			}
+			
+			
+			##_[收尾debug]
+			if = { limit = { z_fw_trgr_glbl_battle_vl_all = no }	#_非完全
+				if = { limit = { is_variable_set = z_fw_var_flt_vl_rate_all }		clear_variable = z_fw_var_flt_vl_rate_all }
+				clear_variable = z_fw_var_flt_vl_rate_g
+				clear_variable = z_fw_var_flt_vl_rate_k
+				clear_variable = z_fw_var_flt_vl_rate_e
+				clear_variable = z_fw_var_flt_vl_rate_h
+			}
+			else = {#_正负转换
+				if = { limit = { is_variable_set = z_fw_var_flt_vl_rate_all }		multiply_variable = { which = z_fw_var_flt_vl_rate_all value = -1 } }
+				multiply_variable = { which = z_fw_var_flt_vl_rate_g value = -1 }	
+				multiply_variable = { which = z_fw_var_flt_vl_rate_k value = -1 }	
+				multiply_variable = { which = z_fw_var_flt_vl_rate_e value = -1 }	
+				multiply_variable = { which = z_fw_var_flt_vl_rate_h value = -1 }	
+			}
+			
+		}
+	}
+
+
+
+	
+	###_[完全修正复杂]	伤害	/防御平台伤害/甲/盾
+	if = { limit = { z_fw_trgr_glbl_battle_vl_all = yes		has_global_flag = vl_flg_glbl_complex }	#_|vl_完全trgr|
+		###_|伤害|	z_fw_var_flt_vl_rate_all/g/k/e/h
+		if = { limit = { always = yes }
+			##_[all]
+			#_|积分基数|
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_base value = z_fw_var_set_vl_damage_mult }
+			#_|最小积分|	10%积分基数
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_min value = z_fw_var_flt_vl_cal_temp_base }
+			multiply_variable = { which = z_fw_var_flt_vl_cal_temp_min value = 0.1 }
+			#_|前置引用|
+			if = { limit = { is_variable_set = z_fw_var_flt_vl_rate_all }
+				set_variable = { which = z_fw_var_flt_vl_mod_ref_temp value = z_fw_var_flt_vl_rate_all }
+				clear_variable = z_fw_var_flt_vl_rate_all
+			}
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_mod_transfer = {
+			#	BASE =		 #_前置var/默认
+				MOD = ship_weapon_damage
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+				MODIFIER = z_fw_mod_flt_vl_damage_all
+			#	MIN = 		#_前置var/默认
+			#	INDEX = 	#_默认
+			#	WEIGHT = 	#_前置var/默认
+			}
+			
+			##_[g]
+			#_|积分基数|
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_base value = z_fw_var_set_vl_damage_mult }
+			#_|最小积分|	10%积分基数
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_min value = z_fw_var_flt_vl_cal_temp_base }
+			multiply_variable = { which = z_fw_var_flt_vl_cal_temp_min value = 0.1 }
+			#_|前置引用|
+			set_variable = { which = z_fw_var_flt_vl_mod_ref_temp value = z_fw_var_flt_vl_rate_g }
+			clear_variable = z_fw_var_flt_vl_rate_g
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_mod_transfer = {
+			#	BASE =		 #_前置var/默认
+				MOD = weapon_type_explosive_weapon_damage_mult
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+				MODIFIER = z_fw_mod_flt_vl_damage_g
+			#	MIN = 		#_前置var/默认
+			#	INDEX = 	#_默认
+			#	WEIGHT = 	#_前置var/默认
+			}
+			
+			##_[k]
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_base value = z_fw_var_set_vl_damage_mult }
+			#_|最小积分|	10%积分基数
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_min value = z_fw_var_flt_vl_cal_temp_base }
+			multiply_variable = { which = z_fw_var_flt_vl_cal_temp_min value = 0.1 }
+			#_|前置引用|
+			set_variable = { which = z_fw_var_flt_vl_mod_ref_temp value = z_fw_var_flt_vl_rate_k }
+			clear_variable = z_fw_var_flt_vl_rate_k
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_mod_transfer = {
+			#	BASE =		 #_前置var/默认
+				MOD = weapon_type_kinetic_weapon_damage_mult
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+				MODIFIER = z_fw_mod_flt_vl_damage_k
+			#	MIN = 		#_前置var/默认
+			#	INDEX = 	#_默认
+			#	WEIGHT = 	#_前置var/默认
+			}
+			
+			##_[e]
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_base value = z_fw_var_set_vl_damage_mult }
+			#_|最小积分|	10%积分基数
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_min value = z_fw_var_flt_vl_cal_temp_base }
+			multiply_variable = { which = z_fw_var_flt_vl_cal_temp_min value = 0.1 }
+			#_|前置引用|
+			set_variable = { which = z_fw_var_flt_vl_mod_ref_temp value = z_fw_var_flt_vl_rate_e }
+			clear_variable = z_fw_var_flt_vl_rate_e
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_mod_transfer = {
+			#	BASE =		 #_前置var/默认
+				MOD = weapon_type_energy_weapon_damage_mult
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+				MODIFIER = z_fw_mod_flt_vl_damage_e
+			#	MIN = 		#_前置var/默认
+			#	INDEX = 	#_默认
+			#	WEIGHT = 	#_前置var/默认
+			}
+			
+			##_[h]
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_base value = z_fw_var_set_vl_damage_mult }
+			#_|最小积分|	10%积分基数
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_min value = z_fw_var_flt_vl_cal_temp_base }
+			multiply_variable = { which = z_fw_var_flt_vl_cal_temp_min value = 0.1 }
+			#_|前置引用|
+			set_variable = { which = z_fw_var_flt_vl_mod_ref_temp value = z_fw_var_flt_vl_rate_h }
+			clear_variable = z_fw_var_flt_vl_rate_h
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_mod_transfer = {
+			#	BASE =		 #_前置var/默认
+				MOD = weapon_type_strike_craft_weapon_damage_mult
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+				MODIFIER = z_fw_mod_flt_vl_damage_h
+			#	MIN = 		#_前置var/默认
+			#	INDEX = 	#_默认
+			#	WEIGHT = 	#_前置var/默认
+			}
+		}
+		
+		
+		###_|舰队专有|	[防御平台伤害	/甲/盾]	
+		if = { limit = { is_scope_type = fleet }
+			##_[防御平台伤害]
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_base value = z_fw_var_set_vl_damage_mult }
+			#_|最小积分|	10%积分基数
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_min value = z_fw_var_flt_vl_cal_temp_base }
+			multiply_variable = { which = z_fw_var_flt_vl_cal_temp_min value = 0.1 }
+			#_|前置引用|
+			if = { limit = { is_variable_set = z_fw_var_flt_vl_rate_all }
+				set_variable = { which = z_fw_var_flt_vl_mod_ref_temp value = z_fw_var_flt_vl_rate_all }
+				clear_variable = z_fw_var_flt_vl_rate_all
+			}
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_mod_transfer = {
+			#	BASE =		 #_前置var/默认
+				MOD = shipclass_military_station_damage_mult
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+				MODIFIER = z_fw_mod_flt_vl_damage_class_ms
+			#	MIN = 		#_前置var/默认
+			#	INDEX = 	#_默认
+			#	WEIGHT = 	#_前置var/默认
+			}
+
+
+			##_[甲]
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_base value = z_fw_var_set_vl_armor_mult }
+			#_|最小积分|	10%积分基数
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_min value = z_fw_var_flt_vl_cal_temp_base }
+			multiply_variable = { which = z_fw_var_flt_vl_cal_temp_min value = 0.1 }
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_mod_transfer = {
+			#	BASE =		 #_前置var/默认
+				MOD = ship_armor_mult
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+				MODIFIER = z_fw_mod_flt_vl_armor
+			#	MIN = 		#_前置var/默认
+			#	INDEX = 	#_默认
+			#	WEIGHT = 	#_前置var/默认
+			}
+			
+			##_[盾]
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_base value = z_fw_var_set_vl_shield_mult }
+			#_|最小积分|	10%积分基数
+			set_variable = { which = z_fw_var_flt_vl_cal_temp_min value = z_fw_var_flt_vl_cal_temp_base }
+			multiply_variable = { which = z_fw_var_flt_vl_cal_temp_min value = 0.1 }
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_mod_transfer = {
+			#	BASE =		 #_前置var/默认
+				MOD = ship_shield_mult
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+				MODIFIER = z_fw_mod_flt_vl_shield
+			#	MIN = 		#_前置var/默认
+			#	INDEX = 	#_默认
+			#	WEIGHT = 	#_前置var/默认
+			}
+		}
+	}
+	###_[完全修正简化]	伤害	/防御平台伤害/甲/盾
+	else_if = { limit = { z_fw_trgr_glbl_battle_vl_all = yes }	#_|vl_完全trgr|
+		###_|伤害|	z_fw_var_flt_vl_rate_all/g/k/e/h
+		if = { limit = { always = yes }
+			##_[all]
+			#_|前置引用|
+			if = { limit = { is_variable_set = z_fw_var_flt_vl_rate_all }
+				set_variable = { which = z_fw_var_flt_vl_mod_ref_temp value = z_fw_var_flt_vl_rate_all }
+				clear_variable = z_fw_var_flt_vl_rate_all
+			}
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_simp_transfer = {
+				CAT = damage
+				MOD = ship_weapon_damage
+				MODIFIER = z_fw_mod_flt_vl_damage_all
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+			}
+			
+			##_[g]
+			#_|前置引用|
+			set_variable = { which = z_fw_var_flt_vl_mod_ref_temp value = z_fw_var_flt_vl_rate_g }
+			clear_variable = z_fw_var_flt_vl_rate_g
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_simp_transfer = {
+				CAT = damage
+				MOD = weapon_type_explosive_weapon_damage_mult
+				MODIFIER = z_fw_mod_flt_vl_damage_g
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+			}
+			
+			##_[k]
+			#_|前置引用|
+			set_variable = { which = z_fw_var_flt_vl_mod_ref_temp value = z_fw_var_flt_vl_rate_k }
+			clear_variable = z_fw_var_flt_vl_rate_k
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_simp_transfer = {
+				CAT = damage
+				MOD = weapon_type_kinetic_weapon_damage_mult
+				MODIFIER = z_fw_mod_flt_vl_damage_k
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+			}
+			
+			##_[e]
+			#_|前置引用|
+			set_variable = { which = z_fw_var_flt_vl_mod_ref_temp value = z_fw_var_flt_vl_rate_e }
+			clear_variable = z_fw_var_flt_vl_rate_e
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_simp_transfer = {
+				CAT = damage
+				MOD = weapon_type_energy_weapon_damage_mult
+				MODIFIER = z_fw_mod_flt_vl_damage_e
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+			}
+			
+			##_[h]
+			#_|前置引用|
+			set_variable = { which = z_fw_var_flt_vl_mod_ref_temp value = z_fw_var_flt_vl_rate_h }
+			clear_variable = z_fw_var_flt_vl_rate_h
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_simp_transfer = {
+				CAT = damage
+				MOD = weapon_type_strike_craft_weapon_damage_mult
+				MODIFIER = z_fw_mod_flt_vl_damage_h
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+			}
+		}
+		
+		
+		###_|舰队专有|	[防御平台伤害	/甲/盾]	
+		if = { limit = { is_scope_type = fleet }
+			##_[防御平台伤害]
+			#_|前置引用|
+			if = { limit = { is_variable_set = z_fw_var_flt_vl_rate_all }
+				set_variable = { which = z_fw_var_flt_vl_mod_ref_temp value = z_fw_var_flt_vl_rate_all }
+				clear_variable = z_fw_var_flt_vl_rate_all
+			}
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_simp_transfer = {
+				CAT = damage
+				MOD = shipclass_military_station_damage_mult
+				MODIFIER = z_fw_mod_flt_vl_damage_class_ms
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+			}
+
+
+			##_[甲]
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_simp_transfer = {
+				CAT = attrib
+				MOD = ship_armor_mult
+				MODIFIER = z_fw_mod_flt_vl_armor
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+			}
+			
+			##_[盾]
+			#_[执行]
+			z_fw_eft_flt_prmt_vl_simp_transfer = {
+				CAT = attrib
+				MOD = ship_shield_mult
+				MODIFIER = z_fw_mod_flt_vl_shield
+			#	VAR_ORI = 
+			#	VAR_CUR = 
+			}
+		}
+	}
+
+}
+

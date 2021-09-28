@@ -1,0 +1,231 @@
+###_z frameworks core战争 triggers	############################################################################
+
+#_[vl_基础trgr/vl_进阶trgr/vl_完全trgr/狂怒]
+#_[vl_普通国家]
+#_[vl_普通ai/vl_堕落/vl_天灾/vl_威胁/vl_野怪/vl_利维坦]
+#_[vl_接战舰队]
+
+
+
+
+###_[vl_基础trgr]	########################################
+z_fw_trgr_glbl_battle_vl_basic = {
+	OR = {
+		has_global_flag = z_fw_flg_glbl_battle_vl_0
+		has_global_flag = z_fw_flg_glbl_battle_vl_1
+		has_global_flag = z_fw_flg_glbl_battle_vl_2
+	}
+}
+#_[vl_进阶trgr]
+z_fw_trgr_glbl_battle_vl_more = {
+	OR = {
+		has_global_flag = z_fw_flg_glbl_battle_vl_1
+		has_global_flag = z_fw_flg_glbl_battle_vl_2
+	}
+}
+#_[vl_完全trgr]
+z_fw_trgr_glbl_battle_vl_all = {
+	has_global_flag = z_fw_flg_glbl_battle_vl_2
+	z_fw_trgr_glbl_battle_vl_fury = no	#_|无狂怒|
+}
+#_[狂怒]
+z_fw_trgr_glbl_battle_vl_fury = {
+	owner = {
+		is_ai = no
+		OR = {
+			has_modifier = z_fw_mod_r_cht_fury_1
+			has_modifier = z_fw_mod_r_cht_fury_2
+			has_modifier = z_fw_mod_r_cht_fury_3
+			has_modifier = z_fw_mod_r_cht_fury_4
+			has_modifier = z_fw_mod_r_cht_fury_5
+		}
+	}
+}
+
+
+
+
+###_[vl_普通国家]	########################################
+z_fw_trgr_cntr_vl_faction_common = {
+	OR = {
+		is_ai = no	#_pc
+		is_country_type = default
+		is_country_type = prikki
+		is_country_type = ascended_empire	#_zofe
+		is_country_type = lost_empire		#_zofe
+		is_country_type = default_ev	#_ev
+		is_country_type = rebel
+		
+		is_country_type = fallen_empire
+		is_country_type = awakened_fallen_empire
+	}
+	NOR = {# 非v堕落
+		has_country_flag = fallen_empire_1		#_materialist
+		has_country_flag = fallen_empire_2		#_spiritualist
+		has_country_flag = fallen_empire_3		#_xenophile
+		has_country_flag = fallen_empire_4		#_xenophobe	|菌菇|
+		has_country_flag = fallen_empire_machine
+	}
+}
+
+
+
+
+###_[vl_普通ai]	########################################
+z_fw_trgr_cntr_vl_faction_ai = {
+	is_ai = yes
+	OR = {
+		is_country_type = default
+		is_country_type = prikki
+		is_country_type = ascended_empire	#_zofe
+		is_country_type = lost_empire
+		is_country_type = default_ev		#_ev
+		is_country_type = rebel
+		
+		is_country_type = fallen_empire
+		is_country_type = awakened_fallen_empire
+	}
+	NOR = {# 非v堕落
+		has_country_flag = fallen_empire_1		#_materialist
+		has_country_flag = fallen_empire_2		#_spiritualist
+		has_country_flag = fallen_empire_3		#_xenophile
+		has_country_flag = fallen_empire_4		#_xenophobe	|菌菇|
+		has_country_flag = fallen_empire_machine
+	}
+}
+###_[vl_堕落]
+z_fw_trgr_cntr_vl_faction_fallen = {
+	is_ai = yes
+	OR = {
+		has_country_flag = fallen_empire_1		#_materialist
+		has_country_flag = fallen_empire_2		#_spiritualist
+		has_country_flag = fallen_empire_3		#_xenophile
+		has_country_flag = fallen_empire_4		#_xenophobe	|菌菇|
+		has_country_flag = fallen_empire_machine
+	}
+}
+###_[vl_天灾]
+z_fw_trgr_cntr_vl_faction_crisis = {
+	is_ai = yes
+	OR = {
+		is_country_type = swarm
+		is_country_type = extradimensional
+		is_country_type = extradimensional_2
+		is_country_type = extradimensional_3
+		is_country_type = ai_empire
+		#_天灾友好
+		is_country_type = cybrex_empire
+		is_country_type = sentinels
+		#_LEX-需要lex增强mod
+		is_country_type = bwm_ancient_drone_guardian
+		is_country_type = bwm_ragnarok_guardian
+		is_country_type = bwm_shroud_guardian
+		is_country_type = bwm_ring_guardian
+		is_country_type = bwm_ring_guardian_passive
+		is_country_type = bwm_grave_guardian
+		is_country_type = bwm_grave_guardian_passive
+		is_country_type = bwm_conduit_guardian
+		is_country_type = bwm_ancestor_guardian
+		is_country_type = bwm_prison_passive
+		is_country_type = bwm_gate_guardian
+	}
+}
+###_[vl_威胁]
+z_fw_trgr_cntr_vl_faction_threat = {
+	is_ai = yes
+	OR = {
+		is_country_type = gray_goo					#_灰风
+		#_MEM
+		is_country_type = mem_vazurans				#_瓦祖兰
+		is_country_type = mem_blacksite_faction
+		is_country_type = mem_dread_pirate_country
+		is_country_type = mem_dread_pirate_final_boss_country
+		is_country_type = mem_station_smasher
+		is_country_type = mem_everything_smasher
+		is_country_type = mem_azran
+		is_country_type = mem_surveyor_country_red	#_同类其他国家暂时不涉及
+		is_country_type = mem_wpdr_country
+		#_野生虫群
+		is_country_type = feral_prethoryn			#_event_target:feral_prethoryn
+		is_country_type = feral_prethoryn_infighting	#_event_target:feral_prethoryn_infighting
+	}
+}
+###_[vl_野怪]
+z_fw_trgr_cntr_vl_faction_monster = {
+	is_ai = yes
+	OR = {
+		is_country_type = faction					#_敌对
+		is_country_type = pirate					#_海盗
+		#_游牧部落
+		is_country_type = marauder_raiders
+		is_country_type = awakened_marauders
+		is_country_type = dormant_marauders
+		is_country_type = ruined_marauders
+		#_其他中立
+		is_country_type = enclave					#_飞地
+		is_country_type = shroud_spirits			#_灵能存在体 event_target:shroud_country
+		is_country_type = tiyanki					#_event_target:tiyanki_country
+		is_country_type = tiyanki_garrison
+		is_country_type = amoeba					#_event_target:amoeba_country
+		is_country_type = amoeba_borderless
+		is_country_type = amoeba_garrison
+		is_country_type = crystal					#_event_target:crystal_country
+		is_country_type = drone						#_event_target:drone_country
+		is_country_type = cloud						#_event_target:cloud_country
+		is_country_type = vol						#_远星-沃尔 event_target:mardak_vol_haters_country
+		is_country_type = vluur
+	}
+}
+###_[vl_利维坦]
+z_fw_trgr_cntr_vl_faction_lev = {
+	is_ai = yes
+	OR = {
+		is_country_type = enigmatic_cache			#_神秘储存器 event_target:enigmatic_cache_country
+		is_country_type = mechanocalibrator
+		is_country_type = guardian					#_VANILLA-LEVIATHAN
+		is_country_type = guardian_dragon
+		is_country_type = guardian_stellarite
+		is_country_type = guardian_wraith
+		is_country_type = guardian_hiver
+		is_country_type = guardian_horror
+		is_country_type = guardian_fortress
+		is_country_type = guardian_dreadnought
+		is_country_type = guardian_sphere
+		#_远星
+		is_country_type = guardian_scavenger_bot
+		is_country_type = guardian_elderly_tiyanki
+		is_country_type = ldragon_country			#_L星龙
+		is_country_type = guardian_hatchling
+	#	is_country_type = prikki
+		#_|MEGACORP|
+		is_country_type = caravaneer_fleet
+		
+		#_|other|		
+		is_country_type = htbd_horde				#_巨龙之路
+		#_SOFE守门人
+		is_country_type = sofe_sentinel_dormant
+		is_country_type = sofe_sentinel_active
+	}
+}
+
+
+
+
+###_[vl_接战舰队]
+z_fw_trgr_flt_battle_vl_battle = {
+	always = yes
+#	OR = {
+#		#_military
+#		is_ship_class = shipclass_science_ship
+#		is_ship_class = shipclass_military_special	#_巨像
+#		is_ship_class = shipclass_transport
+#		is_ship_class = shipclass_probe				#_舰妈
+#		#_defence
+#		is_ship_class = shipclass_starbase
+#		is_ship_class = shipclass_military_station
+#		#_civilian
+#		is_ship_class = shipclass_colonizer
+#		is_ship_class = shipclass_science_ship
+#		is_ship_class = shipclass_constructor
+#	}
+}

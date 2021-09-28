@@ -1,0 +1,881 @@
+###_z modmenu top按钮 mods	##################################################################################
+
+#_[top_button]	6	自动空间站/哨兵阵列/pote_网道/pf_合并物种/pf_合并智械/国内迁移		/pf2_合并ai物种/pf_手动迁移/pf2_合并舰队
+#_[Z_MISC]		2	自沉/fw隐藏设置		/z_mui主按钮隐藏
+#_[1ST_JRANT]
+#_[FTM_ALL]		4
+#_[古代帝国]	3
+
+
+
+
+
+
+###_[top_button]	########################################################
+#_[自动空间站]
+z_mm_autosatation_button_off = {
+	potential = {
+		z_mm_trgr_expanded_sub_ui = no
+		NOR = {#_设置
+			has_country_flag = z_fw_autostation_100
+			has_country_flag = z_fw_autostation_600
+		}
+	}
+	allow = {
+		is_scope_type = country
+		custom_tooltip = {#_子菜单开启
+			hidden_trigger = {
+				z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+	}
+	
+	effect = {
+		hidden_effect = {
+			set_country_flag = z_fw_autostation_100
+		}
+		custom_tooltip = z_mm_autostation_desc
+	}
+}
+#_自动矿站-100
+z_mm_autosatation_button_100 = {
+	potential = {
+		z_mm_trgr_expanded_sub_ui = no
+		has_country_flag = z_fw_autostation_100
+	}
+	allow = {
+		is_scope_type = country
+		custom_tooltip = {#_子菜单开启
+			hidden_trigger = {
+				z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+	}
+	
+	effect = {
+		hidden_effect = {
+			remove_country_flag = z_fw_autostation_100
+			set_country_flag = z_fw_autostation_600
+		}
+		custom_tooltip = z_mm_autostation_desc
+	}
+}
+#_自动矿站-600
+z_mm_autosatation_button_600 = {
+	potential = {
+		z_mm_trgr_expanded_sub_ui = no
+		has_country_flag = z_fw_autostation_600
+	}
+	allow = {
+		is_scope_type = country
+		custom_tooltip = {#_子菜单开启
+			hidden_trigger = {
+				z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+	}
+	
+	effect = {
+		hidden_effect = {
+			remove_country_flag = z_fw_autostation_600
+		}
+		custom_tooltip = z_mm_autostation_desc
+	}
+}
+
+#_[哨兵阵列] off
+z_mm_full_sensor_button_off = {
+	potential = {
+		z_mm_trgr_expanded_sub_ui = no
+		has_country_flag = z_fw_misc_full_sensor_off
+	}
+	allow = {
+		is_scope_type = country
+		custom_tooltip = {#_子菜单开启
+			hidden_trigger = {
+				z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+	}
+	
+	effect = {
+		hidden_effect = {
+			remove_country_flag = z_fw_misc_full_sensor_off
+		}
+		custom_tooltip = z_mm_full_sensor_desc
+	}
+}
+#_[哨兵阵列] on
+z_mm_full_sensor_button_on = {
+	potential = {
+		z_mm_trgr_expanded_sub_ui = no
+		NOT = { has_country_flag = z_fw_misc_full_sensor_off }
+	}
+	allow = {
+		is_scope_type = country
+		custom_tooltip = {#_子菜单开启
+			hidden_trigger = {
+				z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+	}
+	
+	effect = {
+		hidden_effect = {
+			set_country_flag = z_fw_misc_full_sensor_off
+		}
+		custom_tooltip = z_mm_full_sensor_desc
+	}
+}
+
+#_[pote_网道] off
+z_pote_webway_button_off = {
+	potential = {
+		z_mm_trgr_expanded_sub_ui = no
+		NOT = { has_country_flag = z_pote_webway_on }
+	}
+	allow = {
+		is_scope_type = country
+		custom_tooltip = {#_子菜单开启
+			hidden_trigger = {
+				z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+		custom_tooltip = {
+            hidden_trigger = {
+				has_global_flag = z_pote_installed
+            }
+            fail_text = z_mm_tips_pote_not_activited
+        }
+	}
+	
+	effect = {
+		hidden_effect = {
+			set_country_flag = z_pote_webway_on
+		}
+		custom_tooltip = z_mm_pote_webway_desc
+	}
+}
+#_[pote_网道] on
+z_pote_webway_button_on = {
+	potential = {
+		z_mm_trgr_expanded_sub_ui = no
+		has_country_flag = z_pote_webway_on
+	}
+	allow = {
+		is_scope_type = country
+		custom_tooltip = {#_子菜单开启
+			hidden_trigger = {
+				z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+		custom_tooltip = {
+            hidden_trigger = {
+				has_global_flag = z_pote_installed
+            }
+            fail_text = z_mm_tips_pote_not_activited
+        }
+	}
+	
+	effect = {
+		hidden_effect = {
+			remove_country_flag = z_pote_webway_on
+		}
+		custom_tooltip = z_mm_pote_webway_desc
+	}
+}
+
+#_[pf_手动迁移]	z禁用
+z_mm_pf_button_manual = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		is_scope_type = country
+		custom_tooltip = { hidden_trigger = { z_mm_setting_panel_locked = no } fail_text = z_mm_tips_esc_to_unlock }	#_子菜单开启
+		custom_tooltip = {
+            hidden_trigger = {
+				OR = {
+					has_country_flag = z_pr_flg_cntr_reg
+					has_global_flag = z_pf2_installed
+				}
+            }
+            fail_text = z_mm_tips_sub_no_pf_pr
+        }
+		custom_tooltip = { hidden_trigger = { z_fw_trgr_cntr_core_mp_host = yes } fail_text = z_mm_tips_mp_not_host }	#_非主机
+		custom_tooltip = { hidden_trigger = { NOT = { has_global_flag = z_pf_flg_glbl_manual_checking_cd } } fail_text = z_mm_pf_manual_job_checking }	#_手动检测中
+	}
+	effect = {
+		hidden_effect = { z_mm_eft_cntr_pf_manual_check_glbl = yes }
+		custom_tooltip = z_mm_pf_manual_job_check_button
+	}
+}
+#_[国内迁移]
+z_mm_pf_button_manual_own = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		is_scope_type = country
+		custom_tooltip = { hidden_trigger = { z_mm_setting_panel_locked = no } fail_text = z_mm_tips_esc_to_unlock }	#_子菜单开启
+		custom_tooltip = {
+            hidden_trigger = {
+				OR = {
+					has_country_flag = z_pr_flg_cntr_reg
+					has_global_flag = z_pf2_installed
+				}
+            }
+            fail_text = z_mm_tips_sub_no_pf_pr
+        }
+	}
+	effect = {
+		hidden_effect = { z_mm_eft_cntr_pf_manual_check_own = yes }
+		custom_tooltip = z_mm_pf_manual_job_own_button
+	}
+}
+
+#_[pf_合并物种]
+z_mm_pf2_button_merge_own_species = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		is_scope_type = country
+		custom_tooltip = {#_子菜单开启
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+		custom_tooltip = {
+            hidden_trigger = {
+                has_global_flag = z_pf2_installed
+            }
+            fail_text = z_mm_tips_sub_no_pf2
+        }
+		custom_tooltip = {#_ai物种合并中
+            hidden_trigger = {
+                NOT = { has_global_flag = z_mm_pf2_merge_ai_species_cd }
+            }
+            fail_text = z_mm_pf2_ai_species_merging
+        }
+	}
+	effect = {
+		hidden_effect = {
+			set_timed_global_flag = { flag = z_mm_pf2_merge_ai_species_cd days = 1 }	#_冷却
+			z_mm_eft_pf2_merge_own_species = yes
+		}
+		custom_tooltip = z_mm_pf2_merge_own_species_button
+	}
+}
+#_[pf_合并智械]
+z_mm_pf2_button_merge_robotic_species = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		is_scope_type = country
+		custom_tooltip = {#_子菜单开启
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+		custom_tooltip = {
+            hidden_trigger = {
+                has_global_flag = z_pf2_installed
+            }
+            fail_text = z_mm_tips_sub_no_pf2
+        }
+		custom_tooltip = {#_ai物种合并中
+            hidden_trigger = {
+                NOT = { has_global_flag = z_mm_pf2_merge_ai_species_cd }
+            }
+            fail_text = z_mm_pf2_ai_species_merging
+        }
+	}
+	effect = {
+		hidden_effect = {
+			set_timed_global_flag = { flag = z_mm_pf2_merge_ai_species_cd days = 1 }	#_冷却
+			z_mm_eft_pf2_merge_roboitc_species = yes
+		}
+		custom_tooltip = z_mm_pf2_merge_robotic_species_button
+	}
+}
+#_[pf2_合并ai物种]	z禁用
+z_mm_pf2_button_merge_ai_species = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		is_scope_type = country
+		custom_tooltip = {#_子菜单开启
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+		custom_tooltip = {
+            hidden_trigger = {
+                has_global_flag = z_pf2_installed
+            }
+            fail_text = z_mm_tips_sub_no_pf2
+        }
+		custom_tooltip = {#_ai物种合并中
+            hidden_trigger = {
+                NOT = { has_global_flag = z_mm_pf2_merge_ai_species_cd }
+            }
+            fail_text = z_mm_pf2_ai_species_merging
+        }
+	}
+	effect = {
+		hidden_effect = {
+			set_timed_global_flag = { flag = z_mm_pf2_merge_ai_species_cd days = 1 }	#_冷却
+			z_mm_eft_pf2_merge_ai_species = yes
+		}
+		custom_tooltip = z_mm_pf2_merge_ai_species_button
+	}
+}
+#_[pf2_合并舰队]	z禁用
+z_mm_pf2_button_merge_fleet = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		is_scope_type = country
+		custom_tooltip = {#_子菜单开启
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+		custom_tooltip = {
+            hidden_trigger = {
+                has_global_flag = z_pf2_installed
+            }
+            fail_text = z_mm_tips_sub_no_pf2
+        }
+	}
+	effect = {
+		hidden_effect = { z_pf2_eft_all_flt_opt_manual = yes }
+		custom_tooltip = z_mm_pf2_merge_ai_flt_button
+	}
+}
+
+
+
+
+
+###_false按钮---标题	############################################################################
+#_Z_CSP_MODS
+z_mm_btn_title_csp_mods = {
+	potential = {
+		exists = from
+		z_mm_setting_panel_locked = no
+	}
+}
+z_mm_csp_frames = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = { always = no }
+}
+
+
+
+
+###_[Z_MISC]	############################################################################
+#_自沉
+z_fw_csp_btn_misc_fleet_dismantle_on = {
+	potential = {
+		z_mm_trgr_expanded_sub_ui = no
+		has_country_flag = z_fw_flg_cntr_fleet_dismantle
+	}
+	allow = {
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+	}
+	effect = {
+		custom_tooltip = z_mm_tips_csp_misc_fleet_dismantle_on
+		custom_tooltip = z_mm_tips_csp_misc_fleet_dismantle
+		hidden_effect = { remove_country_flag = z_fw_flg_cntr_fleet_dismantle }
+	}
+}
+z_fw_csp_btn_misc_fleet_dismantle_off = {
+	potential = {
+		z_mm_trgr_expanded_sub_ui = no
+		NOT = { has_country_flag = z_fw_flg_cntr_fleet_dismantle }
+	}
+	allow = {
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+	}
+	effect = {
+		custom_tooltip = z_mm_tips_csp_misc_fleet_dismantle_off
+		custom_tooltip = z_mm_tips_csp_misc_fleet_dismantle
+		hidden_effect = { set_country_flag = z_fw_flg_cntr_fleet_dismantle }
+	}
+}
+
+#_|fw隐藏设置|
+z_fw_csp_btn_misc_edt_show = {
+	potential = {
+		z_mm_trgr_expanded_sub_ui = no
+		NOT = { has_country_flag = z_fw_flg_cntr_edt_hide }
+	}
+	allow = {
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+	}
+	effect = {
+		custom_tooltip = z_mm_tips_csp_misc_edt_show
+		
+		hidden_effect = { set_country_flag = z_fw_flg_cntr_edt_hide }
+	}
+}
+z_fw_csp_btn_misc_edt_hide = {
+	potential = {
+		z_mm_trgr_expanded_sub_ui = no
+		has_country_flag = z_fw_flg_cntr_edt_hide
+	}
+	allow = {
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+	}
+	effect = {
+		custom_tooltip = z_mm_tips_csp_misc_edt_hide
+		hidden_effect = { remove_country_flag = z_fw_flg_cntr_edt_hide }
+	}
+}
+
+#_[z_mui主按钮隐藏]	z禁用	归入设置
+z_fw_csp_btn_misc_mui_button_show = {#_显示	被z_mui通道覆盖以使之allow
+	potential = {
+		z_mm_trgr_expanded_sub_ui = no
+		NOT = { has_country_flag = z_fw_flg_cntr_mui_button_hide }
+	}
+	allow = {
+		#_无z_mui
+		hidden_trigger = {  always = no }
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+	}
+	effect = {
+		custom_tooltip = z_mm_tips_csp_misc_mui_button_show
+		
+		hidden_effect = { set_country_flag = z_fw_flg_cntr_mui_button_hide }
+	}
+}
+z_fw_csp_btn_misc_mui_button_hide = {
+	potential = {
+		z_mm_trgr_expanded_sub_ui = no
+		has_country_flag = z_fw_flg_cntr_mui_button_hide
+	}
+	allow = {
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+	}
+	effect = {
+		custom_tooltip = z_mm_tips_csp_misc_mui_button_hide
+		hidden_effect = { remove_country_flag = z_fw_flg_cntr_mui_button_hide }
+	}
+}
+
+
+
+
+
+
+
+
+###_misc shortcut buttons	############################################################################
+
+###_[1ST_JRANT]	################################################	z禁用
+#_地联-地块
+z_mm_csp_btn_misc_tile = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		#_MOD安装
+		custom_tooltip = {
+			fail_text = z_mm_tips_csp_stability_mod_non
+			hidden_trigger = { has_global_flag = stability_MOD_installed }
+		}
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+		custom_tooltip = {
+			fail_text = had_tile_enter
+			hidden_trigger = {
+				exists = root
+				root = { NOT = { has_country_flag = had_tile_enter } }
+			}
+		}
+	}
+	effect = {
+		custom_tooltip = main_tile_desc
+		custom_tooltip = main_tile_button
+		hidden_effect = {
+			set_country_flag = had_tile_enter
+			country_event = { id = stability.997 }
+		}
+	}
+}
+#_地联-稳定
+z_mm_csp_btn_misc_stability = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		#_MOD安装
+		custom_tooltip = {
+			fail_text = z_mm_tips_csp_stability_mod_non
+			hidden_trigger = { has_global_flag = stability_MOD_installed }
+		}
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+		custom_tooltip = {
+			fail_text = no_stability_button_fallen_empire
+			exists = root
+			root = {
+				NOR = {
+					is_country_type = fallen_empire
+					is_country_type = awakened_fallen_empire
+				}
+			}
+		}
+		custom_tooltip = {
+			fail_text = no_stability_button
+			exists = root
+			root = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+		}
+		custom_tooltip = {
+			fail_text = had_stability_enter
+			hidden_trigger = {
+				exists = root
+				root = { NOT = { has_country_flag = stability_enter } }
+			}
+		}
+	}
+	effect = {
+		custom_tooltip = main_stability_desc
+		custom_tooltip = main_stability_button
+		hidden_effect = {
+			set_country_flag = stability_enter
+			country_event = { id = stability.998 }
+		}
+	}
+}
+#_地联-议程
+z_mm_csp_btn_misc_agenda = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		#_MOD安装
+		custom_tooltip = {
+			fail_text = z_mm_tips_csp_stability_mod_non
+			hidden_trigger = { has_global_flag = stability_MOD_installed }
+		}
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+		custom_tooltip = {
+			fail_text = had_agenda_enter
+			hidden_trigger = {
+				exists = root
+				root = { NOT = { has_country_flag = had_agenda_enter } }
+			}
+		}
+		custom_tooltip = {
+			fail_text = not_has_agenda
+			exists = root
+			root = {
+				OR = {
+					is_country_type = default
+					is_country_type = fallen_empire
+					is_country_type = awakened_fallen_empire
+				}
+				OR = {
+					has_authority = auth_oligarchic
+					has_authority = auth_dictatorial
+					has_authority = auth_imperial
+					has_authority = auth_corporate
+					has_authority = auth_warshipgirls
+					has_authority = auth_shenhai
+					has_authority = auth_wg_fe
+				}
+			}
+		}
+	}
+	effect = {
+		custom_tooltip = main_agenda_desc
+		custom_tooltip = main_agenda_button
+		hidden_effect = {
+			set_country_flag = had_agenda_enter
+			country_event = { id = stability.995 }
+		}
+	}
+}
+
+
+
+
+###_[FTM_ALL]	############################################
+#_FTM-transfer
+z_mm_csp_btn_ftm_transfer = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		#_MOD安装
+		custom_tooltip = {
+			fail_text = z_mm_tips_csp_ftm_non
+			hidden_trigger = { has_global_flag = ftm_mod_active }
+		}
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+	}
+	effect = {
+		custom_tooltip = z_mm_tips_csp_ftm_transfer
+		hidden_effect = {
+			if = {
+				limit = {
+					has_global_flag = ftm_edict_is_launch
+				}
+				country_event = { id = ftm_transfer.14 }
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_global_flag = ftm_edict_is_launch
+					}
+				}
+				country_event = { id = ftm_transfer.1 }
+			}
+		}
+	}
+}
+#_FTM-卖
+z_mm_csp_btn_ftm_sell = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		#_MOD安装
+		custom_tooltip = {
+			fail_text = z_mm_tips_csp_ftm_non
+			hidden_trigger = { has_global_flag = ftm_mod_active }
+		}
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+		#_FTM
+		hidden_trigger = {
+		   NOT = { has_global_flag = ftm_market_not_can_use }
+		}
+	}
+	effect = {
+		custom_tooltip = z_mm_tips_csp_ftm_sell
+		hidden_effect = {
+			country_event = { id = ftm_market.999 }
+		}
+	}
+}
+#_FTM-rent
+z_mm_csp_btn_ftm_rent = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		#_MOD安装
+		custom_tooltip = {
+			fail_text = z_mm_tips_csp_ftm_non
+			hidden_trigger = { has_global_flag = ftm_mod_active }
+		}
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+		#_FTM
+		hidden_trigger = {
+		   NOT = { has_global_flag = ftm_rent_not_can_use }
+		}
+	}
+	effect = {
+		custom_tooltip = z_mm_tips_csp_ftm_rent
+		hidden_effect = {
+			country_event = { id = ftm_rent.999 }
+		}
+	}
+}
+#_FTM-rent
+z_mm_csp_btn_ftm_auction = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		#_MOD安装
+		custom_tooltip = {
+			fail_text = z_mm_tips_csp_ftm_non
+			hidden_trigger = { has_global_flag = ftm_mod_active }
+		}
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+		#_FTM
+		hidden_trigger = {
+		   NOT = { has_global_flag = ftm_auction_not_can_use }
+		}
+	}
+	effect = {
+		custom_tooltip = z_mm_tips_csp_ftm_auction
+		hidden_effect = {
+			country_event = { id = ftm_auction.999 }
+		}
+	}
+}
+
+
+###_[古代帝国]	############################################
+z_mm_csp_btn_ag_ancient_empire_seetings = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		#_MOD安装
+		custom_tooltip = {
+			fail_text = z_mm_tips_csp_ag_non
+			hidden_trigger = { has_global_flag = has_ancient_empire_mod }	#_|mod安装|
+		}
+		#_[启动条件]
+		custom_tooltip = {
+			fail_text = z_mm_tips_csp_requirement
+			hidden_trigger = {
+				is_ai = no
+				NOR = {
+					has_global_flag = ag_seetings_opened
+					has_global_flag = installed_mod_platform
+				}
+			}
+		}
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+	}
+	
+	effect = {
+		custom_tooltip = edict_ag_ancient_empire_seetings_edict
+		custom_tooltip = edict_ag_ancient_empire_seetings_edict_desc
+		hidden_effect = { country_event = { id = ag_settings.1 } }
+	}
+}
+z_mm_csp_btn_ag_research_project_manger = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		#_MOD安装
+		custom_tooltip = {
+			fail_text = z_mm_tips_csp_ag_non
+			hidden_trigger = { has_global_flag = has_ancient_empire_mod }	#_|mod安装|
+		}
+		#_[启动条件]
+		custom_tooltip = {
+			fail_text = z_mm_tips_csp_requirement
+			hidden_trigger = {
+				is_ai = no
+				NOT = { has_country_flag = ag_research_window_opened }
+				check_variable = { which = ag_num_research_projects value > 0 }
+			}
+		}
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+	}
+	
+	effect = {
+		custom_tooltip = edict_ag_research_project_manger_edict
+		custom_tooltip = edict_ag_research_project_manger_edict_desc
+		hidden_effect = { country_event = { id = ag_research.1 } }
+	}
+}
+z_mm_csp_btn_ag_ancient_knowledge_manger = {
+	potential = { z_mm_trgr_expanded_sub_ui = no }
+	allow = {
+		#_MOD安装
+		custom_tooltip = {
+			fail_text = z_mm_tips_csp_ag_non
+			hidden_trigger = { has_global_flag = has_ancient_empire_mod }	#_|mod安装|
+		}
+		#_[启动条件]
+		custom_tooltip = {
+			fail_text = z_mm_tips_csp_requirement
+			hidden_trigger = {
+				is_ai = no
+				has_country_flag = ag_ancient_knowledge_noti_fired
+				NOR = {
+					has_country_flag = ag_ancient_knowledge_window_opened
+					has_country_flag = ag_ship_special_opened
+					has_country_flag = ag_subsystem_selector_opened
+				}
+			}
+		}
+		#_子菜单开启
+		custom_tooltip = {
+			hidden_trigger = {
+			   z_mm_setting_panel_locked = no
+			}
+            fail_text = z_mm_tips_esc_to_unlock
+		}
+	}
+	
+	effect = {
+		custom_tooltip = edict_ag_ancient_knowledge_manger_edict
+		custom_tooltip = edict_ag_ancient_knowledge_manger_edict_desc
+		hidden_effect = { country_event = { id = ag_ancient_knowledge.1 } }
+	}
+}

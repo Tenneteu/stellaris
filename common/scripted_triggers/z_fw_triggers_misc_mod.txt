@@ -1,0 +1,13 @@
+###_z frameworks MOD triggers	############################################################################
+
+#_[阿夸]
+
+
+
+
+#_[阿夸]	############################################################################
+z_fw_trgr_cntr_mod_kuat_menu = {
+	NOT = { has_origin = origin_kuat_apocalyptic }
+	has_global_flag = install_kuat_mod
+	NOT = { has_global_flag = special_exe_invasion }
+}

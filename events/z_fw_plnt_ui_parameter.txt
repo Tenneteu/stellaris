@@ -1,0 +1,666 @@
+namespace = z_fw_plnt_ui_setting
+#_[星球参数UI]	碧蓝航线DLC/舰R/星舰少女/灰烬/涅托/约战/苍蓝		/ACOT/GIGA
+
+
+
+
+###_[星球参数UI]	伞の优化/产业革命
+planet_event = {
+	id = z_fw_plnt_ui_setting.2
+	title = z_fw_plnt_ui_setting.check.name
+	desc = z_fw_plnt_ui_setting.check.desc
+	picture = GFX_evt_z_fw_relic_war
+	is_triggered_only = yes
+	location = this
+	force_open = yes
+	
+	diplomatic = yes
+	custom_gui = "z_fw_gui_plnt_ui_check"
+	
+	after = {
+		hidden_effect = { remove_planet_flag = z_fw_plnt_ui_setting_open }	#_|UIdebug|
+	}
+	#_[关闭]
+	option = {
+		name = z_fw_tips_empty
+		custom_gui = "z_mm_button_evt_option_desc"
+		hidden_effect = {
+			remove_planet_flag = z_fw_plnt_ui_setting_open	#_|UIdebug|
+		}
+	}
+	
+	
+	#_[伞の优化]
+	option = {
+		name = z_performance2_var
+		custom_gui = "z_mm_button_evt_option_name"
+		hidden_effect = {
+		}
+	}
+	option = {#_国家人口上限
+		name = z_pf2_var_cntr_pop_cap_final
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { owner = { is_variable_set = z_pf2_var_cntr_pop_cap_final } }
+		hidden_effect = {}
+	}
+	option = {#_人口增长效率
+		name = z_pf2_var_cntr_pop_increase_bonus
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { owner = { is_variable_set = z_pf2_var_cntr_pop_increase_bonus } }
+		hidden_effect = {}
+	}
+	option = {#_星球人口增长
+		name = z_pf2_var_plnt_pop_growth
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { is_variable_set = z_pf2_var_plnt_pop_growth }
+		hidden_effect = {}
+	}
+	option = {#_星球人口克隆
+		name = z_pf2_var_plnt_pop_clone
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { is_variable_set = z_pf2_var_plnt_pop_clone }
+		hidden_effect = {}
+	}
+	option = {#_星球人口组装
+		name = z_pf2_var_plnt_pop_assembly
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { is_variable_set = z_pf2_var_plnt_pop_assembly }
+		hidden_effect = {}
+	}
+
+
+
+
+
+
+	###_[产业革命]	#################################
+	##_[空格]
+	option = {#_开启
+		name = z_fw_tips_empty
+		custom_gui = "z_mm_button_evt_option_empty"
+		hidden_effect = {}
+	}
+
+	##_[信息]	标题/指南/人力/人力增长/总加成
+	option = {#_[标题]
+		name = z_pr_var
+		custom_gui = "z_mm_button_evt_option_name"
+		trigger = { has_global_flag = z_pr_installed }
+		hidden_effect = {}
+	}
+
+
+	option = {#_[指南]
+		name = z_pr_tips_var_plnt_guide
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed }
+		hidden_effect = {}
+	}
+	option = {#_[人力]
+		name = z_pr_tips_var_plnt_pop_man
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man }
+		hidden_effect = {}
+	}
+	option = {
+		name = z_pr_tips_var_cntr_man
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man }
+		hidden_effect = {}
+	}
+	option = {
+		name = z_pr_tips_var_plnt_man
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man }
+		hidden_effect = {}
+	}
+	option = {
+		name = z_pr_tips_var_plnt_man_desc
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man }
+		hidden_effect = {}
+	}
+	option = {#_[人力增长]
+		name = z_pr_tips_var_plnt_man_cap
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man		is_variable_set = z_pr_var_plnt_man_beta_max }
+		hidden_effect = {}
+	}
+	option = {
+		name = z_pr_tips_var_plnt_man_cap_desc
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man		is_variable_set = z_pr_var_plnt_man_beta_max }
+		hidden_effect = {}
+	}
+	option = {
+		name = z_pr_tips_var_plnt_man_growth
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man		is_variable_set = z_pr_var_plnt_man_beta_max		is_variable_set = z_pr_var_plnt_man_growth }
+		hidden_effect = {}
+	}
+	option = {
+		name = z_pr_tips_var_plnt_man_growth_desc
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed		is_variable_set = z_pr_var_plnt_man		is_variable_set = z_pr_var_plnt_man_beta_max		is_variable_set = z_pr_var_plnt_man_growth }
+		hidden_effect = {}
+	}
+
+
+	##_[产出]
+	option = {#_[空格]
+		name = z_fw_tips_empty
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed }
+		hidden_effect = {}
+	}
+	option = {#_[简介]
+		name = z_pr_tips_plnt_man_economy
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed }
+		hidden_effect = {}
+	}
+
+	option = {#_[贸易]
+		name = z_pr_tips_mod_plnt_trade
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed OR = { is_variable_set = z_pr_var_job_trade_value_add	is_variable_set = z_pr_var_man_trade_value_add } }
+		hidden_effect = {}
+	}
+	option = {#_[舒适]
+		name = z_pr_tips_mod_plnt_amenities
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	exists = owner owner = { is_gestalt = no } }
+		hidden_effect = {}
+	}
+	option = {#_[维护]
+		name = z_pr_tips_mod_plnt_maintain
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	exists = owner owner = { is_gestalt = yes } }
+		hidden_effect = {}
+	}
+	option = {#_[稳定]
+		name = z_pr_tips_mod_plnt_stability
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	is_variable_set = z_pr_var_job_planet_stability_add }
+		hidden_effect = {}
+	}
+	option = {#_[犯罪]
+		name = z_pr_tips_mod_plnt_crime
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	exists = owner owner = { is_gestalt = no } }
+		hidden_effect = {}
+	}
+	option = {#_[异常]
+		name = z_pr_tips_mod_plnt_deviant
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	exists = owner owner = { is_gestalt = yes } }
+		hidden_effect = {}
+	}
+	option = {#_[宜居度]
+		name = z_pr_tips_mod_plnt_tolerance
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	is_variable_set = z_pr_var_job_pop_environment_tolerance }
+		hidden_effect = {}
+	}
+	option = {#_[海军规模]
+		name = z_pr_tips_var_plnt_job_cntr_admin_add
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	is_variable_set = z_pr_var_job_country_naval_cap_add }
+		hidden_effect = {}
+	}
+	option = {#_[管理上限]
+		name = z_pr_tips_var_plnt_job_cntr_navy_add
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	is_variable_set = z_pr_var_job_country_admin_cap_add }
+		hidden_effect = {}
+	}
+	
+	option = {#_[防卫军]
+		name = z_pr_tips_mod_pop_plnt_pdf
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	is_variable_set = z_pr_var_job_pop_defense_armies_add }
+		hidden_effect = {}
+	}
+	
+	option = {#_[总加成]
+		name = z_pr_tips_var_plnt_res_all_mult
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed }
+		hidden_effect = {}
+	}
+	option = {#_[电力产出]
+		name = z_pr_tips_mod_pop_job_p_v_1e
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	is_variable_set = z_pr_var_energy_produces_base }
+		hidden_effect = {}
+	}
+	option = {#_[电力维护]
+		name = z_pr_tips_mod_pop_job_u_v_1e
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	is_variable_set = z_pr_var_energy_upkeep_base }
+		hidden_effect = {}
+	}
+	option = {#_[人力电力卫华]
+		name = z_pr_tips_plnt_man_u_v_1e_add
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_man_energy_upkeep_add value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[矿石产出]
+		name = z_pr_tips_mod_pop_job_p_v_1m
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	is_variable_set = z_pr_var_minerals_produces_base }
+		hidden_effect = {}
+	}
+	option = {#_[矿石维护]
+		name = z_pr_tips_mod_pop_job_u_v_1m
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	is_variable_set = z_pr_var_minerals_upkeep_base }
+		hidden_effect = {}
+	}
+	option = {#_[人力矿石维护]
+		name = z_pr_tips_plnt_man_u_v_1m_add
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_man_minerals_upkeep_add value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[食物产出]
+		name = z_pr_tips_mod_pop_job_p_v_1f
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	is_variable_set = z_pr_var_food_produces_base }
+		hidden_effect = {}
+	}
+	option = {#_[食物维护]
+		name = z_pr_tips_mod_pop_job_u_v_1f
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	is_variable_set = z_pr_var_food_upkeep_base }
+		hidden_effect = {}
+	}
+	option = {#_[人力食物维护]
+		name = z_pr_tips_plnt_man_u_v_1f_add
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_man_food_upkeep_add value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[2a产出]
+		name = z_pr_tips_mod_pop_job_p_v_2a
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	is_variable_set = z_pr_var_alloys_produces_base }
+		hidden_effect = {}
+	}
+	option = {#_[2a维护]
+		name = z_pr_tips_mod_pop_job_u_v_2a
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	is_variable_set = z_pr_var_alloys_upkeep_base }
+		hidden_effect = {}
+	}
+	option = {#_[alloys 人力]
+		name = z_pr_tips_alloys_man
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_man_alloys_upkeep_add value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[2c产出]
+		name = z_pr_tips_mod_pop_job_p_v_2c
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_consumer_goods_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[2c维护]
+		name = z_pr_tips_mod_pop_job_u_v_2c
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_consumer_goods_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[人力2c维护]
+		name = z_pr_tips_plnt_man_u_v_2c_add
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_man_consumer_goods_upkeep_add value > 0 } }
+		hidden_effect = {}
+	}
+	
+	option = {#_[3rc产出]
+		name = z_pr_tips_mod_pop_job_p_v_3rc
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_rare_crystals_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[人力3rc产出]
+		name = z_pr_tips_plnt_man_p_v_3rc_add
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_man_rare_crystals_produces_add value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[3rc维护]
+		name = z_pr_tips_mod_pop_job_u_v_3rc
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_rare_crystals_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[3eg产出]
+		name = z_pr_tips_mod_pop_job_p_v_3eg
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_exotic_gases_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[人力3eg产出]
+		name = z_pr_tips_plnt_man_p_v_3eg_add
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_man_exotic_gases_produces_add value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[3eg维护]
+		name = z_pr_tips_mod_pop_job_u_v_3eg
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_exotic_gases_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[3vm产出]
+		name = z_pr_tips_mod_pop_job_p_v_3vm
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_volatile_motes_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[人力3vm产出]
+		name = z_pr_tips_plnt_man_p_v_3vm_add
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_man_volatile_motes_produces_add value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[3vm维护]
+		name = z_pr_tips_mod_pop_job_u_v_3vm
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_volatile_motes_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	
+	option = {#_[rp产出]
+		name = z_pr_tips_pop_job_p_v_rp
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_physics_research_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[physics_research 人力]
+		name = z_pr_tips_physics_research_man
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_man_physics_research_produces_add value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[re产出]
+		name = z_pr_tips_pop_job_p_v_re
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_engineering_research_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[physics_research 人力]
+		name = z_pr_tips_engineering_research_man
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_man_engineering_research_produces_add value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[rs产出]
+		name = z_pr_tips_pop_job_p_v_rs
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_society_research_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[society_research 人力]
+		name = z_pr_tips_society_research_man
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_man_society_research_produces_add value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[ru产出]
+		name = z_pr_tips_pop_job_p_v_ru
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_unity_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[ru维护]
+		name = z_pr_tips_pop_job_u_v_ru
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_unity_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[unity 人力]
+		name = z_pr_tips_unity_man
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_man_unity_produces_add value > 0 } }
+		hidden_effect = {}
+	}
+	
+	option = {#_[slm产出]
+		name = z_pr_tips_mod_pop_job_p_v_slm
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_sr_living_metal_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[slm维护]
+		name = z_pr_tips_mod_pop_job_u_v_slm
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_sr_living_metal_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[zro产出]
+		name = z_pr_tips_mod_pop_job_p_v_zro
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_sr_zro_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[zro维护]
+		name = z_pr_tips_mod_pop_job_u_v_zro
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_sr_zro_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[dm产出]
+		name = z_pr_tips_mod_pop_job_p_v_dm
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_sr_dark_matter_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[dm维护]
+		name = z_pr_tips_mod_pop_job_u_v_dm
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_sr_dark_matter_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[nnt产出]
+		name = z_pr_tips_mod_pop_job_p_v_nnt
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_nanites_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[nnt维护]
+		name = z_pr_tips_mod_pop_job_u_v_nnt
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_nanites_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+
+	option = {#_[ma产出]
+		name = z_pr_tips_mod_pop_job_p_v_ma
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_minor_artifacts_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[influence 产出]
+		name = z_pr_tips_influence_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_installed	check_variable = { which = z_pr_var_influence_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	
+	#_[碧蓝航线DLC]
+	option = {#_[mind_club 产出]
+		name = z_pr_tips_mind_club_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_azl		check_variable = { which = z_pr_var_mind_club_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[mind_club 维护]
+		name = z_pr_tips_mind_club_upkeep_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_azl		check_variable = { which = z_pr_var_mind_club_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[azur_shippartbox 产出]
+		name = z_pr_tips_azur_shippartbox_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_azl		check_variable = { which = z_pr_var_azur_shippartbox_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	#_[舰R]
+	option = {#_[sr_pantsu 产出]
+		name = z_pr_tips_sr_pantsu_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_wsg		check_variable = { which = z_pr_var_sr_pantsu_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[sr_pantsu 维护]
+		name = z_pr_tips_sr_pantsu_upkeep_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_wsg		check_variable = { which = z_pr_var_sr_pantsu_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[sr_neo 产出]
+		name = z_pr_tips_sr_neo_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_wsg		check_variable = { which = z_pr_var_sr_neo_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[sr_neo 维护]
+		name = z_pr_tips_sr_neo_upkeep_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_wsg		check_variable = { which = z_pr_var_sr_neo_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[sr_alpha 产出]
+		name = z_pr_tips_sr_alpha_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_wsg		check_variable = { which = z_pr_var_sr_alpha_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[sr_alpha 维护]
+		name = z_pr_tips_sr_alpha_upkeep_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_wsg		check_variable = { which = z_pr_var_sr_alpha_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[sr_se 产出]
+		name = z_pr_tips_sr_se_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_wsg		check_variable = { which = z_pr_var_sr_se_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[sr_se 维护]
+		name = z_pr_tips_sr_se_upkeep_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_wsg		check_variable = { which = z_pr_var_sr_se_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	#_[星舰少女]
+	option = {#_[sr_kyber_swgs 产出]
+		name = z_pr_tips_sr_kyber_swgs_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_SWGS		check_variable = { which = z_pr_var_sr_kyber_swgs_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[sr_tibanna_swgs 产出]
+		name = z_pr_tips_sr_tibanna_swgs_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_SWGS		check_variable = { which = z_pr_var_sr_tibanna_swgs_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	#_[灰烬]
+	option = {#_[sr_crystal_adf 产出]
+		name = z_pr_tips_sr_crystal_adf_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_ADF		check_variable = { which = z_pr_var_sr_crystal_adf_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[sr_parts_adf 产出]
+		name = z_pr_tips_sr_parts_adf_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_ADF		check_variable = { which = z_pr_var_sr_parts_adf_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	#_[涅托]
+	option = {#_[GF_nyto_collapse_liquid 产出]
+		name = z_pr_tips_GF_nyto_collapse_liquid_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_NYTO		check_variable = { which = z_pr_var_GF_nyto_collapse_liquid_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[GF_nyto_collapse_liquid 人力]
+		name = z_pr_tips_GF_nyto_collapse_liquid_man
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_NYTO		check_variable = { which = z_pr_var_man_GF_nyto_collapse_liquid_upkeep_add value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[GF_nyto_dark_star_core 人力]
+		name = z_pr_tips_GF_nyto_dark_star_core_man
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_NYTO		check_variable = { which = z_pr_var_man_GF_nyto_dark_star_core_produces_add value > 0 } }
+		hidden_effect = {}
+	}
+	#_[约战]
+	option = {#_[datealive_crystals 产出]
+		name = z_pr_tips_datealive_crystals_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_DAL		check_variable = { which = z_pr_var_datealive_crystals_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[datealive_crystals 维护]
+		name = z_pr_tips_datealive_crystals_upkeep_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_DAL		check_variable = { which = z_pr_var_datealive_crystals_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	#_[苍蓝]
+	option = {#_[nanomaterial 产出]
+		name = z_pr_tips_nanomaterial_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_ARP		check_variable = { which = z_pr_var_nanomaterial_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[nanomaterial 维护]
+		name = z_pr_tips_nanomaterial_upkeep_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_ARP		check_variable = { which = z_pr_var_nanomaterial_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[union_core 产出]
+		name = z_pr_tips_union_core_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_ARP		check_variable = { which = z_pr_var_union_core_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	
+	#_[ACOT]
+	option = {#_[acot_sr_dark_energy 产出]
+		name = z_pr_tips_acot_sr_dark_energy_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_ACOT		check_variable = { which = z_pr_var_acot_sr_dark_energy_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[acot_sr_dark_energy 维护]
+		name = z_pr_tips_acot_sr_dark_energy_upkeep_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_ACOT		check_variable = { which = z_pr_var_acot_sr_dark_energy_upkeep_base value > 0 } }
+		hidden_effect = {}
+	}
+	option = {#_[acot_sr_stellarite 产出]
+		name = z_pr_tips_acot_sr_stellarite_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_ACOT		check_variable = { which = z_pr_var_acot_sr_stellarite_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+	#_|Giga|
+	option = {#_[ehof_sr_sentient_metal 产出]
+		name = z_pr_tips_ehof_sr_sentient_metal_produces_base
+		custom_gui = "z_mm_button_evt_option_desc"
+		trigger = { has_global_flag = z_pr_patch_installed_mod_Giga		check_variable = { which = z_pr_var_ehof_sr_sentient_metal_produces_base value > 0 } }
+		hidden_effect = {}
+	}
+}

@@ -1,0 +1,15 @@
+###_无尽群星	前置占位符	##############################################################
+
+#_[繁星物语]	主图
+
+
+spriteTypes = {
+
+	###_[繁星物语]	###################################################
+	##_[主图]
+	spriteType = {
+		name = "GFX_cover_eof_intro"
+		texturefile = "gfx/interface/z_is_stuffs/z_mm_button_evt_option_bg.dds"
+	}
+	
+}

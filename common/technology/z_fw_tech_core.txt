@@ -1,0 +1,79 @@
+###_z fw core techs	#########################################################################################
+#_[开局科技]
+#_[AP添加]
+#_[缺省]
+
+
+
+
+###_[AP添加]
+z_fw_tech_core_start_boost = {
+	icon = tech_z_dummy
+	area = physics
+	cost = 0
+	tier = 1
+	category = { computing }
+	is_rare = yes
+	is_reverse_engineerable = no
+	weight = 0
+	ai_weight = {
+		weight = 0
+	}
+
+	modifier = {
+	}
+	feature_flags = {
+		tech_automated_exploration	#_自动探索
+		unlocks_auto_research		#_自动科研
+	}
+}
+
+
+###_[AP添加]
+tech_ascensions_perks = {
+	icon = tech_z_dummy
+	area = society
+	cost = 0
+	tier = 5
+	category = { statecraft }
+	levels = -1
+	is_rare = yes
+	is_reverse_engineerable = no
+	weight = 0
+	
+	modifier = {
+		ascension_perks_add = 1
+	}
+
+	
+	ai_weight = {
+		weight = 0
+	}
+	weight_groups = {
+		repeatable
+	}
+}
+
+
+###_缺省
+tech_z_dummy = {
+	area = society
+	cost = 1750000
+	tier = 5
+	category = { statecraft }
+	
+	is_rare = yes
+	is_reverse_engineerable = no
+	weight = 0
+	potential = { is_ai = yes }
+	
+	modifier = {
+		ascension_perks_add = 1
+	}
+	ai_weight = {
+		weight = 0
+	}
+	weight_groups = {
+		factor = 0
+	}
+}

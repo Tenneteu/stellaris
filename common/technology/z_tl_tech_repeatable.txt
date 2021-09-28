@@ -1,0 +1,251 @@
+#_[高级科研物理/高级科研社会/高级科研工程]
+
+@adv = 100
+@cost_1 = 50000
+@cost_2 = 100000
+@cost_3 = 200000
+
+
+
+
+###_[高级科研物理]
+z_fw_tech_advr_physics_1 = {#_+10
+	area = physics
+	cost = @cost_1
+	cost_per_level = 0
+	tier = 5
+	category = { z_fw_tech_cat_adv_phy }
+	levels = -1
+	
+	weight = @adv
+	weight_modifier = { factor = 25 }
+	modifier = {
+	}
+	
+	potential = {
+		is_variable_set = z_fw_var_cntr_advr_phy_lv
+		check_variable = { which = z_fw_var_cntr_advr_phy_lv value = 1 }
+	}
+	ai_weight = {
+		factor = 1.0
+		modifier = {
+			weight = 10000
+			is_variable_set = z_fw_var_cntr_advr_phy_lv
+			check_variable = { which = z_fw_var_cntr_advr_phy_lv value = 1 }
+		}
+	}
+}
+z_fw_tech_advr_physics_2 = {#_+20
+	area = physics
+	cost = @cost_2
+	cost_per_level = 0
+	tier = 5
+	category = { z_fw_tech_cat_adv_phy }
+	levels = -1
+	
+	weight = @adv
+	weight_modifier = { factor = 25 }
+	modifier = {
+	}
+	
+	potential = {
+		is_variable_set = z_fw_var_cntr_advr_phy_lv
+		check_variable = { which = z_fw_var_cntr_advr_phy_lv value = 2 }
+	}
+	ai_weight = {
+		factor = 1.0
+		modifier = {
+			weight = 10000
+			is_variable_set = z_fw_var_cntr_advr_phy_lv
+			check_variable = { which = z_fw_var_cntr_advr_phy_lv value = 2 }
+		}
+	}
+}
+z_fw_tech_advr_physics_3 = {#_+40
+	area = physics
+	cost = @cost_3
+	cost_per_level = 0
+	tier = 5
+	category = { z_fw_tech_cat_adv_phy }
+	levels = -1
+	
+	weight = @adv
+	weight_modifier = { factor = 25 }
+	modifier = {
+	}
+	
+	potential = {
+		is_variable_set = z_fw_var_cntr_advr_phy_lv
+		check_variable = { which = z_fw_var_cntr_advr_phy_lv value = 3 }
+	}
+	ai_weight = {
+		factor = 1.0
+		modifier = {
+			weight = 10000
+			is_variable_set = z_fw_var_cntr_advr_phy_lv
+			check_variable = { which = z_fw_var_cntr_advr_phy_lv value = 3 }
+		}
+	}
+}
+
+
+###_[高级科研社会]
+z_fw_tech_advr_society_1 = {#_+10
+	area = society
+	cost = @cost_1
+	cost_per_level = 0
+	tier = 5
+	category = { z_fw_tech_cat_adv_soc }
+	levels = -1
+	
+	weight = @adv
+	weight_modifier = { factor = 25 }
+	modifier = {
+	}
+	
+	potential = {
+		is_variable_set = z_fw_var_cntr_advr_soc_lv
+		check_variable = { which = z_fw_var_cntr_advr_soc_lv value = 1 }
+	}
+	ai_weight = {
+		factor = 1.0
+		modifier = {
+			weight = 10000
+			is_variable_set = z_fw_var_cntr_advr_soc_lv
+			check_variable = { which = z_fw_var_cntr_advr_soc_lv value = 1 }
+		}
+	}
+}
+z_fw_tech_advr_society_2 = {#_+20
+	area = society
+	cost = @cost_2
+	cost_per_level = 0
+	tier = 5
+	category = { z_fw_tech_cat_adv_soc }
+	levels = -1
+	
+	weight = @adv
+	weight_modifier = { factor = 25 }
+	modifier = {
+	}
+	
+	potential = {
+		is_variable_set = z_fw_var_cntr_advr_soc_lv
+		check_variable = { which = z_fw_var_cntr_advr_soc_lv value = 2 }
+	}
+	ai_weight = {
+		factor = 1.0
+		modifier = {
+			weight = 10000
+			is_variable_set = z_fw_var_cntr_advr_soc_lv
+			check_variable = { which = z_fw_var_cntr_advr_soc_lv value = 2 }
+		}
+	}
+}
+z_fw_tech_advr_society_3 = {#_+40
+	area = society
+	cost = @cost_3
+	cost_per_level = 0
+	tier = 5
+	category = { z_fw_tech_cat_adv_soc }
+	levels = -1
+	
+	weight = @adv
+	weight_modifier = { factor = 25 }
+	modifier = {
+	}
+	
+	potential = {
+		is_variable_set = z_fw_var_cntr_advr_soc_lv
+		check_variable = { which = z_fw_var_cntr_advr_soc_lv value = 3 }
+	}
+	ai_weight = {
+		factor = 1.0
+		modifier = {
+			weight = 10000
+			is_variable_set = z_fw_var_cntr_advr_soc_lv
+			check_variable = { which = z_fw_var_cntr_advr_soc_lv value = 3 }
+		}
+	}
+}
+
+
+###_[高级科研工程]
+z_fw_tech_advr_engineering_1 = {#_+10
+	area = engineering
+	cost = @cost_1
+	cost_per_level = 0
+	tier = 5
+	category = { z_fw_tech_cat_adv_eng }
+	levels = -1
+	
+	weight = @adv
+	weight_modifier = { factor = 25 }
+	modifier = {
+	}
+	
+	potential = {
+		is_variable_set = z_fw_var_cntr_advr_eng_lv
+		check_variable = { which = z_fw_var_cntr_advr_eng_lv value = 1 }
+	}
+	ai_weight = {
+		factor = 1.0
+		modifier = {
+			weight = 10000
+			is_variable_set = z_fw_var_cntr_advr_eng_lv
+			check_variable = { which = z_fw_var_cntr_advr_eng_lv value = 1 }
+		}
+	}
+}
+z_fw_tech_advr_engineering_2 = {#_+20
+	area = engineering
+	cost = @cost_2
+	cost_per_level = 0
+	tier = 5
+	category = { z_fw_tech_cat_adv_eng }
+	levels = -1
+	
+	weight = @adv
+	weight_modifier = { factor = 25 }
+	modifier = {
+	}
+	
+	potential = {
+		is_variable_set = z_fw_var_cntr_advr_eng_lv
+		check_variable = { which = z_fw_var_cntr_advr_eng_lv value = 2 }
+	}
+	ai_weight = {
+		factor = 1.0
+		modifier = {
+			weight = 10000
+			is_variable_set = z_fw_var_cntr_advr_eng_lv
+			check_variable = { which = z_fw_var_cntr_advr_eng_lv value = 2 }
+		}
+	}
+}
+z_fw_tech_advr_engineering_3 = {#_+40
+	area = engineering
+	cost = @cost_3
+	cost_per_level = 0
+	tier = 5
+	category = { z_fw_tech_cat_adv_eng }
+	levels = -1
+	
+	weight = @adv
+	weight_modifier = { factor = 25 }
+	modifier = {
+	}
+	
+	potential = {
+		is_variable_set = z_fw_var_cntr_advr_eng_lv
+		check_variable = { which = z_fw_var_cntr_advr_eng_lv value = 3 }
+	}
+	ai_weight = {
+		factor = 1.0
+		modifier = {
+			weight = 10000
+			is_variable_set = z_fw_var_cntr_advr_eng_lv
+			check_variable = { which = z_fw_var_cntr_advr_eng_lv value = 3 }
+		}
+	}
+}

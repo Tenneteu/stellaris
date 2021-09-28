@@ -1,0 +1,17 @@
+###_ÎÞ¾¡ÈºÐÇ framework-MISC	##############################################################
+
+#_[UI]
+
+
+
+
+spriteTypes = {
+
+	###_[UI]	####################################################
+	#_[cover]
+	spriteType = {
+		name = "GFX_z_rts_ui_evt_img_small"
+		textureFile = "gfx/interface/z_modmenu/z_rts_evt_img_small.dds"
+	}
+	
+}

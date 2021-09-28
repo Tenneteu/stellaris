@@ -1,0 +1,15 @@
+###_[框架_MISC]	#############################################################################################
+
+#_[mod安装检测器]
+
+
+
+
+###_[mod安装检测器]
+z_fw_mod_installed = {
+#	parent = country
+#	use_for_ai_budget = yes
+	generate_add_modifiers = {
+		produces
+	}
+}

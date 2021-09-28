@@ -1,0 +1,74 @@
+###_z lctr---relics	##########################################################################
+
+#_vanila variables
+@activation_cost = 150
+@triumph_duration = 3600
+@triumph_duration_short = 1800
+@triumph_duration_veryshort = 900
+
+
+
+
+#_苍雪山矩阵
+z_lctr_r_adv_sensor = {
+	activation_duration = 0
+	portrait = "GFX_z_lctr_r_adv_sensor"
+	sound = "relic_activation_the_omnicodex"
+	
+	ai_weight = { weight = 0 }
+	score = 500
+
+	resources = {
+		category = relics
+		cost = { influence = 50 }
+	}
+
+	active_effect = {
+		custom_tooltip = z_lctr_r_adv_sensor_effect
+		hidden_effect = {
+			## 地图全开
+		#	set_timed_country_flag = { flag = z_lctr_r_adv_sensor_activated_full days = 360 }
+		#	set_timed_country_flag = { flag = z_lctr_r_adv_sensor_activated days = 3600 }
+			
+			## 探测范围
+			if = {
+				limit = { has_modifier = z_lctr_mod_cntr_sensor }
+				remove_modifier = z_lctr_mod_cntr_sensor
+			}
+			else = {
+				add_modifier = { modifier = z_lctr_mod_cntr_sensor days = -1 }
+			}
+			
+			## 揭秘星系		POI=z_lctr_poi_sstm_revealed.$NUM$
+			# init
+			set_timed_country_flag = { flag = z_lctr_flg_cntr_sstm_revealed days = 87 }	#_|时限内禁止清理|
+			country_event = { id = z_lctr.3 days = 90 }
+			z_lctr_eft_cntr_revealed_sstm_clear = yes
+			# 1
+			random_system = { limit = { is_surveyed = { who = prev status = no } }
+				z_lctr_prmt_eft_sstm_revealed_sstm = { NUM = 1 }
+			}
+			# 2
+			random_list = {
+				2 = {}
+				1 = {
+					random_system = { limit = { is_surveyed = { who = prev status = no } }
+						z_lctr_prmt_eft_sstm_revealed_sstm = { NUM = 2 }
+					}
+				}
+			}
+			# 3
+			random_list = {
+				4 = {}
+				1 = {
+					random_system = { limit = { is_surveyed = { who = prev status = no } }
+						z_lctr_prmt_eft_sstm_revealed_sstm = { NUM = 3 }
+					}
+				}
+			}
+		}
+	}
+
+	# Possible check for activation
+	possible = { always = yes }
+}

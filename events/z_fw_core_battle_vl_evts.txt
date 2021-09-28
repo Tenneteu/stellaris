@@ -1,0 +1,524 @@
+###_infinite stellaris core 战争_数值限制	####################################################################
+namespace = z_fw_core_battle_vl
+
+#_[vl_版本升级]
+
+#_[vl_国家基础修正_自检/vl_国家基础修正_延时DB]
+#_[vl_获得星系/vl_合并附庸/vl_释放附庸]
+
+#_[vl_舰队修正_订正]
+#_[vl_舰队修正_init/vl_舰队修正_debug]
+
+#_[vl_cd清零/vl_精确修正_订正]
+#_[vl_精确修正_init/vl_精确修正_debug]
+#_[vl_mod_opt_精确修正]
+
+
+
+
+###_[vl_版本升级][id=10]	##################################################################
+country_event = {
+	id = z_fw_core_battle_vl.10
+	hide_window = yes
+	mean_time_to_happen = { days = 23 }
+	fire_only_once = yes
+	trigger = { is_ai = no }
+	
+	immediate = {
+		z_fw_eft_glbl_vl_setting_cntr = yes
+		z_fw_eft_glbl_vl_setting_debug = yes
+	}
+}
+
+
+
+
+###_[vl_国家基础修正_自检][id=1]	设置cd/vl_国家基础修正/vl_舰体溢出抑制/接续debug	##################################################################
+#	<vl_设置完成cntr/核心月度debug>
+country_event = {
+	id = z_fw_core_battle_vl.1
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_country_flag = z_fw_flg_cntr_vl_cd } }	#_|一日间隔|
+	immediate = {
+		###_[设置cd]
+		set_timed_country_flag = { flag = z_fw_flg_cntr_vl_cd days = 1 }
+
+
+		###_[vl_国家基础修正]	vl_国家基础修正_debug/vl_国家基础修正_执行
+		if = { limit = { z_fw_trgr_glbl_battle_vl_basic = yes }
+			
+			if = {
+				limit = {#频率优化	pc=月度/ai=4月
+					OR = {
+						NOT = { has_country_flag = VL_flg_cntr_debug_cntr_ongoing }	#_|国家基础修正ing|
+						is_ai = no
+						AND = { is_ai = yes
+							exists = event_target:z_fw_tgt_global_event
+							event_target:z_fw_tgt_global_event = {
+								is_variable_set = z_fw_var_glbl_month
+								OR = {
+									check_variable = { which = z_fw_var_glbl_month value = 1 }
+									check_variable = { which = z_fw_var_glbl_month value = 5 }
+									check_variable = { which = z_fw_var_glbl_month value = 9 }
+								}
+							}
+						}
+					}
+				}
+				set_country_flag = VL_flg_cntr_debug_cntr_ongoing
+				
+				##_[vl_国家基础修正_debug]	<核心年度debug>添加触发器
+				if = { limit = { has_country_flag = z_fw_flg_cntr_vl_basic_debug_ready }	#_|vl_国家基础修正_DB触发|
+					z_fw_eft_cntr_vl_basic_factor_debug = yes
+				}
+				##_[vl_国家基础修正_执行]	造船/星基/军队/建设/巨构
+				else = {
+				
+					# 造船
+					if = {#_|灭绝|
+						limit = { OR = { has_civic = civic_fanatic_purifiers		has_civic = civic_hive_devouring_swarm		has_civic = civic_machine_terminator } }
+						z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_shipyard_build_cost_mult				 LOWER = 0.45 }
+					}
+					else_if = { limit = { always = yes }	#_|其他|
+						z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_shipyard_build_cost_mult				 LOWER = 0.55 }
+					}
+					# 星基
+					z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_upgrade_cost_mult					 LOWER = 0.5 }
+					z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_modules_cost_mult					 LOWER = 0.5 }
+					z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_buildings_cost_mult					 LOWER = 0.5 }
+					# 军队
+					z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = armies_cost_mult								 LOWER = 0.5 }
+					# 建设
+					z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = planet_structures_cost_mult					 LOWER = 0.25 }
+					z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = planet_buildings_cost_mult					 LOWER = 0.5 }
+					z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = planet_districts_cost_mult					 LOWER = 0.5 }
+					# 巨构
+					z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = megastructure_build_cost_mult					 LOWER = 0.5 }
+					
+					if = {#进阶
+						limit = { z_fw_trgr_glbl_battle_vl_more = yes }
+						z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_shipyard_build_speed_mult			 UPPER = 8.0 }
+					#	z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = ships_upkeep_mult								 LOWER = 0.5 }
+						# 星基
+						z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_upgrade_speed_mult					 UPPER = 8.0 }
+						z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_module_build_speed_mult				 UPPER = 9.0 }
+						z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_building_build_speed_mult			 UPPER = 9.0 }
+						# 军队
+						z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = planet_army_build_speed_mult					 UPPER = 10.0 }
+						# 建设
+						z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = planet_building_build_speed_mult				 UPPER = 9.0 }
+						# 巨构
+						z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = megastructure_build_speed_mult				 UPPER = 14.0 }
+					}
+				}
+			}
+			
+		}
+		##_[vl_国家基础修正_归零]
+		else_if = { limit = { has_country_flag = VL_flg_cntr_debug_cntr_ongoing }
+			remove_country_flag = VL_flg_cntr_debug_cntr_ongoing
+			z_fw_eft_cntr_vl_basic_clear = yes
+		}
+
+
+		###_[vl_舰体溢出抑制]
+		if = {
+			limit = {
+				OR = {
+					has_global_flag = z_fw_flg_glbl_battle_vl_2		#_|完全模式|
+					has_global_flag = vl_flg_glbl_hull_overflow_fix	#_|舰体溢出限制器|
+				}
+			}
+			
+			##_[参数计算]	vl_舰体溢出抑制_参量
+			if = { limit = { has_global_flag = vl_flg_glbl_complex }#_复杂
+			
+				##_[船体]	积分基数init/阵营权重DB/最小积分init/参数计算/添加mod		/clear	#################################
+				
+				#_[积分基数init]	设定のhull参数
+				set_variable = { which = TEMP_var_cntr_vl_cal_base			value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_hull_mult }	#_|积分基数|=<npc0>|血|
+				#_|阵营权重DB|
+				if = { limit = { OR = { z_fw_trgr_cntr_vl_faction_monster = yes				z_fw_trgr_cntr_vl_faction_lev = yes } }	#_野怪
+					multiply_variable = { which = TEMP_var_cntr_vl_cal_base			value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_faction_mult_monster }
+				}
+				else_if = { limit = { OR = { z_fw_trgr_cntr_vl_faction_crisis = yes			z_fw_trgr_cntr_vl_faction_threat = yes } }	#_天灾
+					multiply_variable = { which = TEMP_var_cntr_vl_cal_base			value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_faction_mult_crisis }
+				}
+				else_if = { limit = { OR = { z_fw_trgr_cntr_vl_faction_ai = yes				z_fw_trgr_cntr_vl_faction_fallen = yes } }	#_ai
+					multiply_variable = { which = TEMP_var_cntr_vl_cal_base			value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_faction_mult_ai }
+				}
+				else_if = { limit = { always = yes }	#_其他
+					multiply_variable = { which = TEMP_var_cntr_vl_cal_base			value = event_target:z_fw_tgt_global_event.z_fw_var_set_vl_faction_mult_default }
+				}
+				
+				#_[最小积分init]	设定のhull参数×0.1
+				set_variable = { which = TEMP_var_cntr_vl_cal_min value = TEMP_var_cntr_vl_cal_base }
+				multiply_variable = { which = TEMP_var_cntr_vl_cal_min value = 0.1 }
+				
+				#_[vl_舰体溢出抑制_参量]
+				z_fw_eft_prmt_cntr_hull_OF_factor = { MOD = ship_hull_mult }	#舰体
+				z_fw_eft_prmt_cntr_hull_OF_factor = { MOD = shipclass_military_station_hull_mult }	#空间站
+				
+				#_clear
+				if = { limit = { is_variable_set = TEMP_var_cntr_vl_cal_base }				clear_variable = TEMP_var_cntr_vl_cal_base }		#_|积分基数|
+				if = { limit = { is_variable_set = TEMP_var_cntr_vl_cal_min }				clear_variable = TEMP_var_cntr_vl_cal_min }			#_|最小积分|
+			}
+			else_if = { limit = { always = yes }#_简化
+				z_fw_eft_prmt_cntr_hull_OF_simp_factor = {#_|舰体|
+					CAT = attrib
+					MOD = ship_hull_mult
+				}
+				z_fw_eft_prmt_cntr_hull_OF_simp_factor = {#_|空间站|
+					CAT = attrib
+					MOD = shipclass_military_station_hull_mult
+				}
+			}
+			
+			##_[添加mod]
+			#_|船体|
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 16384 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 8192 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 4096 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 2048 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 1024 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 512 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 256 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 128 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 64 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 32 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 16 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 8 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 7 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 6 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 5 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 4 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 3 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 2 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = ship_hull_mult VALUE = 1 }
+			#_|空间站|
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 2048 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 1024 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 512 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 256 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 128 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 64 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 32 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 16 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 8 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 7 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 6 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 5 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 4 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 3 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 2 }
+			z_fw_eft_prmt_cntr_hull_OF_add_mod = { MOD = shipclass_military_station_hull_mult VALUE = 1 }
+			
+			##_[clear]	vl_舰体溢出抑制_清理余数
+			z_fw_eft_prmt_cntr_hull_OF_clean_remainder = { MOD = ship_hull_mult }
+			z_fw_eft_prmt_cntr_hull_OF_clean_remainder = { MOD = shipclass_military_station_hull_mult }
+		}
+		##_[vl_舰体溢出抑制_归零]
+		else_if = { limit = { always = yes }	z_fw_eft_prmt_cntr_hull_OF_clear = yes }
+	}
+}
+
+
+###_[vl_国家基础修正_延时DB]	<vl_国家基础修正_debug>
+#_list		造船/星基/军队/建设/巨构
+country_event = {
+	id = z_fw_core_battle_vl.11
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		# 造船
+		if = {#_|灭绝|
+			limit = { OR = { has_civic = civic_fanatic_purifiers		has_civic = civic_hive_devouring_swarm		has_civic = civic_machine_terminator } }
+			z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_shipyard_build_cost_mult				 LOWER = 0.45 }
+		}
+		else_if = { limit = { always = yes }	#_|其他|
+			z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_shipyard_build_cost_mult				 LOWER = 0.55 }
+		}
+		# 星基
+		z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_upgrade_cost_mult					 LOWER = 0.5 }
+		z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_modules_cost_mult					 LOWER = 0.5 }
+		z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_buildings_cost_mult					 LOWER = 0.5 }
+		# 军队
+		z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = armies_cost_mult								 LOWER = 0.5 }
+		# 建设
+		z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = planet_structures_cost_mult					 LOWER = 0.25 }
+		z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = planet_buildings_cost_mult					 LOWER = 0.5 }
+		z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = planet_districts_cost_mult					 LOWER = 0.5 }
+		# 巨构
+		z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = megastructure_build_cost_mult					 LOWER = 0.5 }
+		
+		if = {#进阶
+			limit = { z_fw_trgr_glbl_battle_vl_more = yes }
+			z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_shipyard_build_speed_mult			 UPPER = 8.0 }
+		#	z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = ships_upkeep_mult								 LOWER = 0.5 }
+			# 星基
+			z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_upgrade_speed_mult					 UPPER = 8.0 }
+			z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_module_build_speed_mult				 UPPER = 9.0 }
+			z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = starbase_building_build_speed_mult			 UPPER = 9.0 }
+			# 军队
+			z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = planet_army_build_speed_mult					 UPPER = 10.0 }
+			# 建设
+			z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = planet_building_build_speed_mult				 UPPER = 9.0 }
+			# 巨构
+			z_fw_eft_prmt_cntr_vl_basic_execute = { MOD = megastructure_build_speed_mult				 UPPER = 14.0 }
+		}
+	}
+}
+
+
+
+
+	
+
+
+
+###_[vl_获得星系][id=13]	<on_system_gained>	##################################################################
+# From = system
+# FromFrom = country (previous owner)
+# This = country (new owner)
+country_event = {
+	id = z_fw_core_battle_vl.13
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		from = {
+			every_fleet_in_system = {
+				limit = {
+					is_ship_class = shipclass_starbase				#_星基
+					is_ship_class = shipclass_military_station
+					is_ship_class = shipclass_mining_station		#_矿站
+					is_ship_class = shipclass_research_station		#_研究站
+					is_ship_class = shipclass_observation_station	#_观察站
+				}
+				#_[CD初始化]
+				remove_fleet_flag = z_fw_flg_fleet_debug_cd
+				
+				#_[vl_精确修正_订正]
+				if = { limit = { is_in_combat = yes }		fleet_event = { id = z_fw_core_battle_vl.30 days = 1 } }
+				#_[vl_舰队修正_订正]
+				else = { fleet_event = { id = z_fw_core_battle_vl.20 days = 1 } }
+			}
+		}
+	}
+}
+
+
+
+
+###_[vl_合并附庸][id=14]	<on_subject_integrated>	##################################################################
+# This = overlord
+# From = subject
+country_event = {
+	id = z_fw_core_battle_vl.14
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		every_owned_fleet = {
+			#_[vl_舰队初始化]
+			remove_fleet_flag = z_fw_flg_fleet_debug_cd
+			#_[vl_精确修正_订正]
+			if = { limit = { is_in_combat = yes }		fleet_event = { id = z_fw_core_battle_vl.30 days = 1 } }
+			#_[vl_舰队修正_订正]
+			else = { fleet_event = { id = z_fw_core_battle_vl.20 days = 1 } }
+		}
+		from = {
+			every_owned_fleet = {
+				#_[vl_舰队初始化]
+				remove_fleet_flag = z_fw_flg_fleet_debug_cd
+				#_[vl_精确修正_订正]
+				if = { limit = { is_in_combat = yes }		fleet_event = { id = z_fw_core_battle_vl.30 days = 1 } }
+				#_[vl_舰队修正_订正]
+				else = { fleet_event = { id = z_fw_core_battle_vl.20 days = 1 } }
+			}
+		}
+	}
+}
+###_[vl_释放附庸]	<on_subject_integrated>	#################################
+# This = released vassal
+# From = overlord
+country_event = {
+	id = z_fw_core_battle_vl.141
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		every_owned_fleet = {
+			#_[vl_舰队初始化]
+			remove_fleet_flag = z_fw_flg_fleet_debug_cd
+			#_[vl_精确修正_订正]
+			if = { limit = { is_in_combat = yes }		fleet_event = { id = z_fw_core_battle_vl.30 days = 1 } }
+			#_[vl_舰队修正_订正]
+			else = { fleet_event = { id = z_fw_core_battle_vl.20 days = 1 } }
+		}
+		from = {
+			every_owned_fleet = {
+				#_[vl_舰队初始化]
+				remove_fleet_flag = z_fw_flg_fleet_debug_cd
+				#_[vl_精确修正_订正]
+				if = { limit = { is_in_combat = yes }		fleet_event = { id = z_fw_core_battle_vl.30 days = 1 } }
+				#_[vl_舰队修正_订正]
+				else = { fleet_event = { id = z_fw_core_battle_vl.20 days = 1 } }
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+###_[vl_舰队修正_订正]
+fleet_event = {
+	id = z_fw_core_battle_vl.20
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_fleet_flag = z_fw_flg_fleet_debug_cd } }
+	immediate = {
+		fleet_event = { id = z_fw_core_battle_vl.2 }
+	}
+}
+
+###_[vl_舰队修正_init][id=2]	vl_舰队初始化/vl_舰队修正_debug/vl_舰队CD	#################################
+#_默认直接执行,所有判断都在前置eft完成
+fleet_event = {
+	id = z_fw_core_battle_vl.2
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		#_[vl_舰队初始化]
+		z_fw_eft_flt_vl_init = yes
+		kuat_eft_flt_vl_init = yes	#_[阿夸]
+		#_[vl_舰队修正_debug]
+		fleet_event = { id = z_fw_core_battle_vl.21 }
+		#_[vl_舰队CD]
+		remove_fleet_flag = z_fw_flg_fleet_debug_cd
+		set_timed_fleet_flag = { flag = z_fw_flg_fleet_debug_cd days = 123 }	#_|季度|
+	}
+}
+
+
+###_[vl_舰队修正_debug]
+fleet_event = {
+	id = z_fw_core_battle_vl.21
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		z_fw_trgr_glbl_battle_vl_basic = yes		#_|vl_基础trgr|
+		exists = event_target:z_fw_tgt_global_event	#_|存在npc0|
+	}
+	immediate = {
+		z_fw_eft_flt_vl_debug = yes	#_[vl_舰船修正_debug]
+	}
+}
+
+
+
+
+
+
+
+
+###_[vl_cd清零]
+fleet_event = {
+	id = z_fw_core_battle_vl.300
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		remove_fleet_flag = z_fw_flg_fleet_debug_cd
+	}
+}
+###_[vl_精确修正_订正]
+fleet_event = {
+	id = z_fw_core_battle_vl.30
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_fleet_flag = z_fw_flg_fleet_debug_cd } }
+	immediate = {
+	
+	#	if = {#_战斗舰队若为玩家操控,触发弹窗
+	#		limit = {#_	z测试
+	#			any_combatant_fleet = { owner = { is_ai = no } }
+	#			
+	#		}
+	#		random_combatant_fleet = { limit = { owner = { is_ai = no } }
+	#			owner = { country_event = { id = z_modmenu.1103 } }
+	#		}
+	#	}
+	
+		fleet_event = { id = z_fw_core_battle_vl.3 }
+	}
+}
+
+
+###_[vl_精确修正_init][id=3]	vl_船只初始化/vl_精确修正_debug/vl_舰队CD	#################################
+#_默认直接执行,所有判断都在前置eft完成
+fleet_event = {
+	id = z_fw_core_battle_vl.3
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		#_[vl_船只初始化]
+		z_fw_eft_ship_vl_init = yes
+		kuat_eft_flt_vl_init = yes	#_[阿夸]
+		#_[vl_精确修正_debug]
+		every_owned_ship = { ship_event = { id = z_fw_core_battle_vl.31 } }
+		#_[vl_舰队CD]
+		remove_fleet_flag = z_fw_flg_fleet_debug_cd
+		if = {#_军舰
+			limit = {
+				OR = {
+					is_ship_class = shipclass_military
+					is_ship_class = shipclass_military_station
+					is_ship_class = shipclass_starbase
+				}
+			}
+			set_timed_fleet_flag = { flag = z_fw_flg_fleet_debug_cd days = 41 }	#_|2月|
+		}
+		else_if = {#_民用
+			limit = { always = yes }
+			set_timed_fleet_flag = { flag = z_fw_flg_fleet_debug_cd days = 123 }	#_|季度|
+		}
+	}
+}
+
+###_[vl_精确修正_debug]
+ship_event = {
+	id = z_fw_core_battle_vl.31
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_disabled = no	#_|激活状态|
+		z_fw_trgr_glbl_battle_vl_basic = yes		#_|vl_基础trgr|
+		exists = event_target:z_fw_tgt_global_event	#_|存在npc0|
+	}
+	immediate = {
+		z_fw_eft_flt_vl_debug = yes	#_[vl_舰船修正_debug]
+	}
+}
+
+
+###_[vl_mod_opt_精确修正]	z未使用
+ship_event = {
+	id = z_fw_core_battle_vl.32
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		z_fw_eft_flt_vl_debug = yes	#_[vl_舰船修正_debug]
+	}
+}
+
+
+
+
+
+

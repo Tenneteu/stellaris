@@ -1,0 +1,85 @@
+###_[z_fw_core] 战争 数值限制	mod联动	###########################################################
+
+#_[阿夸]
+
+
+
+
+###_[阿夸]	############################################################
+
+#_prmt	|MOD|
+kuat_eft_flt_vl_init_prmt_basic = {
+	remove_modifier = basic_$MOD$
+}
+#_prmt	|MOD|
+kuat_eft_flt_vl_init_prmt_basical = {
+	remove_modifier = basical_$MOD$
+}
+#_prmt	|MOD|
+kuat_eft_flt_vl_init_prmt_change_basic = {
+	remove_modifier = change_basic_$MOD$
+}
+#_prmt	|MOD|
+kuat_eft_flt_vl_init_prmt_change_basical = {
+	remove_modifier = change_basical_$MOD$
+}
+
+#_|基础/进阶/完全|
+kuat_eft_flt_vl_init = {
+	if = { limit = { has_global_flag = install_kuat_mod }
+		
+		#_[基础]
+		if = {
+			limit = {
+				z_fw_trgr_glbl_battle_vl_basic = yes
+				z_mm_trgr_glbl_rts = yes
+			}
+		
+			remove_modifier = ship_firing_debuff
+			remove_modifier = ship_firing_default_debuff_own
+			remove_modifier = ship_firing_debuff_invisiable_protection
+			
+			kuat_eft_flt_vl_init_prmt_basic = { MOD = ship_shield_penetration_mult }
+			kuat_eft_flt_vl_init_prmt_basic = { MOD = ship_armor_penetration_mult }
+			kuat_eft_flt_vl_init_prmt_change_basic = { MOD = ship_shield_penetration_mult }
+			kuat_eft_flt_vl_init_prmt_change_basic = { MOD = ship_armor_penetration_mult }
+		}
+		
+		#_[进阶]
+		if = { limit = { z_fw_trgr_glbl_battle_vl_more = yes }
+		
+			kuat_eft_flt_vl_init_prmt_basic = { MOD = ship_weapon_range_mult }
+			kuat_eft_flt_vl_init_prmt_basic = { MOD = ship_fire_rate_mult }
+			
+			kuat_eft_flt_vl_init_prmt_change_basic = { MOD = ship_weapon_range_mult }
+			kuat_eft_flt_vl_init_prmt_change_basic = { MOD = ship_fire_rate_mult }
+		}
+		
+		#_[完全]
+		if = { limit = { z_fw_trgr_glbl_battle_vl_all = yes }
+		
+			kuat_eft_flt_vl_init_prmt_basic = { MOD = ship_weapon_damage }
+		#	kuat_eft_flt_vl_init_prmt_basic = { MOD = ship_hull_mult }
+			kuat_eft_flt_vl_init_prmt_basic = { MOD = ship_armor_mult }
+		#	kuat_eft_flt_vl_init_prmt_basic = { MOD = ship_shield_mult }
+			
+			kuat_eft_flt_vl_init_prmt_basical = { MOD = weapon_type_energy_weapon_damage_mult }
+			kuat_eft_flt_vl_init_prmt_basical = { MOD = weapon_type_kinetic_weapon_damage_mult }
+			kuat_eft_flt_vl_init_prmt_basical = { MOD = weapon_type_explosive_weapon_damage_mult }
+			
+			kuat_eft_flt_vl_init_prmt_change_basic = { MOD = ship_weapon_damage }
+		#	kuat_eft_flt_vl_init_prmt_change_basic = { MOD = ship_hull_mult }
+			kuat_eft_flt_vl_init_prmt_change_basic = { MOD = ship_armor_mult }
+		#	kuat_eft_flt_vl_init_prmt_change_basic = { MOD = ship_shield_mult }
+			
+			kuat_eft_flt_vl_init_prmt_change_basical = { MOD = weapon_type_energy_weapon_damage_mult }
+			kuat_eft_flt_vl_init_prmt_change_basical = { MOD = weapon_type_kinetic_weapon_damage_mult }
+			kuat_eft_flt_vl_init_prmt_change_basical = { MOD = weapon_type_explosive_weapon_damage_mult }
+			
+		#	remove_modifier = iep_basic_ship_hull_mult
+		#	remove_modifier = iep_change_basic_ship_hull_mult
+		}
+	}
+}
+
+

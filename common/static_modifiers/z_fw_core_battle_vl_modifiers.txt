@@ -1,0 +1,472 @@
+###_z fw modifiers 核心-vl数值限制	################################################################################
+
+#_[vl_战舰debug]		移速/射程/射速	/伤害	/血/甲/盾	/穿透
+#_[vl_国家基础debug]	造船/星基/军队/建设/巨构
+#_[vl_舰体溢出抑制]		舰体/空间站
+#_[废弃]
+
+
+
+
+###_[射程]	################################################
+
+#_[移速]
+z_fw_mod_flt_vl_speed_reduc = {
+	ship_speed_reduction = 1
+}
+z_fw_mod_flt_vl_speed_common = {
+	ship_speed_mult = 1
+}
+z_fw_mod_flt_vl_speed_base = {
+	ship_base_speed_mult = 1
+}
+
+
+#_[射程]
+z_fw_mod_flt_vl_range = {
+	ship_weapon_range_mult = 1
+}
+
+
+#_[射速]
+z_fw_mod_flt_vl_rate_disp = {#_绝望
+	force_disparity_fire_rate_mult = 1
+}
+z_fw_mod_flt_vl_rate_territory = {#_本土	|flt|
+	ship_home_territory_fire_rate_mult = 1
+}
+z_fw_mod_flt_vl_rate_all = {#_全
+	ship_fire_rate_mult = 1
+}
+z_fw_mod_flt_vl_rate_g = {#_爆
+	weapon_type_explosive_weapon_fire_rate_mult = 1
+}
+z_fw_mod_flt_vl_rate_k = {#_动
+	weapon_type_kinetic_weapon_fire_rate_mult = 1
+}
+z_fw_mod_flt_vl_rate_e = {#_能
+	weapon_type_energy_weapon_fire_rate_mult = 1
+}
+z_fw_mod_flt_vl_rate_h = {#_航
+	weapon_type_strike_craft_weapon_fire_rate_mult = 1
+}
+z_fw_mod_flt_vl_rate_pd = {#_PD	---z禁用
+	weapon_type_point_defense_weapon_fire_rate_mult = 1
+}
+
+
+#_[伤害]
+z_fw_mod_flt_vl_damage_all = {#_全
+	ship_weapon_damage = 1
+}
+z_fw_mod_flt_vl_damage_g = {#_爆
+	weapon_type_explosive_weapon_damage_mult = 1
+}
+z_fw_mod_flt_vl_damage_k = {#_动
+	weapon_type_kinetic_weapon_damage_mult = 1
+}
+z_fw_mod_flt_vl_damage_e = {#_能
+	weapon_type_energy_weapon_damage_mult = 1
+}
+z_fw_mod_flt_vl_damage_h = {#_航
+	weapon_type_strike_craft_weapon_damage_mult = 1
+}
+z_fw_mod_flt_vl_damage_pd = {#_PD	---z禁用
+	weapon_type_point_defense_weapon_damage_mult = 1
+}
+
+z_fw_mod_flt_vl_damage_class_ms = {#_防御平台
+	shipclass_military_station_damage_mult = 1
+}
+
+
+#_[血]
+z_fw_mod_flt_vl_hull = {
+	ship_hull_mult = 1
+}
+#_[甲]
+z_fw_mod_flt_vl_armor = {
+	ship_armor_mult = 1
+}
+#_[盾]
+z_fw_mod_flt_vl_shield = {
+	ship_shield_mult = 1
+}
+
+
+#_[穿透]
+vl_mod_ship_shield_penetration = {
+	ship_shield_penetration_mult = 1
+}
+vl_mod_ship_armor_penetration = {
+	ship_armor_penetration_mult = 1
+}
+
+
+
+
+
+
+
+
+###_[vl_国家基础debug]	造船/星基/军队/建设/巨构	################################################
+##_[造船]
+vl_mod_cntr_starbase_shipyard_build_cost_mult = {#花费>0.5
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_cost_mult = 1
+}
+vl_mod_cntr_starbase_shipyard_build_speed_mult = {#速度<5.0
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_speed_mult = 1
+}
+vl_mod_cntr_ships_upkeep_mult = {#维护>0.5
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	ships_upkeep_mult = 1
+}
+##_[星基]
+vl_mod_cntr_starbase_upgrade_cost_mult = {#升级花费>0.5
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_upgrade_cost_mult = 1
+}
+vl_mod_cntr_starbase_upgrade_speed_mult = {#升级速度<5.0
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_upgrade_speed_mult = 1
+}
+vl_mod_cntr_starbase_modules_cost_mult = {#星基模块花费>0.5
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_modules_cost_mult = 1
+}
+vl_mod_cntr_starbase_module_build_speed_mult = {#星基模块速度<5.0
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_module_build_speed_mult = 1
+}
+vl_mod_cntr_starbase_buildings_cost_mult = {#星基建筑花费>0.5
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_buildings_cost_mult = 1
+}
+vl_mod_cntr_starbase_building_build_speed_mult = {#星基建筑速度<5.0
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_building_build_speed_mult = 1
+}
+##_[军队]
+vl_mod_cntr_armies_cost_mult = {#军队话费>0.5
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	armies_cost_mult = 1
+}
+vl_mod_cntr_planet_army_build_speed_mult = {#军队速度<7.5
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	planet_army_build_speed_mult = 1
+}
+##_[建设]
+vl_mod_cntr_planet_structures_cost_mult = {#设施花费>0.2
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	planet_structures_cost_mult = 1
+}
+vl_mod_cntr_planet_buildings_cost_mult = {#建筑花费>0.5
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	planet_buildings_cost_mult = 1
+}
+vl_mod_cntr_planet_building_build_speed_mult = {#建筑速度<5.0
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	planet_building_build_speed_mult = 1
+}
+vl_mod_cntr_planet_districts_cost_mult = {#区划花费>0.5
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	planet_districts_cost_mult = 1
+}
+##_[巨构]
+vl_mod_cntr_megastructure_build_cost_mult = {#建设>0.5
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	megastructure_build_cost_mult = 1
+}
+vl_mod_cntr_megastructure_build_speed_mult = {#速度<7.5
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	megastructure_build_speed_mult = 1
+}
+
+
+
+
+
+
+
+
+###_[舰体]	################################################
+vl_mod_ship_hull_mult_1 = {
+	icon = GFX_vl_mod_ship_hull_mult
+#	icon_frame = 1
+#	important = yes		#在星球上显示?
+#	custom_tooltip = xxx
+#	show_only_custom_tooltip = yes
+	hide_from_country_list = yes
+	ship_hull_mult = -1
+}
+vl_mod_ship_hull_mult_2 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -2
+}
+vl_mod_ship_hull_mult_3 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -3
+}
+vl_mod_ship_hull_mult_4 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -4
+}
+vl_mod_ship_hull_mult_5 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -5
+}
+vl_mod_ship_hull_mult_6 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -6
+}
+vl_mod_ship_hull_mult_7 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -7
+}
+vl_mod_ship_hull_mult_8 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -8
+}
+vl_mod_ship_hull_mult_16 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -16
+}
+vl_mod_ship_hull_mult_32 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -32
+}
+vl_mod_ship_hull_mult_64 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -64
+}
+vl_mod_ship_hull_mult_128 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -128
+}
+vl_mod_ship_hull_mult_256 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -256
+}
+vl_mod_ship_hull_mult_512 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -512
+}
+vl_mod_ship_hull_mult_1024 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -1024
+}
+vl_mod_ship_hull_mult_2048 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -2048
+}
+vl_mod_ship_hull_mult_4096 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -4096
+}
+vl_mod_ship_hull_mult_8192 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -8192
+}
+vl_mod_ship_hull_mult_16384 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	ship_hull_mult = -16384
+}
+
+###_[空间站]
+vl_mod_shipclass_military_station_hull_mult_1 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -1
+}
+vl_mod_shipclass_military_station_hull_mult_2 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -2
+}
+vl_mod_shipclass_military_station_hull_mult_3 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -3
+}
+vl_mod_shipclass_military_station_hull_mult_4 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -4
+}
+vl_mod_shipclass_military_station_hull_mult_5 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -5
+}
+vl_mod_shipclass_military_station_hull_mult_6 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -6
+}
+vl_mod_shipclass_military_station_hull_mult_7 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -7
+}
+vl_mod_shipclass_military_station_hull_mult_8 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -8
+}
+vl_mod_shipclass_military_station_hull_mult_16 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -16
+}
+vl_mod_shipclass_military_station_hull_mult_32 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -32
+}
+vl_mod_shipclass_military_station_hull_mult_64 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -64
+}
+vl_mod_shipclass_military_station_hull_mult_128 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -128
+}
+vl_mod_shipclass_military_station_hull_mult_256 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -256
+}
+vl_mod_shipclass_military_station_hull_mult_512 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -512
+}
+vl_mod_shipclass_military_station_hull_mult_1024 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -1024
+}
+vl_mod_shipclass_military_station_hull_mult_2048 = {
+	icon = GFX_vl_mod_ship_hull_mult
+	hide_from_country_list = yes
+	shipclass_military_station_hull_mult = -2048
+}
+
+
+
+
+
+
+
+
+###_[废弃]	z禁用
+vl_mod_starbase_shipyard_build_cost_mult_1 = {
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_cost_mult = 0.01
+}
+vl_mod_starbase_shipyard_build_cost_mult_2 = {
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_cost_mult = 0.02
+}
+vl_mod_starbase_shipyard_build_cost_mult_3 = {
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_cost_mult = 0.03
+}
+vl_mod_starbase_shipyard_build_cost_mult_4 = {
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_cost_mult = 0.04
+}
+vl_mod_starbase_shipyard_build_cost_mult_5 = {
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_cost_mult = 0.05
+}
+vl_mod_starbase_shipyard_build_cost_mult_6 = {
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_cost_mult = 0.06
+}
+vl_mod_starbase_shipyard_build_cost_mult_7 = {
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_cost_mult = 0.07
+}
+vl_mod_starbase_shipyard_build_cost_mult_8 = {
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_cost_mult = 0.08
+}
+vl_mod_starbase_shipyard_build_cost_mult_16 = {
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_cost_mult = 0.16
+}
+vl_mod_starbase_shipyard_build_cost_mult_32 = {
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_cost_mult = 0.32
+}
+vl_mod_starbase_shipyard_build_cost_mult_64 = {
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_cost_mult = 0.64
+}
+vl_mod_starbase_shipyard_build_cost_mult_128 = {
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_cost_mult = 1.28
+}
+vl_mod_starbase_shipyard_build_cost_mult_256 = {
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_cost_mult = 2.56
+}
+vl_mod_starbase_shipyard_build_cost_mult_512 = {
+	icon = GFX_vl_mod_starbase_shipyard_build_cost_mult
+	hide_from_country_list = yes
+	starbase_shipyard_build_cost_mult = 5.12
+}
+

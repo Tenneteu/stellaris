@@ -1,0 +1,295 @@
+###_无尽群星	eft占位符	###############################################################################
+
+#_[安装检测/PR_patch安装自检/图鉴系统debug]
+#_[z_pf2]
+#_[产业革命]
+
+
+
+
+###_[安装检测]	#################################################
+#没有安装兼容,自动去掉兼容标签
+#没有原mod,自动去掉兼容标签
+#所有控制代码都在[框架]进行,以便通过框架进行控制和更新
+
+#_[属性优化]
+z_fw_eft_mod_installed_z_ba = {
+	if = { limit = { has_global_flag = z_rts_installed }		remove_global_flag = z_rts_installed }
+}
+
+#_[pr_azl安装自检]
+z_fw_eft_mod_installed_pr_azl = {
+	if = { limit = { has_global_flag = z_pr_patch_installed_mod_azl }		remove_global_flag = z_pr_patch_installed_mod_azl }
+}
+z_fw_eft_mod_installed_pr_azl_activated = {#_回调控制器
+	if = {# 添加
+		limit = {
+			exists = event_target:z_fw_tgt_global_event
+			event_target:z_fw_tgt_global_event = { check_modifier_value = { modifier = z_fw_mod_installed_mind_club_produces_add value >= 1 } }	#_存在|碧蓝航线|资源
+		}
+		if = { limit = { NOT = { has_global_flag = pr_mod_comp_auto_check_off } }	#_|pr_关闭自检|非
+			set_global_flag = z_pr_patch_installed_mod_azl
+		}
+	}
+	else_if = {# 清理
+		limit = { has_global_flag = z_pr_patch_installed_mod_azl }
+		remove_global_flag = z_pr_patch_installed_mod_azl
+	}
+}
+
+#_[pr_wsg安装自检]
+z_fw_eft_mod_installed_pr_wsg = {
+	if = { limit = { has_global_flag = z_pr_patch_installed_mod_wsg }		remove_global_flag = z_pr_patch_installed_mod_wsg }
+}
+z_fw_eft_mod_installed_pr_wsg_activated = {#_回调控制器
+	if = {# 添加
+		limit = {
+			exists = event_target:z_fw_tgt_global_event
+			event_target:z_fw_tgt_global_event = { check_modifier_value = { modifier = z_fw_mod_installed_sr_pantsu_produces_add value >= 1 } }	#_存在|舰R|资源
+		}
+		if = { limit = { NOT = { has_global_flag = pr_mod_comp_auto_check_off } }	#_|pr_关闭自检|非
+			set_global_flag = z_pr_patch_installed_mod_wsg
+		}
+	}
+	else_if = {# 清理
+		limit = { has_global_flag = z_pr_patch_installed_mod_wsg }
+		remove_global_flag = z_pr_patch_installed_mod_wsg
+	}
+}
+
+#_[pr_CG安装自检]
+z_fw_eft_mod_installed_pr_wsg = {
+	if = { limit = { has_global_flag = z_pr_patch_installed_mod_CG }		remove_global_flag = z_pr_patch_installed_mod_CG }
+}
+z_fw_eft_mod_installed_pr_wsg_activated = {#_回调控制器
+	if = {# 添加
+		limit = {
+			exists = event_target:z_fw_tgt_global_event
+			event_target:z_fw_tgt_global_event = { check_modifier_value = { modifier = z_fw_mod_installed_sr_beauty_produces_add value >= 1 } }	#_存在|舰R|资源
+		}
+		if = { limit = { NOT = { has_global_flag = pr_mod_comp_auto_check_off } }	#_|pr_关闭自检|非
+			set_global_flag = z_pr_patch_installed_mod_CG
+		}
+	}
+	else_if = {# 清理
+		limit = { has_global_flag = z_pr_patch_installed_mod_CG }
+		remove_global_flag = z_pr_patch_installed_mod_CG
+	}
+}
+
+#_[pr_ACOT安装自检]
+z_fw_eft_mod_installed_pr_ACOT = {
+	if = { limit = { has_global_flag = z_pr_patch_installed_mod_ACOT }		remove_global_flag = z_pr_patch_installed_mod_ACOT }
+}
+z_fw_eft_mod_installed_pr_ACOT_activated = {#_回调控制器
+	if = {# 添加
+		limit = {
+			exists = event_target:z_fw_tgt_global_event
+			event_target:z_fw_tgt_global_event = { check_modifier_value = { modifier = z_fw_mod_installed_acot_sr_dark_energy_produces_add value >= 1 } }	#_存在|ACOT|资源
+		}
+		if = { limit = { NOT = { has_global_flag = pr_mod_comp_auto_check_off } }	#_|pr_关闭自检|非
+			set_global_flag = z_pr_patch_installed_mod_ACOT
+		}
+	}
+	else_if = {# 清理
+		limit = { has_global_flag = z_pr_patch_installed_mod_ACOT }
+		remove_global_flag = z_pr_patch_installed_mod_ACOT
+	}
+}
+
+#_[pr_Giga安装自检]
+z_fw_eft_mod_installed_pr_Giga = {
+	if = { limit = { has_global_flag = z_pr_patch_installed_mod_Giga }		remove_global_flag = z_pr_patch_installed_mod_Giga }
+}
+z_fw_eft_mod_installed_pr_Giga_activated = {#_回调控制器
+	if = {# 添加
+		limit = {
+			exists = event_target:z_fw_tgt_global_event
+			event_target:z_fw_tgt_global_event = { check_modifier_value = { modifier = z_fw_mod_installed_sr_iodizium_produces_add value >= 1 } }	#_存在|Giga|资源
+		}
+		if = { limit = { NOT = { has_global_flag = pr_mod_comp_auto_check_off } }	#_|pr_关闭自检|非
+			set_global_flag = z_pr_patch_installed_mod_Giga
+		}
+	}
+	else_if = {# 清理
+		limit = { has_global_flag = z_pr_patch_installed_mod_Giga }
+		remove_global_flag = z_pr_patch_installed_mod_Giga
+	}
+}
+
+
+###_[pr_patch安装自检]
+z_fw_eft_mod_installed_pr_patch = {
+	remove_global_flag = pr_patch_installed
+	remove_global_flag = z_pr_patch_installed_mod_SWGS
+	remove_global_flag = z_pr_patch_installed_mod_ADF
+	remove_global_flag = z_pr_patch_installed_mod_AG
+	remove_global_flag = z_pr_patch_installed_mod_Nirvana
+	remove_global_flag = z_pr_patch_installed_mod_ULT
+	remove_global_flag = z_pr_patch_installed_mod_NYTO
+	remove_global_flag = z_pr_patch_installed_mod_DAL
+}
+
+###_[PR_patch安装自检]	<z_fw_core.12>
+#_list		星舰少女/灰烬/涅托/约战/苍蓝
+z_fw_eft_glbl_PR_PATCH_installed_debug = {
+	if = {
+		limit = {
+			has_global_flag = pr_patch_installed
+			exists = event_target:z_fw_tgt_global_event
+		}
+		
+		event_target:z_fw_tgt_global_event = {
+			## 星舰少女
+			if = {# 添加
+				limit = { check_modifier_value = { modifier = z_fw_mod_installed_sr_kyber_swgs_produces_add value >= 1 } }	#_存在|星舰少女|资源
+				if = { limit = { NOT = { has_global_flag = pr_mod_comp_auto_check_off } }	#_|pr_关闭自检|非
+					set_global_flag = z_pr_patch_installed_mod_SWGS
+				}
+			}
+			else_if = {# 清理
+				limit = { has_global_flag = z_pr_patch_installed_mod_SWGS }
+				remove_global_flag = z_pr_patch_installed_mod_SWGS
+			}
+			
+			## 灰烬
+			if = {# 添加
+				limit = { check_modifier_value = { modifier = z_fw_mod_installed_sr_crystal_adf_produces_add value >= 1 } }	#_存在|灰烬|资源
+				if = { limit = { NOT = { has_global_flag = pr_mod_comp_auto_check_off } }	#_|pr_关闭自检|非
+					set_global_flag = z_pr_patch_installed_mod_ADF
+				}
+			}
+			else_if = {# 清理
+				limit = { has_global_flag = z_pr_patch_installed_mod_ADF }
+				remove_global_flag = z_pr_patch_installed_mod_ADF
+			}
+			
+			## 涅托
+			if = {# 添加
+				limit = { check_modifier_value = { modifier = z_fw_mod_installed_GF_nyto_collapse_liquid_produces_add value >= 1 } }	#_存在|涅托|资源
+				if = { limit = { NOT = { has_global_flag = pr_mod_comp_auto_check_off } }	#_|pr_关闭自检|非
+					set_global_flag = z_pr_patch_installed_mod_NYTO
+				}
+			}
+			else_if = {# 清理
+				limit = { has_global_flag = z_pr_patch_installed_mod_NYTO }
+				remove_global_flag = z_pr_patch_installed_mod_NYTO
+			}
+			
+			## 约战
+			if = {# 添加
+				limit = { check_modifier_value = { modifier = z_fw_mod_installed_datealive_crystals_produces_add value >= 1 } }	#_存在|约战|资源
+				if = { limit = { NOT = { has_global_flag = pr_mod_comp_auto_check_off } }	#_|pr_关闭自检|非
+					set_global_flag = z_pr_patch_installed_mod_DAL
+				}
+			}
+			else_if = {# 清理
+				limit = { has_global_flag = z_pr_patch_installed_mod_DAL }
+				remove_global_flag = z_pr_patch_installed_mod_DAL
+			}
+			
+			## 苍蓝
+			if = {# 添加
+				limit = { check_modifier_value = { modifier = z_fw_mod_installed_union_core_produces_add value >= 1 } }	#_存在|约战|资源
+				if = { limit = { NOT = { has_global_flag = pr_mod_comp_auto_check_off } }	#_|pr_关闭自检|非
+					set_global_flag = z_pr_patch_installed_mod_ARP
+				}
+			}
+			else_if = {# 清理
+				limit = { has_global_flag = z_pr_patch_installed_mod_ARP }
+				remove_global_flag = z_pr_patch_installed_mod_ARP
+			}
+			
+		}
+	}
+}
+
+
+
+
+###_[图鉴系统debug]		暗蓝/产业革命
+#	<z_modmenu.1/初始化_debug>
+z_fw_eft_mod_card_collection = {
+	if = { limit = { NOT = { has_global_flag = FW_flg_card_collection_CD } }
+		set_timed_global_flag = { flag = FW_flg_card_collection_CD days = 29 }
+		
+		## 暗蓝
+		z_mui_eft_installed_core = yes			# 暗蓝ui
+		z_mui_eft_installed_main_menu = yes		# 暗蓝主菜单
+		z_mui_eft_installed_plnt_ui = yes		# 暗蓝星球ui
+		z_mui_eft_installed_icons = yes			# 复古未来icon
+		z_mui_eft_installed_bg = yes			# 暗蓝背景
+		
+		## 产业革命
+		z_pr_eft_installed_core = yes			# 产业革命核心
+		# PR_patch安装自检/wsg/azl/giga/acot
+		
+	}
+}
+
+##_|暗蓝|
+z_mui_eft_installed_core = { remove_global_flag = z_mui_installed }		#_|暗蓝ui|
+z_mui_eft_installed_main_menu = { remove_global_flag = z_mui_installed_main_menu }	#_|暗蓝主菜单|
+z_mui_eft_installed_plnt_ui = { remove_global_flag = z_mui_installed_plnt_ui }	#_|暗蓝星球ui|
+z_mui_eft_installed_icons = { remove_global_flag = z_mui_installed_icons }	#_|复古未来icon|	#z待修
+z_mui_eft_installed_bg = { remove_global_flag = z_mui_installed_bg }	#_|暗蓝背景|	#z待修
+##_|产业革命|
+z_pr_eft_installed_core = { remove_global_flag = z_pr_installed }		#_|产业革命核心|
+
+
+
+
+
+
+
+
+###_[z_pf2]	#################################################
+z_pf_eft_cntr_merge_spcs_common = {}
+z_pf_eft_cntr_merge_spcs_robotic = {}
+z_pf2_eft_all_flt_opt_manual = {}
+z_pf2_eft_plnt_auto_immig_toggle = {}	#_[自动移民开关]
+z_pf2_eft_cntr_auto_immig_enable = {}
+z_pf2_eft_cntr_auto_immig_disable = {}
+z_pf_eft_cntr_heup_mig_ignore = {}		#_[迁出设置]
+z_pf_eft_cntr_heup_mig_default = {}
+z_pf2_eft_plnt_basic_debug = {}			#_[pf2_星球基础debug]
+z_pf_eft_cntr_heup_manual = {}			#_[国内迁移]
+
+
+
+
+
+
+
+
+###_[产业革命]	#################################################
+z_pr_eft_plnt_test_check = {}			#_[测试数据]
+
+z_pr_eft_cntr_man_mig = {}				#_[pr国家人力迁入]
+
+z_pr_eft_cntr_setting = {}				#_[pr设置面板]
+z_pr_eft_plnt_setting_complete = {}		#_[pr星球设置完成debug]
+z_pr_eft_cntr_revolution = {}			#_[pr完成革命]
+z_pr_eft_plnt_pop_cnvt_5 = {}			#_[p_pop转化5]
+z_pr_eft_plnt_pop_cnvt_25 = {}			#_[p_pop转化25]
+z_pr_eft_plnt_man_cnvt_full = {}		#_[p_man转化公民]
+z_pr_eft_plnt_man_cnvt_limited = {}		#_[p_man转化居留]
+z_pr_eft_plnt_man_cnvt_slavery = {}		#_[p_man转化奴隶]
+z_pr_eft_plnt_man_cnvt_servitude = {}	#_[p_man转化机仆]
+z_pr_eft_plnt_deputy_random_to_slavery = {}		#_[p_随机转奴隶]
+z_pr_eft_plnt_deputy_random_to_servitude = {}	#_[p_随机转机仆]
+z_pr_eft_plnt_deputy_random_to_full = {}		#_[p_随机转公民]
+
+z_pr_eft_plnt_job_check_delay = {}		#_[延时job检测]
+z_pr_eft_plnt_abandon = {}				#_[pr放弃殖民地]
+z_pr_eft_plnt_reserved_job_switch = {}	#_[后补岗位]
+
+azl_pr_eft_plnt_assimilation_materialist = {}	#_[碧蓝同化]
+azl_pr_eft_plnt_assimilation_spiritualist = {}
+
+z_pr_eft_cntr_man_mig = {}
+z_pr_eft_plnt_man_mig_5 = {}
+z_pr_eft_plnt_man_mig_25 = {}
+z_pr_eft_plnt_man_immig_5 = {}
+z_pr_eft_plnt_man_immig_25 = {}
+z_pr_eft_plnt_man_immig_full = {}

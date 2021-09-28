@@ -1,0 +1,249 @@
+###_[繁星物语]	#########################################################################
+#_[背景/事件图/特效/退出/详细说明/主菜单]
+
+
+guiTypes = {
+	containerWindowType = {
+		name = "gui_繁星物语intro"
+		size = { width = 1280 height = 780 }
+		moveable = yes
+		orientation = center
+		position = { x = -640 y = -390 }
+		
+		##_[背景]
+        background = { 
+            name = "bg"
+            position = { x = 0 y = 0 }
+            orientation = center
+			quadTextureSprite = "GFX_z_modmenu_window_bg_tile"
+            alwaystransparent = no
+        }		
+		##_[事件图]
+		containerWindowType = {
+			name = "gui_image"
+			size = { width = 1232 height = 494 }
+			moveable = no
+			orientation = upper_left
+			position = { x = 24 y = 54 }
+			background = {
+				name = "bg"
+				quadTextureSprite = "GFX_z_modmenu_window_bg_block"
+				alwaysTransparent = yes
+			}
+			iconType = {#_点击向右箭头
+				name = "gui_cover"
+				position = { x = 6 y = 6 }
+				quadTextureSprite = "GFX_cover_eof_intro"
+				alwaysTransparent = yes
+			}
+		}
+
+		effectButtonType = {
+			name = "empire_header_line"
+			orientation = upper_left
+			quadTextureSprite = "GFX_line_long"
+			position = { x = 4 y = 26 }
+			effect = "z_mm_bg_frames"
+			alwaysTransparent = yes
+		}
+		##_[特效]
+		effectButtonType = {
+			name = "gui_bg_fx"
+			orientation = upper_left
+			quadTextureSprite = "GFX_z_modmenu_window_bg_fx"
+			position = { x = -4 y = -4 }
+			effect = "z_mm_bg_frames"
+			alwaysTransparent = yes
+		}
+		##_[退出]
+		effectButtonType = {
+			name = "close"
+			quadTextureSprite = "GFX_close"
+			position = { x = -34 y = -4 }
+			Orientation = UPPER_RIGHT
+			clicksound = back_click
+			shortcut = "ESCAPE"
+			clicksound = "back_click"
+			effect = "z_modmenu_close_effect"
+		}
+
+		
+		###_	ALL OF THIS IS HIDDEN OR DISPLACED!	######################################################
+        buttonType = { name = "focus_button" position = { x = -1180 y = -1112 } spriteType = "GFX_fleetview_focus" } # hidden
+		instantTextBoxType = { name = "heading" font = "malgun_goth_24" position = { x = -1120 y = -115 } } # hidden
+		#buttonType = { name = "alien_message_background" size = { x = 0 y = 0 } position = { x = -1110 y = -11430 } spriteType = "GFX_tiles_dark_area_cut_8" } # hidden
+		buttonType = { name = "empire_flag" position = { x = -1125 y = -11235 } spriteType = "GFX_empire_flag_128" } # hidden
+		buttonType = { name = "confirm_button" quadTextureSprite = "GFX_standard_button_142_34_button" } # hidden
+		containerWindowType = {
+			name = "portrait_background"
+			position = { x = -1117 y = -1145 }
+			size = { width = 0 height = 0 }		# hide portrait window
+			#iconType = { name = "event_picture" spriteType = "GFX_diplomacy_portrait_frame" } # hidden
+			iconType = { name = "portrait" spriteType = "GFX_portrait_character" } # hidden
+		}
+		containerWindowType = {
+			name = "portrait"
+			position = { x = -1117 y = -1145 }
+			size = { width = 0 height = 0 } # hide portrait window
+			iconType = { name = "portrait" spriteType = "GFX_portrait_gamesetup_mask"  } # hidden
+			iconType = { name = "black_frame" spriteType = "GFX_diplomacy_portrait_shadow_frame" } # hidden
+			iconType = { name = "stripes_1" spriteType = "GFX_diplomacy_stripes_2" } # hidden
+			iconType = { name = "city_frame" spriteType = "GFX_diplomacy_portrait_frame" } # hidden
+		}
+		iconType = { name = "empire_info_bg" spriteType = "GFX_diplomacy_dark_fade_bg" } # hidden
+		instantTextBoxType={ name = "empire_name" font = "malgun_goth_24" } # hidden 
+		instantTextBoxType={ name = "empire_government_type" font = "cg_16b" } # hidden
+		instantTextBoxType={ name = "empire_personality_type" font = "cg_16b" } # hidden
+		OverlappingElementsBoxType = { name = "empire_ethics_icons" position = { x = -1145 y = -11138 } } # hidden
+		containerWindowType = {
+			name = "leader_details"
+			position = { x = -1125 y = -1175 }
+			containerWindowType = { name = "empire_traits_box" } # hidden
+			instantTextBoxType = { name = "empire_traits_label" font = "cg_16b" } # hidden
+			overlappingElementsBoxType = { name = "leader_traits" } # hidden
+			instantTextBoxType = { name = "leader_name" font = "cg_16b" } # hidden
+			instantTextBoxType = { name = "leader_species" font = "cg_16b" } # hidden
+		}
+		containerWindowType = {
+			name = "opinion_window"
+			position = { x = -1127 y = -11110 }
+			size = { width = 94 height = 30 }
+			iconType = { name = "their_opinion_icon" spriteType = "GFX_diplomacy_opinion" } # hidden
+			instantTextBoxType = { name = "their_opinion" font = "cg_16b" }
+		}
+		
+		
+		#_[详细说明]
+		instantTextBoxType={
+			name = "alien_message"
+			maxWidth = 700
+			maxHeight = 200
+			position = { x= 20 y = 560 }
+			borderSize = { x = 4 y = 4 }
+			format = center
+			font = "malgun_goth_24"
+			alwaysTransparent = no
+			scrollbartype = "standardtext_slider"
+		}
+		containerWindowType = {
+			name = "alien_message_frame"
+			size = { width = 708 height = 208 }
+			moveable = no
+			orientation = upper_left
+			position = { x = 24 y = 556 }
+			background = {
+				name = "bg"
+				quadTextureSprite = "GFX_z_modmenu_window_bg_block"
+				alwaysTransparent = yes
+			}
+		}
+
+
+		###_[主菜单]	##########################################
+	#	effectButtonType = {
+	#		name = "gui_z_mm_title_sp_mods"
+	#		orientation = upper_left
+	#		position = { x = 702 y = 50 }
+	#		scale = 1
+	#		spriteType = "GFX_z_mm_btn_false_text_cg_16b"
+	#		effect = "z_mm_btn_title_sp_mods"
+	#		text = "z_modmenu.3.name"
+	#		buttonFont = "cg_16b"
+	#		format = left
+	#		alwaysTransparent = yes
+	#	}
+		### EVENT DIPLO ###
+		containerWindowType = {
+			name = "EVENT_DIPLO"
+			orientation = upper_left
+			position = { x = 0 y = 0 }
+			size = { width = 600 height = 800 }
+			moveable = no
+		
+			#_[标题]
+			instantTextBoxType={		# Used for GNA_LEADER_NAME because I am stupid and can not find out another way
+				name = "action_title"
+				orientation = upper_left
+				position = { x = 8 y = 8 }
+				maxWidth = 450
+				maxHeight = 60
+				font = "large_title_font_28"
+				format = left
+				alwaysTransparent = yes
+			}
+			
+			instantTextBoxType={
+				name = "action_desc"
+				font = "cg_16b"
+				orientation = upper_left
+				position = { x = 0 y = 0 }
+				maxWidth = 500
+				maxHeight = 180
+				format = center
+				alwaysTransparent = yes
+				text_color_code = "H"
+			}
+			
+			#_[背景]
+			containerWindowType = {
+				name = "option_list_bg"
+				size = { width = 518 height = 210 }
+				moveable = no
+				orientation = upper_left
+				position = { x = 740 y = 555 }
+				background = {
+					name = "bg"
+					quadTextureSprite = "GFX_z_modmenu_window_bg_details"
+					alwaysTransparent = yes
+				}
+				#_按钮
+				buttonType = {
+					name = "gui_按钮1"
+					quadTextureSprite = "GFX_z_mm_button_evt_option_blue"
+					buttonText = "eof_core.link1"
+					buttonFont = "cg_16b"
+					position = { x = -11111 y = 5 }
+					pdx_tooltip = "eof_core.link1_desc"
+					web_link = "https://forum.paradoxplaza.com/forum/index.php?forums/stellaris.900/"
+				}
+				buttonType = {
+					name = "gui_按钮2"
+					quadTextureSprite = "GFX_z_mm_button_evt_option_blue"
+					buttonText = "eof_core.link2"
+					buttonFont = "cg_16b"
+					position = { x = -11111 y = 31 }
+					pdx_tooltip = "eof_core.link2_desc"
+					web_link = "https://forum.paradoxplaza.com/forum/index.php?forums/stellaris.900/"
+				}
+				buttonType = {
+					name = "gui_按钮3"
+					quadTextureSprite = "GFX_z_mm_button_evt_option_blue"
+					buttonText = "eof_core.link3"
+					buttonFont = "cg_16b"
+					position = { x = -11111 y = 57 }
+					pdx_tooltip = "eof_core.link3_desc"
+					web_link = "https://forum.paradoxplaza.com/forum/index.php?forums/stellaris.900/"
+				}
+				buttonType = {
+					name = "gui_按钮4"
+					quadTextureSprite = "GFX_z_mm_button_evt_option_blue"
+					buttonText = "eof_core.link4"
+					buttonFont = "cg_16b"
+					position = { x = -11111 y = 83 }
+					pdx_tooltip = "eof_core.link4_desc"
+					web_link = "https://forum.paradoxplaza.com/forum/index.php?forums/stellaris.900/"
+				}
+			}
+			
+			listboxType = {
+				name = "option_list"
+				orientation = upper_left
+				position = { x = 739 y = 564} 
+				size = { x = 576 y = 700 }
+				scrollbarType = "z_mm_listbox_slider"
+				background = ""
+			}
+		}
+	}
+	
+}

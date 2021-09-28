@@ -1,0 +1,132 @@
+###_z fw core techs	#########################################################################################
+#_[RTS战斗风格]
+
+
+
+
+###_[RTS战斗风格]
+#RTS_wepon_type_energy
+#RTS_wepon_type_kinetic
+#RTS_wepon_type_missile
+#RTS_wepon_type_strike_craft
+#RTS_wepon_type_piercing
+RTS_tech_core_WS_G = {#帝国海军-标准
+	icon = tech_z_dummy
+	area = engineering
+	cost = 0
+	tier = 1
+	category = { voidcraft }
+	
+	is_rare = yes
+	is_reverse_engineerable = no
+	weight = 0
+	potential = { is_ai = yes }
+	
+	weight = 0
+	ai_weight = {
+		weight = 0
+	}
+
+	modifier = {
+	}
+}
+RTS_tech_core_WS_CV = {#机动舰队-航母
+	icon = tech_z_dummy
+	area = engineering
+	cost = 0
+	tier = 1
+	category = { voidcraft }
+	
+	is_rare = yes
+	is_reverse_engineerable = no
+	weight = 0
+	potential = { is_ai = yes }
+	
+	weight = 0
+	ai_weight = {
+		weight = 0
+	}
+
+	modifier = {
+	}
+}
+RTS_tech_core_WS_RN = {#铁锈重工-红海军
+	icon = tech_z_dummy
+	area = engineering
+	cost = 0
+	tier = 1
+	category = { voidcraft }
+	
+	is_rare = yes
+	is_reverse_engineerable = no
+	weight = 0
+	potential = { is_ai = yes }
+	
+	weight = 0
+	ai_weight = {
+		weight = 0
+	}
+
+	modifier = {
+	}
+}
+RTS_tech_core_WS_T34 = {#钢铁浪潮-T34BB
+	icon = tech_z_dummy
+	area = engineering
+	cost = 0
+	tier = 1
+	category = { voidcraft }
+	
+	is_rare = yes
+	is_reverse_engineerable = no
+	weight = 0
+	potential = { is_ai = yes }
+	
+	weight = 0
+	ai_weight = {
+		weight = 0
+	}
+
+	modifier = {
+	}
+}
+RTS_tech_core_WS_FE = {#旧日荣光-堕落式
+	icon = tech_z_dummy
+	area = engineering
+	cost = 0
+	tier = 1
+	category = { voidcraft }
+	
+	is_rare = yes
+	is_reverse_engineerable = no
+	weight = 0
+	potential = { is_ai = yes }
+	
+	weight = 0
+	ai_weight = {
+		weight = 0
+	}
+
+	modifier = {
+	}
+}
+RTS_tech_core_WS_LS = {#末日孤舰-超兵器
+	icon = tech_z_dummy
+	area = engineering
+	cost = 0
+	tier = 1
+	category = { voidcraft }
+	
+	is_rare = yes
+	is_reverse_engineerable = no
+	weight = 0
+	potential = { is_ai = yes }
+	
+	weight = 0
+	ai_weight = {
+		weight = 0
+	}
+
+	modifier = {
+	}
+}
