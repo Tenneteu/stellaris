@@ -1,0 +1,31 @@
+namespace = ui_overhaul_qhd_ascension
+
+country_event = {
+    id = ui_overhaul_qhd_ascension.01
+	title = ui_overhaul_qhd_ascension.01.name
+	desc = ui_overhaul_qhd_ascension.01.desc
+	picture = GFX_evt_announcement
+	show_sound = event_announcement
+	location = root
+
+	is_triggered_only = yes
+
+	pre_triggers = {
+		is_ai = no
+	}
+
+ 	immediate = {
+ 		set_global_flag = ui_overhaul_qhd_ascension_tech_popup
+ 	}
+
+	option = {
+		name = ui_overhaul_qhd_ascension.01.a
+		hidden_effect = {
+			set_global_flag = ui_overhaul_qhd_ascension_tech_yes
+		}
+	}
+
+	option = {
+		name = ui_overhaul_qhd_ascension.01.b
+	}
+}

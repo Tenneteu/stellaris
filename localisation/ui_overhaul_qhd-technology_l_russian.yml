@@ -1,0 +1,7 @@
+﻿l_russian:
+ ui_tech_ascension_theory_repeatable:0 "$tech_ascension_theory$"
+ ui_tech_ascension_theory_repeatable_desc:0 "$tech_ascension_theory_desc$"
+ ui_overhaul_qhd_ascension.01.name:0 "UI Overhaul Dynamic - Repeatable Ascension Technology"
+ ui_overhaul_qhd_ascension.01.desc:0 "Do you wish to activate the repeatable ascension technology that's available in 'UI Overhaul Dynamic - Ascension Slots'?\n\nThis change affects all players."
+ ui_overhaul_qhd_ascension.01.a:0 "Yes."
+ ui_overhaul_qhd_ascension.01.b:0 "No."
