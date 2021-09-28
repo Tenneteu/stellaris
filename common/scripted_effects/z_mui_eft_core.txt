@@ -1,0 +1,2 @@
+###_|暗蓝星球ui|
+z_mui_eft_installed_core = { set_global_flag = z_mui_installed }
