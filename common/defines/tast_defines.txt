@@ -1,0 +1,4 @@
+	NGraphics = {
+		TRAILS_ALPHA_FADE					= 3 # Controls of quick we alpha fade-out
+		TRAILS_BASE_WIDTH					= 1.9 # Trails width
+	}
