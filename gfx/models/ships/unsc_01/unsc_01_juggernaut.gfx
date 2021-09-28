@@ -1,0 +1,32 @@
+objectTypes = {
+	pdxmesh = {
+		name = "unsc_01_juggernaut_frame_mesh"
+		file = "gfx/models/ships/unsc_01/unsc_01_juggernaut_frame.mesh"
+	}
+	
+	#bow	
+	pdxmesh = {
+		name = "unsc_01_juggernaut_mesh"
+		file = "gfx/models/ships/unsc_01/unsc_01_juggernaut.mesh"
+		scale = 6.0
+
+		meshsettings = {
+			name = "THANATOSShape"
+			index = 0
+			texture_diffuse = "unsc_01_thanatos_diffuse.dds"
+			texture_normal = "unsc_01_thanatos_normal.dds"
+			texture_specular = "unsc_01_thanatos_specular.dds"
+			shader = "PdxMeshShip"
+		}
+	}
+
+### Aesthetic Cinematic Gameplay Compatibility Patch ###
+
+	pdxmesh = {
+		name = "unsc_01_juggernaut_core2_mesh"
+		file = "gfx/models/ships/unsc_01/unsc_01_juggernaut_core2.mesh"
+		scale = 6.0
+	}
+	
+### Patch End ###
+}

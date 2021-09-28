@@ -1,0 +1,39 @@
+
+entity = {
+	name = "cov_01_mega_shipyard_01_stage_1_entity"
+	pdxmesh = "cov_01_mega_shipyard_01_stage_3_mesh"
+	locator = { name = "part1" }
+	locator = { name = "core" }
+	
+	default_state = "idle"
+	state = { name = "idle" state_time = 6.5 }
+	state = { name = "death" state_time = 6.6 looping = no 
+		event = { time = 6.5 node = "part1" particle = "juggernaut_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+}
+
+entity = {
+	name = "cov_01_mega_shipyard_01_stage_2_entity"
+	pdxmesh = "cov_01_mega_shipyard_01_stage_3_mesh"
+	locator = { name = "part1" }
+	locator = { name = "core" }
+	
+	default_state = "idle"
+	state = { name = "idle" state_time = 6.5 }
+	state = { name = "death" state_time = 6.6 looping = no 
+		event = { time = 6.5 node = "part1" particle = "juggernaut_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+}
+
+entity = {
+	name = "cov_01_mega_shipyard_01_stage_3_entity"
+	pdxmesh = "cov_01_mega_shipyard_01_stage_3_mesh"
+	locator = { name = "part1" }
+	locator = { name = "core" }
+	
+	default_state = "idle"
+	state = { name = "idle" state_time = 6.5 }
+	state = { name = "death" state_time = 6.6 looping = no 
+		event = { time = 6.5 node = "part1" particle = "juggernaut_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+}

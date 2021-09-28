@@ -1,0 +1,25 @@
+objectTypes = {
+	pdxmesh = {
+		name = "unsc_01_mega_shipyard_01_stage_3_mesh"
+		file = "gfx/models/ships/unsc_01/unsc_01_mega_shipyard.mesh"
+		scale = 0.846
+
+		meshsettings = {
+			name = "DockShape"
+			index = 0
+			texture_diffuse = "unsc_01_mega_shipyard_diffuse.dds"
+			texture_normal = "unsc_01_mega_shipyard_normal.dds"
+			texture_specular = "unsc_01_mega_shipyard_specular.dds"
+			shader = "PdxMeshShip"
+		}
+
+		meshsettings = {
+			name = "LabShape"
+			index = 0
+			texture_diffuse = "unsc_01_science_station_diffuse.dds"
+			texture_normal = "unsc_01_science_station_normal.dds"
+			texture_specular = "unsc_01_science_station_specular.dds"
+			shader = "PdxMeshShip"
+		}
+	}
+}

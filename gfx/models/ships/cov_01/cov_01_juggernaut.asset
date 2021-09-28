@@ -1,0 +1,66 @@
+entity = {
+	name = "cov_01_juggernaut_entity"
+	pdxmesh = "cov_01_juggernaut_frame_mesh"
+}
+
+entity = {
+	name = "cov_01_juggernaut_core_section_entity"
+	pdxmesh = "cov_01_juggernaut_mesh"
+	
+	default_state = "idle"
+	state = { name = "idle"	
+		start_event = { trigger_once = yes sound = { soundeffect = "mammalian_colossus_idle" } }
+	}
+	
+	state = { name = "moving" state_time = 5	
+		event = { trigger_once = yes sound = { soundeffect = "moving_out_colossus" } }
+	}
+	
+	state = { name = "death" 		
+		event = { time = 0.0 particle = "juggernaut_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+	state = { name = "death" 		
+		event = { time = 0.0 particle = "juggernaut_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+	state = { name = "death" 		
+		event = { time = 0.0 particle = "juggernaut_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+}
+
+### Aesthetic Cinematic Gameplay Compatibility Patch ###
+
+entity = {
+	name = "cov_01_juggernaut_core2_section_entity"
+	pdxmesh = "cov_01_juggernaut_core2_mesh"
+}
+
+entity = {
+	name = "cov_01_supercarrier_entity"
+	pdxmesh = "cov_01_juggernaut_frame_mesh"
+}
+
+entity = {
+	name = "cov_01_supercarrier_core_section_entity"
+	pdxmesh = "cov_01_juggernaut_mesh"
+	
+	default_state = "idle"
+	state = { name = "idle"	
+		start_event = { trigger_once = yes sound = { soundeffect = "mammalian_colossus_idle" } }
+	}
+	
+	state = { name = "moving" state_time = 5	
+		event = { trigger_once = yes sound = { soundeffect = "moving_out_colossus" } }
+	}
+	
+	state = { name = "death" 		
+		event = { time = 0.0 particle = "juggernaut_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+	state = { name = "death" 		
+		event = { time = 0.0 particle = "juggernaut_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+	state = { name = "death" 		
+		event = { time = 0.0 particle = "juggernaut_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+}
+
+### Patch End ###

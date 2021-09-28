@@ -1,0 +1,88 @@
+entity = {
+	name = "unsc_01_juggernaut_entity"
+	pdxmesh = "unsc_01_juggernaut_frame_mesh"
+	
+	game_data = {
+		size = 60
+	}
+}
+
+entity = {
+	name = "unsc_01_juggernaut_core_section_entity"
+	pdxmesh = "unsc_01_juggernaut_mesh"
+	
+	default_state = "idle"
+	state = { name = "idle"	
+		start_event = { trigger_once = yes sound = { soundeffect = "mammalian_colossus_idle" } }
+	}
+	
+	state = { name = "moving" state_time = 5	
+		event = { trigger_once = yes sound = { soundeffect = "moving_out_colossus" } }
+		event = { time = 0 node = "exhaust_huge" particle = "unsc_thanatos_huge_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "exhaust_big_l" particle = "unsc_thanatos_large_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "exhaust_big_r" particle = "unsc_thanatos_large_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "exhaust_small_r1" particle = "unsc_thanatos_small_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "exhaust_small_r2" particle = "unsc_thanatos_small_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "exhaust_small_l1" particle = "unsc_thanatos_small_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "exhaust_small_l2" particle = "unsc_thanatos_small_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
+	}
+	
+	state = { name = "death" 		
+		event = { time = 0.0 particle = "juggernaut_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+	state = { name = "death" 		
+		event = { time = 0.0 particle = "juggernaut_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+	state = { name = "death" 		
+		event = { time = 0.0 particle = "juggernaut_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+}
+
+### Aesthetic Cinematic Gameplay Compatibility Patch ###
+
+entity = {
+	name = "unsc_01_juggernaut_core2_section_entity"
+	pdxmesh = "unsc_01_juggernaut_core2_mesh"
+}
+
+entity = {
+	name = "unsc_01_supercarrier_entity"
+	pdxmesh = "unsc_01_juggernaut_frame_mesh"
+	
+	game_data = {
+		size = 60
+	}
+}
+
+entity = {
+	name = "unsc_01_supercarrier_core_section_entity"
+	pdxmesh = "unsc_01_juggernaut_mesh"
+	
+	default_state = "idle"
+	state = { name = "idle"	
+		start_event = { trigger_once = yes sound = { soundeffect = "mammalian_colossus_idle" } }
+	}
+	
+	state = { name = "moving" state_time = 5	
+		event = { trigger_once = yes sound = { soundeffect = "moving_out_colossus" } }
+		event = { time = 0 node = "exhaust_huge" particle = "unsc_thanatos_huge_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "exhaust_big_l" particle = "unsc_thanatos_large_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "exhaust_big_r" particle = "unsc_thanatos_large_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "exhaust_small_r1" particle = "unsc_thanatos_small_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "exhaust_small_r2" particle = "unsc_thanatos_small_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "exhaust_small_l1" particle = "unsc_thanatos_small_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "exhaust_small_l2" particle = "unsc_thanatos_small_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
+	}
+	
+	state = { name = "death" 		
+		event = { time = 0.0 particle = "juggernaut_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+	state = { name = "death" 		
+		event = { time = 0.0 particle = "juggernaut_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+	state = { name = "death" 		
+		event = { time = 0.0 particle = "juggernaut_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+}
+
+### Patch End ###

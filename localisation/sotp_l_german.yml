@@ -1,0 +1,31 @@
+﻿l_german:
+ FLAG_CATEGORY_halo:0 "Halo"
+ EMPIRE_DESIGN_UNSC:0 "Raumfahrtkommando der Vereinten Nationen"
+ EMPIRE_DESIGN_UNSC_desc:0 "Das United Nations Space Command, kurz UNSC, diente als militärische, erforschende und wissenschaftliche Agentur der Vereinigten Erdregierung. Ursprünglich als militärische Streitkraft in Auftrag gegeben, war das UNSC einst für die Überwachung von Weltraumschlachten und die Unterdrückung von Aufständen verantwortlich.\n\n Als sich die Menschheit im Weltraum ausbreitete, war es unvermeidlich, dass man auf andere Spezies stoßen würde. Nun, da die Menschheit vom Aussterben bedroht ist, wurde der UNSC zur primären Regierung der Menschheit und zu ihrer besten Hoffnung um zu Überleben."
+ EMPIRE_DESIGN_COV:0 "Der Bund"
+ EMPIRE_DESIGN_COV_desc:0 "Der Bund, ein göttliches Imperium, das sich über die Sterne ausbreitet, besteht aus vielen Spezies von vielen Welten, die durch ihren unerschütterlichen Glauben an ihre alten Götter und die Große Reise zusammengehalten werden; ihr Glaube, dass auch sie göttlich werden und neben den Vorfahren zur Gottheit aufsteigen können. Der Bund wurde durch Krieg gegründet und durch den Krieg breitet er sich aus, indem er jede Rasse, auf die er trifft durch seine Suche nach verborgenem Wissen und mächtigen Artefakten der Vorläufer verzehrt oder zerstört."
+ START_SCREEN_COV:0 "Der Bund, ein göttliches Imperium über den Sternen. Erbaut von vielen Spezies von zahllosen Welten, standhaft gehalten durch ihren unerschütterlichen Glauben an ihre alten Götter; abhängig von jedem Wort der Hohen Propheten. Der Bund entstand durch einen Krieg: Die Rassen der San Shyuum und Sangheili kämpften tapfer gegeneinander, bis die Pattsituation schließlich knapp durchbrochen wurde. Als Zeichen des Friedens wurde der Bund zwischen den beiden Rassen geschlossen und der Bund gegründet. Im Laufe der Zeit waren die Eliten die ehrenvollen Beschützer des heiligen Bundes: Schlugen Rebellionen nieder, warben weitere Spezies an und versklavten sie, bis der Bund schließlich zu dem wurde, was er heute ist. Die Eliten, Grunts, Jackals, Brutes, Jäger, Ingenieure, Drohnen und viele mehr wurden zum Rückgrat des Imperiums, ihre Vielfalt, und nicht nur ihr Glaube, wurde zur wahren Stärke des Bundes.\n\Nachdem sich der Bund ausbreitete, wurden weitere Spezies einverleibt oder vernichtet und viele mächtige Artefakte der Forerunner wurden ausgegraben. Auf einer der vielen Reisen entdeckten Koryphäen des Bundes auf einer neu entdeckten Welt. Unmengen von Forerunner-Artefakten. Sie ahnten nicht, dass die dort verborgene Entdeckung ihren gesamten Glauben in Frage stellen und möglicherweise ihren Bund erschüttern würde, denn nicht sie waren von ihren Göttern auserwählt worden, sondern die Menschheit. Die Propheten würden alles tun, um ihr Imperium zu behalten. Ein heiliger Krieg wurde gegen die Ketzer erklärt und die Propheten würden ihre unwissenden Anhänger zum Sieg führen, zur Macht und ins göttliche Jenseits."
+ name_list_UNSC:0 "UNSC"
+ name_list_Cove:0 "San'Shyuum"
+ name_list_Cov1:0 "Sangheili"
+ name_list_Cov3:0 "Jiralhanae"
+ Covenant:0 "Der Bund"
+  ####################################
+ # Spezies-Klassen
+ ####################################
+ 
+ Covenant_desc:1 "Die Spezies hat keine Auswirkung auf Ihr Imperium, aber die Spezies des Bundes kann andere Bündnisse als weniger fremdartig betrachten als ein andere Spezies."
+ Covenant_plural:0 "Der Bund"
+ Covenant_insult_01:0 "Bestie"
+ Covenant_insult_plural_01:0 "Bestie"
+ Covenant_compliment_01:0 "Der Bund"
+ Covenant_compliment_plural_01:0 "Der Bund"
+ Covenant_spawn:0 "cub"
+ Covenant_spawn_plural:0 "Jungtiere"
+ Covenant_sound_01:0 "knurrend"
+ Covenant_sound_02:0 "Grunzen"
+ Covenant_sound_03:0 "Kläffen"
+ Covenant_sound_04:0 "Jaulen"
+ Covenant_sound_05:0 "wimmern"
+ Covenant_organ:0 "Magen"
+ Covenant_mouth:0 "Maul"

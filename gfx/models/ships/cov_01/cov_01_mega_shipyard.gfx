@@ -1,0 +1,16 @@
+objectTypes = {
+	pdxmesh = {
+		name = "cov_01_mega_shipyard_01_stage_3_mesh"
+		file = "gfx/models/ships/cov_01/cov_01_mega_shipyard.mesh"
+		scale = 0.846
+
+		meshsettings = {
+			name = "UHShape"
+			index = 0
+			texture_diffuse = "cov_01_mega_shipyard_diffuse.dds"
+			texture_normal = "cov_01_mega_shipyard_normal.dds"
+			texture_specular = "cov_01_mega_shipyard_specular.dds"
+			shader = "PdxMeshShip"
+		}
+	}
+}

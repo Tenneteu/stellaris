@@ -1,0 +1,32 @@
+objectTypes = {
+	pdxmesh = {
+		name = "cov_01_juggernaut_frame_mesh"
+		file = "gfx/models/ships/cov_01/cov_01_juggernaut_frame.mesh"
+	}
+	
+	#bow	
+	pdxmesh = {
+		name = "cov_01_juggernaut_mesh"
+		file = "gfx/models/ships/cov_01/cov_01_juggernaut.mesh"
+		scale = 6.0
+
+		meshsettings = {
+			name = "OSSShape"
+			index = 0
+			texture_diffuse = "cov_01_OSS_diffuse.dds"
+			texture_normal = "cov_01_OSS_normal.dds"
+			texture_specular = "cov_01_OSS_specular.dds"
+			shader = "PdxMeshShip"
+		}
+	}
+
+### Aesthetic Cinematic Gameplay Compatibility Patch ###
+
+	pdxmesh = {
+		name = "cov_01_juggernaut_core2_mesh"
+		file = "gfx/models/ships/cov_01/cov_01_juggernaut_core2.mesh"
+		scale = 6.0
+	}
+	
+### Patch End ###
+}
