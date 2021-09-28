@@ -1,0 +1,40 @@
+﻿l_simp_chinese:
+
+ PR_var_show_man:0 "§E[root.z_pr_var_plnt_man]§!"
+ PR_var_show_ultilization_low:0 "§H[root.PR_var_show_ultilization]%§!"
+ PR_var_show_ultilization_sufficient:0 "§E[root.PR_var_show_ultilization]%§!"
+ PR_var_show_growth_add:0 "§G+[root.PR_var_show_growth]§!"
+ PR_var_show_growth_minus:0 "§R[root.PR_var_show_growth]§!"
+ 
+ z_pr_var_show_0:0 "§E0§!"
+ z_pr_var_show_1:0 "§E1§!"
+ z_pr_var_show_2:0 "§E2§!"
+ z_pr_var_show_3:0 "§E3§!"
+ z_pr_var_show_4:0 "§E4§!"
+ z_pr_var_show_5:0 "§E5§!"
+ z_pr_var_show_6:0 "§E6§!"
+ z_pr_var_show_7:0 "§E7§!"
+ z_pr_var_show_8:0 "§E8§!"
+ z_pr_var_show_9:0 "§E9§!"
+ z_pr_var_show_perc:0 "§E%§!"
+ 
+ z_pr_var_show_growth_0:0 "§H0§!"
+ z_pr_var_show_growth_1:0 "§H1§!"
+ z_pr_var_show_growth_2:0 "§H2§!"
+ z_pr_var_show_growth_3:0 "§H3§!"
+ z_pr_var_show_growth_4:0 "§H4§!"
+ z_pr_var_show_growth_5:0 "§H5§!"
+ z_pr_var_show_growth_6:0 "§H6§!"
+ z_pr_var_show_growth_7:0 "§H7§!"
+ z_pr_var_show_growth_8:0 "§H8§!"
+ z_pr_var_show_growth_9:0 "§H9§!"
+ z_pr_var_show_growth_dot:0 "§H.§!"
+ z_pr_var_show_growth_add:0 "§H+§!"
+ z_pr_var_show_growth_minus:0 "§H-§!"
+ 
+ z_pr_man_show:0 "§H人力§!\n指当前星球的净人力值"
+ z_pr_bonus_show:0 "§H生产效率§!\n表示当前人力对星球生产设置的利用率"
+ z_pr_growth_show:0 "§H人力增长率§!\n转化自人口§B自然生长/组装/克隆§!的人力增长率"
+ 
+ z_pr_growth_test:0 "[root.capital_scope.PR_var_show_growth_10][root.capital_scope.PR_var_show_growth_1].[root.capital_scope.PR_var_show_growth_01][root.capital_scope.PR_var_show_growth_001]"
+ 

@@ -1,0 +1,66 @@
+#_[fw]		设置/参数/岗位检测
+#_[pr]		人口转化/人力转化/人力迁入/人力迁出		/后补岗位/下月刷新		/ERROR提示
+
+
+
+
+###_[fw]	##########################################
+#_[设置]
+z_fw_btn_plnt_ui_tb_setting = {
+	potential = { always = yes }
+	allow = { always = no }
+}
+#_[参数]
+z_fw_btn_plnt_ui_tb_checking = {
+	potential = { always = yes }
+	allow = { always = no }
+}
+#_[岗位检测]
+z_fw_btn_plnt_ui_tb_job_check = {
+	potential = { always = yes }
+	allow = { always = no }
+}
+
+
+
+
+###_[pr]	##########################################
+#_[人口转化]
+z_pr_btn_plnt_pop_cnvt = {
+	potential = { always = yes }
+	allow = { always = no }
+}
+#_[人力转化]
+z_pr_btn_plnt_man_cnvt = {
+	potential = { always = yes }
+	allow = { always = no }
+}
+
+#_[人力迁入]
+z_pr_btn_plnt_man_immig = {
+	potential = { always = yes }
+	allow = { always = no }
+}
+#_[人力迁出]
+z_pr_btn_plnt_man_mig = {
+	potential = { always = yes }
+	allow = { always = no }
+}
+
+#_[后补岗位]
+z_pr_btn_plnt_ui_tb_reserved_job_switch = {
+	potential = { always = yes }
+	allow = { always = no }
+}
+
+#_[下月刷新]
+z_pr_btn_plnt_ui_tb_debug = {
+	potential = { always = yes }
+	allow = { always = no }
+}
+
+#_[ERROR提示]
+z_pr_btn_plnt_ui_tb_ERROR = {
+	potential = { always = yes }
+	allow = { always = no }
+}

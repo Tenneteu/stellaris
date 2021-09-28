@@ -1,0 +1,271 @@
+###_	产业革命man显示	##############################################################
+#_[背景/num]
+
+
+
+
+spriteTypes = {
+
+	##_[背景]
+	SpriteType = {
+		name = "GFX_z_pr_var_show_bg_empty"
+		texturefile = "gfx/interface/z_pr/z_pr_var_show_bg_empty.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+	}
+	SpriteType = {
+		name = "GFX_z_pr_var_show_bg_man"
+		texturefile = "gfx/interface/z_pr/z_pr_var_show_bg_man.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+	}
+	SpriteType = {
+		name = "GFX_z_pr_var_show_bg_bonus"
+		texturefile = "gfx/interface/z_pr/z_pr_var_show_bg_bonus.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+	}
+	SpriteType = {
+		name = "GFX_z_pr_var_show_bg_growth"
+		texturefile = "gfx/interface/z_pr/z_pr_var_show_bg_growth.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+	}
+
+	##_[num]
+	SpriteType = {
+		name = "GFX_z_pr_man_show_0"
+		texturefile = "gfx/interface/z_pr/z_pr_man_show_0.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_pr/z_pr_man_show_0.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_man_show_1"
+		texturefile = "gfx/interface/z_pr/z_pr_man_show_1.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_pr/z_pr_man_show_1.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_man_show_2"
+		texturefile = "gfx/interface/z_pr/z_pr_man_show_2.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_pr/z_pr_man_show_2.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_man_show_3"
+		texturefile = "gfx/interface/z_pr/z_pr_man_show_3.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_pr/z_pr_man_show_3.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_man_show_4"
+		texturefile = "gfx/interface/z_pr/z_pr_man_show_4.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_pr/z_pr_man_show_4.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_man_show_5"
+		texturefile = "gfx/interface/z_pr/z_pr_man_show_5.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_pr/z_pr_man_show_5.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_man_show_6"
+		texturefile = "gfx/interface/z_pr/z_pr_man_show_6.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_pr/z_pr_man_show_6.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_man_show_7"
+		texturefile = "gfx/interface/z_pr/z_pr_man_show_7.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_pr/z_pr_man_show_7.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_man_show_8"
+		texturefile = "gfx/interface/z_pr/z_pr_man_show_8.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_pr/z_pr_man_show_8.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_man_show_9"
+		texturefile = "gfx/interface/z_pr/z_pr_man_show_9.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_pr/z_pr_man_show_9.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_man_show_dot"
+		texturefile = "gfx/interface/z_pr/z_pr_man_show_dot.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_pr/z_pr_man_show_dot.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_man_show_perc"
+		texturefile = "gfx/interface/z_pr/z_pr_man_show_perc.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_pr/z_pr_man_show_perc.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_man_show_add"
+		texturefile = "gfx/interface/z_pr/z_pr_man_show_add.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_pr/z_pr_man_show_add.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	SpriteType = {
+		name = "GFX_z_pr_man_show_minus"
+		texturefile = "gfx/interface/z_pr/z_pr_man_show_minus.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/z_pr/z_pr_man_show_minus.dds"
+			animationtexturefile = "gfx/interface/fleet_view/standard_button_texture.dds"
+			animationrotation = 180.0
+			animationlooping = yes
+			animationtime = 12.0
+			animationdelay = 0.0
+			animationblendmode = "overlay" #add, multiply, overlay
+			animationtype = "scrolling"    #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+	}
+	
+}

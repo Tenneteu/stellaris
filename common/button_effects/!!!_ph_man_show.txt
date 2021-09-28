@@ -1,0 +1,185 @@
+###_	产业革命man显示
+
+#_[原版_贸易值]
+#_[UI当前人力]	底座	/个/十/百/千/万
+#_[UI当前效率]	底座	/个/十/百
+#_[UI当前增长率]	底座	分/厘/个/十/百
+
+
+
+
+###_[原版_贸易值]	##################################################################################################
+PR_btn_var_show_test = {
+	potential = {
+		is_scope_type = planet
+		check_modifier_value = { modifier = trade_value_add value > 0 }
+	}
+	allow = { always = no }
+}
+
+
+
+
+###_[UI当前人力]	##################################################################################################
+#_test
+PR_btn_var_show_test = { potential = { always = no } allow = { always = no } }
+# 底座
+PR_btn_var_show_man_bg = { potential = { always = no } allow = { always = no } }
+
+# 个	##################################################
+PR_btn_var_show_man_1_0 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1_1 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1_2 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1_3 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1_4 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1_5 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1_6 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1_7 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1_8 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1_9 = { potential = { always = no } allow = { always = no } }
+# 十	##################################################
+PR_btn_var_show_man_10_0 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10_1 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10_2 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10_3 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10_4 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10_5 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10_6 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10_7 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10_8 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10_9 = { potential = { always = no } allow = { always = no } }
+# 百	##################################################
+PR_btn_var_show_man_100_0 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_100_1 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_100_2 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_100_3 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_100_4 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_100_5 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_100_6 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_100_7 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_100_8 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_100_9 = { potential = { always = no } allow = { always = no } }
+# 千	##################################################
+PR_btn_var_show_man_1000_0 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1000_1 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1000_2 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1000_3 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1000_4 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1000_5 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1000_6 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1000_7 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1000_8 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_1000_9 = { potential = { always = no } allow = { always = no } }
+# 万	##################################################
+PR_btn_var_show_man_10000_0 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10000_1 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10000_2 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10000_3 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10000_4 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10000_5 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10000_6 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10000_7 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10000_8 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_man_10000_9 = { potential = { always = no } allow = { always = no } }
+
+
+
+
+###_[UI当前效率]	##################################################################################################
+# 底座
+PR_btn_var_show_bonus_bg = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_low = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_sufficient = { potential = { always = no } allow = { always = no } }
+
+# 个	##################################################
+PR_btn_var_show_bonus_1_0 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_1_1 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_1_2 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_1_3 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_1_4 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_1_5 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_1_6 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_1_7 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_1_8 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_1_9 = { potential = { always = no } allow = { always = no } }
+# 十	##################################################
+PR_btn_var_show_bonus_10_0 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_10_1 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_10_2 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_10_3 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_10_4 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_10_5 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_10_6 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_10_7 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_10_8 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_10_9 = { potential = { always = no } allow = { always = no } }
+# 百	##################################################
+PR_btn_var_show_bonus_100_0 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_100_1 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_100_2 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_100_3 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_100_4 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_100_5 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_100_6 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_100_7 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_100_8 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_bonus_100_9 = { potential = { always = no } allow = { always = no } }
+
+
+
+
+###_[UI当前增长率]	##################################################################################################
+# 底座
+PR_btn_var_show_growth_bg = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_bg_add = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_bg_minus = { potential = { always = no } allow = { always = no } }
+
+# 分	##################################################
+PR_btn_var_show_growth_001_0 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_001_1 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_001_2 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_001_3 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_001_4 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_001_5 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_001_6 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_001_7 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_001_8 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_001_9 = { potential = { always = no } allow = { always = no } }
+# 厘	##################################################
+PR_btn_var_show_growth_01_0 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_01_1 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_01_2 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_01_3 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_01_4 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_01_5 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_01_6 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_01_7 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_01_8 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_01_9 = { potential = { always = no } allow = { always = no } }
+# 个	##################################################
+PR_btn_var_show_growth_1_0 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_1_1 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_1_2 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_1_3 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_1_4 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_1_5 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_1_6 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_1_7 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_1_8 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_1_9 = { potential = { always = no } allow = { always = no } }
+# 十	##################################################
+PR_btn_var_show_growth_10_add = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_10_minus = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_10_0 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_10_1 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_10_2 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_10_3 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_10_4 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_10_5 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_10_6 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_10_7 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_10_8 = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_10_9 = { potential = { always = no } allow = { always = no } }
+# 百	##################################################
+PR_btn_var_show_growth_100_add = { potential = { always = no } allow = { always = no } }
+PR_btn_var_show_growth_100_minus = { potential = { always = no } allow = { always = no } }
