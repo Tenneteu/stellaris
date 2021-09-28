@@ -1,0 +1,2061 @@
+namespace = acot_startup
+
+event = {
+	id = acot_startup.1
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		set_global_flag = acot_activated
+		IF = {
+			limit = {
+				NOT = {
+					exists = event_target:lifeform_country
+				}				
+			}
+			create_country = {
+				type = void_lifeforms_1
+				name = "Void Lifeforms"
+				flag = {
+					icon = {
+						category = "spherical"
+						file = "flag_spherical_23.dds"
+					}
+					background= {
+						category = "backgrounds"
+						file = "v.dds"
+					}
+					colors={
+						"black"
+						"teal"
+						"null"
+						"null"
+					}
+				}
+				effect = {
+					save_global_event_target_as = lifeform_country	
+					every_playable_country = {
+						establish_communications_no_message = event_target:lifeform_country	
+						set_faction_hostility = {
+							target = event_target:lifeform_country		
+							set_hostile = yes
+						}					
+					}			
+				}
+			}
+		}
+		create_species = {
+			name = "Void Lifeforms"
+			class = random_non_machine
+			portrait = random
+			traits = random
+			effect = {
+				save_event_target_as = void_lifeform_species
+			}
+		}
+		IF = {
+			limit = {
+				NOT = {
+					exists = event_target:phanon_security
+				}				
+			}
+			create_country = {
+				type = void_lifeforms_1
+				name = "Phanon Security"
+				flag = {
+					background= {
+						category = "backgrounds"
+						file = "v.dds"
+					}
+					icon = {
+						category = phanon
+						file = flag_phanon.dds
+					}
+					colors={
+						"red"
+						"black"
+						"null"
+						"null"
+					}
+				}
+				effect = {
+					save_global_event_target_as = phanon_security	
+					every_playable_country = {
+						establish_communications_no_message = event_target:phanon_security	
+						set_faction_hostility = {
+							target = event_target:phanon_security		
+							set_hostile = yes
+						}					
+					}
+					set_faction_hostility = {
+						target = event_target:phanon_base_country
+						set_friendly = yes
+					}							
+				}
+			}
+		}
+		every_galaxy_planet = {
+			limit = {
+				OR = {
+					is_planet_class = pc_dark_fractured_ae
+					is_planet_class = pc_dark_fractured
+				}
+			}
+			set_planet_flag = can_have_precursor_event
+			add_modifier = { modifier = acot_modifier_precursor_digsite }
+			while = {
+				count = 2
+				random_list = {
+					33 = {
+						modifier = {
+							factor = 0
+							has_deposit = d_acot_void_chasm
+						}
+						add_deposit = d_acot_void_chasm
+					}
+					33 = {
+						modifier = {
+							factor = 0
+							has_deposit = d_acot_void_rift
+						}	
+						add_deposit = d_acot_void_rift				
+					}
+					33 = {
+						modifier = {
+							factor = 0
+							has_deposit = d_acot_void_terrain
+						}
+						add_deposit = d_acot_void_terrain					
+					}
+				}
+			}
+			while = {
+				count = 3
+				random_list = {
+					20 = {
+						if = {
+							limit = { 
+								NOT = {
+									has_modifier = acot_modifier_fractured_mutants
+								}
+							}
+							add_modifier = { modifier = acot_modifier_fractured_mutants days = -1 }
+						}
+					}
+					20 = {
+						if = {
+							limit = { 
+								NOT = {
+									has_modifier = acot_modifier_fractured_lifeforms
+								}
+							}
+							add_modifier = { modifier = acot_modifier_fractured_lifeforms days = -1 }
+						}
+					}
+					20 = {
+						if = {
+							limit = { 
+								NOT = {
+									has_modifier = acot_modifier_fractured_sentient_crystal
+								}
+							}
+							add_modifier = { modifier = acot_modifier_fractured_sentient_crystal days = -1 }
+						}
+					}
+					20 = {
+						if = {
+							limit = { 
+								NOT = {
+									has_modifier = acot_modifier_fractured_machines
+								}
+							}
+							add_modifier = { modifier = acot_modifier_fractured_machines days = -1 }
+						}
+					}
+					20 = {
+						if = {
+							limit = { 
+								NOT = {
+									has_modifier = acot_modifier_fractured_plants
+								}
+							}
+							add_modifier = { modifier = acot_modifier_fractured_plants days = -1 }
+						}
+					}
+				}
+			}
+		}
+		random_country = {
+			limit = {
+				is_country_type = acot_phanon_base
+			}
+			country_event = {
+				id = acot_startup.2 days = 1
+			}
+		}
+		IF = {
+			limit = {
+				NOT = {
+					exists = event_target:acot_tier_3_dummy_country
+				}
+			}
+			create_country = {
+				name = "Tier 3 Country"
+				type = acot_tier_3_country
+				flag = {
+					icon = {
+						category = "special"
+						file = "the_shroud.dds"
+					}
+					background= {
+						category = "backgrounds"
+						file = "00_solid.dds"
+					}
+					colors={
+						"black"
+						"black"
+						"null"
+						"null"
+					}
+				}
+				effect = {
+					save_global_event_target_as = acot_tier_3_dummy_country
+				}
+			}
+		}
+		IF = {
+			limit = {
+				NOT = {
+					exists = event_target:acot_tier_5_dummy_country
+				}
+			}
+			create_country = {
+				name = "Tier 5 Country"
+				type = acot_tier_5_country
+				flag = {
+					icon = {
+						category = "special"
+						file = "the_shroud.dds"
+					}
+					background= {
+						category = "backgrounds"
+						file = "00_solid.dds"
+					}
+					colors={
+						"black"
+						"black"
+						"null"
+						"null"
+					}
+				}
+				effect = {
+					save_global_event_target_as = acot_tier_5_dummy_country
+				}
+			}
+		}
+		IF = {
+			limit = {
+				NOT = {
+					exists = event_target:acot_tier_dm_dummy_country
+				}
+			}
+			create_country = {
+				name = "Tier DM Country"
+				type = acot_tier_dm_country
+				flag = {
+					icon = {
+						category = "special"
+						file = "the_shroud.dds"
+					}
+					background= {
+						category = "backgrounds"
+						file = "00_solid.dds"
+					}
+					colors={
+						"black"
+						"black"
+						"null"
+						"null"
+					}
+				}
+				effect = {
+					save_global_event_target_as = acot_tier_dm_dummy_country
+				}
+			}
+		}
+	}
+}
+
+### Reapplies Megastructurer Ownership
+country_event = {
+	id = acot_startup.2
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		every_system = {
+			limit = {
+				has_star_flag = phanon_base_system
+			}
+			every_fleet_in_system = {
+				limit = {
+					is_ship_class = shipclass_starbase
+				}
+				set_owner = event_target:curator_enclave_country
+			}
+			every_fleet_in_system = {
+				limit = {
+					is_ship_class = shipclass_starbase
+				}
+				set_owner = event_target:phanon_base_country
+			}
+		}
+	}
+}
+
+###############These sets of events are long and complicated because PDX has made life difficult for modders to make a proper custom-built starting systems with their copious and overuse of starting stuffs that tends to overwrite each and everything we have worked so hard for. Their empires must be purged.
+#########To this end, we will moblize our fleets into two groups, the Meme Fleet and the Anti-Shitty Unmodded Stellaris Fleet. The meme fleet will meme lesser starting systems, the ASUS fleet will delete all useless and crappy tash-tier things meant for plebs from our destined fate.
+country_event = {
+	id = acot_startup.3
+	hide_window = yes
+	is_triggered_only = yes
+	
+	
+
+	trigger = {
+		has_origin = origin_tier_three_start
+	}
+	
+	immediate = {
+		set_country_flag = tier_three_start
+		set_country_flag = custom_start_screen
+		add_resource = {
+			minerals = 5000
+			energy = 5000
+			alloys = 2500
+			volatile_motes = 250
+			rare_crystals = 250
+			exotic_gases = 250			
+			influence = 300
+			unity = 10000
+		}
+		IF = {
+			limit = {
+				country_uses_food = yes
+			}
+			add_resource = {
+				food = 5000
+			}
+		}
+		IF = {
+			limit = {
+				country_uses_consumer_goods = yes
+			}
+			add_resource = {
+				consumer_goods = 2500
+			}
+		}
+		every_owned_leader = {
+			add_skill = 2
+		}
+		copy_techs_from = {
+			target = event_target:acot_tier_3_dummy_country
+			except = {
+				tech_akx_worm_1
+				tech_akx_worm_2
+				tech_akx_worm_3
+				tech_psionic_theory
+				tech_nanite_assemblers
+				tech_nanite_repair_system
+				tech_nanite_transmutation
+				null_void_beam
+				tech_acot_swarm_strike_craft
+				tech_swarm_strike_craft_1
+				tech_acot_scourge_missile
+				tech_scourge_missile_1
+				tech_acot_matter_disintegrator
+				tech_extradimensional_weapon_1
+				tech_energy_lance_edi
+				tech_energy_lance_contingency
+				tech_perdition_beam_contingency
+			}
+		}
+		country_event = { id = acot_startup.301 days = 1 } #Overwrites other stupid stuffs that prevent our grand ascension.
+		capital_scope = { 
+			planet_event = { id = acot_startup.300 } 
+		}
+	}
+}
+
+### SETUP PLANETS
+planet_event = {
+	id = acot_startup.300
+	hide_window = yes
+	is_triggered_only = yes
+	#fire_only_once = yes
+
+	immediate = {
+		clear_blockers = yes
+		remove_all_buildings = yes
+		prevent_anomaly = yes
+		if = {
+			limit = { owner = { is_regular_empire = yes } }
+			# 3 jobs
+			add_building = building_major_capital
+			# 2 jobs
+			add_building = building_bureaucratic_1
+			add_building = building_bureaucratic_1
+			add_building = building_research_lab_1
+			add_building = building_research_lab_1
+			add_building = building_foundry_1
+			add_building = building_factory_1
+			add_building = building_clinic
+			# 4 jobs
+			if = {
+				limit = { owner = { is_megacorp = yes } }
+				add_building = building_commercial_zone
+			}
+		}
+		if = {
+			limit = { owner = { is_hive_empire = yes } }
+			# 5 jobs
+			add_building = building_hive_major_capital
+			add_building = building_hive_node
+			add_building = building_research_lab_1
+			add_building = building_research_lab_1
+			add_building = building_foundry_1
+			add_building = building_spawning_pool
+			add_building = building_hive_warren
+			add_building = building_hive_warren
+		}
+
+		# Replace capital building for machine empires
+		if = {
+			limit = { owner = { is_machine_empire = yes } }
+			add_building = building_machine_major_capital
+			add_building = building_machine_assembly_plant
+			add_building = building_uplink_node
+			add_building = building_research_lab_1
+			add_building = building_research_lab_1
+			add_building = building_foundry_1
+			#Servitors
+			if = {
+				limit = { owner = { has_civic = civic_machine_servitor } }
+				add_building = building_organic_sanctuary
+			}
+		}
+		if = {
+			limit = {
+				is_capital = yes
+			}
+			add_district_and_planet_size_if_needed_effect = { district = district_mining }
+			add_district_and_planet_size_if_needed_effect = { district = district_mining }
+			add_district_and_planet_size_if_needed_effect = { district = district_generator }
+			add_district_and_planet_size_if_needed_effect = { district = district_generator }
+			if = {
+				limit = { owner = { has_authority = auth_machine_intelligence } }
+				add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+				add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+				add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+			}
+			else_if = {
+				limit = { owner = { has_authority = auth_hive_mind } }
+				add_district_and_planet_size_if_needed_effect = { district = district_hive }
+				add_district_and_planet_size_if_needed_effect = { district = district_hive }
+				add_district_and_planet_size_if_needed_effect = { district = district_hive }
+			}
+			else = {
+				add_district_and_planet_size_if_needed_effect = { district = district_city }
+				add_district_and_planet_size_if_needed_effect = { district = district_city }
+				add_district_and_planet_size_if_needed_effect = { district = district_city }
+			}
+			if = {
+				limit = {
+					owner = { NOT = { has_authority = auth_machine_intelligence } }
+				}
+				add_district_and_planet_size_if_needed_effect = { district = district_farming }
+				add_district_and_planet_size_if_needed_effect = { district = district_farming }
+				add_district_and_planet_size_if_needed_effect = { district = district_farming }
+			}
+			if = {
+				limit = {
+					owner = { has_authority = auth_machine_intelligence }
+				}
+				add_district_and_planet_size_if_needed_effect = { district = district_generator }
+				add_district_and_planet_size_if_needed_effect = { district = district_generator }
+				add_district_and_planet_size_if_needed_effect = { district = district_generator }
+			}
+			if = {
+				limit = { owner = { is_gestalt = no } }
+				add_building = building_factory_1
+				add_building = building_commercial_zone
+			}
+			while = {
+				count = 30
+				create_pop = { species = owner_main_species }
+			}
+		}	
+	}
+}
+
+country_event = {
+	id = acot_startup.301
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		every_owned_fleet = {
+			limit = {
+				is_ship_class = shipclass_military
+			}
+			delete_fleet = this				
+		}	
+		capital_scope = {
+			owner = {
+				create_leader = {
+					class = admiral
+					skill = 3
+					species = owner_main_species
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root.owner	
+					assign_leader = last_created_leader
+					create_ship = {
+						name = random
+						random_existing_design = cruiser
+					}
+					while = {
+						count = 20
+						create_ship = {
+							name = random
+							random_existing_design = corvette
+						}
+					}
+					while = {
+						count = 5
+						create_ship = {
+							name = random
+							random_existing_design = destroyer
+						}
+					}
+					assign_leader = last_created_leader
+					set_location = {
+						target = prev
+						distance = 45
+						angle = random 
+					}				
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root.owner	
+					create_ship = {
+						random_existing_design = constructor
+						graphical_culture = root.owner
+					}	
+					set_location = {
+						target = prev
+						distance = 30
+						angle = random 
+					}				
+				}
+			}
+			owner = {
+				create_leader = {
+					class = scientist
+					skill = 3
+					sub_type = survey
+					species = owner_main_species
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root.owner	
+					create_ship = {
+						random_existing_design = science
+						graphical_culture = root.owner
+					}	
+					set_location = {
+						target = prev
+						distance = 50
+						angle = random 
+					}
+					assign_leader = last_created_leader		
+				}
+			}
+			owner = {
+				create_leader = {
+					class = scientist
+					skill = 3
+					sub_type = survey
+					species = owner_main_species
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root.owner	
+					create_ship = {
+						random_existing_design = science
+						graphical_culture = root.owner
+					}	
+					set_location = {
+						target = prev
+						distance = 55
+						angle = random 
+					}	
+					assign_leader = last_created_leader				
+				}
+			}
+			solar_system = {
+				every_neighbor_system = {
+					limit = {
+						NOR = {
+							owner = {
+								is_same_value = capital_star
+							}
+							any_fleet_in_orbit = {
+								owner = {
+									NOT = {
+										is_same_value = root
+									}
+								}
+							}
+						}
+					}
+					create_starbase = {
+						size = "starbase_outpost"
+						owner = root.owner
+	
+						
+						effect = {	
+						}
+					}
+				}			
+			}
+		}
+		solar_system = {
+			random_fleet_in_system = {
+				limit = {
+					is_ship_class = shipclass_starbase
+				}
+				destroy_fleet = { target = this }
+			}
+			create_starbase = {
+				size = starbase_starhold
+				owner = root.owner	
+		
+				module = "shipyard"
+				module = "shipyard"
+				module = "shipyard"		
+				module = "shipyard"	
+				
+				effect = {	
+				}
+			}
+		}
+		every_planet_within_border = {
+			limit = {
+				has_deposit_for = shipclass_mining_station
+				has_mining_station = no
+			}
+			create_mining_station = {
+				owner = ROOT
+			}
+		}
+		every_planet_within_border = {
+			limit = {
+				has_deposit_for = shipclass_research_station
+				has_research_station = no
+			}
+			create_research_station = {
+				owner = ROOT
+			}
+		}		
+	}
+}
+
+country_event = {
+	id = acot_startup.4
+	hide_window = yes
+	is_triggered_only = yes
+	#fire_only_once = yes
+	
+	
+
+	trigger = {
+		has_origin = origin_tier_five_start
+	}
+	
+	immediate = {
+		set_country_flag = tier_five_start
+		set_country_flag = custom_start_screen
+		add_resource = {
+			minerals = 10000
+			energy = 10000
+			alloys = 5000
+			volatile_motes = 1000
+			rare_crystals = 1000
+			exotic_gases = 1000		
+			influence = 500
+			unity = 20000
+		}
+		IF = {
+			limit = {
+				country_uses_food = yes
+			}
+			add_resource = {
+				food = 10000
+			}
+		}
+		IF = {
+			limit = {
+				country_uses_consumer_goods = yes
+			}
+			add_resource = {
+				consumer_goods = 10000
+			}
+		}
+		every_owned_leader = {
+			add_skill = 4
+		}
+		copy_techs_from = {
+			target = event_target:acot_tier_5_dummy_country
+			except = {
+				tech_akx_worm_1
+				tech_akx_worm_2
+				tech_akx_worm_3
+				tech_psionic_theory
+				tech_nanite_assemblers
+				tech_nanite_repair_system
+				tech_nanite_transmutation
+				null_void_beam
+				tech_acot_swarm_strike_craft
+				tech_swarm_strike_craft_1
+				tech_acot_scourge_missile
+				tech_scourge_missile_1
+				tech_acot_matter_disintegrator
+				tech_extradimensional_weapon_1
+				tech_energy_lance_edi
+				tech_energy_lance_contingency
+				tech_perdition_beam_contingency
+			}
+		}
+		country_event = { id = acot_startup.401 days = 1 } #Overwrites other stupid stuffs that prevent our grand ascension.
+		capital_scope = { 
+			planet_event = { id = acot_startup.400 } 
+		}
+	}	
+}
+
+### SETUP PLANETS
+planet_event = {
+	id = acot_startup.400
+	hide_window = yes
+	is_triggered_only = yes
+	#fire_only_once = yes
+
+	immediate = {
+		clear_blockers = yes
+		remove_all_buildings = yes
+		prevent_anomaly = yes
+		if = {
+			limit = { owner = { is_regular_empire = yes } }
+			# 3 jobs
+			add_building = building_system_capital
+			# 2 jobs
+			add_building = building_bureaucratic_1
+			add_building = building_bureaucratic_1
+			add_building = building_research_lab_2
+			add_building = building_research_lab_2
+			add_building = building_foundry_3
+
+			add_building = building_mineral_purification_hub
+			add_building = building_energy_nexus
+
+			add_building = building_crystal_plant
+			add_building = building_refinery
+			add_building = building_chemical_plant
+			# 4 jobs
+			if = {
+				limit = { owner = { is_megacorp = yes } }
+				add_building = building_commercial_zone
+			}
+		}
+		if = {
+			limit = { owner = { is_hive_empire = yes } }
+			# 5 jobs
+			add_building = building_hive_major_capital
+			add_building = building_hive_node
+			add_building = building_research_lab_2
+			add_building = building_research_lab_2
+			add_building = building_foundry_3
+			add_building = building_hive_warren
+
+			add_building = building_mineral_purification_hub
+			add_building = building_energy_nexus
+
+			add_building = building_crystal_plant
+			add_building = building_refinery
+			add_building = building_chemical_plant
+		}
+
+		# Replace capital building for machine empires
+		if = {
+			limit = { owner = { is_machine_empire = yes } }
+			add_building = building_machine_system_capital
+			add_building = building_machine_assembly_plant
+			add_building = building_uplink_node
+			add_building = building_research_lab_2
+			add_building = building_research_lab_2
+			add_building = building_foundry_3
+
+			add_building = building_mineral_purification_hub
+			add_building = building_energy_nexus
+
+			add_building = building_crystal_plant
+			add_building = building_refinery
+			add_building = building_chemical_plant
+			#Servitors
+			if = {
+				limit = { owner = { has_civic = civic_machine_servitor } }
+				add_building = building_organic_sanctuary
+			}
+		}		
+		if = {
+			limit = {
+				is_capital = yes
+			}
+			add_district_and_planet_size_if_needed_effect = { district = district_industrial }
+			add_district_and_planet_size_if_needed_effect = { district = district_industrial }
+			add_district_and_planet_size_if_needed_effect = { district = district_industrial }
+			add_district_and_planet_size_if_needed_effect = { district = district_mining }
+			add_district_and_planet_size_if_needed_effect = { district = district_mining }
+			add_district_and_planet_size_if_needed_effect = { district = district_mining }
+			add_district_and_planet_size_if_needed_effect = { district = district_mining }
+			add_district_and_planet_size_if_needed_effect = { district = district_mining }
+			add_district_and_planet_size_if_needed_effect = { district = district_generator }
+			add_district_and_planet_size_if_needed_effect = { district = district_generator }
+			add_district_and_planet_size_if_needed_effect = { district = district_generator }
+			add_district_and_planet_size_if_needed_effect = { district = district_generator }
+			add_district_and_planet_size_if_needed_effect = { district = district_generator }
+			if = {
+				limit = { owner = { has_authority = auth_machine_intelligence } }
+				add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+				add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+				add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+				add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+			}
+			else_if = {
+				limit = { owner = { has_authority = auth_hive_mind } }
+				add_district_and_planet_size_if_needed_effect = { district = district_hive }
+				add_district_and_planet_size_if_needed_effect = { district = district_hive }
+				add_district_and_planet_size_if_needed_effect = { district = district_hive }
+				add_district_and_planet_size_if_needed_effect = { district = district_hive }
+			}
+			else = {
+				add_district_and_planet_size_if_needed_effect = { district = district_city }
+				add_district_and_planet_size_if_needed_effect = { district = district_city }
+				add_district_and_planet_size_if_needed_effect = { district = district_city }
+				add_district_and_planet_size_if_needed_effect = { district = district_city }
+			}
+			if = {
+				limit = {
+					owner = { NOT = { has_authority = auth_machine_intelligence } }
+				}
+				add_district_and_planet_size_if_needed_effect = { district = district_farming }
+			}
+			if = {
+				limit = {
+					owner = { has_authority = auth_machine_intelligence }
+				}
+				add_district_and_planet_size_if_needed_effect = { district = district_generator }
+				add_district_and_planet_size_if_needed_effect = { district = district_generator }
+				add_district_and_planet_size_if_needed_effect = { district = district_generator }
+			}
+			while = {
+				count = 50
+				create_pop = { species = owner_main_species }
+			}
+		}	
+	}
+}
+
+country_event = {
+	id = acot_startup.401
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		every_owned_fleet = {
+			limit = {
+				is_ship_class = shipclass_military
+			}
+			delete_fleet = this				
+		}	
+		capital_scope = {
+			owner = {
+				create_leader = {
+					class = admiral
+					skill = 5
+					species = owner_main_species
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root.owner	
+					assign_leader = last_created_leader
+					while = {
+						count = 16
+						create_ship = {
+							name = random
+							random_existing_design = corvette
+						}
+					}
+					while = {
+						count = 12
+						create_ship = {
+							name = random
+							random_existing_design = destroyer
+						}
+					}
+					while = {
+						count = 8
+						create_ship = {
+							name = random
+							random_existing_design = cruiser
+						}
+					}
+					while = {
+						count = 4
+						create_ship = {
+							name = random
+							random_existing_design = battleship
+						}
+					}
+					if = {
+						limit = { 
+							host_has_dlc = Apocalypse 
+						}
+						create_ship = {
+							name = random
+							random_existing_design = titan
+						}
+					}
+					assign_leader = last_created_leader
+					set_location = {
+						target = prev
+						distance = 45
+						angle = random 
+					}				
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root.owner	
+					create_ship = {
+						random_existing_design = constructor
+						graphical_culture = root.owner
+					}	
+					set_location = {
+						target = prev
+						distance = 30
+						angle = random 
+					}				
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root.owner	
+					create_ship = {
+						random_existing_design = constructor
+						graphical_culture = root.owner
+					}	
+					set_location = {
+						target = prev
+						distance = 30
+						angle = random 
+					}				
+				}
+			}
+			owner = {
+				create_leader = {
+					class = scientist
+					skill = 5
+					sub_type = survey
+					species = owner_main_species
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root.owner	
+					create_ship = {
+						random_existing_design = science
+						graphical_culture = root.owner
+					}	
+					set_location = {
+						target = prev
+						distance = 50
+						angle = random 
+					}
+					assign_leader = last_created_leader		
+				}
+			}
+			owner = {
+				create_leader = {
+					class = scientist
+					skill = 5
+					sub_type = survey
+					species = owner_main_species
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root.owner	
+					create_ship = {
+						random_existing_design = science
+						graphical_culture = root.owner
+					}	
+					set_location = {
+						target = prev
+						distance = 55
+						angle = random 
+					}	
+					assign_leader = last_created_leader				
+				}
+			}
+			solar_system = {
+				every_neighbor_system = {
+					if = {
+						limit = {
+							any_system_planet = {
+								is_a_habitable_planet_megastructure = yes
+							}
+						}
+						create_starbase = {
+							size = "starbase_starport"
+							owner = root.owner
+							effect = {	
+							}
+						}
+						every_system_planet = {
+							limit = {
+								is_a_habitable_planet_megastructure = yes		
+								NOR = {
+									has_owner = yes
+									is_planet_class = pc_dark_fractured
+									is_planet_class = pc_dark_fractured_ae
+								}							
+							}
+							create_colony = { owner = root }
+							clear_blockers = yes
+				
+							remove_all_buildings = yes
+				
+							prevent_anomaly = yes
+							add_district_and_planet_size_if_needed_effect = { district = district_industrial }
+							add_district_and_planet_size_if_needed_effect = { district = district_mining }
+							add_district_and_planet_size_if_needed_effect = { district = district_mining }
+							add_district_and_planet_size_if_needed_effect = { district = district_mining }
+							add_district_and_planet_size_if_needed_effect = { district = district_mining }
+							add_district_and_planet_size_if_needed_effect = { district = district_generator }
+							add_district_and_planet_size_if_needed_effect = { district = district_generator }
+							if = {
+								limit = { owner = { has_authority = auth_machine_intelligence } }
+								add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+								add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+								add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+							}
+							else_if = {
+								limit = { owner = { has_authority = auth_hive_mind } }
+								add_district_and_planet_size_if_needed_effect = { district = district_hive }
+								add_district_and_planet_size_if_needed_effect = { district = district_hive }
+								add_district_and_planet_size_if_needed_effect = { district = district_hive }
+							}
+							else = {
+								add_district_and_planet_size_if_needed_effect = { district = district_city }
+								add_district_and_planet_size_if_needed_effect = { district = district_city }
+								add_district_and_planet_size_if_needed_effect = { district = district_city }
+							}
+							if = {
+								limit = {
+									owner = { NOT = { has_authority = auth_machine_intelligence } }
+								}
+								add_district_and_planet_size_if_needed_effect = { district = district_farming }
+								add_district_and_planet_size_if_needed_effect = { district = district_farming }
+								add_district_and_planet_size_if_needed_effect = { district = district_farming }
+								add_district_and_planet_size_if_needed_effect = { district = district_farming }
+								add_district_and_planet_size_if_needed_effect = { district = district_farming }
+							}
+							if = {
+								limit = {
+									owner = { has_authority = auth_machine_intelligence }
+								}
+								add_district_and_planet_size_if_needed_effect = { district = district_generator }
+								add_district_and_planet_size_if_needed_effect = { district = district_generator }
+								add_district_and_planet_size_if_needed_effect = { district = district_generator }
+							}
+							while = {
+								count = 30
+								create_pop = { species = owner_main_species }
+							}
+							if = {
+								limit = { owner = { is_regular_empire = yes } }
+								# 3 jobs
+								add_building = building_system_capital
+								# 2 jobs
+								add_building = building_bureaucratic_1
+								add_building = building_bureaucratic_1
+								add_building = building_factory_1
+								add_building = building_food_processing_center
+								# 4 jobs
+								if = {
+									limit = { owner = { is_megacorp = yes } }
+									add_building = building_commercial_zone
+								}
+							}
+							if = {
+								limit = { owner = { is_hive_empire = yes } }
+								# 5 jobs
+								add_building = building_hive_major_capital
+								add_building = building_hive_node
+								add_building = building_hive_warren
+							}
+					
+							# Replace capital building for machine empires
+							if = {
+								limit = { owner = { is_machine_empire = yes } }
+								add_building = building_machine_system_capital
+								add_building = building_machine_assembly_plant
+								add_building = building_uplink_node
+							}									
+						}
+					}
+					else = {
+						create_starbase = {
+							size = "starbase_outpost"
+							owner = root.owner
+							effect = {	
+							}
+						}						
+					}
+					#####
+					every_neighbor_system = {
+						if = {
+							limit = {
+								any_system_planet = {
+									is_a_habitable_planet_megastructure = yes
+								}
+								NOT = {
+									owner = {
+										is_same_value = capital_star
+									}
+								}
+							}
+							create_starbase = {
+								size = "starbase_starport"
+								owner = root.owner
+								effect = {	
+								}
+							}
+							every_system_planet = {
+								limit = {
+									is_a_habitable_planet_megastructure = yes	
+									is_colony = no		
+									NOR = {
+										has_owner = yes
+										is_planet_class = pc_dark_fractured
+										is_planet_class = pc_dark_fractured_ae
+									}							
+								}
+								create_colony = { owner = root }
+								clear_blockers = yes
+					
+								remove_all_buildings = yes
+					
+								prevent_anomaly = yes
+								add_district_and_planet_size_if_needed_effect = { district = district_industrial }
+								add_district_and_planet_size_if_needed_effect = { district = district_mining }
+								add_district_and_planet_size_if_needed_effect = { district = district_mining }
+								add_district_and_planet_size_if_needed_effect = { district = district_generator }
+								add_district_and_planet_size_if_needed_effect = { district = district_generator }
+								add_district_and_planet_size_if_needed_effect = { district = district_generator }
+								add_district_and_planet_size_if_needed_effect = { district = district_generator }
+								if = {
+									limit = { owner = { has_authority = auth_machine_intelligence } }
+									add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+									add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+									add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+								}
+								else_if = {
+									limit = { owner = { has_authority = auth_hive_mind } }
+									add_district_and_planet_size_if_needed_effect = { district = district_hive }
+									add_district_and_planet_size_if_needed_effect = { district = district_hive }
+									add_district_and_planet_size_if_needed_effect = { district = district_hive }
+								}
+								else = {
+									add_district_and_planet_size_if_needed_effect = { district = district_city }
+									add_district_and_planet_size_if_needed_effect = { district = district_city }
+									add_district_and_planet_size_if_needed_effect = { district = district_city }
+								}
+								if = {
+									limit = {
+										owner = { NOT = { has_authority = auth_machine_intelligence } }
+									}
+									add_district_and_planet_size_if_needed_effect = { district = district_farming }
+									add_district_and_planet_size_if_needed_effect = { district = district_farming }
+									add_district_and_planet_size_if_needed_effect = { district = district_farming }
+									add_district_and_planet_size_if_needed_effect = { district = district_farming }
+									add_district_and_planet_size_if_needed_effect = { district = district_farming }
+								}
+								if = {
+									limit = {
+										owner = { has_authority = auth_machine_intelligence }
+									}
+									add_district_and_planet_size_if_needed_effect = { district = district_generator }
+									add_district_and_planet_size_if_needed_effect = { district = district_generator }
+									add_district_and_planet_size_if_needed_effect = { district = district_generator }
+								}
+								while = {
+									count = 25
+									create_pop = { species = owner_main_species }
+								}
+								if = {
+									limit = { owner = { is_regular_empire = yes } }
+									# 3 jobs
+									add_building = building_major_capital
+									# 2 jobs
+									add_building = building_bureaucratic_1
+									add_building = building_bureaucratic_1
+									add_building = building_factory_1
+									# 4 jobs
+									if = {
+										limit = { owner = { is_megacorp = yes } }
+										add_building = building_commercial_zone
+									}
+								}
+								if = {
+									limit = { owner = { is_hive_empire = yes } }
+									# 5 jobs
+									add_building = building_hive_major_capital
+									add_building = building_hive_node
+									add_building = building_spawning_pool
+									add_building = building_hive_warren
+								}
+						
+								# Replace capital building for machine empires
+								if = {
+									limit = { owner = { is_machine_empire = yes } }
+									add_building = building_machine_major_capital
+									add_building = building_machine_assembly_plant
+								}								
+							}
+						}
+						else = {
+							create_starbase = {
+								size = "starbase_outpost"
+								owner = root.owner
+			
+								
+								effect = {	
+								}
+							}						
+						}
+					}
+				}			
+			}
+			solar_system = {
+				random_fleet_in_system = {
+					limit = {
+						is_ship_class = shipclass_starbase
+					}
+					destroy_fleet = { target = this }
+				}
+				create_starbase = {
+					size = starbase_citadel
+					owner = root.owner	
+			
+					module = "shipyard"
+					module = "shipyard"
+					module = "shipyard"		
+					module = "shipyard"	
+					
+					effect = {	
+					}
+				}
+			}
+		}
+		every_planet_within_border = {
+			limit = {
+				has_deposit_for = shipclass_mining_station
+				has_mining_station = no
+			}
+			create_mining_station = {
+				owner = ROOT
+			}
+		}
+		every_planet_within_border = {
+			limit = {
+				has_deposit_for = shipclass_research_station
+				has_research_station = no
+			}
+			create_research_station = {
+				owner = ROOT
+			}
+		}		
+	}
+}
+
+country_event = {
+	id = acot_startup.5
+	hide_window = yes
+	is_triggered_only = yes
+	#fire_only_once = yes
+	
+	
+
+	trigger = {
+		has_origin = origin_tier_dm_start
+	}
+	
+	immediate = {
+		set_country_flag = tier_dm_start
+		set_country_flag = custom_start_screen
+		add_resource = {
+			minerals = 15000
+			energy = 15000
+			alloys = 7500
+			food = 7500
+			consumer_goods = 7500
+			volatile_motes = 750
+			rare_crystals = 750
+			exotic_gases = 750		
+			influence = 450
+			unity = 30000
+			acot_sr_dark_energy = 500
+			sr_dark_matter = 500
+		}
+		every_owned_leader = {
+			add_skill = 5
+		}
+		copy_techs_from = {
+			target = event_target:acot_tier_dm_dummy_country
+			except = {
+				tech_akx_worm_1
+				tech_akx_worm_2
+				tech_akx_worm_3
+				tech_psionic_theory
+				tech_nanite_assemblers
+				tech_nanite_repair_system
+				tech_nanite_transmutation
+				null_void_beam
+				tech_acot_swarm_strike_craft
+				tech_swarm_strike_craft_1
+				tech_acot_scourge_missile
+				tech_scourge_missile_1
+				tech_acot_matter_disintegrator
+				tech_extradimensional_weapon_1
+				tech_energy_lance_edi
+				tech_energy_lance_contingency
+				tech_perdition_beam_contingency
+			}
+		}
+		country_event = { id = acot_test_event.0 } #Overwrites other stupid stuffs that prevent our grand ascension.
+		country_event = { id = acot_startup.501 days = 1 } #Overwrites other stupid stuffs that prevent our grand ascension.
+		capital_scope = { 
+			planet_event = { id = acot_startup.500 } 
+		}	
+	}
+}
+
+### SETUP PLANETS
+planet_event = {
+	id = acot_startup.500
+	hide_window = yes
+	is_triggered_only = yes
+	#fire_only_once = yes
+
+	immediate = {
+		clear_blockers = yes
+		remove_all_buildings = yes
+		prevent_anomaly = yes
+		if = {
+			limit = { owner = { is_regular_empire = yes } }
+			add_building = building_dm_ancient_palace
+			add_building = building_fe_mansion
+			add_building = building_enigmatic_lab
+			add_building = building_enigmatic_lab
+			add_building = building_fe_alloy_forge
+			add_building = building_fe_factory
+			add_building = building_dark_energy_pylon
+			add_building = building_dark_energy_pylon
+			add_building = building_dark_matter_generator
+			add_building = building_dark_matter_generator
+			add_building = building_dark_matter_synthersizer
+			if = {
+				limit = { owner = { is_megacorp = yes } }
+				add_district_and_planet_size_if_needed_effect = {
+					district = district_city
+				}
+				add_building = building_commercial_zone
+			}
+		}
+		if = {
+			limit = { owner = { is_hive_empire = yes } }
+
+			add_building = building_dm_ancient_hive_cluster
+			add_building = building_enigmatic_lab
+			add_building = building_enigmatic_lab
+			add_building = building_fe_alloy_forge
+			add_building = building_fe_hive_depot
+			add_building = building_fe_hive_pool
+			add_building = building_dark_energy_pylon
+			add_building = building_dark_energy_pylon
+			add_building = building_dark_matter_generator
+			add_building = building_dark_matter_generator
+			add_building = building_dark_matter_synthersizer
+		}
+
+		# Replace capital building for machine empires
+		if = {
+			limit = { owner = { is_machine_empire = yes } }
+
+			add_building = building_dm_ancient_control_center
+			add_building = building_super_assembly_machine
+			add_building = building_dm_ancient_cryo_chamber
+			add_building = building_enigmatic_lab
+			add_building = building_enigmatic_lab
+			add_building = building_fe_alloy_forge
+			add_building = building_dark_energy_pylon
+			add_building = building_dark_energy_pylon
+			add_building = building_dark_matter_generator
+			add_building = building_dark_matter_generator
+			add_building = building_dark_matter_synthersizer	
+			#Servitors
+			if = {
+				limit = { owner = { has_civic = civic_machine_servitor } }
+				add_building = building_organic_sanctuary
+			}
+		}
+		if = {
+			limit = {
+				is_capital = yes
+			}
+			add_district_and_planet_size_if_needed_effect = { district = district_mining }
+			add_district_and_planet_size_if_needed_effect = { district = district_mining }
+			add_district_and_planet_size_if_needed_effect = { district = district_mining }
+			add_district_and_planet_size_if_needed_effect = { district = district_mining }
+			add_district_and_planet_size_if_needed_effect = { district = district_generator }
+			add_district_and_planet_size_if_needed_effect = { district = district_generator }
+			add_district_and_planet_size_if_needed_effect = { district = district_generator }
+			add_district_and_planet_size_if_needed_effect = { district = district_generator }
+			if = {
+				limit = { owner = { has_authority = auth_machine_intelligence } }
+				add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+				add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+				add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+				add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+			}
+			else_if = {
+				limit = { owner = { has_authority = auth_hive_mind } }
+				add_district_and_planet_size_if_needed_effect = { district = district_hive }
+				add_district_and_planet_size_if_needed_effect = { district = district_hive }
+				add_district_and_planet_size_if_needed_effect = { district = district_hive }
+				add_district_and_planet_size_if_needed_effect = { district = district_hive }
+			}
+			else = {
+				add_district_and_planet_size_if_needed_effect = { district = district_city }
+				add_district_and_planet_size_if_needed_effect = { district = district_city }
+				add_district_and_planet_size_if_needed_effect = { district = district_city }
+				add_district_and_planet_size_if_needed_effect = { district = district_city }
+			}
+			if = {
+				limit = {
+					owner = { NOT = { has_authority = auth_machine_intelligence } }
+				}
+				add_district_and_planet_size_if_needed_effect = { district = district_farming }
+				add_district_and_planet_size_if_needed_effect = { district = district_farming }
+				add_district_and_planet_size_if_needed_effect = { district = district_farming }
+			}
+			if = {
+				limit = {
+					owner = { has_authority = auth_machine_intelligence }
+				}
+				add_district_and_planet_size_if_needed_effect = { district = district_generator }
+				add_district_and_planet_size_if_needed_effect = { district = district_generator }
+				add_district_and_planet_size_if_needed_effect = { district = district_generator }
+			}
+			if = {
+				limit = { owner = { is_gestalt = no } }
+				add_building = building_factory_1
+				add_building = building_commercial_zone
+			}
+			while = {
+				count = 40
+				create_pop = { species = owner_main_species }
+			}
+		}	
+	}
+}
+
+country_event = {
+	id = acot_startup.501
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		every_owned_fleet = {
+			limit = {
+				is_ship_class = shipclass_military
+			}
+			delete_fleet = this				
+		}	
+		capital_scope = {
+
+			owner = {
+				create_leader = {
+					class = admiral
+					skill = 6
+					species = owner_main_species
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root.owner	
+					assign_leader = last_created_leader
+					while = {
+						count = 10
+						create_ship = {
+							name = random
+							random_existing_design = destroyer
+						}
+					}
+					while = {
+						count = 6
+						create_ship = {
+							name = random
+							random_existing_design = cruiser
+						}
+					}
+					while = {
+						count = 4
+						create_ship = {
+							name = random
+							random_existing_design = battleship
+						}
+					}
+					if = {
+						limit = { 
+							host_has_dlc = Apocalypse 
+						}
+						create_ship = {
+							name = random
+							random_existing_design = titan
+						}
+					}
+					assign_leader = last_created_leader
+					set_location = {
+						target = prev
+						distance = 45
+						angle = random 
+					}				
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root.owner	
+					assign_leader = last_created_leader
+					random_list = { 
+						50 = {
+							while = {
+								count = 3
+								create_ship = {
+									name = random
+									design = "NAME_Sage"
+									graphical_culture = fallen_empire_02
+								}
+							}
+							while = {
+								count = 3
+								create_ship = {
+									name = random
+									design = "NAME_Zealot"
+									graphical_culture = fallen_empire_01
+								}
+							}
+						}
+						50 = {
+							while = {
+								count = 3
+								create_ship = {
+									name = random
+									design = "NAME_Glory"
+									graphical_culture = fallen_empire_04
+								}
+							}
+							while = {
+								count = 3
+								create_ship = {
+									name = random
+									design = "NAME_Warden"
+									graphical_culture = fallen_empire_03
+								}
+							}
+						}
+					}
+					random_list = { 
+						50 = {
+							while = {
+								count = 1
+								create_ship = {
+									name = random
+									design = "NAME_Scholar"
+									graphical_culture = fallen_empire_02
+								}
+							}
+							while = {
+								count = 1
+								create_ship = {
+									name = random
+									design = "NAME_Avatar"
+									graphical_culture = fallen_empire_01
+								}
+							}
+						}
+						50 = {
+							while = {
+								count = 1
+								create_ship = {
+									name = random
+									design = "NAME_Supremacy"
+									graphical_culture = fallen_empire_04
+								}
+							}
+							while = {
+								count = 1
+								create_ship = {
+									name = random
+									design = "NAME_Custodian"
+									graphical_culture = fallen_empire_03
+								}
+							}
+						}
+					}
+					assign_leader = last_created_leader
+					set_location = {
+						target = prev
+						distance = 60
+						angle = random 
+					}				
+				}
+			}
+			IF = {
+				limit = {
+					host_has_dlc = Federations
+				}
+				create_fleet = {
+					effect = {
+						set_owner = root.owner	
+						create_ship = {
+							name = random
+							random_existing_design = juggernaut
+						}
+						set_location = {
+							target = prev
+							distance = 25
+							angle = random 
+						}				
+					}
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root.owner	
+					create_ship = {
+						random_existing_design = constructor
+						graphical_culture = root.owner
+					}	
+					set_location = {
+						target = prev
+						distance = 30
+						angle = random 
+					}				
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root.owner	
+					create_ship = {
+						random_existing_design = constructor
+						graphical_culture = root.owner
+					}	
+					set_location = {
+						target = prev
+						distance = 30
+						angle = random 
+					}				
+				}
+			}
+			owner = {
+				create_leader = {
+					class = scientist
+					skill = 5
+					sub_type = survey
+					species = owner_main_species
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root.owner	
+					create_ship = {
+						random_existing_design = science
+						graphical_culture = root.owner
+					}	
+					set_location = {
+						target = prev
+						distance = 50
+						angle = random 
+					}
+					assign_leader = last_created_leader		
+				}
+			}
+			owner = {
+				create_leader = {
+					class = scientist
+					skill = 5
+					sub_type = survey
+					species = owner_main_species
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root.owner	
+					create_ship = {
+						random_existing_design = science
+						graphical_culture = root.owner
+					}	
+					set_location = {
+						target = prev
+						distance = 55
+						angle = random 
+					}	
+					assign_leader = last_created_leader				
+				}
+			}
+			solar_system = {
+				every_neighbor_system = {
+					if = {
+						limit = {
+							any_system_planet = {
+								is_a_habitable_planet_megastructure = yes
+							}
+						}
+						create_starbase = {
+							size = "starbase_starport"
+							owner = root.owner			
+							effect = {	
+							}
+						}
+						every_system_planet = {
+							limit = {
+								is_a_habitable_planet_megastructure = yes	
+								is_colony = no		
+								NOR = {
+									has_owner = yes
+									is_planet_class = pc_dark_fractured
+									is_planet_class = pc_dark_fractured_ae
+								}						
+							}
+							create_colony = { owner = root }
+							clear_blockers = yes
+				
+							remove_all_buildings = yes
+				
+							prevent_anomaly = yes
+							add_district_and_planet_size_if_needed_effect = { district = district_mining }
+							add_district_and_planet_size_if_needed_effect = { district = district_mining }
+							add_district_and_planet_size_if_needed_effect = { district = district_mining }
+							add_district_and_planet_size_if_needed_effect = { district = district_mining }
+							add_district_and_planet_size_if_needed_effect = { district = district_generator }
+							add_district_and_planet_size_if_needed_effect = { district = district_generator }
+							add_district_and_planet_size_if_needed_effect = { district = district_generator }
+							add_district_and_planet_size_if_needed_effect = { district = district_generator }
+							if = {
+								limit = { owner = { has_authority = auth_machine_intelligence } }
+								add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+								add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+								add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+								add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+							}
+							else_if = {
+								limit = { owner = { has_authority = auth_hive_mind } }
+								add_district_and_planet_size_if_needed_effect = { district = district_hive }
+								add_district_and_planet_size_if_needed_effect = { district = district_hive }
+								add_district_and_planet_size_if_needed_effect = { district = district_hive }
+								add_district_and_planet_size_if_needed_effect = { district = district_hive }
+							}
+							else = {
+								add_district_and_planet_size_if_needed_effect = { district = district_city }
+								add_district_and_planet_size_if_needed_effect = { district = district_city }
+								add_district_and_planet_size_if_needed_effect = { district = district_city }
+								add_district_and_planet_size_if_needed_effect = { district = district_city }
+							}
+							if = {
+								limit = {
+									owner = { NOT = { has_authority = auth_machine_intelligence } }
+								}
+								add_district_and_planet_size_if_needed_effect = { district = district_farming }
+								add_district_and_planet_size_if_needed_effect = { district = district_farming }
+								add_district_and_planet_size_if_needed_effect = { district = district_farming }
+							}
+							if = {
+								limit = {
+									owner = { has_authority = auth_machine_intelligence }
+								}
+								add_district_and_planet_size_if_needed_effect = { district = district_generator }
+								add_district_and_planet_size_if_needed_effect = { district = district_generator }
+								add_district_and_planet_size_if_needed_effect = { district = district_generator }
+							}
+							while = {
+								count = 45
+								create_pop = { species = owner_main_species }
+							}
+							if = {
+								limit = { owner = { is_regular_empire = yes } }
+								add_building = building_dm_ancient_palace
+								add_building = building_fe_mansion
+								add_building = building_fe_mineral_processing_plant
+								add_building = building_fe_power_hub
+								add_building = building_fe_factory
+								add_building = building_dark_energy_pylon
+								add_building = building_dark_energy_pylon
+								add_building = building_dark_matter_generator
+								add_building = building_dark_matter_generator
+								if = {
+									limit = { owner = { is_megacorp = yes } }
+									add_district_and_planet_size_if_needed_effect = {
+										district = district_city
+									}
+									add_building = building_commercial_zone
+								}
+							}
+							if = {
+								limit = { owner = { is_hive_empire = yes } }
+					
+								add_building = building_dm_ancient_hive_cluster
+								add_building = building_fe_mineral_processing_plant
+								add_building = building_fe_power_hub
+								add_building = building_fe_hive_depot
+								add_building = building_fe_hive_pool
+								add_building = building_dark_energy_pylon
+								add_building = building_dark_energy_pylon
+								add_building = building_dark_matter_generator
+								add_building = building_dark_matter_generator
+							}
+							if = {
+								limit = { owner = { is_machine_empire = yes } }
+					
+								add_building = building_dm_ancient_control_center
+								add_building = building_dm_ancient_cryo_chamber
+								add_building = building_fe_mineral_processing_plant
+								add_building = building_fe_power_hub
+								add_building = building_dark_energy_pylon
+								add_building = building_dark_energy_pylon
+								add_building = building_dark_matter_generator
+								add_building = building_dark_matter_generator
+							}								
+						}
+					}
+					else = {
+						create_starbase = {
+							size = "starbase_outpost"
+							owner = root.owner
+		
+							
+							effect = {	
+							}
+						}						
+					}
+					every_neighbor_system = {
+						if = {
+							limit = {
+								any_system_planet = {
+									is_a_habitable_planet_megastructure = yes
+									NOT = {
+										owner = {
+											is_same_value = capital_star
+										}
+									}
+								}
+							}
+							create_starbase = {
+								size = "starbase_starport"
+								owner = root.owner
+								effect = {	
+								}
+							}
+							every_system_planet = {
+								limit = {
+									is_a_habitable_planet_megastructure = yes	
+									is_colony = no		
+									NOR = {
+										has_owner = yes
+										is_planet_class = pc_dark_fractured
+										is_planet_class = pc_dark_fractured_ae
+									}					
+								}
+								create_colony = { owner = root }
+								clear_blockers = yes
+					
+								remove_all_buildings = yes
+					
+								prevent_anomaly = yes
+								add_district_and_planet_size_if_needed_effect = { district = district_mining }
+								add_district_and_planet_size_if_needed_effect = { district = district_mining }
+								add_district_and_planet_size_if_needed_effect = { district = district_mining }
+								add_district_and_planet_size_if_needed_effect = { district = district_mining }
+								add_district_and_planet_size_if_needed_effect = { district = district_generator }
+								add_district_and_planet_size_if_needed_effect = { district = district_generator }
+								add_district_and_planet_size_if_needed_effect = { district = district_generator }
+								add_district_and_planet_size_if_needed_effect = { district = district_generator }
+								if = {
+									limit = { owner = { has_authority = auth_machine_intelligence } }
+									add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+									add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+									add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+									add_district_and_planet_size_if_needed_effect = { district = district_nexus }
+								}
+								else_if = {
+									limit = { owner = { has_authority = auth_hive_mind } }
+									add_district_and_planet_size_if_needed_effect = { district = district_hive }
+									add_district_and_planet_size_if_needed_effect = { district = district_hive }
+									add_district_and_planet_size_if_needed_effect = { district = district_hive }
+									add_district_and_planet_size_if_needed_effect = { district = district_hive }
+								}
+								else = {
+									add_district_and_planet_size_if_needed_effect = { district = district_city }
+									add_district_and_planet_size_if_needed_effect = { district = district_city }
+									add_district_and_planet_size_if_needed_effect = { district = district_city }
+									add_district_and_planet_size_if_needed_effect = { district = district_city }
+								}
+								if = {
+									limit = {
+										owner = { NOT = { has_authority = auth_machine_intelligence } }
+									}
+									add_district_and_planet_size_if_needed_effect = { district = district_farming }
+									add_district_and_planet_size_if_needed_effect = { district = district_farming }
+									add_district_and_planet_size_if_needed_effect = { district = district_farming }
+								}
+								if = {
+									limit = {
+										owner = { has_authority = auth_machine_intelligence }
+									}
+									add_district_and_planet_size_if_needed_effect = { district = district_generator }
+									add_district_and_planet_size_if_needed_effect = { district = district_generator }
+									add_district_and_planet_size_if_needed_effect = { district = district_generator }
+								}
+								while = {
+									count = 45
+									create_pop = { species = owner_main_species }
+								}
+								if = {
+									limit = { owner = { is_regular_empire = yes } }
+									add_building = building_dm_ancient_palace
+									add_building = building_fe_mansion
+									add_building = building_fe_mineral_processing_plant
+									add_building = building_fe_power_hub
+									add_building = building_fe_factory
+									add_building = building_dark_energy_pylon
+									add_building = building_dark_energy_pylon
+									add_building = building_dark_matter_generator
+									add_building = building_dark_matter_generator
+									if = {
+										limit = { owner = { is_megacorp = yes } }
+										add_district_and_planet_size_if_needed_effect = {
+											district = district_city
+										}
+										add_building = building_commercial_zone
+									}
+								}
+								if = {
+									limit = { owner = { is_hive_empire = yes } }
+						
+									add_building = building_dm_ancient_hive_cluster
+									add_building = building_fe_mineral_processing_plant
+									add_building = building_fe_power_hub
+									add_building = building_fe_hive_depot
+									add_building = building_fe_hive_pool
+									add_building = building_dark_energy_pylon
+									add_building = building_dark_energy_pylon
+									add_building = building_dark_matter_generator
+									add_building = building_dark_matter_generator
+								}
+								if = {
+									limit = { owner = { is_machine_empire = yes } }
+						
+									add_building = building_dm_ancient_control_center
+									add_building = building_dm_ancient_cryo_chamber
+									add_building = building_fe_mineral_processing_plant
+									add_building = building_fe_power_hub
+									add_building = building_dark_energy_pylon
+									add_building = building_dark_energy_pylon
+									add_building = building_dark_matter_generator
+									add_building = building_dark_matter_generator
+								}								
+							}
+						}
+						else = {
+							create_starbase = {
+								size = "starbase_outpost"
+								owner = root.owner
+			
+								
+								effect = {	
+								}
+							}						
+						}
+					}
+				}			
+			}
+			solar_system = {
+				random_fleet_in_system = {
+					limit = {
+						is_ship_class = shipclass_starbase
+					}
+					destroy_fleet = { target = this }
+				}
+				create_starbase = {
+					size = starbase_citadel
+					owner = root.owner	
+			
+					module = "shipyard"
+					module = "shipyard"
+					module = "shipyard"		
+					module = "shipyard"	
+					
+					effect = {	
+					}
+				}
+			}
+		}
+		every_planet_within_border = {
+			limit = {
+				has_deposit_for = shipclass_mining_station
+				has_mining_station = no
+			}
+			create_mining_station = {
+				owner = ROOT
+			}
+		}
+		every_planet_within_border = {
+			limit = {
+				has_deposit_for = shipclass_research_station
+				has_research_station = no
+			}
+			create_research_station = {
+				owner = ROOT
+			}
+		}		
+	}
+}

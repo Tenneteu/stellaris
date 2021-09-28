@@ -1,0 +1,3394 @@
+
+#########################################
+#
+# on_action_events
+#
+#########################################
+
+namespace = acot_pmc
+
+fleet_event = {
+	id = acot_pmc.0
+	title = "acot_pmc.0.title"
+	desc = "acot_pmc.0.desc"
+	picture = GFX_evt_star_chart
+	location = FROM
+	trackable = yes
+	show_sound = event_yellow_alert
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		owner = {
+			is_playable_country = yes
+		}
+		from = {
+            OR = {
+                any_ship_in_system = {
+                    exists = owner
+                    owner = {
+                        is_country_type = acot_phanon_base
+                    }
+                }
+                has_star_flag = phanon_base_system
+			}
+		}
+		event_target:phanon_base_country = {
+			NOT = {
+				has_communications = root.owner
+			}				
+		}
+	}
+
+	immediate = {
+	}
+	
+	option = {
+		name = "acot_pmc.0.a"
+	}
+
+	after = {
+		owner = {
+			establish_communications = event_target:phanon_base_country
+			country_event = {
+				id = acot_pmc.1
+			}
+		}		
+	}
+}
+
+# CONTACTORUS
+country_event = {
+	id = acot_pmc.1
+	title = "acot_pmc.diplo_title"
+	desc = {
+		text = acot_pmc.1.desc
+	}
+
+	trigger = {
+		from = {
+			is_country_type = acot_phanon_base
+		}
+	}
+	
+	is_triggered_only = yes
+	diplomatic = yes
+    show_sound = event_yellow_alert
+    
+	picture_event_data = {
+		room = sofe_smuggler_room
+	}
+	
+	immediate = {
+		set_country_flag = acot_phanon_diplomacy_engaged
+		event_target:phanon_base_country = {
+			set_closed_borders = {
+				who = root
+				status = no
+			}
+		}	
+	}
+    
+	after = {
+		hidden_effect = {
+			remove_country_flag = acot_phanon_diplomacy_engaged
+		}
+    }
+
+	option = {
+		name = acot_pmc.1.a
+		trigger = { is_xenophobe = no }
+		default_hide_option = yes
+	}
+
+	option = {
+		name = acot_pmc.1.b
+		trigger = { is_xenophobe = yes }
+		default_hide_option = yes
+	}
+
+	option = {
+		name = acot_pmc.1.swarm.a
+		response_text = acot_pmc.1.swarm.a.response
+		trigger = { 
+			has_valid_civic = civic_hive_devouring_swarm
+		}
+		default_hide_option = yes
+	}
+
+	option = {
+		name = acot_pmc.1.exterminator.a
+		response_text = acot_pmc.1.exterminator.a.response
+		trigger = { 
+			has_valid_civic = civic_machine_terminator
+		}
+		default_hide_option = yes
+	}
+
+	option = {
+		name = acot_pmc.1.purifier.a
+		response_text = acot_pmc.1.purifier.a.response
+		trigger = { 
+			has_valid_civic = civic_fanatic_purifiers
+		}
+		default_hide_option = yes
+	}
+
+	option = {
+		name = acot_pmc.1.insult
+		custom_tooltip = acot_pmc.1.insult.tooltip
+		response_text = acot_pmc.1.swarm.insult.response
+		trigger = { 
+			has_valid_civic = civic_hive_devouring_swarm
+		}
+		default_hide_option = yes
+	}
+
+	option = {
+		name = acot_pmc.1.insult
+		custom_tooltip = acot_pmc.1.insult.tooltip
+		response_text = acot_pmc.1.exterminator.insult.response
+		trigger = { 
+			has_valid_civic = civic_machine_terminator
+		}
+		default_hide_option = yes
+	}
+
+	option = {
+		name = acot_pmc.1.insult
+		custom_tooltip = acot_pmc.1.insult.tooltip
+		response_text = acot_pmc.1.purifier.insult.response
+		trigger = { 
+			has_valid_civic = civic_fanatic_purifiers
+		}
+		default_hide_option = yes
+	}
+
+}
+
+# DIPLOMACY
+country_event = {
+	id = acot_pmc.2
+	title = "acot_pmc.diplo_title"
+	desc = {
+		text = acot_pmc.2.desc.a
+		trigger = {
+		}
+	}
+	desc = {
+		text = acot_pmc.2.desc.b
+		trigger = {
+		}
+	}
+	desc = {
+		text = acot_pmc.2.desc.c
+		trigger = {
+		}
+	}
+	desc = {
+		text = acot_pmc.2.desc.d
+		trigger = {
+		}
+	}
+	desc = {
+		text = acot_pmc.2.desc.e
+		trigger = {
+		}
+	}
+
+	trigger = {
+		from = {
+			has_country_flag = phanon_base_country
+		}
+		NOR = { 
+			has_country_flag = acot_phanon_diplomacy_engaged 
+			has_country_flag = attacked_phanon_property
+			has_global_flag = acot_phanon_portal_disabled
+		}
+	}
+
+	is_triggered_only = yes
+
+	diplomatic = yes
+    show_sound = event_yellow_alert
+    
+	picture_event_data = {
+		room = sofe_smuggler_room
+	}
+	
+	immediate = {
+		set_country_flag = acot_phanon_diplomacy_engaged
+	}
+
+	after = {
+		hidden_effect = {
+			remove_country_flag = acot_phanon_diplomacy_engaged
+		}
+    }
+    
+	option = {
+		name = acot_pmc.2.a
+		custom_tooltip = acot_pmc.2.a.explain
+		trigger = {
+		}
+		hidden_effect = {
+			country_event = { id = acot_pmc.3 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.2.c
+		custom_tooltip = acot_pmc.2.c.explain
+		trigger = {
+		}
+		hidden_effect = {
+			country_event = { id = acot_pmc.5 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.2.d
+		custom_tooltip = acot_pmc.2.d.explain
+		trigger = {
+			always = no
+		}
+	}
+
+	option = {
+		name = acot_pmc.2.e
+		custom_tooltip = acot_pmc.2.e.explain
+		trigger = {
+			always = no
+		}
+		hidden_effect = {
+			country_event = { id = acot_pmc.3 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.2.border
+		response_text = acot_pmc.2.border.response
+		trigger = {
+			event_target:phanon_base_country = {
+				has_closed_borders = root
+			}
+		}
+		event_target:phanon_base_country = {
+			set_closed_borders = {
+				who = root
+				status = no
+			}
+		}
+	}
+
+	option = {
+		name = acot_pmc.2.end
+		trigger = {
+			is_homicidal = no
+		}
+		default_hide_option = yes
+	}
+
+	option = {
+		name = acot_pmc.2.end.genocide
+		trigger = {
+			is_homicidal = yes
+		}
+		default_hide_option = yes
+	}
+
+}
+
+# DIPLOMACY FOR REDIRECTION
+country_event = {
+	id = acot_pmc.200
+	title = "acot_pmc.diplo_title"
+	desc = {
+		text = acot_pmc.2.desc.a
+		trigger = {
+		}
+	}
+	desc = {
+		text = acot_pmc.2.desc.b
+		trigger = {
+		}
+	}
+	desc = {
+		text = acot_pmc.2.desc.c
+		trigger = {
+		}
+	}
+	desc = {
+		text = acot_pmc.2.desc.d
+		trigger = {
+		}
+	}
+	desc = {
+		text = acot_pmc.2.desc.e
+		trigger = {
+		}
+	}
+
+	trigger = {
+		from = {
+			has_country_flag = phanon_base_country
+		}
+		NOT = { has_country_flag = acot_phanon_diplomacy_engaged }
+	}
+
+	is_triggered_only = yes
+
+	diplomatic = yes
+    show_sound = event_yellow_alert
+    
+	picture_event_data = {
+		room = sofe_smuggler_room
+	}
+	
+	immediate = {
+		set_country_flag = acot_phanon_diplomacy_engaged
+	}
+
+	after = {
+		hidden_effect = {
+			remove_country_flag = acot_phanon_diplomacy_engaged
+		}
+    }
+    
+	option = {
+		name = acot_pmc.2.a
+		custom_tooltip = acot_pmc.2.a.explain
+		trigger = {
+		}
+		hidden_effect = {
+			country_event = { id = acot_pmc.3 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.2.c
+		custom_tooltip = acot_pmc.2.c.explain
+		trigger = {
+		}
+		hidden_effect = {
+			country_event = { id = acot_pmc.5 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.2.d
+		custom_tooltip = acot_pmc.2.d.explain
+		trigger = {
+			always = no
+		}
+	}
+
+	option = {
+		name = acot_pmc.2.e
+		custom_tooltip = acot_pmc.2.e.explain
+		trigger = {
+			always = no
+		}
+		hidden_effect = {
+			country_event = { id = acot_pmc.3 }
+		}
+	}
+
+
+	option = {
+		name = acot_pmc.2.border
+		response_text = acot_pmc.2.border.response
+		trigger = {
+			event_target:phanon_base_country = {
+				has_closed_borders = root
+			}
+		}
+		event_target:phanon_base_country = {
+			set_closed_borders = {
+				who = root
+				status = no
+			}
+		}
+	}
+
+	option = {
+		name = acot_pmc.2.end
+		trigger = {
+			is_homicidal = no
+		}
+		default_hide_option = yes
+	}
+
+	option = {
+		name = acot_pmc.2.end.genocide
+		trigger = {
+			is_homicidal = yes
+		}
+		default_hide_option = yes
+	}
+
+}
+
+# DIPLOMACY
+country_event = {
+	id = acot_pmc.201
+	title = "acot_pmc.diplo_title"
+	desc = acot_pmc.201.a.desc
+	trigger = {
+		from = {
+			OR = {
+				has_country_flag = phanon_base_country
+				has_country_flag = phanon_retaliator_country
+			}
+		}
+		has_country_flag = attacked_phanon_property
+		NOR = { 
+			has_country_flag = acot_phanon_diplomacy_engaged 
+			has_global_flag = acot_phanon_portal_disabled
+		}
+	}
+
+	is_triggered_only = yes
+
+	diplomatic = yes
+    show_sound = event_red_alert
+    
+	picture_event_data = {
+		room = acot_phanon_bridge_hostile_room
+	}
+	
+	immediate = {
+		set_country_flag = acot_phanon_diplomacy_engaged
+	}
+
+	after = {
+		hidden_effect = {
+			remove_country_flag = acot_phanon_diplomacy_engaged
+		}
+    }
+    
+	option = {
+		name = acot_pmc.201.a
+		response_text = acot_pmc.201.a.response
+	}
+
+}
+
+# DIPLOMACY
+country_event = {
+	id = acot_pmc.202
+	title = "acot_pmc.diplo_title"
+	desc = acot_pmc.202.a.desc
+	desc = acot_pmc.202.b.desc
+	show_sound = event_radio_chatter_02
+	trigger = {
+		from = {
+			OR = {
+				has_country_flag = phanon_base_country
+				has_country_flag = phanon_retaliator_country
+			}
+		}
+		has_global_flag = acot_phanon_portal_disabled
+		NOT = { 
+			has_country_flag = acot_phanon_diplomacy_engaged 
+		}
+	}
+
+	is_triggered_only = yes
+
+	diplomatic = yes
+    
+	picture_event_data = {
+		room = no_video_feed_room
+	}
+	
+	immediate = {
+		set_country_flag = acot_phanon_diplomacy_engaged
+	}
+
+	after = {
+		hidden_effect = {
+			remove_country_flag = acot_phanon_diplomacy_engaged
+		}
+    }
+    
+	option = {
+		name = acot_pmc.202.a
+	}
+
+}
+
+############## WARNING! YOU ARE TALKING TO RAPTORUS FOR COMMISSION SERVICE
+country_event = {
+	id = acot_pmc.3
+	title = acot_pmc.3.name
+	desc = acot_pmc.3.desc.a
+
+	is_triggered_only = yes
+	diplomatic = yes
+
+	picture_event_data = {
+		room = sofe_smuggler_room
+	}
+
+	immediate = {
+		set_country_flag = acot_phanon_diplomacy_engaged
+	}
+
+
+	option = {
+		name = acot_pmc.3.a
+		custom_tooltip = acot_pmc.3.a.explain
+		hidden_effect = {
+			country_event = { id = acot_pmc.30 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.3.b
+		custom_tooltip = acot_pmc.3.b.explain
+		hidden_effect = {
+			country_event = { id = acot_pmc.31 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.3.c
+		custom_tooltip = acot_pmc.3.c.explain
+		hidden_effect = {
+			country_event = { id = acot_pmc.32 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.1.back
+		hidden_effect = {
+			country_event = { id = acot_pmc.2 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.1.end
+	}
+
+
+	after = {
+		remove_country_flag = acot_phanon_diplomacy_engaged
+	}
+}
+
+############## WARNING! YOU ARE TALKING TO RAPTORUS FOR COMMISSION SERVICE
+country_event = {
+	id = acot_pmc.30
+	title = acot_pmc.30.name
+	desc = {
+		trigger = {
+			NOR = {
+				has_country_flag = phanon_leader_skill_7
+				has_country_flag = phanon_leader_skill_10				
+			}
+		}
+		text = acot_pmc.30.desc.a
+	}
+	desc = {
+		trigger = {
+			has_country_flag = phanon_leader_skill_7
+		}
+		text = acot_pmc.30.desc.b
+	}
+	desc = {
+		trigger = {
+			has_country_flag = phanon_leader_skill_10		
+		}
+		text = acot_pmc.30.desc.c
+	}
+
+	is_triggered_only = yes
+	diplomatic = yes
+
+	picture_event_data = {
+		room = sofe_smuggler_room
+	}
+
+	immediate = {
+		set_country_flag = acot_phanon_diplomacy_engaged
+	}
+
+	option = {
+		name = acot_pmc.30.setskill
+		custom_tooltip = acot_pmc.30.setskill.explain
+		trigger = {
+			has_country_flag = phanon_leader_skill_10
+		}
+		remove_country_flag = phanon_leader_skill_7
+		remove_country_flag = phanon_leader_skill_10
+		hidden_effect = {
+			country_event = { id = acot_pmc.30 }
+		}
+	}
+	option = {
+		name = acot_pmc.30.setskill
+		custom_tooltip = acot_pmc.30.setskill.explain
+		trigger = {
+			NOR = {
+				has_country_flag = phanon_leader_skill_7
+				has_country_flag = phanon_leader_skill_10				
+			}
+		}
+		set_country_flag = phanon_leader_skill_7
+		hidden_effect = {
+			country_event = { id = acot_pmc.30 }
+		}
+	}
+	option = {
+		name = acot_pmc.30.setskill
+		custom_tooltip = acot_pmc.30.setskill.explain
+		trigger = {
+			has_country_flag = phanon_leader_skill_7
+		}
+		remove_country_flag = phanon_leader_skill_7
+		set_country_flag = phanon_leader_skill_10
+		hidden_effect = {
+			country_event = { id = acot_pmc.30 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.30.a
+		response_text = acot_pmc.30.a.response
+		allow = {
+			if = {
+				limit = { 
+					NOR = {
+						has_country_flag = phanon_leader_skill_7
+						has_country_flag = phanon_leader_skill_10				
+					}					
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 2500
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 100
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_leader_skill_7				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 5500
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 250
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_leader_skill_10				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 10000
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 500
+				}
+			}
+		}
+		IF = {
+			limit = {
+				NOR = {
+					has_country_flag = phanon_leader_skill_7
+					has_country_flag = phanon_leader_skill_10				
+				}
+			}
+			add_resource = {
+				energy = -2500
+				influence = -100
+			}
+			create_leader = {
+				class = admiral
+				species = root.species
+				name = random
+				skill = 3
+				leader_age_min = 20
+				leader_age_max = 40	
+				effect = {
+					while = {
+						count = 2
+						add_random_positive_leader_trait = yes
+					}				
+				}
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_leader_skill_7
+			}
+			add_resource = {
+				energy = -5500
+				influence = -250
+			}
+			create_leader = {
+				class = admiral
+				species = root.species
+				name = random
+				skill = 5
+				leader_age_min = 30
+				leader_age_max = 50	
+				effect = {
+					while = {
+						count = 3
+						add_random_positive_leader_trait = yes
+					}				
+				}
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_leader_skill_10	
+			}
+			add_resource = {
+				energy = -7500
+				influence = -500
+			}
+			create_leader = {
+				class = admiral
+				species = root.species
+				name = random
+				skill = 10
+				leader_age_min = 40
+				leader_age_max = 60
+				effect = {
+					while = {
+						count = 3
+						add_random_positive_leader_trait = yes
+					}
+					add_random_advanced_leader_trait = yes				
+				}
+			}
+		}
+	}
+
+	option = {
+		name = acot_pmc.30.b
+		response_text = acot_pmc.30.b.response
+		allow = {
+			if = {
+				limit = { 
+					NOR = {
+						has_country_flag = phanon_leader_skill_7
+						has_country_flag = phanon_leader_skill_10				
+					}					
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 2500
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 100
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_leader_skill_7				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 5500
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 250
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_leader_skill_10				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 10000
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 500
+				}
+			}
+		}
+		IF = {
+			limit = {
+				NOR = {
+					has_country_flag = phanon_leader_skill_7
+					has_country_flag = phanon_leader_skill_10				
+				}
+			}
+			add_resource = {
+				energy = -2500
+				influence = -100
+			}
+			create_leader = {
+				class = general
+				species = root.species
+				name = random
+				skill = 3
+				leader_age_min = 20
+				leader_age_max = 40	
+				effect = {
+					while = {
+						count = 2
+						add_random_positive_leader_trait = yes
+					}				
+				}
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_leader_skill_7
+			}
+			add_resource = {
+				energy = -5500
+				influence = -250
+			}
+			create_leader = {
+				class = general
+				species = root.species
+				name = random
+				skill = 5
+				leader_age_min = 30
+				leader_age_max = 50	
+				effect = {
+					while = {
+						count = 3
+						add_random_positive_leader_trait = yes
+					}				
+				}
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_leader_skill_10	
+			}
+			add_resource = {
+				energy = -7500
+				influence = -500
+			}
+			create_leader = {
+				class = general
+				species = root.species
+				name = random
+				skill = 10
+				leader_age_min = 40
+				leader_age_max = 60
+				effect = {
+					while = {
+						count = 3
+						add_random_positive_leader_trait = yes
+					}
+					add_random_advanced_leader_trait = yes				
+				}
+			}
+		}
+	}
+
+	option = {
+		name = acot_pmc.30.c
+		response_text = acot_pmc.30.c.response
+		allow = {
+			if = {
+				limit = { 
+					NOR = {
+						has_country_flag = phanon_leader_skill_7
+						has_country_flag = phanon_leader_skill_10				
+					}					
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 2500
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 100
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_leader_skill_7				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 5500
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 250
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_leader_skill_10				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 10000
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 500
+				}
+			}
+		}
+		IF = {
+			limit = {
+				NOR = {
+					has_country_flag = phanon_leader_skill_7
+					has_country_flag = phanon_leader_skill_10				
+				}
+			}
+			add_resource = {
+				energy = -2500
+				influence = -100
+			}
+			create_leader = {
+				class = scientist
+				species = root.species
+				name = random
+				skill = 3
+				leader_age_min = 20
+				leader_age_max = 40	
+				effect = {
+					while = {
+						count = 2
+						add_random_positive_leader_trait = yes
+					}				
+				}
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_leader_skill_7
+			}
+			add_resource = {
+				energy = -5500
+				influence = -250
+			}
+			create_leader = {
+				class = scientist
+				species = root.species
+				name = random
+				skill = 5
+				leader_age_min = 30
+				leader_age_max = 50	
+				effect = {
+					while = {
+						count = 3
+						add_random_positive_leader_trait = yes
+					}				
+				}
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_leader_skill_10	
+			}
+			add_resource = {
+				energy = -7500
+				influence = -500
+			}
+			create_leader = {
+				class = scientist
+				species = root.species
+				name = random
+				skill = 10
+				leader_age_min = 40
+				leader_age_max = 60
+				effect = {
+					while = {
+						count = 3
+						add_random_positive_leader_trait = yes
+					}
+					add_random_advanced_leader_trait = yes				
+				}
+			}
+		}
+	}
+
+	option = {
+		name = acot_pmc.30.d
+		response_text = acot_pmc.30.d.response
+		allow = {
+			if = {
+				limit = { 
+					NOR = {
+						has_country_flag = phanon_leader_skill_7
+						has_country_flag = phanon_leader_skill_10				
+					}					
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 2500
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 100
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_leader_skill_7				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 5500
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 250
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_leader_skill_10				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 10000
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 500
+				}
+			}
+		}
+		IF = {
+			limit = {
+				NOR = {
+					has_country_flag = phanon_leader_skill_7
+					has_country_flag = phanon_leader_skill_10				
+				}
+			}
+			add_resource = {
+				energy = -2500
+				influence = -100
+			}
+			create_leader = {
+				class = governor
+				species = root.species
+				name = random
+				skill = 3
+				leader_age_min = 20
+				leader_age_max = 40	
+				effect = {
+					while = {
+						count = 2
+						add_random_positive_leader_trait = yes
+					}				
+				}
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_leader_skill_7
+			}
+			add_resource = {
+				energy = -5500
+				influence = -250
+			}
+			create_leader = {
+				class = governor
+				species = root.species
+				name = random
+				skill = 5
+				leader_age_min = 30
+				leader_age_max = 50	
+				effect = {
+					while = {
+						count = 3
+						add_random_positive_leader_trait = yes
+					}				
+				}
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_leader_skill_10	
+			}
+			add_resource = {
+				energy = -7500
+				influence = -500
+			}
+			create_leader = {
+				class = governor
+				species = root.species
+				name = random
+				skill = 10
+				leader_age_min = 40
+				leader_age_max = 60
+				effect = {
+					while = {
+						count = 3
+						add_random_positive_leader_trait = yes
+					}
+					add_random_advanced_leader_trait = yes				
+				}
+			}
+		}
+	}
+
+	option = {
+		name = acot_pmc.1.back
+		hidden_effect = {
+			country_event = { id = acot_pmc.2 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.1.end
+	}
+
+
+	after = {
+		remove_country_flag = acot_phanon_diplomacy_engaged
+	}
+}
+
+############## WARNING! YOU ARE TALKING TO RAPTORUS FOR COMMISSION SERVICE
+country_event = {
+	id = acot_pmc.31
+	title = acot_pmc.31.name
+	desc = {
+		trigger = {
+			NOR = {
+				has_country_flag = phanon_fleet_medium
+				has_country_flag = phanon_fleet_large		
+			}
+		}
+		text = acot_pmc.31.desc.a
+	}
+	desc = {
+		trigger = {
+			has_country_flag = phanon_fleet_medium
+		}
+		text = acot_pmc.31.desc.b
+	}
+	desc = {
+		trigger = {
+			has_country_flag = phanon_fleet_large		
+		}
+		text = acot_pmc.31.desc.c
+	}
+
+	is_triggered_only = yes
+	diplomatic = yes
+
+	picture_event_data = {
+		room = sofe_smuggler_room
+	}
+
+	immediate = {
+		set_country_flag = acot_phanon_diplomacy_engaged
+	}
+
+	option = {
+		name = acot_pmc.31.setsize
+		custom_tooltip = acot_pmc.31.setsize.explain
+		trigger = {
+			has_country_flag = phanon_fleet_large
+		}
+		remove_country_flag = phanon_fleet_medium
+		remove_country_flag = phanon_fleet_large
+		hidden_effect = {
+			country_event = { id = acot_pmc.31 }
+		}
+	}
+	option = {
+		name = acot_pmc.31.setsize
+		custom_tooltip = acot_pmc.31.setsize.explain
+		trigger = {
+			NOR = {
+				has_country_flag = phanon_fleet_medium
+				has_country_flag = phanon_fleet_large				
+			}
+		}
+		set_country_flag = phanon_fleet_medium
+		hidden_effect = {
+			country_event = { id = acot_pmc.31 }
+		}
+	}
+	option = {
+		name = acot_pmc.31.setsize
+		custom_tooltip = acot_pmc.31.setsize.explain
+		trigger = {
+			has_country_flag = phanon_fleet_medium
+		}
+		remove_country_flag = phanon_fleet_medium
+		set_country_flag = phanon_fleet_large
+		hidden_effect = {
+			country_event = { id = acot_pmc.31 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.31.setlocation.phanon
+		custom_tooltip = acot_pmc.31.setlocation.explain
+		trigger = {
+			NOR = {
+				has_country_flag = phanon_fleet_capital_spawn				
+			}
+		}
+		set_country_flag = phanon_fleet_capital_spawn
+		hidden_effect = {
+			country_event = { id = acot_pmc.31 }
+		}
+	}
+	option = {
+		name = acot_pmc.31.setlocation.capital
+		custom_tooltip = acot_pmc.31.setlocation.explain
+		trigger = {
+			has_country_flag = phanon_fleet_capital_spawn	
+		}
+		remove_country_flag = phanon_fleet_capital_spawn
+		hidden_effect = {
+			country_event = { id = acot_pmc.31 }
+		}
+	}
+
+	############ CORVETTE
+	option = {
+		name = acot_pmc.31.a
+		trigger = {
+			has_technology = tech_corvettes
+		}
+		response_text = acot_pmc.31.a.response
+		allow = {
+			if = {
+				limit = { 
+					NOR = {
+						has_country_flag = phanon_fleet_medium
+						has_country_flag = phanon_fleet_large				
+					}					
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 4800
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 100
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_fleet_medium				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 9600
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 250
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_fleet_large				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 19200
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 500
+				}
+			}
+		}
+		IF = {
+			limit = {
+				NOR = {
+					has_country_flag = phanon_fleet_medium
+					has_country_flag = phanon_fleet_large				
+				}
+			}
+			custom_tooltip = acot_pmc.31.a.explain.small
+			add_resource = {
+				energy = -4800
+				influence = -100
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						while = {
+							count = 8
+							create_ship = {
+								name = random
+								random_existing_design = corvette
+							}				
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_fleet_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_fleet_medium
+			}
+			custom_tooltip = acot_pmc.31.a.explain.medium
+			add_resource = {
+				energy = -9600
+				influence = -250
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						while = {
+							count = 16
+							create_ship = {
+								name = random
+								random_existing_design = corvette
+							}				
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_fleet_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_fleet_large			
+			}
+			custom_tooltip = acot_pmc.31.a.explain.large
+			add_resource = {
+				energy = -19200
+				influence = -500
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						while = {
+							count = 32
+							create_ship = {
+								name = random
+								random_existing_design = corvette
+							}				
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_fleet_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+	}
+
+	############ DESTROYERS
+
+	option = {
+		name = acot_pmc.31.b
+		trigger = {
+			has_technology = tech_destroyers
+		}
+		response_text = acot_pmc.31.b.response
+		allow = {
+			if = {
+				limit = { 
+					NOR = {
+						has_country_flag = phanon_fleet_medium
+						has_country_flag = phanon_fleet_large				
+					}					
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 9600
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 100
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_fleet_medium				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 19200
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 250
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_fleet_large				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 38400
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 500
+				}
+			}
+		}
+		IF = {
+			limit = {
+				NOR = {
+					has_country_flag = phanon_fleet_medium
+					has_country_flag = phanon_fleet_large				
+				}
+			}
+			custom_tooltip = acot_pmc.31.b.explain.small
+			add_resource = {
+				energy = -9600
+				influence = -100
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						while = {
+							count = 6
+							create_ship = {
+								name = random
+								random_existing_design = destroyer
+							}				
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_fleet_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_fleet_medium
+			}
+			custom_tooltip = acot_pmc.31.b.explain.medium
+			add_resource = {
+				energy = -19200
+				influence = -250
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						while = {
+							count = 12
+							create_ship = {
+								name = random
+								random_existing_design = destroyer
+							}				
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_fleet_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_fleet_large			
+			}
+			custom_tooltip = acot_pmc.31.b.explain.large
+			add_resource = {
+				energy = -38400
+				influence = -500
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						while = {
+							count = 24
+							create_ship = {
+								name = random
+								random_existing_design = destroyer
+							}				
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_fleet_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+	}
+
+	############ CRUISERS
+
+	option = {
+		name = acot_pmc.31.c
+		trigger = {
+			has_technology = tech_cruisers
+		}
+		response_text = acot_pmc.31.c.response
+		allow = {
+			if = {
+				limit = { 
+					NOR = {
+						has_country_flag = phanon_fleet_medium
+						has_country_flag = phanon_fleet_large				
+					}					
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 14400
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 100
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_fleet_medium				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 28800
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 250
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_fleet_large				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 57600
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 500
+				}
+			}
+		}
+		IF = {
+			limit = {
+				NOR = {
+					has_country_flag = phanon_fleet_medium
+					has_country_flag = phanon_fleet_large				
+				}
+			}
+			custom_tooltip = acot_pmc.31.c.explain.small
+			add_resource = {
+				energy = -14400
+				influence = -100
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						while = {
+							count = 4
+							create_ship = {
+								name = random
+								random_existing_design = cruiser
+							}				
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_fleet_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_fleet_medium
+			}
+			custom_tooltip = acot_pmc.31.c.explain.medium
+			add_resource = {
+				energy = -28800
+				influence = -250
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						while = {
+							count = 8
+							create_ship = {
+								name = random
+								random_existing_design = cruiser
+							}				
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_fleet_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_fleet_large			
+			}
+			custom_tooltip = acot_pmc.31.c.explain.large
+			add_resource = {
+				energy = -57600
+				influence = -500
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						while = {
+							count = 16
+							create_ship = {
+								name = random
+								random_existing_design = cruiser
+							}				
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_fleet_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+	}
+
+	############ BATTLESHIPS
+
+	option = {
+		name = acot_pmc.31.d
+		trigger = {
+			has_technology = tech_battleships
+		}
+		response_text = acot_pmc.31.d.response
+		allow = {
+			if = {
+				limit = { 
+					NOR = {
+						has_country_flag = phanon_fleet_medium
+						has_country_flag = phanon_fleet_large				
+					}					
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 12000
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 100
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_fleet_medium				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 24000
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 250
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_fleet_large				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 48000
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 500
+				}
+			}
+		}
+		IF = {
+			limit = {
+				NOR = {
+					has_country_flag = phanon_fleet_medium
+					has_country_flag = phanon_fleet_large				
+				}
+			}
+			custom_tooltip = acot_pmc.31.d.explain.small
+			add_resource = {
+				energy = -12000
+				influence = -100
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						while = {
+							count = 2
+							create_ship = {
+								name = random
+								random_existing_design = battleship
+							}				
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_fleet_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_fleet_medium
+			}
+			custom_tooltip = acot_pmc.31.d.explain.medium
+			add_resource = {
+				energy = -24000
+				influence = -250
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						while = {
+							count = 4
+							create_ship = {
+								name = random
+								random_existing_design = battleship
+							}				
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_fleet_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_fleet_large			
+			}
+			custom_tooltip = acot_pmc.31.d.explain.large
+			add_resource = {
+				energy = -48000
+				influence = -500
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						while = {
+							count = 8
+							create_ship = {
+								name = random
+								random_existing_design = battleship
+							}				
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_fleet_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+	}
+
+	############ TITANS
+
+	option = {
+		name = acot_pmc.31.e
+		trigger = {
+			has_technology = tech_titans
+		}
+		response_text = acot_pmc.31.e.response
+		allow = {
+			if = {
+				limit = { 
+					NOR = {
+						has_country_flag = phanon_fleet_medium
+						has_country_flag = phanon_fleet_large				
+					}					
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 60800
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 500
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_fleet_medium				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 101600
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 750
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_fleet_large				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 183200
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 1000
+				}
+			}
+		}
+		IF = {
+			limit = {
+				NOR = {
+					has_country_flag = phanon_fleet_medium
+					has_country_flag = phanon_fleet_large				
+				}
+			}
+			custom_tooltip = acot_pmc.31.e.explain.small
+			add_resource = {
+				energy = -60800
+				influence = -500
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						### FLAGSHIP
+						while = {
+							count = 1
+							create_ship = {
+								name = random
+								random_existing_design = titan
+							}				
+						}
+						### BB
+						while = {
+							count = 2
+							create_ship = {
+								name = random
+								random_existing_design = battleship
+							}				
+						}
+						### CRUI
+						while = {
+							count = 4
+							create_ship = {
+								name = random
+								random_existing_design = cruiser
+							}				
+						}
+						### DEST
+						while = {
+							count = 6
+							create_ship = {
+								name = random
+								random_existing_design = destroyer
+							}				
+						}
+						### VETTE
+						while = {
+							count = 8
+							create_ship = {
+								name = random
+								random_existing_design = corvette
+							}				
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_fleet_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_fleet_medium
+			}
+			custom_tooltip = acot_pmc.31.e.explain.medium
+			add_resource = {
+				energy = -101600
+				influence = -750
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						### FLAGSHIP
+						while = {
+							count = 1
+							create_ship = {
+								name = random
+								random_existing_design = titan
+							}				
+						}
+						### BB
+						while = {
+							count = 4
+							create_ship = {
+								name = random
+								random_existing_design = battleship
+							}				
+						}
+						### CRUI
+						while = {
+							count = 8
+							create_ship = {
+								name = random
+								random_existing_design = cruiser
+							}				
+						}
+						### DEST
+						while = {
+							count = 12
+							create_ship = {
+								name = random
+								random_existing_design = destroyer
+							}				
+						}
+						### VETTE
+						while = {
+							count = 16
+							create_ship = {
+								name = random
+								random_existing_design = corvette
+							}				
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_fleet_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_fleet_large			
+			}
+			custom_tooltip = acot_pmc.31.e.explain.large
+			add_resource = {
+				energy = -183200
+				influence = -1000
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						### FLAGSHIP
+						while = {
+							count = 1
+							create_ship = {
+								name = random
+								random_existing_design = titan
+							}				
+						}
+						### BB
+						while = {
+							count = 8
+							create_ship = {
+								name = random
+								random_existing_design = battleship
+							}				
+						}
+						### CRUI
+						while = {
+							count = 16
+							create_ship = {
+								name = random
+								random_existing_design = cruiser
+							}				
+						}
+						### DEST
+						while = {
+							count = 24
+							create_ship = {
+								name = random
+								random_existing_design = destroyer
+							}				
+						}
+						### VETTE
+						while = {
+							count = 32
+							create_ship = {
+								name = random
+								random_existing_design = corvette
+							}				
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_fleet_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+	}
+
+	option = {
+		name = acot_pmc.1.back
+		hidden_effect = {
+			country_event = { id = acot_pmc.2 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.1.end
+	}
+
+
+	after = {
+		remove_country_flag = acot_phanon_diplomacy_engaged
+	}
+}
+
+############## WARNING! YOU ARE TALKING TO RAPTORUS FOR COMMISSION SERVICE
+country_event = {
+	id = acot_pmc.32
+	title = acot_pmc.32.name
+	desc = {
+		trigger = {
+			NOR = {
+				has_country_flag = phanon_army_medium
+				has_country_flag = phanon_army_large		
+			}
+		}
+		text = acot_pmc.32.desc.a
+	}
+	desc = {
+		trigger = {
+			has_country_flag = phanon_army_medium
+		}
+		text = acot_pmc.32.desc.b
+	}
+	desc = {
+		trigger = {
+			has_country_flag = phanon_army_large		
+		}
+		text = acot_pmc.32.desc.c
+	}
+
+	is_triggered_only = yes
+	diplomatic = yes
+
+	picture_event_data = {
+		room = sofe_smuggler_room
+	}
+
+	immediate = {
+		set_country_flag = acot_phanon_diplomacy_engaged
+	}
+
+	option = {
+		name = acot_pmc.32.setsize
+		custom_tooltip = acot_pmc.32.setsize.explain
+		trigger = {
+			has_country_flag = phanon_army_large
+		}
+		remove_country_flag = phanon_army_medium
+		remove_country_flag = phanon_army_large
+		hidden_effect = {
+			country_event = { id = acot_pmc.32 }
+		}
+	}
+	option = {
+		name = acot_pmc.32.setsize
+		custom_tooltip = acot_pmc.32.setsize.explain
+		trigger = {
+			NOR = {
+				has_country_flag = phanon_army_medium
+				has_country_flag = phanon_army_large				
+			}
+		}
+		set_country_flag = phanon_army_medium
+		hidden_effect = {
+			country_event = { id = acot_pmc.32 }
+		}
+	}
+	option = {
+		name = acot_pmc.32.setsize
+		custom_tooltip = acot_pmc.32.setsize.explain
+		trigger = {
+			has_country_flag = phanon_army_medium
+		}
+		remove_country_flag = phanon_army_medium
+		set_country_flag = phanon_army_large
+		hidden_effect = {
+			country_event = { id = acot_pmc.32 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.31.setlocation.phanon
+		custom_tooltip = acot_pmc.31.setlocation.explain
+		trigger = {
+			NOR = {
+				has_country_flag = phanon_army_capital_spawn				
+			}
+		}
+		set_country_flag = phanon_army_capital_spawn
+		hidden_effect = {
+			country_event = { id = acot_pmc.32 }
+		}
+	}
+	option = {
+		name = acot_pmc.31.setlocation.capital
+		custom_tooltip = acot_pmc.31.setlocation.explain
+		trigger = {
+			has_country_flag = phanon_army_capital_spawn	
+		}
+		remove_country_flag = phanon_army_capital_spawn
+		hidden_effect = {
+			country_event = { id = acot_pmc.32 }
+		}
+	}
+
+	############ INFANTRY ARMY
+	option = {
+		name = acot_pmc.32.a
+		trigger = {
+			has_technology = tech_assault_armies
+		}
+		response_text = acot_pmc.32.a.response
+		allow = {
+			if = {
+				limit = { 
+					NOR = {
+						has_country_flag = phanon_army_medium
+						has_country_flag = phanon_army_large				
+					}					
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 1000
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 25
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_army_medium				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 2000
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 50
+				}
+			}
+			if = {
+				limit = { 
+					has_country_flag = phanon_army_large				
+				}
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 4000
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 100
+				}
+			}
+		}
+		IF = {
+			limit = {
+				NOR = {
+					has_country_flag = phanon_army_medium
+					has_country_flag = phanon_army_large				
+				}
+			}
+			custom_tooltip = acot_pmc.32.a.explain.small
+			add_resource = {
+				energy = -1000
+				influence = -25
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						while = {
+							count = 10
+							create_standard_infantry_effect = yes						
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_army_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_army_medium
+			}
+			custom_tooltip = acot_pmc.32.a.explain.medium
+			add_resource = {
+				energy = -2000
+				influence = -50
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						while = {
+							count = 20
+							create_standard_infantry_effect = yes								
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_army_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+		IF = {
+			limit = {
+				has_country_flag = phanon_army_large			
+			}
+			custom_tooltip = acot_pmc.32.a.explain.large
+			add_resource = {
+				energy = -4000
+				influence = -100
+			}
+			capital_scope = {
+				create_fleet = {
+					effect = {
+						set_owner = root
+						while = {
+							count = 40
+							create_standard_infantry_effect = yes									
+						}
+						if = {
+							limit = { 
+								root = {
+									has_country_flag = phanon_army_capital_spawn								
+								}
+							}
+							add_modifier = {
+								modifier = acot_phanon_shipping_debuff
+								days = 360
+							}
+							set_location = {
+								target = prev
+								distance = 5
+								angle = random
+							}
+						}	
+						else = {
+							set_location = {
+								target = event_target:acot_phanon_vault
+								distance = 5
+								angle = random
+							}
+						}			
+					}
+					settings = {
+						
+					}
+				}	
+			}
+		}
+	}
+
+	option = {
+		name = acot_pmc.1.back
+		hidden_effect = {
+			country_event = { id = acot_pmc.2 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.1.end
+	}
+
+
+	after = {
+		remove_country_flag = acot_phanon_diplomacy_engaged
+	}
+}
+
+############## WARNING! YOU ARE TALKING TO RAPTORUS FOR SPECIAL SERVICE
+country_event = {
+	id = acot_pmc.5
+	title = acot_pmc.5.name
+	desc = acot_pmc.5.desc.a
+
+	is_triggered_only = yes
+	diplomatic = yes
+
+	picture_event_data = {
+		room = sofe_smuggler_room
+	}
+
+	immediate = {
+		set_country_flag = acot_phanon_diplomacy_engaged
+	}
+
+
+	#### ASK ABOUT KEYSTONE FABRICATORON
+	option = {
+		name = acot_pmc.5.keystone
+		trigger = {
+			
+			has_country_flag = allow_keystone_steal
+			NOT = {
+				has_country_flag = has_keystone
+			}
+		}
+		hidden_effect = {
+			country_event = { id = sofe_gateway.5 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.1.back
+		hidden_effect = {
+			country_event = { id = acot_pmc.2 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.1.end
+	}
+
+	after = {
+		remove_country_flag = acot_phanon_diplomacy_engaged
+	}
+}
+
+############## WARNING! YOU ARE TALKING TO RAPTORUS FOR OP SHITS
+country_event = {
+	id = acot_pmc.6
+	title = acot_pmc.5.name
+	desc = acot_pmc.5.desc.a
+
+	is_triggered_only = yes
+	diplomatic = yes
+
+	picture_event_data = {
+		room = sofe_smuggler_room
+	}
+
+	immediate = {
+		set_country_flag = acot_phanon_diplomacy_engaged
+	}
+
+
+	option = {
+		name = EXCELLENT
+		allow = {
+			resource_stockpile_compare = { resource = energy value >= 500000 }
+			NOT = { has_country_flag = phanon_fleet_hire_delay }
+		}
+		add_resource = {
+			energy = -500000
+		}
+		set_timed_country_flag = {
+			flag = phanon_fleet_hire_delay
+			days = 3600
+		}
+		create_fleet = {
+			effect = {
+				set_owner = root
+				create_ship = {
+					name = random
+					design = "NAME_ACOT_STARFIGHTERS"
+					graphical_culture = "acot_pmc"
+				}
+				set_location = {
+					target = event_target:acot_phanon_vault
+					distance = 5
+					angle = random
+				}				
+			}
+			settings = {
+				
+			}
+		}
+		response_text = EXCELLENT
+	}
+
+	option = {
+		name = EXCELLENT
+		allow = {
+			resource_stockpile_compare = { resource = energy value >= 500000 }
+			NOT = { has_country_flag = phanon_leader_hire_delay }
+		}
+		add_resource = {
+			energy = -500000
+		}
+		set_timed_country_flag = {
+			flag = phanon_leader_hire_delay
+			days = 3600
+		}
+		create_leader = {
+			class = admiral
+			species = event_target:phanon_operative_species
+			name = "Phanon Operative Type A"
+			skill = 10
+			immortal = yes
+			leader_age_min = 1000
+			leader_age_max = 100000	
+			traits = {
+				trait = leader_trait_acot_phanon_admiral
+				trait = leader_trait_admiral_cyborg
+				trait = leader_trait_admiral_psionic
+				trait = leader_trait_admiral_erudite
+			}
+			event_leader = yes	# prevents this leader from leading factions and winning elections
+			effect = {
+				random_list = {
+					5 = { set_name = "A11-C" }
+					5 = { set_name = "A35-C" }
+					5 = { set_name = "A24-A" }
+					5 = { set_name = "A07-B" }
+					5 = { set_name = "A65-A" }
+					5 = { set_name = "A28-B" }
+					5 = { set_name = "A41-B" }
+					5 = { set_name = "A17-A" }
+					5 = { set_name = "A62-A" }
+					5 = { set_name = "A67-C" }
+					5 = { set_name = "A42-B" }
+					5 = { set_name = "A91-B" }
+					5 = { set_name = "A85-C" }
+					5 = { set_name = "A53-C" }
+					5 = { set_name = "A10-B" }
+					5 = { set_name = "A17-A" }
+				}
+			}
+		}
+		response_text = EXCELLENT
+	}
+
+	option = {
+		name = acot_pmc.1.back
+		hidden_effect = {
+			country_event = { id = acot_pmc.2 }
+		}
+	}
+
+	option = {
+		name = acot_pmc.1.end
+	}
+
+
+	after = {
+		remove_country_flag = acot_phanon_diplomacy_engaged
+	}
+}
+
+################## NON DIPLOMACY STUFFS ##################
+
+# ON BEING ATTACKED
+country_event = {
+	id = acot_pmc.10
+	title = "acot_pmc.diplo_title"
+	desc = {
+		text = acot_pmc.10.desc
+	}
+
+	trigger = {
+		from = {
+			is_country_type = acot_phanon_base
+		}
+		NOT = {
+			has_country_flag =  attacked_phanon_property
+		}
+	}
+	
+	is_triggered_only = yes
+	diplomatic = yes
+    show_sound = event_red_alert
+    
+	picture_event_data = {
+		room = acot_phanon_bridge_hostile_room
+	}
+	
+	immediate = {
+		set_country_flag = attacked_phanon_property
+		set_country_flag = acot_phanon_diplomacy_engaged
+		save_event_target_as = phanon_victim_fleet
+		hidden_effect = {
+			event_target:phanon_base_country = {
+				country_event = {
+					id = acot_pmc.100 days = 5
+				}
+			}
+		}
+	}
+    
+	after = {
+		hidden_effect = {
+			remove_country_flag = acot_phanon_diplomacy_engaged
+		}
+    }
+
+	option = {
+		name = acot_pmc.10.a
+		response_text = acot_pmc.10.a.response
+		default_hide_option = yes
+	}
+
+}
+
+# SPAWNING CYCLE
+country_event = {
+	id = acot_pmc.100
+	hide_window = yes
+	
+	is_triggered_only = yes
+
+	immediate = {
+		IF = {
+			limit = {
+				exists = event_target:phanon_victim_fleet
+				exists = event_target:phanon_dimensional_portal
+				NOT = {
+					has_global_flag = acot_phanon_portal_disabled
+				}
+			}
+			create_country = {
+				name = "Phanon Corps Retaliation Fleet"
+				name_list = Phanon
+				species = event_target:phanon_operative_species
+				type = acot_phanon_retaliator
+				civics = { 
+					civic = civic_acot_phanon_fleet 
+					civic = civic_acot_phanon_corps
+				}
+				origin = "origin_default"
+				flag = {
+					background= {
+						category = "backgrounds"
+						file = "v.dds"
+					}
+					icon = {
+						category = phanon
+						file = flag_phanon.dds
+					}
+					colors={
+						"red"
+						"black"
+						"null"
+						"null"
+					}
+				}
+				ethos = {
+					ethic = ethic_fanatic_authoritarian
+					ethic = ethic_militarist
+				}
+				ignore_initial_colony_error = yes
+				effect = {	
+					save_event_target_as = phanon_retaliator_country
+					set_country_flag = phanon_retaliator_country
+				}
+			}
+			event_target:phanon_retaliator_country = {
+				save_event_target_as = phanon_retaliator_country
+				event_target:phanon_base_country = {
+					set_faction_hostility = {
+						set_friendly = yes
+						target = event_target:phanon_retaliator_country
+					}	
+					country_event = {
+						id = acot_pmc.100 days = 3600
+					}					
+				}	
+				event_target:phanon_victim_fleet = {
+					set_faction_hostility = {
+						set_hostile = yes
+						target = event_target:phanon_retaliator_country
+					}					
+				}
+				every_country = {
+					establish_communications_no_message = event_target:phanon_retaliator_country
+				}	
+				create_leader = {
+					class = admiral
+					species = event_target:phanon_operative_species
+					name = "Phanon Operative Type A"
+					skill = 10
+					immortal = yes
+					leader_age_min = 1000
+					leader_age_max = 100000	
+					traits = {
+						trait = leader_trait_acot_phanon_admiral
+						trait = leader_trait_admiral_cyborg
+						trait = leader_trait_admiral_psionic
+						trait = leader_trait_admiral_erudite
+					}
+					event_leader = yes	# prevents this leader from leading factions and winning elections
+					effect = {
+						random_list = {
+							5 = { set_name = "A11-C" }
+							5 = { set_name = "A35-C" }
+							5 = { set_name = "A24-A" }
+							5 = { set_name = "A07-B" }
+							5 = { set_name = "A65-A" }
+							5 = { set_name = "A28-B" }
+							5 = { set_name = "A41-B" }
+							5 = { set_name = "A17-A" }
+							5 = { set_name = "A62-A" }
+							5 = { set_name = "A67-C" }
+							5 = { set_name = "A42-B" }
+							5 = { set_name = "A91-B" }
+							5 = { set_name = "A85-C" }
+							5 = { set_name = "A53-C" }
+							5 = { set_name = "A10-B" }
+							5 = { set_name = "A17-A" }
+						}
+					}
+				}
+				create_fleet = {
+					effect = {
+						set_owner = event_target:phanon_retaliator_country
+						create_ship = {
+							name = random
+							design = "NAME_ACOT_ANNIHILATOR"
+							graphical_culture = "acot_pmc"
+						}
+						assign_leader = last_created_leader
+						while = {
+							count = 2
+							create_ship = {
+								name = random
+								design = "NAME_ACOT_DOMINATOR"
+								graphical_culture = "acot_pmc"
+							}
+						}
+						while = {
+							count = 8
+							create_ship = {
+								name = random
+								design = "NAME_ACOT_DEVASTATOR"
+								graphical_culture = "acot_pmc"
+							}
+						}
+						while = {
+							count = 12
+							create_ship = {
+								name = random
+								design = "NAME_ACOT_DESTROYER"
+								graphical_culture = "acot_pmc"
+							}
+						}
+						while = {
+							count = 12
+							create_ship = {
+								name = random
+								design = "NAME_ACOT_STARFIGHTERS"
+								graphical_culture = "acot_pmc"
+							}
+						}
+						set_formation_scale = 2
+						set_fleet_stance = aggressive
+						set_aggro_range_measure_from = self
+						set_aggro_range = 275
+						set_location = {
+							target = event_target:acot_phanon_vault
+							distance = 25
+							angle = 15
+						}				
+					}
+					settings = {
+						is_boss = no
+						spawn_debris = no
+					}
+				}
+				create_leader = {
+					class = admiral
+					species = event_target:phanon_operative_species
+					name = "Phanon Operative Type A"
+					skill = 10
+					immortal = yes
+					leader_age_min = 1000
+					leader_age_max = 100000	
+					traits = {
+						trait = leader_trait_acot_phanon_admiral
+						trait = leader_trait_admiral_cyborg
+						trait = leader_trait_admiral_psionic
+						trait = leader_trait_admiral_erudite
+					}
+					event_leader = yes	# prevents this leader from leading factions and winning elections
+					effect = {
+						random_list = {
+							5 = { set_name = "A11-C" }
+							5 = { set_name = "A35-C" }
+							5 = { set_name = "A24-A" }
+							5 = { set_name = "A07-B" }
+							5 = { set_name = "A65-A" }
+							5 = { set_name = "A28-B" }
+							5 = { set_name = "A41-B" }
+							5 = { set_name = "A17-A" }
+							5 = { set_name = "A62-A" }
+							5 = { set_name = "A67-C" }
+							5 = { set_name = "A42-B" }
+							5 = { set_name = "A91-B" }
+							5 = { set_name = "A85-C" }
+							5 = { set_name = "A53-C" }
+							5 = { set_name = "A10-B" }
+							5 = { set_name = "A17-A" }
+						}
+					}
+				}
+				create_fleet = {
+					effect = {
+						set_owner = event_target:phanon_retaliator_country
+						create_ship = {
+							name = random
+							design = "NAME_ACOT_ANNIHILATOR"
+							graphical_culture = "acot_pmc"
+						}
+						assign_leader = last_created_leader
+						while = {
+							count = 2
+							create_ship = {
+								name = random
+								design = "NAME_ACOT_DOMINATOR"
+								graphical_culture = "acot_pmc"
+							}
+						}
+						while = {
+							count = 8
+							create_ship = {
+								name = random
+								design = "NAME_ACOT_DEVASTATOR"
+								graphical_culture = "acot_pmc"
+							}
+						}
+						while = {
+							count = 12
+							create_ship = {
+								name = random
+								design = "NAME_ACOT_DESTROYER"
+								graphical_culture = "acot_pmc"
+							}
+						}
+						while = {
+							count = 12
+							create_ship = {
+								name = random
+								design = "NAME_ACOT_STARFIGHTERS"
+								graphical_culture = "acot_pmc"
+							}
+						}
+						set_formation_scale = 2
+						set_fleet_stance = aggressive
+						set_aggro_range_measure_from = self
+						set_aggro_range = 275
+						set_location = {
+							target = event_target:acot_phanon_vault
+							distance = 25
+							angle = 15
+						}				
+					}
+					settings = {
+						is_boss = no
+						spawn_debris = no
+					}
+				}	
+				
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					exists = event_target:phanon_victim_fleet	
+				}		
+			 }
+			 event_target:phanon_retaliator_country = {
+				every_owned_fleet = {
+					destroy_fleet = this
+				}
+				destroy_country = yes
+			}	
+		}
+	}
+    
+	after = {
+    }
+}
+
+# Phanon Starbase abnd Planet Transfer
+ship_event = {
+	id = acot_pmc.9900
+	title = "acot_pmc.9900.title"
+	desc = "acot_pmc.9900.desc"
+	show_sound = event_space_battle
+	picture = GFX_evt_machine_space_battle
+	
+	is_triggered_only = yes
+
+	trigger = {
+		is_ship_size = acot_star_commander
+	}
+
+	immediate = {
+		fleet = {
+			set_owner = from.owner
+		}		
+		solar_system = {
+			random_system_planet = {
+				limit = {
+					is_planet_class = pc_acot_pmc_vault
+				}
+			set_owner = from.owner
+			}
+		}
+		from.owner = {
+			IF = {
+				limit = {
+					exists = event_target:phanon_dimensional_portal
+				}
+				country_event = {
+					id = acot_pmc.9901 days = 5
+				}
+			}
+		}
+	}
+
+	option = {
+		name = acot_pmc.9900.a
+	}
+}
+
+# Phanon PORTAL ALLOW
+country_event = {
+	id = acot_pmc.9901
+	title = "acot_pmc.9901.title"
+	desc = "acot_pmc.9901.desc"
+	show_sound = event_mystery
+	picture = GFX_evt_synth_sabotage
+	
+	is_triggered_only = yes
+
+	trigger = {
+	}
+
+	immediate = {
+		enable_special_project = {
+			name = ACOT_PHANON_DISABLE_PORTAL
+			location = event_target:phanon_dimensional_portal
+		}
+	}
+
+	option = {
+		name = acot_pmc.9901.a
+	}
+}
+
+# Phanon DEALT WITH
+country_event = {
+	id = acot_pmc.9902
+	title = "acot_pmc.9902.title"
+	desc = "acot_pmc.9902.desc"
+	show_sound = event_synthetic_evolution
+	picture = GFX_evt_synth_sabotage
+	
+	is_triggered_only = yes
+
+	trigger = {
+	}
+
+	immediate = {
+		set_global_flag = acot_phanon_portal_disabled
+	}
+
+	option = {
+		name = acot_pmc.9902.a
+		custom_tooltip = acot_pmc.9902.a.tooltip
+	}
+}
+
+# Phanon Ship Tech Acquired
+country_event = {
+	id = acot_pmc.10000
+	hide_window = yes
+	
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			last_increased_tech = tech_phanon_fighter
+			last_increased_tech = tech_phanon_cruiser
+			last_increased_tech = tech_phanon_bb
+			last_increased_tech = tech_phanon_titan
+			last_increased_tech = tech_phanon_mothership
+			last_increased_tech = tech_phanon_plat_m
+			last_increased_tech = tech_phanon_plat_l
+		}
+	}
+
+	immediate = {
+		If = {
+			limit = {
+				last_increased_tech = tech_phanon_cruiser
+			}
+			create_ship_design = { design = NAME_ACOT_DESTROYER }
+			add_ship_design = last_created_design
+		}
+		If = {
+			limit = {
+				last_increased_tech = tech_phanon_bb
+			}
+			create_ship_design = { design = NAME_ACOT_DEVASTATOR }
+			add_ship_design = last_created_design
+		}
+		If = {
+			limit = {
+				last_increased_tech = tech_phanon_titan
+			}
+			create_ship_design = { design = NAME_ACOT_DOMINATOR }
+			add_ship_design = last_created_design
+			create_ship_design = { design = NAME_ACOT_DECIMATOR }
+			add_ship_design = last_created_design
+		}
+		If = {
+			limit = {
+				last_increased_tech = tech_phanon_mothership
+			}
+			create_ship_design = { design = NAME_ACOT_DOMINATOR_II }
+			add_ship_design = last_created_design
+			create_ship_design = { design = NAME_ACOT_ANNIHILATOR }
+			add_ship_design = last_created_design
+		}
+		If = {
+			limit = {
+				last_increased_tech = tech_phanon_fighter
+			}
+			create_ship_design = { design = NAME_ACOT_STARFIGHTERS }
+			add_ship_design = last_created_design
+		}
+		If = {
+			limit = {
+				last_increased_tech = tech_phanon_plat_m
+			}
+			create_ship_design = { design = NAME_ACOT_STAR_OVERSEER }
+			add_ship_design = last_created_design
+		}
+		If = {
+			limit = {
+				last_increased_tech = tech_phanon_plat_l
+			}
+			create_ship_design = { design = NAME_ACOT_STAR_OVERWATCH }
+			add_ship_design = last_created_design
+		}
+	}
+}
